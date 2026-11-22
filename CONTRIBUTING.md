@@ -33,6 +33,8 @@ What a pack can never contain:
 
 The validator enforces the technical part. The review enforces the rest.
 
+Everyone taking part, in pull requests, reviews and issues, follows the [Code of Conduct](https://github.com/breach-game/.github/blob/main/CODE_OF_CONDUCT.md).
+
 ## 2. Set up
 
 You need Node.js 22 or later, pnpm 10 and Git. Clone this repository and the game side by side:

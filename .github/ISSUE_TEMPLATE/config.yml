@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: Security problem in the catalogue or a pack
+    url: https://github.com/breach-game/packs/security/advisories/new
+    about: A pack or the signed catalogue could reach a real system or bypass a check. Report it privately.
   - name: Security problem in the game
     url: https://github.com/breach-game/breach/security/advisories/new
     about: Report vulnerabilities privately, not in a public issue.
