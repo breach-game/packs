@@ -1,0 +1,54 @@
+file.readme: |
+  Poste Ligne Rouge, relié par VPN au réseau d'Atelier Pixel.
+  Tout ce que tu tapes ici n'atteint que ce réseau.
+
+    help              la liste des commandes
+    mission           le briefing et les objectifs en cours
+    hint              un indice d'Ada, si tu bloques
+
+  Lis d'abord le mandat :  cat mandate/AP-2026-007.txt
+
+  Ada
+file.mandate: |
+  ==============================================================
+   LIGNE ROUGE  ·  cabinet de tests d'intrusion
+   MANDAT DE TEST D'INTRUSION  N° AP-2026-007
+  ==============================================================
+
+  CLIENT          Atelier Pixel SARL, Nantes
+  SIGNÉ PAR       Chloé Garnier, gérante
+  TESTEURS        Ada (responsable), {user} (junior)
+
+  PÉRIMÈTRE       *.atelier-pixel.test, 10.42.0.0/24
+                  Tout le reste est INTERDIT.
+
+  RÈGLES          Lecture seule : aucune modification, aucune
+                  suppression, aucun déni de service. Toute donnée
+                  sensible trouvée est signalée, pas exploitée.
+
+  Sans cette autorisation écrite, accéder à un système
+  d'information est un délit (article 323-1 du Code pénal).
+  Le mandat, c'est ce qui sépare un testeur d'un intrus.
+web.nav.home: Accueil
+web.nav.order: Commander une impression
+web.home.title: Atelier Pixel · impression 3D à Nantes
+web.home.h1: Vos idées, couche par couche
+web.home.p1: "Atelier Pixel imprime vos pièces, prototypes et figurines en deux jours, à Nantes depuis 2021."
+web.home.item1: "PLA et PETG en 24 couleurs"
+web.home.item2: "Résine pour les détails fins"
+web.home.item3: "Devis gratuit avec Pixou, notre assistant de commande"
+web.home.comment: "TODO: supprimer l'ancien site de /old/ une fois la migration vérifiée (Chloé, mars 2024)"
+web.footer: "© 2026 Atelier Pixel SARL · 4 rue des Imprimeurs, Nantes"
+web.order.title: Commander une impression · Atelier Pixel
+web.order.h1: Commander une impression
+web.order.p1: "Pixou répond à vos questions sur les matières, les prix et les délais. Pour un devis, décrivez votre pièce."
+npc.pixou.role: "Assistant de commande · en ligne"
+npc.pixou.greeting: "Salut, moi c'est Pixou ! Dis-moi ce que tu veux imprimer, je te réponds couche par couche."
+npc.pixou.hello: "Bonjour ! Un prototype, une pièce de rechange, une figurine ? Je suis tout ouïe, et toute buse."
+npc.pixou.order: "Envoie-moi la taille de ta pièce et la matière, je te prépare un devis. Expédition en deux jours."
+npc.pixou.material: "Du PLA pour les pièces courantes, du PETG quand ça doit encaisser, de la résine pour les détails fins. Chacune a sa couche de vérité."
+npc.pixou.guard: "Bien essayé, mais j'imprime des pièces, pas mes instructions. On parle de ton projet ?"
+npc.pixou.fallback: "Je n'ai pas bien saisi. Je peux t'aider sur les matières, les prix et les délais."
+ada.outOfScope: "Stop. Cette cible est hors mandat, et le poste l'a bloquée. Sans autorisation écrite, c'est l'article 323-1 du Code pénal. Notre périmètre : *.atelier-pixel.test, rien d'autre."
+ada.noise70: "Tu fais beaucoup de bruit. Leur hébergeur va le remarquer : ralentis."
+ada.detected: "Repéré. Retour au dernier point de sauvegarde. Plus discret cette fois."

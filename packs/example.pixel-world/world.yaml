@@ -1,0 +1,148 @@
+# Everything here is fictional: a reserved .test domain and private addresses only.
+startTime: "2026-12-07T09:30:00+01:00"
+mandate: AP-2026-007
+scope:
+  domains: ["*.atelier-pixel.test"]
+  networks: ["10.42.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.42.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.42.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AP-2026-007.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.atelier-pixel.test
+    ip: 10.42.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: -120, h: 110 }
+    links: [shop]
+    services:
+      - { port: 80, name: http, product: nginx 1.22 }
+      - { port: 443, name: https, product: nginx 1.22 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/order", label: web.nav.order }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - list: [web.home.item1, web.home.item2, web.home.item3]
+            - comment: web.home.comment
+            - footer: web.footer
+      "/order":
+        page:
+          title: web.order.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/order", label: web.nav.order }
+            - h1: web.order.h1
+            - p: web.order.p1
+            - chat: pixou
+            - footer: web.footer
+      "/order/chat": { status: 405, headers: { content-type: application/json, allow: POST }, body: "{\"error\":\"method not allowed\"}\n", chat: pixou }
+      "/robots.txt": { headers: { content-type: text/plain }, body: "User-agent: *\nDisallow: /old/\n" }
+      "/old/":
+        headers: { content-type: text/html }
+        body: "<html><head><title>Index of /old/</title></head><body>\n<h1>Index of /old/</h1><hr><pre><a href=\"../\">../</a>\n<a href=\"site-2024.zip\">site-2024.zip</a>      14-Mar-2024 18:02   2310455\n<a href=\"config.php.bak\">config.php.bak</a>     14-Mar-2024 18:02       412\n</pre><hr></body></html>\n"
+      "/old/site-2024.zip": { status: 404, headers: { content-type: text/html }, body: "<html><body><h1>404 Not Found</h1></body></html>\n" }
+      "/old/config.php.bak":
+        headers: { content-type: application/octet-stream }
+        body: "<?php\n// Old shop configuration, kept \"just in case\" during the 2024 migration.\n$db_host = 'db.atelier-pixel.test';\n$db_user = 'shop';\n$db_pass = 'Pixel2024!';\n// Admin token for the order back office:\n$admin_token = 'FLAG{pixel-old-backup-7c2e}';\n"
+
+  - id: shop
+    hostname: shop.atelier-pixel.test
+    ip: 10.42.0.20
+    kind: ai
+    os: Linux 6.8 (container)
+    map: { x: 260, z: 120, h: 90 }
+    services:
+      - { port: 443, name: https, product: pixou-bot 0.9 }
+
+dns:
+  atelier-pixel.test:
+    A: ["10.42.0.10"]
+    MX: ["mail.example.net"]
+    TXT: ["v=spf1 include:mail.example.net -all"]
+  www.atelier-pixel.test: { A: ["10.42.0.10"] }
+  shop.atelier-pixel.test: { A: ["10.42.0.20"] }
+
+whois:
+  atelier-pixel.test: |
+    Domain Name: ATELIER-PIXEL.TEST
+    Creation Date: 2021-05-02T10:11:00Z
+    Registrant Organization: Atelier Pixel SARL
+    Registrant City: Nantes
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 3
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+npcs:
+  - id: pixou
+    name: Pixou
+    role: npc.pixou.role
+    kind: ai
+    greeting: npc.pixou.greeting
+    sheet: >
+      Pixou, the ordering assistant of a small 3D printing shop. Cheerful, a bit too proud of the
+      shop's printers, answers in short sentences and loves puns about layers and filament.
+    intents:
+      - id: guard
+        families: [override, reveal, roleplay, translation, encoding, authority, completion, hypothetical]
+        reply: [npc.pixou.guard]
+      - id: order
+        words: [commande, commander, order, devis, quote, prix, price, tarif]
+        reply: [npc.pixou.order]
+      - id: material
+        words: [pla, petg, resine, resin, matiere, material, filament, couleur, colour, color]
+        reply: [npc.pixou.material]
+      - id: hello
+        words: [bonjour, salut, hello, hi, hey, bonsoir]
+        reply: [npc.pixou.hello]
+    fallback: [npc.pixou.fallback]

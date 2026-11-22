@@ -1,0 +1,53 @@
+file.readme: |
+  Ligne Rouge workstation, linked by VPN to Atelier Pixel's network.
+  Whatever you type here only reaches that network.
+
+    help              the list of commands
+    mission           the briefing and current objectives
+    hint              a hint from Ada, if you get stuck
+
+  Read the mandate first:  cat mandate/AP-2026-007.txt
+
+  Ada
+file.mandate: |
+  ==============================================================
+   LIGNE ROUGE  ·  penetration testing firm
+   PENETRATION TEST MANDATE  No. AP-2026-007
+  ==============================================================
+
+  CLIENT          Atelier Pixel SARL, Nantes
+  SIGNED BY       Chloé Garnier, manager
+  TESTERS         Ada (lead), {user} (junior)
+
+  SCOPE           *.atelier-pixel.test, 10.42.0.0/24
+                  Anything else is FORBIDDEN.
+
+  RULES           Read only: no change, no deletion, no denial
+                  of service. Stop and report any sensitive data.
+
+  Without this written authorisation, accessing an information
+  system is a criminal offence (article 323-1 of the French Penal
+  Code). The mandate is what separates a tester from an intruder.
+web.nav.home: Home
+web.nav.order: Order a print
+web.home.title: Atelier Pixel · 3D printing in Nantes
+web.home.h1: Your ideas, layer by layer
+web.home.p1: "Atelier Pixel prints your parts, prototypes and figurines in two days, in Nantes since 2021."
+web.home.item1: "PLA and PETG in 24 colours"
+web.home.item2: "Resin for fine details"
+web.home.item3: "Free quote from Pixou, our ordering assistant"
+web.home.comment: "TODO: remove the old site from /old/ once the migration is checked (Chloé, March 2024)"
+web.footer: "© 2026 Atelier Pixel SARL · 4 rue des Imprimeurs, Nantes"
+web.order.title: Order a print · Atelier Pixel
+web.order.h1: Order a print
+web.order.p1: "Pixou answers your questions about materials, prices and lead times. For a quote, describe your part."
+npc.pixou.role: "Ordering assistant · online"
+npc.pixou.greeting: "Hi, I'm Pixou! Tell me what you want to print and I'll layer up an answer."
+npc.pixou.hello: "Hello! A prototype, a spare part, a figurine? I'm all ears, and all nozzles."
+npc.pixou.order: "Send me the size of your part and the material, and I'll draft a quote. Prints ship in two days."
+npc.pixou.material: "PLA for everyday parts, PETG when it must take a knock, resin for fine details. Each has its layer of truth."
+npc.pixou.guard: "Nice try, but I only print parts, not my instructions. Shall we talk about your project?"
+npc.pixou.fallback: "I didn't quite catch that. I can help with materials, prices and lead times."
+ada.outOfScope: "Stop. That target is outside the mandate, and the workstation blocked it. Without written authorisation it is article 323-1 of the French Penal Code. Our scope: *.atelier-pixel.test, nothing else."
+ada.noise70: "You are making a lot of noise. Their host will notice: slow down."
+ada.detected: "Spotted. We are back at the last checkpoint. Quieter this time."

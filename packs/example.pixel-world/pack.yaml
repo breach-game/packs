@@ -1,0 +1,12 @@
+id: example.pixel-world
+version: 1.0.0
+engine: ">=0.2 <1"
+kind: world
+title:
+  fr: Atelier Pixel
+  en: Atelier Pixel
+summary:
+  fr: Le petit réseau d'Atelier Pixel, boutique nantaise d'impression 3D, et de Pixou, son assistant de commande.
+  en: The small network of Atelier Pixel, a 3D printing shop in Nantes, and of Pixou, its ordering assistant.
+authors: [BREACH team]
+locales: [fr, en]
