@@ -4,7 +4,7 @@ briefing: c2.briefing
 
 # The key found in the image, kept in the case file.
 files:
-  dossier/release.key: { $file: files/release.key }
+  dossier/release.key: { $file: files/release-key.txt }
 
 objectives:
   - { id: enter, text: c2.obj.enter }

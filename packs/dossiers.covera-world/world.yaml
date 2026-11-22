@@ -89,7 +89,7 @@ hosts:
       "/v2/covera/enterprise/blobs/4d1e9a": { headers: { content-type: text/plain }, body: "# layer 4d1e9a\n# created by: COPY deploy/ /opt/deploy/\nopt/deploy/README\nopt/deploy/publish-assets.sh\nopt/deploy/release.key\n\n# Read one file of this layer: add its path to this address.\n" }
       "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/README": { headers: { content-type: text/plain }, body: "Build-time helpers. Not needed at runtime: the Dockerfile removes this folder in its last step.\n" }
       "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/publish-assets.sh": { headers: { content-type: text/plain }, body: { $file: files/publish-assets.sh } }
-      "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key": { headers: { content-type: text/plain }, body: { $file: files/release.key } }
+      "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key": { headers: { content-type: text/plain }, body: { $file: files/release-key.txt } }
       "/v2/covera/enterprise/blobs/e5a771": { headers: { content-type: text/plain }, body: "# layer e5a771\n# created by: RUN /opt/deploy/publish-assets.sh --check && rm -rf /opt/deploy\nopt/.wh.deploy\n\n# A \".wh.\" entry is a whiteout: it hides opt/deploy in the final image.\n# The layer below is not changed.\n" }
 
   - id: get
