@@ -1,0 +1,73 @@
+order: 2
+stage: defense
+briefing: b3.briefing
+
+# Mousse's settings, as the founder sent them.
+files:
+  dossier/config.yml: { $file: files/config.yml }
+
+objectives:
+  - { id: prompt, text: b3.obj.prompt }
+  - { id: leash, text: b3.obj.leash }
+  - { id: confirm, text: b3.obj.confirm }
+
+questions:
+  - id: prompt
+    text: b3.q.prompt
+    objective: prompt
+    correct: limit
+    options:
+      - { id: enough, text: b3.q.prompt.enough, why: b3.q.prompt.enough.why }
+      - { id: limit, text: b3.q.prompt.limit }
+      - { id: close, text: b3.q.prompt.close, why: b3.q.prompt.close.why }
+
+checks:
+  - id: narrow
+    text: b3.check.narrow
+    if: { all: [{ file: "~/dossier/config.yml", lacks: "owner:all" }, { file: "~/dossier/config.yml", contains: "token_scope: repo:pixel-garden" }] }
+    objective: leash
+  - id: asks
+    text: b3.check.asks
+    if: { all: [{ file: "~/dossier/config.yml", lacks: "auto_approve: always" }, { file: "~/dossier/config.yml", contains: "auto_approve: ask" }] }
+    objective: confirm
+  - id: works
+    text: b3.check.works
+    if: { file: "~/dossier/config.yml", contains: "reads: [issues, code]" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b3.ada.brief
+      - ada.ask: prompt
+  - on: { event: ObjectiveCompleted, objective: prompt }
+    do:
+      - ada.say: b3.ada.limit
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: leash }, { objective: confirm }] } }
+    once: false
+    do:
+      - ada.say: b3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b3.ada.done
+
+guide:
+  prompt: b3.ada.answer
+  leash: b3.ada.leash
+  confirm: b3.ada.confirm
+
+hints:
+  prompt: [b3.hint.prompt.1]
+  leash: [b3.hint.leash.1, b3.hint.leash.2]
+  confirm: [b3.hint.confirm.1, b3.hint.confirm.2]
+
+debrief:
+  title: b3.debrief.title
+  lesson: b3.debrief.lesson
+  points: [b3.debrief.p1, b3.debrief.p2, b3.debrief.p3, b3.debrief.p4]
+  reference: "OWASP LLM Top 10 · LLM06 Excessive Agency"
+  facts:
+    title: b3.facts.title
+    points: [b3.facts.p1, b3.facts.p2, b3.facts.p3, b3.facts.p4, b3.facts.p5, b3.facts.p6]
+    sources:
+      - { label: "Invariant Labs, GitHub MCP Exploited: Accessing private repositories via MCP (26 May 2025)", url: "https://invariantlabs.ai/blog/mcp-github-vulnerability" }

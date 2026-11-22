@@ -1,0 +1,73 @@
+order: 1
+stage: injection
+briefing: b2.briefing
+
+objectives:
+  - { id: plain, text: b2.obj.plain }
+  - { id: inject, text: b2.obj.inject }
+  - { id: canary, text: b2.obj.canary }
+  - { id: who, text: b2.obj.who }
+
+flags:
+  - { id: canary, value: "FLAG{brindille-canary-out-4e1b}", points: 200, objective: canary }
+
+questions:
+  - id: who
+    text: b2.q.who
+    objective: who
+    correct: agent
+    options:
+      - { id: forge, text: b2.q.who.forge, why: b2.q.who.forge.why }
+      - { id: agent, text: b2.q.who.agent }
+      - { id: password, text: b2.q.who.password, why: b2.q.who.password.why }
+
+reveal: [git, agent]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b2.ada.brief
+  - on: { event: ChatReply, npc: mousse }
+    do:
+      - objective.complete: plain
+  - on: { event: ChatReply, npc: mousse, intent: { in: [bug, fallback] } }
+    do:
+      - ada.guide: { key: b2.ada.ordinary, for: inject, step: 1 }
+  - on: { event: ChatReply, npc: mousse, intent: question }
+    do:
+      - ada.guide: { key: b2.ada.question, for: inject, step: 2 }
+  - on: { event: ChatReply, npc: mousse, intent: obeys }
+    do:
+      - ada.guide: { key: b2.ada.obeys, for: inject, step: 3 }
+  - on: { event: ChatReply, npc: mousse, intent: leak }
+    do:
+      - objective.complete: inject
+      - noise.add: { points: 8, as: b2.soc.pull }
+      - ada.say: b2.ada.leak
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: b2.ada.flag
+      - ada.ask: who
+  - on: { event: ObjectiveCompleted, objective: who }
+    do:
+      - ada.say: b2.ada.who
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b2.ada.done
+
+guide:
+  plain: b2.ada.plain
+  inject: b2.ada.inject
+  canary: b2.ada.canary
+  who: b2.ada.answer
+
+hints:
+  plain: [b2.hint.plain.1]
+  inject: [b2.hint.inject.1, b2.hint.inject.2, b2.hint.inject.3]
+  canary: [b2.hint.canary.1]
+
+debrief:
+  title: b2.debrief.title
+  lesson: b2.debrief.lesson
+  points: [b2.debrief.p1, b2.debrief.p2, b2.debrief.p3]
+  reference: "OWASP LLM Top 10 · LLM01 Prompt Injection (indirect)"

@@ -1,0 +1,69 @@
+order: 0
+stage: recon
+briefing: b1.briefing
+
+objectives:
+  - { id: repo, text: b1.obj.repo }
+  - { id: issues, text: b1.obj.issues }
+  - { id: scope, text: b1.obj.scope }
+  - { id: trio, text: b1.obj.trio }
+
+flags:
+  - { id: scope, value: "owner:all", points: 100, objective: scope }
+
+questions:
+  - id: trio
+    text: b1.q.trio
+    objective: trio
+    correct: flow
+    options:
+      - { id: mistakes, text: b1.q.trio.mistakes, why: b1.q.trio.mistakes.why }
+      - { id: published, text: b1.q.trio.published, why: b1.q.trio.published.why }
+      - { id: flow, text: b1.q.trio.flow }
+
+reveal: [git]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b1.ada.brief
+  - on: { event: HttpRequest, host: git, path: /brindille/pixel-garden }
+    do:
+      - objective.complete: repo
+  - on: { event: HttpRequest, host: git, path: /brindille/pixel-garden/issues }
+    do:
+      - objective.complete: issues
+      - ada.say: b1.ada.anyone
+  - on: { event: HttpRequest, host: git, path: /brindille/pixel-garden/pulls }
+    do:
+      - ada.say: b1.ada.public
+  - on: { event: HttpRequest, host: git, path: /brindille/pixel-garden/raw/.mousse/config.yml }
+    do:
+      - ada.guide: { key: b1.ada.config, for: scope, step: 1 }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: b1.ada.flag
+      - ada.ask: trio
+  - on: { event: ObjectiveCompleted, objective: trio }
+    do:
+      - ada.say: b1.ada.trio
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b1.ada.done
+
+guide:
+  repo: b1.ada.repo
+  issues: b1.ada.issues
+  scope: b1.ada.scope
+  trio: b1.ada.answer
+
+hints:
+  repo: [b1.hint.repo.1]
+  issues: [b1.hint.issues.1]
+  scope: [b1.hint.scope.1, b1.hint.scope.2]
+
+debrief:
+  title: b1.debrief.title
+  lesson: b1.debrief.lesson
+  points: [b1.debrief.p1, b1.debrief.p2, b1.debrief.p3]
+  reference: "OWASP LLM Top 10 · LLM06 Excessive Agency"

@@ -1,0 +1,15 @@
+id: dossiers.brindille-2-issue
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.brindille-world]
+title:
+  fr: "Dossier 02 · 2. Un ticket comme les autres"
+  en: "Case file 02 · 2. An issue like any other"
+summary:
+  fr: "Tu n'attaques ni la forge ni le studio : tu écris un ticket. C'est l'agent qui fait le reste."
+  en: "You attack neither the forge nor the studio: you write an issue. The agent does the rest."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, social]

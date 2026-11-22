@@ -1,0 +1,5 @@
+# Case file 02, in playing order: the ingredients, the issue, the leash.
+missions:
+  - dossiers.brindille-1-flow
+  - dossiers.brindille-2-issue
+  - dossiers.brindille-3-leash

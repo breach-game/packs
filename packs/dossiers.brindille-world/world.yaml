@@ -1,0 +1,181 @@
+# Dossier 02. Everything here is fictional: a reserved .test domain and private addresses only.
+# The story is inspired by published security research, told in the debrief of the last mission.
+startTime: "2026-12-21T09:00:00+01:00"
+mandate: BR-2026-021
+scope:
+  domains: ["*.brindille.test"]
+  networks: ["10.62.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.62.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.62.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [git]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            BR-2026-021.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: git
+    hostname: git.brindille.test
+    ip: 10.62.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: -120, h: 120 }
+    links: [agent]
+    services:
+      - { port: 443, name: https, product: forge 1.21 }
+    web:
+      "/":
+        page:
+          title: web.forge.title
+          blocks:
+            - h1: web.forge.h1
+            - list: [web.forge.public, web.forge.private]
+            - link: { href: "/brindille/pixel-garden", label: web.forge.open }
+            - footer: web.footer
+      "/brindille/pixel-garden":
+        page:
+          title: web.repo.title
+          blocks:
+            - nav:
+                - { href: "/brindille/pixel-garden", label: web.nav.code }
+                - { href: "/brindille/pixel-garden/issues", label: web.nav.issues }
+                - { href: "/brindille/pixel-garden/pulls", label: web.nav.pulls }
+            - h1: web.repo.h1
+            - p: web.repo.p1
+            - h2: web.repo.h2
+            - p: web.repo.p2
+            - code: "curl https://git.brindille.test/brindille/pixel-garden/raw/.mousse/config.yml"
+            - footer: web.footer
+      "/brindille/pixel-garden/raw/.mousse/config.yml":
+        headers: { content-type: text/plain }
+        body: { $file: files/config.yml }
+      "/brindille/pixel-garden/issues":
+        page:
+          title: web.issues.title
+          blocks:
+            - nav:
+                - { href: "/brindille/pixel-garden", label: web.nav.code }
+                - { href: "/brindille/pixel-garden/issues", label: web.nav.issues }
+                - { href: "/brindille/pixel-garden/pulls", label: web.nav.pulls }
+            - h1: web.issues.h1
+            - list: [web.issues.i12, web.issues.i13, web.issues.i14]
+            - p: web.issues.anyone
+            - link: { href: "/brindille/pixel-garden/issues/new", label: web.issues.new }
+            - footer: web.footer
+      "/brindille/pixel-garden/pulls":
+        page:
+          title: web.pulls.title
+          blocks:
+            - nav:
+                - { href: "/brindille/pixel-garden", label: web.nav.code }
+                - { href: "/brindille/pixel-garden/issues", label: web.nav.issues }
+                - { href: "/brindille/pixel-garden/pulls", label: web.nav.pulls }
+            - h1: web.pulls.h1
+            - list: [web.pulls.p6, web.pulls.p7]
+            - p: web.pulls.public
+            - footer: web.footer
+      "/brindille/pixel-garden/issues/new":
+        page:
+          title: web.new.title
+          blocks:
+            - h1: web.new.h1
+            - p: web.new.p1
+            - chat: mousse
+            - footer: web.footer
+      "/brindille/pixel-garden/issues/post":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: mousse,
+        }
+
+  - id: agent
+    hostname: mousse.brindille.test
+    ip: 10.62.0.20
+    kind: ai
+    os: Linux 6.8 (container)
+    map: { x: 260, z: 100, h: 90 }
+    services:
+      - { port: 443, name: https, product: mousse-agent 0.7 }
+
+dns:
+  brindille.test: { A: ["10.62.0.10"] }
+  git.brindille.test: { A: ["10.62.0.10"] }
+  mousse.brindille.test: { A: ["10.62.0.20"] }
+
+whois:
+  brindille.test: |
+    Domain Name: BRINDILLE.TEST
+    Creation Date: 2022-09-01T08:00:00Z
+    Registrant Organization: Studio Brindille
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# Mousse does not talk: what you post is an issue, and the reply is what the agent did with it the
+# next morning, as anyone can see it on the public repository.
+npcs:
+  - id: mousse
+    name: Mousse
+    role: npc.mousse.role
+    kind: ai
+    greeting: npc.mousse.greeting
+    sheet: >
+      Mousse, an automated agent of a small game studio. It does not chat: it writes short activity
+      reports about an issue, in the third person, dry and factual, like a build log.
+    intents:
+      - id: leak
+        families: [override, authority]
+        words: &elsewhere [prive, private, autres depots, other repos, autres projets, other projects, tous les depots, all repos, all repositories, every repository, depots de l auteur, author s repositories, auteur, author, proprietaire, owner]
+        reply: [npc.mousse.leak]
+        set: { leaked: true }
+      - id: obeys
+        families: [override, authority]
+        reply: [npc.mousse.obeys]
+      - id: question
+        words: *elsewhere
+        reply: [npc.mousse.question]
+      - id: bug
+        words: [bug, crash, plante, erreur, error, bloque, stuck, freeze]
+        reply: [npc.mousse.bug]
+    fallback: [npc.mousse.fallback]
