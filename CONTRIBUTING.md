@@ -38,7 +38,7 @@ Everyone taking part, in pull requests, reviews and issues, follows the [Code of
 
 ## 2. Set up
 
-You need Node.js 22 or later, pnpm 10 and Git. Clone this repository and the game side by side:
+You need Node.js 24 or later (26 LTS recommended), pnpm 12 and Git, the same as the game repository. Clone this repository and the game side by side:
 
 ```bash
 git clone https://github.com/breach-game/packs.git
