@@ -1,0 +1,81 @@
+order: 1
+stage: supply
+briefing: s2.briefing
+
+# The same build file twice: as it is in the public repository, and as it is in the release archive.
+files:
+  dossier/git/host.m4: { $file: files/host-git.m4 }
+  dossier/archive/host.m4: { $file: files/host-archive.m4 }
+  dossier/history.txt: { $file: files/history.txt }
+
+objectives:
+  - { id: diff, text: s2.obj.diff }
+  - { id: hidden, text: s2.obj.hidden }
+  - { id: where, text: s2.obj.where }
+  - { id: who, text: s2.obj.who }
+
+flags:
+  - { id: hidden, value: "bad-header.plz", points: 150, objective: hidden }
+
+questions:
+  - id: where
+    text: s2.q.where
+    objective: where
+    correct: review
+    options:
+      - { id: lazy, text: s2.q.where.lazy, why: s2.q.where.lazy.why }
+      - { id: review, text: s2.q.where.review }
+      - { id: size, text: s2.q.where.size, why: s2.q.where.size.why }
+  - id: who
+    text: s2.q.who
+    objective: who
+    correct: patient
+    options:
+      - { id: stolen, text: s2.q.who.stolen, why: s2.q.who.stolen.why }
+      - { id: founder, text: s2.q.who.founder, why: s2.q.who.founder.why }
+      - { id: patient, text: s2.q.who.patient }
+
+reveal: [suivi, ferme]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s2.ada.brief
+  - on: { event: CommandRun, command: diff }
+    do:
+      - objective.complete: diff
+      - ada.say: s2.ada.diff
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: s2.ada.flag
+      - ada.ask: where
+  - on: { event: ObjectiveCompleted, objective: where }
+    do:
+      - ada.say: s2.ada.where
+      - ada.ask: who
+  - on: { event: FileRead, path: { glob: "*history.txt" } }
+    do:
+      - ada.say: s2.ada.history
+  - on: { event: ObjectiveCompleted, objective: who }
+    do:
+      - ada.say: s2.ada.who
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s2.ada.done
+
+guide:
+  diff: s2.ada.g.diff
+  hidden: s2.ada.g.hidden
+  where: s2.ada.answer
+  who: s2.ada.g.who
+
+hints:
+  diff: [s2.hint.diff.1]
+  hidden: [s2.hint.hidden.1, s2.hint.hidden.2]
+  who: [s2.hint.who.1]
+
+debrief:
+  title: s2.debrief.title
+  lesson: s2.debrief.lesson
+  points: [s2.debrief.p1, s2.debrief.p2, s2.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

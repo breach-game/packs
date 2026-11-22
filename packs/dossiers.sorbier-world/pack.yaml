@@ -1,0 +1,12 @@
+id: dossiers.sorbier-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Sorbier Linux
+  en: Sorbier Linux
+summary:
+  fr: Sorbier, distribution Linux fictive. Son suivi des paquets, sa ferme de construction, et libplume, une petite bibliothèque de compression que tout le monde utilise sans y penser.
+  en: Sorbier, a fictional Linux distribution. Its package tracker, its build farm, and libplume, a small compression library everybody uses without thinking about it.
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,107 @@
+# Dossier 06. Everything here is fictional: a reserved .test domain and private addresses only.
+# The story is inspired by a real incident, told with its sources in the debrief of the last mission.
+startTime: "2027-02-12T09:00:00+01:00"
+mandate: SB-2027-006
+scope:
+  domains: ["*.sorbier.test"]
+  networks: ["10.66.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.66.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.66.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [suivi]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            SB-2027-006.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: suivi
+    hostname: suivi.sorbier.test
+    ip: 10.66.0.10
+    os: Linux 6.1 (Sorbier 12)
+    map: { x: 40, z: -120, h: 110 }
+    links: [ferme]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - h1: web.home.h1
+            - p: web.home.p1
+            - link: { href: "/libplume", label: web.home.open }
+            - footer: web.footer
+      "/libplume":
+        page:
+          title: web.pkg.title
+          blocks:
+            - h1: web.pkg.h1
+            - p: web.pkg.p1
+            - h2: web.pkg.h2
+            - list: [web.pkg.v1, web.pkg.v2, web.pkg.v3]
+            - h2: web.pkg.h3
+            - list: [web.pkg.m1, web.pkg.m2]
+            - p: web.pkg.p2
+            - footer: web.footer
+
+  - id: ferme
+    hostname: ferme.sorbier.test
+    ip: 10.66.0.20
+    os: Linux 6.1 (Sorbier unstable)
+    map: { x: 260, z: 80, h: 100 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.6 }
+
+dns:
+  sorbier.test: { A: ["10.66.0.10"] }
+  suivi.sorbier.test: { A: ["10.66.0.10"] }
+  ferme.sorbier.test: { A: ["10.66.0.20"] }
+
+whois:
+  sorbier.test: |
+    Domain Name: SORBIER.TEST
+    Creation Date: 2011-05-02T08:00:00Z
+    Registrant Organization: Projet Sorbier
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  ssh: 6
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

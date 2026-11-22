@@ -1,0 +1,5 @@
+# Libraries loaded by /usr/sbin/sshd on the unstable image
+libcrypto.so.3
+libc.so.6
+libsystemd.so.0     added by a Sorbier patch, to notify the service manager
+  libplume.so.5     needed by libsystemd.so.0, not by sshd itself

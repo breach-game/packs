@@ -1,0 +1,80 @@
+order: 0
+stage: analysis
+briefing: s1.briefing
+
+files:
+  dossier/ssh-timing.txt: { $file: files/ssh-timing.txt }
+  dossier/updates.txt: { $file: files/updates.txt }
+  dossier/sshd-libs.txt: { $file: files/sshd-libs.txt }
+
+objectives:
+  - { id: slow, text: s1.obj.slow }
+  - { id: changed, text: s1.obj.changed }
+  - { id: path, text: s1.obj.path }
+  - { id: alarm, text: s1.obj.alarm }
+
+flags:
+  - { id: changed, value: "libplume", points: 100, objective: changed }
+
+questions:
+  - id: path
+    text: s1.q.path
+    objective: path
+    correct: indirect
+    options:
+      - { id: direct, text: s1.q.path.direct, why: s1.q.path.direct.why }
+      - { id: indirect, text: s1.q.path.indirect }
+      - { id: none, text: s1.q.path.none, why: s1.q.path.none.why }
+  - id: alarm
+    text: s1.q.alarm
+    objective: alarm
+    correct: dig
+    options:
+      - { id: ignore, text: s1.q.alarm.ignore, why: s1.q.alarm.ignore.why }
+      - { id: dig, text: s1.q.alarm.dig }
+      - { id: reboot, text: s1.q.alarm.reboot, why: s1.q.alarm.reboot.why }
+
+reveal: [suivi, ferme]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s1.ada.brief
+  - on: { event: FileRead, path: { glob: "*ssh-timing.txt" } }
+    do:
+      - objective.complete: slow
+      - ada.say: s1.ada.slow
+  - on: { event: FileRead, path: { glob: "*updates.txt" } }
+    do:
+      - ada.guide: { key: s1.ada.updates, for: changed, step: 1 }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: s1.ada.flag
+      - ada.ask: path
+  - on: { event: ObjectiveCompleted, objective: path }
+    do:
+      - ada.say: s1.ada.path
+      - ada.ask: alarm
+  - on: { event: ObjectiveCompleted, objective: alarm }
+    do:
+      - ada.say: s1.ada.alarm
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s1.ada.done
+
+guide:
+  slow: s1.ada.g.slow
+  changed: s1.ada.g.changed
+  path: s1.ada.g.path
+  alarm: s1.ada.answer
+
+hints:
+  slow: [s1.hint.slow.1]
+  changed: [s1.hint.changed.1, s1.hint.changed.2]
+  path: [s1.hint.path.1]
+
+debrief:
+  title: s1.debrief.title
+  lesson: s1.debrief.lesson
+  points: [s1.debrief.p1, s1.debrief.p2, s1.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"
