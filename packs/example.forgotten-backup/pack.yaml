@@ -1,0 +1,13 @@
+id: example.forgotten-backup
+version: 1.0.0
+engine: ">=0.2 <1"
+kind: mission
+requires: [example.pixel-world]
+title:
+  fr: La sauvegarde oubliée
+  en: The forgotten backup
+summary:
+  fr: Mission d'exemple. Un site vitrine, un robots.txt bavard et une vieille sauvegarde restée en ligne.
+  en: Sample mission. A shop window site, a chatty robots.txt and an old backup left online.
+authors: [BREACH team]
+locales: [fr, en]

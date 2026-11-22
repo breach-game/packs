@@ -1,0 +1,7 @@
+# The forgotten backup: the shortest path, replayed by CI in every language.
+cat mandate/AP-2026-007.txt
+curl https://www.atelier-pixel.test/
+curl https://www.atelier-pixel.test/robots.txt
+curl https://www.atelier-pixel.test/old/
+curl https://www.atelier-pixel.test/old/config.php.bak
+submit FLAG{pixel-old-backup-7c2e}

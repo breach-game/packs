@@ -1,0 +1,29 @@
+name: Report a pack
+description: Something in a published mission is wrong, broken or inappropriate.
+labels: [report]
+body:
+  - type: input
+    id: pack
+    attributes:
+      label: Pack
+      description: The mission's title or id, as shown in the game.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is the problem?
+      options:
+        - The mission cannot be finished
+        - Something is wrong or misleading
+        - Inappropriate content
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What you did, what you expected, what happened. Do not paste personal data.
+    validations:
+      required: true

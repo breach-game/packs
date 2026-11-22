@@ -1,0 +1,50 @@
+name: Check packs
+
+# Validates every pack against the game's own tools: schema, safety rules (fictional targets only),
+# translations, and a replay of each mission's solution.txt in every language it declares.
+# Runs on each pull request, on main, and every night, because the game's engine keeps moving.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: packs
+          persist-credentials: false
+      # The validator is the game's own: the same schema and engine that will load the packs.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: breach-game/breach
+          path: breach
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          package_json_file: breach/package.json
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: breach/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: breach
+      - name: Validate packs and replay solutions
+        working-directory: breach
+        run: >
+          pnpm --silent --filter @breach/pack-cli run cli check
+          "$GITHUB_WORKSPACE/packs/packs" --community --with "$GITHUB_WORKSPACE/breach/content"

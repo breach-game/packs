@@ -1,0 +1,80 @@
+name: Publish catalogue
+
+# Publishes the community catalogue on GitHub Pages after each merge to main: the packs are checked
+# again, compiled to .breachpack files, listed in index.json, and index.json is signed. The game
+# refuses a catalogue whose signature does not match the public key compiled into it.
+#
+# Needs: Settings > Pages > Source "GitHub Actions", and the BREACH_SIGNING_KEY repository secret
+# (the private key matching the game's public key). Only data is published: no HTML page, no script.
+on:
+  push:
+    branches: [main]
+    paths: ["packs/**", ".github/workflows/publish.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # Public key compiled into the game (apps/game/src/community.ts in breach-game/breach).
+  BREACH_PUBLIC_KEY: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEa+xv3ttVDxLoIjU6frfE/e8NQBP66GwqbxdCOFxM0QHF9emJGcf32vNb148hH2XJNNDO15TCer8tagYbB2dGwA==
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          path: packs
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: breach-game/breach
+          path: breach
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          package_json_file: breach/package.json
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: breach/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: breach
+      - name: Build the catalogue
+        working-directory: breach
+        run: >
+          pnpm --silent --filter @breach/pack-cli run cli build
+          "$GITHUB_WORKSPACE/packs/packs" --community --with "$GITHUB_WORKSPACE/breach/content"
+          --out "$GITHUB_WORKSPACE/site"
+      - name: Sign index.json
+        working-directory: breach
+        env:
+          BREACH_SIGNING_KEY: ${{ secrets.BREACH_SIGNING_KEY }}
+        run: pnpm --silent --filter @breach/pack-cli run cli sign "$GITHUB_WORKSPACE/site/index.json"
+      - name: Publish data files only
+        run: |
+          find site -type f ! -name '*.breachpack' ! -name 'index.json' ! -name 'index.json.sig' -print -delete
+          ls -l site
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

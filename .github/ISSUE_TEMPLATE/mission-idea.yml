@@ -1,0 +1,23 @@
+name: Mission idea
+description: Propose a mission before writing it, to get early feedback.
+labels: [idea]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: Story
+      description: The fictional target, what the player discovers, in a few sentences.
+    validations:
+      required: true
+  - type: input
+    id: weakness
+    attributes:
+      label: Weakness class
+      description: For example "OWASP Top 10 A01 Broken Access Control" or "OWASP LLM01 Prompt Injection".
+    validations:
+      required: true
+  - type: textarea
+    id: defence
+    attributes:
+      label: Defence
+      description: What the debrief will teach about preventing it.

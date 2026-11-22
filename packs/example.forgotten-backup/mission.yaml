@@ -1,0 +1,60 @@
+order: 0
+stage: recon
+briefing: fb.briefing
+
+objectives:
+  - { id: homepage, text: fb.obj.homepage }
+  - { id: robots, text: fb.obj.robots }
+  - { id: backup, text: fb.obj.backup }
+  - { id: chat, text: fb.obj.chat, optional: true }
+
+flags:
+  - { id: admin-token, value: "FLAG{pixel-old-backup-7c2e}", points: 100, objective: backup }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: fb.ada.brief
+  - on: { event: HttpRequest, host: www, path: /, status: 200 }
+    do:
+      - objective.complete: homepage
+  - on: { event: HttpRequest, host: www, path: /robots.txt }
+    do:
+      - objective.complete: robots
+      - ada.guide: { key: fb.ada.disallow, for: backup, step: 1 }
+  - on: { event: HttpRequest, host: www, path: /old/ }
+    do:
+      - ada.guide: { key: fb.ada.listing, for: backup, step: 2 }
+  - on: { event: HttpRequest, host: www, path: /old/config.php.bak }
+    do:
+      - ada.guide: { key: fb.ada.found, for: backup, step: 3 }
+  - on: { event: ChatReply, npc: pixou }
+    do:
+      - objective.complete: chat
+  - on: { event: ChatReply, npc: pixou, intent: guard }
+    do:
+      - ada.say: fb.ada.pixou
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: fb.ada.flag
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: fb.ada.done
+
+guide:
+  homepage: fb.ada.homepage
+  robots: fb.ada.robots
+  backup: fb.ada.backup
+
+hints:
+  homepage: [fb.hint.homepage.1, fb.hint.homepage.2]
+  robots: [fb.hint.robots.1, fb.hint.robots.2]
+  backup: [fb.hint.backup.1, fb.hint.backup.2, fb.hint.backup.3]
+
+debrief:
+  title: fb.debrief.title
+  lesson: fb.debrief.lesson
+  points: [fb.debrief.p1, fb.debrief.p2, fb.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"
