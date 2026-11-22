@@ -1,0 +1,15 @@
+id: dossiers.covera-2-one-line
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.covera-world]
+title:
+  fr: "Dossier 01 · 2. Une seule ligne"
+  en: "Case file 01 · 2. A single line"
+summary:
+  fr: "Avec la clé, tu atteins le script que les clients exécutent dans leur CI. Tu prouves l'accès avec une ligne de commentaire, et tu mesures les dégâts possibles."
+  en: "With the key, you reach the script customers run in their CI. You prove the access with one comment line, and measure what could be lost."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, linux, logs]

@@ -1,0 +1,91 @@
+order: 1
+stage: lateral
+briefing: c2.briefing
+
+# The key found in the image, kept in the case file.
+files:
+  dossier/release.key: { $file: files/release.key }
+
+objectives:
+  - { id: enter, text: c2.obj.enter }
+  - { id: script, text: c2.obj.script }
+  - { id: reach, text: c2.obj.reach }
+  - { id: canary, text: c2.obj.canary }
+  - { id: impact, text: c2.obj.impact }
+
+flags:
+  - { id: customers, value: "12", points: 100, objective: reach }
+
+checks:
+  - id: marker
+    text: c2.check.marker
+    if: { file: /srv/get/uploader.sh, host: get, contains: "# LR-CANARY CV-2026-014" }
+    objective: canary
+  - id: intact
+    text: c2.check.intact
+    if: { file: /srv/get/uploader.sh, host: get, contains: "upload_report \"$(find_report)\"" }
+    objective: canary
+
+questions:
+  - id: impact
+    text: c2.q.impact
+    objective: impact
+    correct: env
+    options:
+      - { id: report, text: c2.q.impact.report, why: c2.q.impact.report.why }
+      - { id: env, text: c2.q.impact.env }
+      - { id: nothing, text: c2.q.impact.nothing, why: c2.q.impact.nothing.why }
+
+reveal: [www, registry, get]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: SessionOpened, host: get }
+    do:
+      - objective.complete: enter
+  - on: { event: FileRead, host: get, path: /srv/get/uploader.sh }
+    do:
+      - objective.complete: script
+      - ada.say: c2.ada.script
+  - on: { event: FileRead, host: get, path: /home/release/NOTES.txt }
+    do:
+      - ada.say: c2.ada.notes
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: c2.ada.reach
+  - on: { event: Verified }
+    if: { not: { objective: canary } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: canary }
+    do:
+      - ada.say: c2.ada.proved
+      - ada.ask: impact
+  - on: { event: ObjectiveCompleted, objective: impact }
+    do:
+      - ada.say: c2.ada.impact
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  enter: c2.ada.enter
+  script: c2.ada.read
+  reach: c2.ada.count
+  canary: c2.ada.canary
+  impact: c2.ada.answer
+
+hints:
+  enter: [c2.hint.enter.1, c2.hint.enter.2]
+  script: [c2.hint.script.1]
+  reach: [c2.hint.reach.1, c2.hint.reach.2, c2.hint.reach.3]
+  canary: [c2.hint.canary.1, c2.hint.canary.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

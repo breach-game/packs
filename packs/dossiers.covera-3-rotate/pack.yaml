@@ -1,0 +1,15 @@
+id: dossiers.covera-3-rotate
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.covera-world]
+title:
+  fr: "Dossier 01 · 3. Fermer, puis prévenir"
+  en: "Case file 01 · 3. Close, then tell"
+summary:
+  fr: "Côté défense : la clé, l'image, et la ligne que les clients copient. Puis ce qui s'est vraiment passé en 2021."
+  en: "Defence side: the key, the image, and the line customers copy. Then what really happened in 2021."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, supply]

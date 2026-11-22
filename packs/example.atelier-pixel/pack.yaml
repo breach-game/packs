@@ -1,0 +1,15 @@
+id: example.atelier-pixel
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [example.pixel-world]
+title:
+  fr: "Atelier Pixel : l'audit complet"
+  en: "Atelier Pixel: the full audit"
+summary:
+  fr: Série d'exemple en deux missions. Tu trouves ce que l'ancien site a laissé derrière lui, puis tu fermes la porte.
+  en: Sample series in two missions. You find what the old site left behind, then you close the door.
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, defense]

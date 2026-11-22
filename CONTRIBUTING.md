@@ -75,12 +75,14 @@ packs/your-name.mission-name/
 id: jdoe.lost-backup            # <your-name>.<pack-name>, lowercase. "breach." is reserved.
 version: 1.0.0                  # change it every time you change the pack
 engine: ">=0.2 <1"              # engine versions this pack works with
-kind: mission                   # or world
+kind: mission                   # or world, or series (section 5)
 requires: [jdoe.bakery-world]   # a mission names its world first
 title: { fr: La sauvegarde perdue, en: The lost backup }
 summary: { fr: …, en: … }       # one sentence, shown in the mission list
 authors: [Jane Doe]
 locales: [fr, en]               # one or both; players of another language see it as not yet translated
+difficulty: 1                   # optional, 1 to 3, shown in the list
+skills: [web, defense]          # optional, up to 4 of: recon, web, social, llm, logs, linux, crypto, supply, defense
 ```
 
 Use your GitHub login as the first part of the id, so that two authors never pick the same one.
@@ -178,7 +180,101 @@ debrief:
 
 The mission is complete when every objective that is not optional is done. A flag is a string of the form `FLAG{…}` that the player finds in the world and sends with `submit FLAG{…}`: the right flag completes its objective. The build stores only its SHA-256.
 
-**Score:** flag points, plus 50 per objective, times the guidance level (×1, ×1.25, ×1.5), minus 10 per hint and 25 per detection.
+**Score:** flag points, plus 50 per objective, times the guidance level (×1, ×1.25, ×1.5), minus 10 per hint, 10 per wrong answer and 25 per detection.
+
+### More than flags: files, checks and questions
+
+A mission where every step is "find the flag, submit it" gets dull. Three other tools, all used in `packs/example.closing-the-door/`:
+
+```yaml
+# Documents handed to the player when the mission starts, relative to the home directory.
+files:
+  atelier/site.conf: "server {\n    autoindex on;\n}\n"      # the text, a translation key, or { $file: files/site.conf }
+
+# Things the player must repair. `verify` judges them and lists each one as OK or not.
+checks:
+  - id: listing
+    text: cd.check.listing                                   # shown by verify
+    if: { file: "~/atelier/site.conf", lacks: "autoindex on" }
+  - id: old
+    text: cd.check.old
+    if: { file: "~/atelier/site.conf", contains: "deny all;" }
+    objective: harden                                        # done when its checks and the guards (no objective) pass
+
+# Multiple choice. Ada asks with the effect `ada.ask: leak`.
+questions:
+  - id: leak
+    text: cd.q.leak
+    objective: leak
+    correct: rotate
+    options:
+      - { id: delete, text: cd.q.leak.delete, why: cd.q.leak.delete.why }   # why: shown when picked
+      - { id: rotate, text: cd.q.leak.rotate }
+      - { id: wait, text: cd.q.leak.wait, why: cd.q.leak.wait.why }
+```
+
+- **Repair.** The player changes a file with `edit <file>` (a small editor window), `sed -i`, or a redirection, then types `verify`. `~` is the home directory. Always add a check that the file still does its job (the example checks that the site is still served), otherwise deleting everything passes. An objective is done when all the checks that name it pass, together with the checks that name no objective (general guards).
+- **Questions.** The options appear as buttons in the messenger, and `answer b` does the same in the terminal. The right option completes the objective. A wrong one costs 10 points and shows its `why`: write it as the explanation a mentor would give, that is where the player learns.
+- **Short answers.** A flag does not have to look like `FLAG{…}`: `{ id: account, value: "c.morel", … }` lets the player `submit c.morel` (an address, a user name, a host). Keep them unambiguous.
+- **Analysis.** With `files` and the text tools (`grep`, `cut`, `sort`, `uniq -c`, `diff`, `sha256sum`, `base64 -d`), a mission can be about reading a log, comparing two versions of a script, or decoding a value, with no network at all.
+
+In `solution.txt`, answer with `answer <letter>` and repair with `sed -i`.
+
+### Missions inspired by a real incident
+
+A mission can replay a documented attack, as the case file in `packs/dossiers.covera*/` does. The rules:
+
+- **Fictional names in the missions.** The company, its domain (reserved, as always) and its people are invented. The player stays a tester under a signed mandate who *emulates* the attacker: never the criminal.
+- **The real story at the end.** The debrief of the last mission carries a `facts` card that names the real organisation and says what happened, and what differs from your fiction:
+
+  ```yaml
+  debrief:
+    title: …
+    lesson: …
+    points: [ … ]
+    facts:
+      title: c3.facts.title                 # "What really happened: Codecov, 2021"
+      points: [c3.facts.p1, c3.facts.p2]    # up to 8 texts
+      sources:                              # 1 to 6, the only place where a real address is allowed
+        - { label: "Codecov, post-mortem (2021)", url: "https://about.codecov.io/apr-2021-post-mortem/" }
+  ```
+
+- **Sourced facts only.** Every statement of the card must be in one of its sources. Prefer the organisation's own post-mortem, a regulator or a court document over press articles. The reviewer reads the sources.
+- **Organisations, never private people.** Do not name an employee, a victim or a suspect, even when the press did.
+- **A class of weakness, not a recipe.** The mission shows why it worked and how to defend. It never ships the real payload, a working exploit or a real tool. Proof of access is a harmless marker (a comment line), not the attacker's change.
+- Sources are shown as plain text: the game follows no link.
+
+### Series: several missions in a row
+
+One long mission is tiring; a story in two or three short ones (the way in, the next step, the fix) works better. A **series** is a third kind of pack that lists missions of one world, as in `packs/example.atelier-pixel/`:
+
+```yaml
+# pack.yaml
+id: jdoe.bakery-audit
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [jdoe.bakery-world]     # the world all its missions are played in
+title: { fr: …, en: … }
+summary: { fr: …, en: … }
+authors: [Jane Doe]
+locales: [fr, en]
+```
+
+```yaml
+# series.yaml
+missions:                          # 2 to 12, in playing order
+  - jdoe.lost-backup
+  - jdoe.closing-the-door
+```
+
+Each mission stays a pack of its own, with its own folder, `solution.txt` and debrief. In the game the series appears as one entry; the player goes from one mission to the next and can leave and come back. The whole series is **one save**: files the player changed, hosts found and variables set in a mission are still there in the next one. So:
+
+- give the missions increasing `order` values, in the order listed;
+- every mission must have the languages the series declares;
+- CI replays the solutions one after the other in a single game, as the player will play them. A mission that only finishes when played alone fails the check.
+
+Raise the series `version` when you change one of its missions in a way that breaks a game under way: the save is kept per series version.
 
 ## 6. Rules: events, conditions, effects
 
@@ -329,6 +425,9 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `Restored` | `checkpoint`, `detections` |
 | `VarSet` | `name`, `value` |
 | `HostRevealed` | `host` |
+| `Asked` | `question` |
+| `Answered` | `question`, `option`, `correct` |
+| `Verified` | `passed`, `failed` (lists of check ids) |
 | `MissionCompleted` | `mission`, `score` |
 
 ### Conditions (`if`)
@@ -340,6 +439,8 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `{ discovered: host-id }` / `{ discovered: { gte: 4 } }` | that host, or that many hosts, were found |
 | `{ noise: { gte: 40, lt: 70 } }` | the noise gauge is in that range |
 | `{ var: name, eq: value }` | a variable set by `var.set` or a character has that value |
+| `{ file: "~/path", contains: "text", lacks: "text" }` | the file on the player's machine exists and has, or does not have, that text (`host: id` for another machine) |
+| `{ answer: question-id, eq: option-id }` | the player picked that option |
 | `{ all: [...] }`, `{ any: [...] }`, `{ not: ... }` | combinations |
 
 ### Effects (`do`)
@@ -349,6 +450,7 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `ada.say: key` | Ada tells part of the story (always shown) |
 | `ada.guide: key` or `{ key, for, step }` | guidance, shown according to the level (section 7) |
 | `ada.warn: key` | a warning from Ada |
+| `ada.ask: question-id` | Ada asks one of the mission's `questions` |
 | `objective.complete: id` | completes an objective |
 | `noise.add: 10` or `{ points: 10, as: key }` | the target reacts; with `as`, the debrief's SOC log shows it under that text |
 | `host.reveal: id` | a hidden host appears on the map and answers scans |
@@ -358,7 +460,7 @@ To change a published pack, open a new pull request and **raise its `version`**.
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `grep`, `find`, `wc`, `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`). A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer`, `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`). A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 

@@ -1,0 +1,12 @@
+id: dossiers.covera-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Covera
+  en: Covera
+summary:
+  fr: Covera, éditeur fictif d'un service de couverture de tests. Son site, son registre d'images et le serveur d'où ses clients téléchargent un script.
+  en: Covera, a fictional vendor of a test coverage service. Its website, its image registry and the server its customers download a script from.
+authors: [BREACH team]
+locales: [fr, en]

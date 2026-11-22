@@ -1,0 +1,9 @@
+# Case file 01, mission 2: the shortest path, replayed by CI in every language.
+cat dossier/release.key
+ssh -i dossier/release.key release@get.covera.test
+cat /srv/get/uploader.sh
+cut -d " " -f 1 /var/log/get/access.log | sort | uniq | wc -l
+submit 12
+echo "# LR-CANARY CV-2026-014" >> /srv/get/uploader.sh
+verify
+answer b

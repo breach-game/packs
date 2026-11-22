@@ -1,0 +1,63 @@
+order: 1
+stage: defense
+briefing: cd.briefing
+
+# The site configuration the manager sent after reading the report.
+files:
+  atelier/site.conf: "server {\n    server_name www.atelier-pixel.test;\n    root /var/www/atelier;\n    autoindex on;\n\n    location /old/ {\n        # kept just in case\n    }\n}\n"
+
+objectives:
+  - { id: leak, text: cd.obj.leak }
+  - { id: harden, text: cd.obj.harden }
+
+questions:
+  - id: leak
+    text: cd.q.leak
+    objective: leak
+    correct: rotate
+    options:
+      - { id: delete, text: cd.q.leak.delete, why: cd.q.leak.delete.why }
+      - { id: rotate, text: cd.q.leak.rotate }
+      - { id: wait, text: cd.q.leak.wait, why: cd.q.leak.wait.why }
+
+checks:
+  - id: listing
+    text: cd.check.listing
+    if: { file: "~/atelier/site.conf", lacks: "autoindex on" }
+  - id: old
+    text: cd.check.old
+    if: { file: "~/atelier/site.conf", contains: "deny all;" }
+    objective: harden
+  - id: site
+    text: cd.check.served
+    if: { file: "~/atelier/site.conf", contains: "root /var/www/atelier;" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: cd.ada.brief
+      - ada.ask: leak
+  - on: { event: ObjectiveCompleted, objective: leak }
+    do:
+      - ada.say: cd.ada.rotated
+  - on: { event: Verified }
+    if: { not: { objective: harden } }
+    do:
+      - ada.guide: { key: cd.ada.almost, for: harden, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: cd.ada.done
+
+guide:
+  leak: cd.ada.leak
+  harden: cd.ada.harden
+
+hints:
+  leak: [cd.hint.leak.1]
+  harden: [cd.hint.harden.1, cd.hint.harden.2, cd.hint.harden.3]
+
+debrief:
+  title: cd.debrief.title
+  lesson: cd.debrief.lesson
+  points: [cd.debrief.p1, cd.debrief.p2, cd.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"

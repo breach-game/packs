@@ -1,0 +1,15 @@
+id: dossiers.covera-1-layers
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.covera-world]
+title:
+  fr: "Dossier 01 · 1. Ce que l'image n'oublie pas"
+  en: "Case file 01 · 1. What the image never forgets"
+summary:
+  fr: "Une image de conteneur publique, une étape de build qui efface un dossier, et une clé qui est toujours là."
+  en: "A public container image, a build step that deletes a folder, and a key that is still there."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, supply]

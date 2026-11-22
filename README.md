@@ -13,6 +13,9 @@ A pack is a folder of YAML files. It holds data only, never code: a fictional ne
 packs/
   example.pixel-world/        a world: hosts, web pages, DNS, characters
   example.forgotten-backup/   a mission in that world: objectives, flag, rules, hints, debrief
+  example.closing-the-door/   a defence mission: a question, a file to repair, `verify`
+  example.atelier-pixel/      a series: the two missions above, played in a row in one save
+  dossiers.covera*/           case file 01: a world, three missions and their series, inspired by a real incident
 ```
 
 A mission can also be played in the official NovaMind world (`requires: [breach.world.novamind]`), using the hosts, pages and characters it already has.
