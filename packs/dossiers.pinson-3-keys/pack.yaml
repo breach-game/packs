@@ -1,0 +1,15 @@
+id: dossiers.pinson-3-keys
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.pinson-world]
+title:
+  fr: "Dossier 03 · 3. La clé dans la poche"
+  en: "Case file 03 · 3. The key in your pocket"
+summary:
+  fr: "Côté défense : une validation que l'on ne peut pas donner à un faux site, et un outil interne mieux gardé. Puis l'incident réel de 2020."
+  en: "Defence side: an approval that cannot be given to a fake site, and an internal tool kept on a shorter lead. Then the real incident of 2020."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, social]

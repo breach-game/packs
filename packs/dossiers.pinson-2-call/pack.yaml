@@ -1,0 +1,15 @@
+id: dossiers.pinson-2-call
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.pinson-world]
+title:
+  fr: "Dossier 03 · 2. Le coup de fil"
+  en: "Case file 03 · 2. The phone call"
+summary:
+  fr: "Aucun outil, aucune faille : une voix, un prétexte, et une page qui ressemble à la vraie."
+  en: "No tool, no flaw: a voice, a pretext, and a page that looks like the real one."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social]

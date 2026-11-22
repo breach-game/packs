@@ -1,0 +1,5 @@
+# Case file 03, in playing order: the pretext, the call, the key.
+missions:
+  - dossiers.pinson-1-pretext
+  - dossiers.pinson-2-call
+  - dossiers.pinson-3-keys

@@ -1,0 +1,15 @@
+id: dossiers.pinson
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.pinson-world]
+title:
+  fr: "Dossier 03 : le coup de fil"
+  en: "Case file 03: the phone call"
+summary:
+  fr: "Inspiré du piratage d'un grand réseau social en juillet 2020. Sous mandat, tu obtiens l'accès à un outil interne avec un simple appel, sans logiciel malveillant ni faille, puis tu rends ce coup de fil inutile. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by the hack of a major social network in July 2020. Under mandate, you get into an internal tool with a plain phone call, no malware and no flaw, then you make that call useless. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, defense]

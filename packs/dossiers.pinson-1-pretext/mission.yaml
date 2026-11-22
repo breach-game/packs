@@ -1,0 +1,64 @@
+order: 0
+stage: recon
+briefing: p1.briefing
+
+objectives:
+  - { id: status, text: p1.obj.status }
+  - { id: tool, text: p1.obj.tool }
+  - { id: desk, text: p1.obj.desk }
+  - { id: pretext, text: p1.obj.pretext }
+
+flags:
+  - { id: desk, value: "4040", points: 100, objective: desk }
+
+questions:
+  - id: pretext
+    text: p1.q.pretext
+    objective: pretext
+    correct: vpn
+    options:
+      - { id: prize, text: p1.q.pretext.prize, why: p1.q.pretext.prize.why }
+      - { id: vpn, text: p1.q.pretext.vpn }
+      - { id: boss, text: p1.q.pretext.boss, why: p1.q.pretext.boss.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /status }
+    do:
+      - objective.complete: status
+      - ada.say: p1.ada.status
+  - on: { event: HttpRequest, host: www, path: /jobs }
+    do:
+      - objective.complete: tool
+      - ada.say: p1.ada.tool
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: p1.ada.flag
+      - ada.ask: pretext
+  - on: { event: ObjectiveCompleted, objective: pretext }
+    do:
+      - ada.say: p1.ada.pretext
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  status: p1.ada.g.status
+  tool: p1.ada.g.tool
+  desk: p1.ada.g.desk
+  pretext: p1.ada.answer
+
+hints:
+  status: [p1.hint.status.1]
+  tool: [p1.hint.tool.1]
+  desk: [p1.hint.desk.1, p1.hint.desk.2]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "MITRE ATT&CK · T1591 Gather Victim Org Information"
