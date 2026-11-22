@@ -16,6 +16,7 @@ packs/
   example.closing-the-door/   a defence mission: a question, a file to repair, `verify`
   example.atelier-pixel/      a series: the two missions above, played in a row in one save
   dossiers.covera*/           case file 01: a world, three missions and their series, inspired by a real incident
+  dossiers.brindille*/        case file 02: an AI agent, an issue and a leash, inspired by published research
 ```
 
 A mission can also be played in the official NovaMind world (`requires: [breach.world.novamind]`), using the hosts, pages and characters it already has.
