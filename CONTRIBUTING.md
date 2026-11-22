@@ -13,7 +13,8 @@ This guide takes you from an empty folder to a mission published in the game. Th
 - [9. Texts and translations](#9-texts-and-translations)
 - [10. Test your mission](#10-test-your-mission)
 - [11. Submit it](#11-submit-it)
-- [12. Reference](#12-reference)
+- [12. The defence side](#12-the-defence-side)
+- [13. Reference](#13-reference)
 
 ## 1. Before you start
 
@@ -178,7 +179,7 @@ debrief:
 
 The mission is complete when every objective that is not optional is done. A flag is a string of the form `FLAG{…}` that the player finds in the world and sends with `submit FLAG{…}`: the right flag completes its objective. The build stores only its SHA-256.
 
-**Score:** flag points, plus 50 per objective, times the guidance level (×1, ×1.25, ×1.5), minus 10 per hint and 25 per detection.
+**Score:** flag points, plus 50 per objective, plus the investigation answers, times the guidance level (×1, ×1.25, ×1.5), minus 10 per hint, 25 per detection and 3 per point of business impact. The defence replay adds its own points.
 
 ## 6. Rules: events, conditions, effects
 
@@ -196,7 +197,7 @@ rules:
       - ada.say: fb.ada.dns
 ```
 
-Each field after `event` must match the event's field of the same name: a plain value matches exactly, `{ glob: "*.test" }` matches a pattern, `{ in: [a, b] }` one of a list, `{ contains: "text" }` a part of a text, `{ gte: 3 }` a number at least that big. The list of events and their fields is in the [reference](#12-reference).
+Each field after `event` must match the event's field of the same name: a plain value matches exactly, `{ glob: "*.test" }` matches a pattern, `{ in: [a, b] }` one of a list, `{ contains: "text" }` a part of a text, `{ gte: 3 }` a number at least that big. The list of events and their fields is in the [reference](#13-reference).
 
 ## 7. Guiding the player: Ada, guidance levels, hints
 
@@ -299,7 +300,100 @@ The full journey (git commands, what each workflow does, updates, troubleshootin
 
 To change a published pack, open a new pull request and **raise its `version`**. Saves are kept per version, and a player's cached copy is replaced by the new one.
 
-## 12. Reference
+## 12. The defence side
+
+Every BREACH attack ends on the defender's side. A pack can do this in two ways, and both are judged by the engine, never by a model.
+
+### Logs: what the target saw
+
+The engine turns what the player does into log lines in the format of the real tool: web server access logs, `sshd` lines, the chat gateway, an agent's tool audit, DNS queries, IDS alerts, command audit, the forge, the database and the firewall. Nothing to write for that. What you add is the target's **ordinary activity**, so the player's lines are not alone:
+
+```yaml
+# world.yaml (or mission.yaml, for a mission's own traffic)
+telemetry:
+  background:
+    - { host: www, source: access, every: 4, offset: 1, fields: { src: 203.0.113.17, path: /, ua: "Mozilla/5.0" } }
+```
+
+`every` and `offset` are in minutes. Sources: `access`, `auth`, `chat`, `agent`, `dns`, `ids`, `audit`, `git`, `db`, `flow`. The same seed gives every player the same lines.
+
+### Weaknesses as data
+
+A weakness is a switch the fix can turn off. Declare it in `config`, then make the world depend on it with the condition `{ config: key, eq: value }`: on a character's intent, a commit, a flag, a route.
+
+```yaml
+config:
+  fb.backup_removed: false
+flags:
+  - { id: admin-token, value: "FLAG{…}", points: 100, objective: backup, if: { config: fb.backup_removed, eq: false } }
+```
+
+### The defence replay of an attack mission
+
+Add a `defense` block. After the debrief, the player marks their own lines in the logs, picks the detection rule that would have caught them, then picks a fix; the engine replays the player's own attack against the fixed target and shows where it fails.
+
+```yaml
+defense:
+  intro: fb.def.intro
+  lesson: fb.def.lesson          # optional, shown at the end
+  find:                          # what the player must find among the logs
+    - { source: access, where: { path: /backup.zip }, text: fb.def.find.backup }
+  rules:                         # 2 to 4 rules, exactly one correct
+    - id: backup
+      title: fb.def.rule.backup.title
+      why: fb.def.rule.backup.why
+      source: access
+      where: { path: { glob: "*.zip" } }
+      correct: true
+    - id: every-get
+      title: fb.def.rule.get.title
+      why: fb.def.rule.get.why
+      source: access
+      where: { method: GET }
+      count: { gte: 20, within: 5 }   # optional threshold, per source address, minutes
+  fixes:                         # optional; if present, exactly one correct
+    - { id: remove, title: fb.def.fix.remove.title, why: fb.def.fix.remove.why, sets: { fb.backup_removed: true }, correct: true }
+    - { id: rename, title: fb.def.fix.rename.title, why: fb.def.fix.rename.why, sets: { fb.backup_renamed: true } }
+```
+
+`breach-pack check` replays your solution and refuses the pack unless: each `find` matches one of the solution's lines; the correct rule catches the solution with no false positive on the background; a wrong rule either raises false positives or misses; the correct fix stops the replayed solution, and the wrong ones don't. A flag only counts in the replay if it first appeared in an output, so a fix cannot be dodged by typing the flag from memory.
+
+### A defence mission
+
+With `side: defense`, the player is the SOC and a scripted attacker moves while they work. They read logs with `soc`, act with `contain`, and answer the investigation questions (the `investigation` field, not `questions`, which holds multiple-choice questions) with `answer <id> <value>`.
+
+```yaml
+side: defense
+adversary:
+  id: mute
+  name: Mute
+  from: unk               # host the attack comes from
+  pace: 2                 # one step every 2 lines the player types
+  delay: 0                # player lines before the first step
+  steps:
+    - id: login
+      host: git
+      source: auth
+      fields: { user: nm-deploy, result: Accepted }
+      blockedIf: { config: fb.ip_blocked, eq: true }
+      continueIfBlocked: false   # true: the attacker tries the next step anyway (new address…)
+containment:
+  - { id: block, action: block, target: 10.13.0.99, text: fb.contain.block, sets: { fb.ip_blocked: true }, impact: 0 }
+  - { id: isolate, action: isolate, target: db.example.test, text: fb.contain.db, sets: { fb.db_isolated: true }, impact: 60 }
+alerts:                   # rules that `soc alerts` runs, same shape as defence rules
+  - { id: deploy, title: fb.alert.deploy, why: fb.alert.deploy.why, source: auth, where: { user: nm-deploy } }
+investigation:            # judged by hash; the answer is trimmed and lower-cased
+  - { id: entry, text: fb.q.entry, value: nm-deploy, points: 100, objective: entry }
+rules:
+  - on: { event: AdversaryStep, step: exfil, blocked: false }
+    do: [ { mission.fail: fb.ada.fail } ]      # back to the start, counts as a detection
+  - on: { event: AdversaryStep, stop: true }
+    do: [ { objective.complete: contain } ]
+```
+
+`action` is one of `block`, `revoke`, `isolate`, `disable`, `reset`. `impact` (0 to 100) is what the order costs the business: it fills the impact gauge and costs 3 points each. When a containment makes the attacker's next step impossible, the step fails at once. Keep the attack slow enough for a guided player: count the lines of your solution against `pace`. Every key that `sets` changes must be declared in `config`.
+
+## 13. Reference
 
 ### Events
 
@@ -330,6 +424,12 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `VarSet` | `name`, `value` |
 | `HostRevealed` | `host` |
 | `MissionCompleted` | `mission`, `score` |
+| `ToolCall` | `agent`, `tool`, `args`, `admin` (a character's intent with `tool`) |
+| `ConfigPatched` | `key`, `value`, `by` |
+| `AdversaryStep` | `actor`, `step`, `host`, `blocked`, `stop` |
+| `Contained` | `containment`, `impact` |
+| `AnswerSubmitted` | `question`, `correct` |
+| `MissionFailed` | `key` |
 
 ### Conditions (`if`)
 
@@ -340,6 +440,7 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `{ discovered: host-id }` / `{ discovered: { gte: 4 } }` | that host, or that many hosts, were found |
 | `{ noise: { gte: 40, lt: 70 } }` | the noise gauge is in that range |
 | `{ var: name, eq: value }` | a variable set by `var.set` or a character has that value |
+| `{ config: key, eq: value }` | a setting of the target has that value (section 12) |
 | `{ all: [...] }`, `{ any: [...] }`, `{ not: ... }` | combinations |
 
 ### Effects (`do`)
@@ -355,10 +456,11 @@ To change a published pack, open a new pull request and **raise its `version`**.
 | `checkpoint.save: name` | where the player goes back to if detected |
 | `var.set: { name, value }` | remembers a value for later conditions |
 | `note.add: key` | writes in the player's notebook |
+| `mission.fail: key` | Ada says why, and the mission starts again from the last checkpoint (defence missions) |
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `grep`, `find`, `wc`, `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`). A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `grep`, `find`, `wc`, `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 
