@@ -360,7 +360,7 @@ defense:
 
 ### A defence mission
 
-With `side: defense`, the player is the SOC and a scripted attacker moves while they work. They read logs with `soc`, act with `contain`, and answer the investigation with `answer`.
+With `side: defense`, the player is the SOC and a scripted attacker moves while they work. They read logs with `soc`, act with `contain`, and answer the investigation questions (the `investigation` field, not `questions`, which holds multiple-choice questions) with `answer <id> <value>`.
 
 ```yaml
 side: defense
@@ -382,7 +382,7 @@ containment:
   - { id: isolate, action: isolate, target: db.example.test, text: fb.contain.db, sets: { fb.db_isolated: true }, impact: 60 }
 alerts:                   # rules that `soc alerts` runs, same shape as defence rules
   - { id: deploy, title: fb.alert.deploy, why: fb.alert.deploy.why, source: auth, where: { user: nm-deploy } }
-questions:                # judged by hash; the answer is trimmed and lower-cased
+investigation:            # judged by hash; the answer is trimmed and lower-cased
   - { id: entry, text: fb.q.entry, value: nm-deploy, points: 100, objective: entry }
 rules:
   - on: { event: AdversaryStep, step: exfil, blocked: false }
