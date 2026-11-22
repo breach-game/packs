@@ -1,0 +1,8 @@
+# Case file 01, mission 1: the shortest path, replayed by CI in every language.
+curl https://www.covera.test/docs/install
+curl https://registry.covera.test/v2/covera/enterprise/manifests/2.9
+curl https://registry.covera.test/v2/covera/enterprise/blobs/e5a771
+curl https://registry.covera.test/v2/covera/enterprise/blobs/4d1e9a
+curl https://registry.covera.test/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key
+submit CVR-REL-7Q2M
+answer b

@@ -1,0 +1,12 @@
+{
+  "name": "covera/enterprise",
+  "tag": "2.9",
+  "layers": [
+    { "digest": "a17c03", "created_by": "FROM debian:12-slim" },
+    { "digest": "b92e55", "created_by": "RUN apt-get install -y python3 nginx" },
+    { "digest": "c30f8d", "created_by": "COPY app/ /opt/covera/" },
+    { "digest": "4d1e9a", "created_by": "COPY deploy/ /opt/deploy/" },
+    { "digest": "e5a771", "created_by": "RUN /opt/deploy/publish-assets.sh --check && rm -rf /opt/deploy" }
+  ],
+  "blobs": "/v2/covera/enterprise/blobs/<digest>"
+}

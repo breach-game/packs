@@ -1,0 +1,15 @@
+id: example.closing-the-door
+version: 1.0.0
+engine: ">=0.4 <1"
+kind: mission
+requires: [example.pixel-world]
+title:
+  fr: Fermer la porte
+  en: Closing the door
+summary:
+  fr: Mission d'exemple, côté défense. Tu corriges la configuration du site et tu décides quoi faire du mot de passe qui a fuité.
+  en: Sample mission, defence side. You fix the site configuration and decide what to do with the leaked password.
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [defense, web]

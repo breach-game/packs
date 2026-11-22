@@ -1,0 +1,12 @@
+id: dossiers.brindille-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Studio Brindille
+  en: Brindille Studio
+summary:
+  fr: Brindille, petit studio de jeux fictif. Sa forge, un dépôt public, et Mousse, l'agent IA qui trie les tickets chaque matin.
+  en: Brindille, a small fictional game studio. Its forge, one public repository, and Mousse, the AI agent that sorts the issues every morning.
+authors: [BREACH team]
+locales: [fr, en]

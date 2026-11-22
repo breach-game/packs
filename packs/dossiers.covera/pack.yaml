@@ -1,0 +1,15 @@
+id: dossiers.covera
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.covera-world]
+title:
+  fr: "Dossier 01 : le script de confiance"
+  en: "Case file 01: the trusted script"
+summary:
+  fr: "Inspiré d'une attaque réelle de 2021 contre la chaîne logicielle. Sous mandat, tu rejoues le chemin de l'attaquant chez un éditeur fictif, puis tu fermes la porte. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by a real software supply chain attack of 2021. Under mandate, you replay the attacker's path at a fictional vendor, then you close the door. The last mission tells the facts, with sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense]

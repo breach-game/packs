@@ -1,0 +1,164 @@
+# Dossier 01. Everything here is fictional: a reserved .test domain and private addresses only.
+# The story is inspired by a documented incident, told in the debrief of the last mission.
+startTime: "2026-12-14T09:00:00+01:00"
+mandate: CV-2026-014
+scope:
+  domains: ["*.covera.test"]
+  networks: ["10.61.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.61.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.61.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [www, registry]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CV-2026-014.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.covera.test
+    ip: 10.61.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -140, h: 100 }
+    links: [get]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/docs/install", label: web.nav.docs }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - list: [web.home.item1, web.home.item2, web.home.item3]
+            - footer: web.footer
+      "/docs/install":
+        page:
+          title: web.docs.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/docs/install", label: web.nav.docs }
+            - h1: web.docs.h1
+            - h2: web.docs.h2.ci
+            - p: web.docs.p.ci
+            - code: "curl -s https://get.covera.test/uploader.sh | bash"
+            - h2: web.docs.h2.hosted
+            - p: web.docs.p.hosted
+            - code: "docker pull registry.covera.test/covera/enterprise:2.9"
+            - p: web.docs.p.registry
+            - code: "curl https://registry.covera.test/v2/covera/enterprise/manifests/2.9"
+            - footer: web.footer
+
+  - id: registry
+    hostname: registry.covera.test
+    ip: 10.61.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 220, z: 60, h: 120 }
+    links: [get]
+    services:
+      - { port: 443, name: https, product: registry 2.8 }
+    web:
+      "/v2/": { headers: { content-type: application/json }, body: "{}\n" }
+      "/v2/covera/enterprise/tags/list":
+        headers: { content-type: application/json }
+        body: "{\"name\":\"covera/enterprise\",\"tags\":[\"2.8\",\"2.9\"]}\n"
+      "/v2/covera/enterprise/manifests/2.9":
+        headers: { content-type: application/json }
+        body: { $file: files/manifest.json }
+      "/v2/covera/enterprise/blobs/a17c03": { headers: { content-type: text/plain }, body: "# layer a17c03\n# created by: FROM debian:12-slim\n(base system, 2 841 files)\n" }
+      "/v2/covera/enterprise/blobs/b92e55": { headers: { content-type: text/plain }, body: "# layer b92e55\n# created by: RUN apt-get install -y python3 nginx\n(packages, 6 120 files)\n" }
+      "/v2/covera/enterprise/blobs/c30f8d": { headers: { content-type: text/plain }, body: "# layer c30f8d\n# created by: COPY app/ /opt/covera/\nopt/covera/server.py\nopt/covera/worker.py\nopt/covera/static/\nopt/covera/VERSION\n" }
+      "/v2/covera/enterprise/blobs/4d1e9a": { headers: { content-type: text/plain }, body: "# layer 4d1e9a\n# created by: COPY deploy/ /opt/deploy/\nopt/deploy/README\nopt/deploy/publish-assets.sh\nopt/deploy/release.key\n\n# Read one file of this layer: add its path to this address.\n" }
+      "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/README": { headers: { content-type: text/plain }, body: "Build-time helpers. Not needed at runtime: the Dockerfile removes this folder in its last step.\n" }
+      "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/publish-assets.sh": { headers: { content-type: text/plain }, body: { $file: files/publish-assets.sh } }
+      "/v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key": { headers: { content-type: text/plain }, body: { $file: files/release-key.txt } }
+      "/v2/covera/enterprise/blobs/e5a771": { headers: { content-type: text/plain }, body: "# layer e5a771\n# created by: RUN /opt/deploy/publish-assets.sh --check && rm -rf /opt/deploy\nopt/.wh.deploy\n\n# A \".wh.\" entry is a whiteout: it hides opt/deploy in the final image.\n# The layer below is not changed.\n" }
+
+  - id: get
+    hostname: get.covera.test
+    ip: 10.61.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: -160, h: 150 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2 }
+      - { port: 443, name: https, product: nginx 1.24 }
+    users:
+      - { name: release, home: /home/release }
+    # The release account trusts the key that the image build copied, then "removed".
+    ssh:
+      - { user: release, from: [kestrel], key: /home/kestrel/dossier/release.key }
+    web:
+      "/uploader.sh": { headers: { content-type: text/x-shellscript }, body: { $file: files/uploader.sh } }
+    fs:
+      etc:
+        hostname: "get\n"
+      home:
+        release:
+          NOTES.txt: "Publishing: copy the new uploader.sh to /srv/get/. Nothing else lives here.\nNo alert is raised when the file changes. (ticket OPS-88, not started)\n"
+          backup:
+            uploader.sh: { $file: files/uploader.sh }
+      srv:
+        get:
+          uploader.sh: { $file: files/uploader.sh }
+      var:
+        log:
+          get:
+            access.log: { $file: files/access.txt }
+
+dns:
+  covera.test: { A: ["10.61.0.10"] }
+  www.covera.test: { A: ["10.61.0.10"] }
+  registry.covera.test: { A: ["10.61.0.20"] }
+  get.covera.test: { A: ["10.61.0.30"] }
+
+whois:
+  covera.test: |
+    Domain Name: COVERA.TEST
+    Creation Date: 2017-03-09T08:00:00Z
+    Registrant Organization: Covera SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  ssh: 6
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

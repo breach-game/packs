@@ -1,0 +1,6 @@
+# Closing the door: the shortest path, replayed by CI in every language.
+answer b
+cat atelier/site.conf
+sed -i "s/autoindex on/autoindex off/" atelier/site.conf
+sed -i "s/# kept just in case/deny all;/" atelier/site.conf
+verify

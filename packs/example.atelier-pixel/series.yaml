@@ -1,0 +1,4 @@
+# The missions of the series, in playing order. They share one world and one save.
+missions:
+  - example.forgotten-backup
+  - example.closing-the-door

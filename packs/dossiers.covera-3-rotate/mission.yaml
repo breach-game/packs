@@ -1,0 +1,84 @@
+order: 2
+stage: defense
+briefing: c3.briefing
+
+# What Covera's CTO sent: the image recipe, and the CI example their documentation gives customers.
+files:
+  dossier/Dockerfile: "FROM debian:12-slim\nRUN apt-get install -y python3 nginx\nCOPY app/ /opt/covera/\nCOPY deploy/ /opt/deploy/\nRUN /opt/deploy/publish-assets.sh --check && rm -rf /opt/deploy\nCMD [\"python3\", \"/opt/covera/server.py\"]\n"
+  dossier/ci-example.yml: "test:\n  script:\n    - make test\n    - curl -sO https://get.covera.test/uploader.sh\n    # TODO check the file before running it\n    - bash uploader.sh\n"
+  dossier/uploader.sha256: "5f1c0e7a9b3d2468ace013579bdf02468ace13579bdf0246a8c1e3f5b7d9e0c2  uploader.sh\n"
+
+objectives:
+  - { id: first, text: c3.obj.first }
+  - { id: image, text: c3.obj.image }
+  - { id: pin, text: c3.obj.pin }
+
+questions:
+  - id: first
+    text: c3.q.first
+    objective: first
+    correct: rotate
+    options:
+      - { id: rebuild, text: c3.q.first.rebuild, why: c3.q.first.rebuild.why }
+      - { id: quiet, text: c3.q.first.quiet, why: c3.q.first.quiet.why }
+      - { id: rotate, text: c3.q.first.rotate }
+
+checks:
+  - id: nokey
+    text: c3.check.nokey
+    if: { file: "~/dossier/Dockerfile", lacks: "deploy" }
+    objective: image
+  - id: builds
+    text: c3.check.builds
+    if: { file: "~/dossier/Dockerfile", contains: "COPY app/ /opt/covera/" }
+    objective: image
+  - id: verified
+    text: c3.check.verified
+    if: { file: "~/dossier/ci-example.yml", contains: "sha256sum -c uploader.sha256" }
+    objective: pin
+  - id: runs
+    text: c3.check.runs
+    if: { file: "~/dossier/ci-example.yml", contains: "bash uploader.sh" }
+    objective: pin
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c3.ada.brief
+      - ada.ask: first
+  - on: { event: ObjectiveCompleted, objective: first }
+    do:
+      - ada.say: c3.ada.rotated
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: image }, { objective: pin }] } }
+    once: false
+    do:
+      - ada.say: c3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: image }
+    do:
+      - ada.say: c3.ada.image
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c3.ada.done
+
+guide:
+  first: c3.ada.answer
+  image: c3.ada.dockerfile
+  pin: c3.ada.pin
+
+hints:
+  first: [c3.hint.first.1]
+  image: [c3.hint.image.1, c3.hint.image.2]
+  pin: [c3.hint.pin.1, c3.hint.pin.2]
+
+debrief:
+  title: c3.debrief.title
+  lesson: c3.debrief.lesson
+  points: [c3.debrief.p1, c3.debrief.p2, c3.debrief.p3, c3.debrief.p4]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"
+  facts:
+    title: c3.facts.title
+    points: [c3.facts.p1, c3.facts.p2, c3.facts.p3, c3.facts.p4, c3.facts.p5, c3.facts.p6]
+    sources:
+      - { label: "Codecov, Bash Uploader security update (15 April 2021)", url: "https://about.codecov.io/security-update/" }
+      - { label: "Codecov, post-mortem (2021)", url: "https://about.codecov.io/apr-2021-post-mortem/" }

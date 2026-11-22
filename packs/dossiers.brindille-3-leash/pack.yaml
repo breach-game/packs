@@ -1,0 +1,15 @@
+id: dossiers.brindille-3-leash
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.brindille-world]
+title:
+  fr: "Dossier 02 · 3. La laisse"
+  en: "Case file 02 · 3. The leash"
+summary:
+  fr: "Côté défense : ce que l'agent peut atteindre, et ce qu'il peut faire sans demander. Puis la recherche de 2025 d'où vient ce dossier."
+  en: "Defence side: what the agent can reach, and what it may do without asking. Then the 2025 research this case file comes from."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, llm]

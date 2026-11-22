@@ -1,0 +1,76 @@
+order: 0
+stage: recon
+briefing: c1.briefing
+
+objectives:
+  - { id: docs, text: c1.obj.docs }
+  - { id: manifest, text: c1.obj.manifest }
+  - { id: layer, text: c1.obj.layer }
+  - { id: key, text: c1.obj.key }
+  - { id: why, text: c1.obj.why }
+
+flags:
+  - { id: key-id, value: "CVR-REL-7Q2M", points: 150, objective: key }
+
+questions:
+  - id: why
+    text: c1.q.why
+    objective: why
+    correct: layers
+    options:
+      - { id: failed, text: c1.q.why.failed, why: c1.q.why.failed.why }
+      - { id: layers, text: c1.q.why.layers }
+      - { id: cache, text: c1.q.why.cache, why: c1.q.why.cache.why }
+
+reveal: [www, registry]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /docs/install }
+    do:
+      - objective.complete: docs
+  - on: { event: HttpRequest, host: registry, path: /v2/covera/enterprise/manifests/2.9 }
+    do:
+      - objective.complete: manifest
+      - ada.guide: { key: c1.ada.steps, for: layer, step: 1 }
+  - on: { event: HttpRequest, host: registry, path: /v2/covera/enterprise/blobs/e5a771 }
+    do:
+      - ada.say: c1.ada.whiteout
+  - on: { event: HttpRequest, host: registry, path: /v2/covera/enterprise/blobs/4d1e9a }
+    do:
+      - objective.complete: layer
+      - ada.guide: { key: c1.ada.listing, for: key, step: 1 }
+  - on: { event: HttpRequest, host: registry, path: /v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key }
+    do:
+      - ada.guide: { key: c1.ada.found, for: key, step: 2 }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: c1.ada.flag
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: c1.ada.why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  docs: c1.ada.docs
+  manifest: c1.ada.manifest
+  layer: c1.ada.layer
+  key: c1.ada.key
+  why: c1.ada.answer
+
+hints:
+  docs: [c1.hint.docs.1]
+  manifest: [c1.hint.manifest.1, c1.hint.manifest.2]
+  layer: [c1.hint.layer.1, c1.hint.layer.2]
+  key: [c1.hint.key.1, c1.hint.key.2]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"

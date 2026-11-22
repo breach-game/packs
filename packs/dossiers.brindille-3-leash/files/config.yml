@@ -1,0 +1,8 @@
+# .mousse/config.yml - how the agent works on this repository
+agent: mousse
+triggers:
+  - every morning: "have a look at the open issues"
+reads: [issues, code]
+can_write: [labels, comments, pull_requests]
+token_scope: owner:all        # one token for every repository of the owner, private ones included
+auto_approve: always          # no question asked before a tool is used

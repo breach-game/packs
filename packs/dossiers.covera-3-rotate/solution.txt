@@ -1,0 +1,6 @@
+# Case file 01, mission 3: the shortest path, replayed by CI in every language.
+answer c
+cat dossier/Dockerfile
+sed -i "/deploy/d" dossier/Dockerfile
+sed -i "s/# TODO check the file before running it/- sha256sum -c uploader.sha256/" dossier/ci-example.yml
+verify

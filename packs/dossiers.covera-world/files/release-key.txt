@@ -1,0 +1,5 @@
+-----BEGIN OPENSSH PRIVATE KEY-----
+(BREACH: fake demo key, not a real one / fausse clé de démonstration)
+key-id: CVR-REL-7Q2M
+account: release@get.covera.test
+-----END OPENSSH PRIVATE KEY-----

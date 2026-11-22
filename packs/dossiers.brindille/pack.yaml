@@ -1,0 +1,15 @@
+id: dossiers.brindille
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.brindille-world]
+title:
+  fr: "Dossier 02 : l'agent trop serviable"
+  en: "Case file 02: the agent that helps too much"
+summary:
+  fr: "Inspiré d'une recherche en sécurité publiée en 2025 sur les agents IA branchés à une forge. Sous mandat, tu fais sortir un fichier témoin d'un dépôt privé avec un simple ticket, puis tu tiens l'agent en laisse. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by security research published in 2025 on AI agents connected to a code forge. Under mandate, you get a canary file out of a private repository with a plain issue, then you put the agent on a leash. The last mission tells the facts, with sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense]
