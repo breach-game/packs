@@ -47,6 +47,10 @@ CI also runs every night against the latest game engine, so a pack that a change
 
 The published site contains only data: `index.json`, `index.json.sig` and the `.breachpack` files.
 
+## Community
+
+Everyone taking part follows the [Code of Conduct](https://github.com/breach-game/.github/blob/main/CODE_OF_CONDUCT.md). A pack that targets real people or systems is removed from the catalogue at once. Security problems go through [private reporting](https://github.com/breach-game/packs/security/advisories/new), never a public issue.
+
 ## Licence
 
 MIT, see [LICENSE](LICENSE). By opening a pull request you agree that your pack is published under it.
