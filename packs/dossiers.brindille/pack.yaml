@@ -1,5 +1,5 @@
 id: dossiers.brindille
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.5 <1"
 kind: series
 requires: [dossiers.brindille-world]
