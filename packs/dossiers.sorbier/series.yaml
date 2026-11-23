@@ -1,0 +1,5 @@
+# Case file 06, in playing order: the slowdown, the archive, the way back.
+missions:
+  - dossiers.sorbier-1-slow
+  - dossiers.sorbier-2-archive
+  - dossiers.sorbier-3-source

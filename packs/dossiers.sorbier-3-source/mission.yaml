@@ -1,0 +1,74 @@
+order: 2
+stage: response
+briefing: s3.briefing
+
+# The build recipe of the package, as Sorbier's packager sent it.
+files:
+  dossier/build.yml: { $file: files/build.yml }
+
+objectives:
+  - { id: first, text: s3.obj.first }
+  - { id: back, text: s3.obj.back }
+  - { id: source, text: s3.obj.source }
+
+questions:
+  - id: first
+    text: s3.q.first
+    objective: first
+    correct: back
+    options:
+      - { id: wait, text: s3.q.first.wait, why: s3.q.first.wait.why }
+      - { id: back, text: s3.q.first.back }
+      - { id: quiet, text: s3.q.first.quiet, why: s3.q.first.quiet.why }
+
+checks:
+  - id: back
+    text: s3.check.back
+    if: { all: [{ file: "~/dossier/build.yml", lacks: "version: 5.6.1" }, { file: "~/dossier/build.yml", contains: "version: 5.4.6" }] }
+    objective: back
+  - id: source
+    text: s3.check.source
+    if: { all: [{ file: "~/dossier/build.yml", lacks: "source: release-archive" }, { file: "~/dossier/build.yml", contains: "source: git-tag" }] }
+    objective: source
+  - id: works
+    text: s3.check.works
+    if: { all: [{ file: "~/dossier/build.yml", contains: "run_tests: on" }, { file: "~/dossier/build.yml", contains: "package: libplume" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s3.ada.brief
+      - ada.ask: first
+  - on: { event: ObjectiveCompleted, objective: first }
+    do:
+      - ada.say: s3.ada.first
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: back }, { objective: source }] } }
+    once: false
+    do:
+      - ada.say: s3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s3.ada.done
+
+guide:
+  first: s3.ada.answer
+  back: s3.ada.g.back
+  source: s3.ada.g.source
+
+hints:
+  first: [s3.hint.first.1]
+  back: [s3.hint.back.1, s3.hint.back.2]
+  source: [s3.hint.source.1, s3.hint.source.2]
+
+debrief:
+  title: s3.debrief.title
+  lesson: s3.debrief.lesson
+  points: [s3.debrief.p1, s3.debrief.p2, s3.debrief.p3, s3.debrief.p4]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"
+  facts:
+    title: s3.facts.title
+    points: [s3.facts.p1, s3.facts.p2, s3.facts.p3, s3.facts.p4, s3.facts.p5, s3.facts.p6, s3.facts.p7]
+    sources:
+      - { label: "oss-security mailing list, backdoor in upstream xz/liblzma leading to ssh server compromise (29 March 2024)", url: "https://www.openwall.com/lists/oss-security/2024/03/29/4" }
+      - { label: "Wikipedia, XZ Utils backdoor", url: "https://en.wikipedia.org/wiki/XZ_Utils_backdoor" }

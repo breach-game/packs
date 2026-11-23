@@ -1,0 +1,15 @@
+id: dossiers.sorbier-3-source
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.sorbier-world]
+title:
+  fr: "Dossier 06 · 3. Revenir en arrière"
+  en: "Case file 06 · 3. Going back"
+summary:
+  fr: "Côté défense : revenir à la dernière version sûre et construire depuis la source publique. Puis l'incident réel de 2024."
+  en: "Defence side: go back to the last safe version and build from the public source. Then the real incident of 2024."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, supply]

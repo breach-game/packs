@@ -1,0 +1,15 @@
+id: dossiers.pinson-1-pretext
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.pinson-world]
+title:
+  fr: "Dossier 03 · 1. Le bon prétexte"
+  en: "Case file 03 · 1. The right pretext"
+summary:
+  fr: "Avant de décrocher le téléphone, tu lis ce que Pinson publie sur lui-même. Tout ce qu'il faut pour être cru s'y trouve."
+  en: "Before picking up the phone, you read what Pinson publishes about itself. Everything you need to be believed is there."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, social]

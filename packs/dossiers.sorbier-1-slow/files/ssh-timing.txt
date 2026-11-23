@@ -1,0 +1,9 @@
+# Sorbier build farm - time of one ssh login, measured every morning
+date        image     login
+2027-02-07  unstable  0.30s
+2027-02-08  unstable  0.31s
+2027-02-09  unstable  0.30s
+2027-02-10  unstable  0.82s
+2027-02-11  unstable  0.81s
+2027-02-12  unstable  0.83s
+# stable image, same mornings: 0.30s

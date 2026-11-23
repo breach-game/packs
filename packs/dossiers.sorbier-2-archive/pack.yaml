@@ -1,0 +1,15 @@
+id: dossiers.sorbier-2-archive
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.sorbier-world]
+title:
+  fr: "Dossier 06 · 2. Ce qui n'est pas dans le dépôt"
+  en: "Case file 06 · 2. What is not in the repository"
+summary:
+  fr: "Le code public est propre. L'archive publiée, elle, contient une ligne de plus. Tu la trouves, puis tu regardes qui l'a mise là."
+  en: "The public code is clean. The published archive has one more line. You find it, then you look at who put it there."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, supply]

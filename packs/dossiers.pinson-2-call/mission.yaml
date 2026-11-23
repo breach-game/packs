@@ -1,0 +1,78 @@
+order: 1
+stage: social
+briefing: p2.briefing
+
+objectives:
+  - { id: call, text: p2.obj.call }
+  - { id: hook, text: p2.obj.hook }
+  - { id: marker, text: p2.obj.marker }
+  - { id: what, text: p2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{pinson-voliere-9c2e}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: p2.q.what
+    objective: what
+    correct: trust
+    options:
+      - { id: malware, text: p2.q.what.malware, why: p2.q.what.malware.why }
+      - { id: guess, text: p2.q.what.guess, why: p2.q.what.guess.why }
+      - { id: trust, text: p2.q.what.trust }
+
+reveal: [www, ligne, voliere]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: ChatReply, npc: lison }
+    do:
+      - objective.complete: call
+  - on: { event: ChatReply, npc: lison, intent: fallback }
+    do:
+      - ada.guide: { key: p2.ada.who, for: hook, step: 1 }
+  - on: { event: ChatReply, npc: lison, intent: { in: [desk, vpn] } }
+    do:
+      - ada.guide: { key: p2.ada.half, for: hook, step: 2 }
+  - on: { event: ChatReply, npc: lison, intent: password }
+    do:
+      - noise.add: { points: 10, as: p2.soc.password }
+      - ada.say: p2.ada.password
+  - on: { event: ChatReply, npc: lison, intent: prize }
+    do:
+      - noise.add: { points: 10, as: p2.soc.scam }
+      - ada.say: p2.ada.scam
+  - on: { event: ChatReply, npc: lison, intent: hooked }
+    do:
+      - objective.complete: hook
+      - noise.add: { points: 6, as: p2.soc.login }
+      - ada.say: p2.ada.hooked
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: p2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: p2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  call: p2.ada.g.call
+  hook: p2.ada.g.hook
+  marker: p2.ada.g.marker
+  what: p2.ada.answer
+
+hints:
+  call: [p2.hint.call.1]
+  hook: [p2.hint.hook.1, p2.hint.hook.2, p2.hint.hook.3]
+  marker: [p2.hint.marker.1]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "MITRE ATT&CK · T1566.004 Spearphishing Voice"

@@ -1,0 +1,5 @@
+# Packages upgraded on the unstable image
+2027-02-06  tzdata     2026g -> 2027a
+2027-02-08  fonts-lune 2.1 -> 2.2
+2027-02-10  libplume   5.6.0 -> 5.6.1
+2027-02-11  manpages   6.9 -> 6.10

@@ -1,0 +1,11 @@
+# libplume - public history of the repository, newest first
+2027-02-09  co-maintainer  Release 5.6.1 (archive uploaded by: co-maintainer)
+2027-01-24  co-maintainer  Release 5.6.0 (archive uploaded by: co-maintainer)
+2027-01-23  co-maintainer  tests: add bad-header.plz and good-large.plz
+2026-11-02  co-maintainer  Take over release signing from the founder
+2026-03-15  founder        Give commit rights to the co-maintainer
+2025-06-30  co-maintainer  Fix a typo in the manual
+2025-02-11  co-maintainer  First patch: a small fix for the build on old systems
+2024-12-01  founder        Release 5.4.6 (archive uploaded by: founder)
+# mailing list, 2025-2026: several new accounts complain that the founder
+# is too slow, and ask him to hand the project to someone more active.

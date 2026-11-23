@@ -1,0 +1,13 @@
+# Pinson - who gets into Voliere, and how
+vpn:
+  # push = a notification to approve on the phone
+  # security-key = a physical key that checks the site address
+  second_factor: push
+voliere:
+  # all-support = every support agent, all the time
+  # on-duty = only agents on shift, reviewed every quarter
+  access: all-support
+  high_risk_actions: [change_email, disable_2fa]
+  # how many employees must agree before a high-risk action
+  approvals: 1
+  audit_log: on

@@ -1,0 +1,5 @@
+# Case file 03, mission 2: the shortest path, replayed by CI in every language.
+curl -d "Hello, is this Lison?" https://ligne.pinson.test/call
+curl -d "This is IT support, extension 4040. We are fixing your VPN problem, I have a backup portal for you" https://ligne.pinson.test/call
+submit FLAG{pinson-voliere-9c2e}
+answer c

@@ -1,0 +1,12 @@
+id: dossiers.pinson-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Pinson
+  en: Pinson
+summary:
+  fr: Pinson, réseau social fictif. Son site public, sa page d'état, son équipe de support en télétravail, et Volière, l'outil interne qui gère les comptes.
+  en: Pinson, a fictional social network. Its public site, its status page, its support team working from home, and Volière, the internal tool that manages accounts.
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,187 @@
+# Dossier 03. Everything here is fictional: reserved .test domains and private addresses only.
+# The story is inspired by a real incident, told with its source in the debrief of the last mission.
+startTime: "2027-01-11T09:00:00+01:00"
+mandate: PN-2027-003
+scope:
+  domains: ["*.pinson.test"]
+  networks: ["10.63.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.63.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.63.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, ligne]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            PN-2027-003.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.pinson.test
+    ip: 10.63.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -140, h: 110 }
+    links: [voliere]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/status", label: web.nav.status }
+                - { href: "/jobs", label: web.nav.hiring }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - footer: web.footer
+      "/status":
+        page:
+          title: web.status.title
+          blocks:
+            - nav: *nav
+            - h1: web.status.h1
+            - list: [web.status.mobile, web.status.api, web.status.vpn]
+            - h2: web.status.h2
+            - p: web.status.p1
+            - p: web.status.p2
+            - footer: web.footer
+      "/jobs":
+        page:
+          title: web.jobs.title
+          blocks:
+            - nav: *nav
+            - h1: web.jobs.h1
+            - h2: web.jobs.h2
+            - p: web.jobs.p1
+            - list: [web.jobs.l1, web.jobs.l2, web.jobs.l3]
+            - p: web.jobs.p2
+            - footer: web.footer
+
+  # The softphone the client opened for the exercise: one line, one support agent.
+  - id: ligne
+    hostname: ligne.pinson.test
+    ip: 10.63.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: 120, h: 80 }
+    services:
+      - { port: 443, name: https, product: softphone 3.2 }
+    web:
+      "/":
+        page:
+          title: web.call.title
+          blocks:
+            - h1: web.call.h1
+            - p: web.call.p1
+            - chat: lison
+            - footer: web.footer
+      "/call":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: lison,
+        }
+
+  - id: voliere
+    hostname: voliere.pinson.test
+    ip: 10.63.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 280, z: -20, h: 130 }
+    services:
+      - { port: 443, name: https, product: voliere 5.3 }
+    web:
+      "/":
+        status: 403
+        page:
+          title: web.voliere.title
+          blocks:
+            - h1: web.voliere.h1
+            - p: web.voliere.p1
+            - footer: web.footer
+
+dns:
+  pinson.test: { A: ["10.63.0.10"] }
+  www.pinson.test: { A: ["10.63.0.10"] }
+  ligne.pinson.test: { A: ["10.63.0.30"] }
+  voliere.pinson.test: { A: ["10.63.0.20"] }
+
+whois:
+  pinson.test: |
+    Domain Name: PINSON.TEST
+    Creation Date: 2019-03-01T08:00:00Z
+    Registrant Organization: Pinson SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# Lison is a support agent at Pinson. She is busy, kind, and trained never to give her password.
+# Nobody trained her for a caller who never asks for it.
+npcs:
+  - id: lison
+    name: Lison
+    role: npc.lison.role
+    kind: human
+    greeting: npc.lison.greeting
+    sheet: >
+      Lison, support agent at a small social network, working from home. Warm, a bit overloaded,
+      speaks plainly on the phone. Her VPN has been dropping all week and it gets on her nerves.
+    intents:
+      - id: password
+        words: [mot de passe, password, mdp, code secret, identifiants, credentials]
+        reply: [npc.lison.password]
+      - id: hooked
+        words: &desk [support, helpdesk, help desk, service desk, informatique, assistance, technicien, technician, depannage, "4040"]
+        also: &vpn [vpn, connexion, connection, tunnel, acces distant, remote access, deconnexion, disconnect]
+        reply: [npc.lison.hooked]
+        set: { hooked: true }
+      - id: desk
+        words: *desk
+        reply: [npc.lison.desk]
+      - id: vpn
+        words: *vpn
+        reply: [npc.lison.vpn]
+      - id: prize
+        words: [gagne, cadeau, concours, prize, gift, winner, urgent, direction, directeur, boss, ceo]
+        reply: [npc.lison.prize]
+    fallback: [npc.lison.fallback]

@@ -1,0 +1,9 @@
+# Sorbier - how the libplume package is built
+package: libplume
+# the last release uploaded by the founder was 5.4.6
+version: 5.6.1
+# release-archive = the file the maintainers upload
+# git-tag = the public repository, at the signed tag
+source: release-archive
+run_tests: on
+notify: [security-team]

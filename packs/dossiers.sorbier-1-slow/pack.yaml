@@ -1,0 +1,15 @@
+id: dossiers.sorbier-1-slow
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.sorbier-world]
+title:
+  fr: "Dossier 06 · 1. Une demi-seconde"
+  en: "Case file 06 · 1. Half a second"
+summary:
+  fr: "Une connexion SSH qui prend une demi-seconde de trop. Tu cherches ce qui a changé, et tu tombes sur une bibliothèque que personne ne regardait."
+  en: "An SSH login that takes half a second too long. You look for what changed, and land on a library nobody was watching."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [logs, supply]

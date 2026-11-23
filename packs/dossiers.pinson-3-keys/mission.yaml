@@ -1,0 +1,80 @@
+order: 2
+stage: defense
+briefing: p3.briefing
+
+# Pinson's access settings, as the security lead sent them.
+files:
+  dossier/access.yml: { $file: files/access.yml }
+
+objectives:
+  - { id: idea, text: p3.obj.idea }
+  - { id: key, text: p3.obj.key }
+  - { id: few, text: p3.obj.few }
+  - { id: two, text: p3.obj.two }
+
+questions:
+  - id: idea
+    text: p3.q.idea
+    objective: idea
+    correct: both
+    options:
+      - { id: train, text: p3.q.idea.train, why: p3.q.idea.train.why }
+      - { id: both, text: p3.q.idea.both }
+      - { id: phone, text: p3.q.idea.phone, why: p3.q.idea.phone.why }
+
+checks:
+  - id: key
+    text: p3.check.key
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "second_factor: push" }, { file: "~/dossier/access.yml", contains: "second_factor: security-key" }] }
+    objective: key
+  - id: few
+    text: p3.check.few
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "access: all-support" }, { file: "~/dossier/access.yml", contains: "access: on-duty" }] }
+    objective: few
+  - id: two
+    text: p3.check.two
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "approvals: 1" }, { file: "~/dossier/access.yml", contains: "approvals: 2" }] }
+    objective: two
+  - id: works
+    text: p3.check.works
+    if: { all: [{ file: "~/dossier/access.yml", contains: "high_risk_actions: [change_email, disable_2fa]" }, { file: "~/dossier/access.yml", contains: "audit_log: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p3.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: p3.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: key }, { objective: few }, { objective: two }] } }
+    once: false
+    do:
+      - ada.say: p3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p3.ada.done
+
+guide:
+  idea: p3.ada.answer
+  key: p3.ada.g.key
+  few: p3.ada.g.few
+  two: p3.ada.g.two
+
+hints:
+  idea: [p3.hint.idea.1]
+  key: [p3.hint.key.1, p3.hint.key.2]
+  few: [p3.hint.few.1, p3.hint.few.2]
+  two: [p3.hint.two.1, p3.hint.two.2]
+
+debrief:
+  title: p3.debrief.title
+  lesson: p3.debrief.lesson
+  points: [p3.debrief.p1, p3.debrief.p2, p3.debrief.p3, p3.debrief.p4]
+  reference: "MITRE ATT&CK · M1032 Multi-factor Authentication"
+  facts:
+    title: p3.facts.title
+    points: [p3.facts.p1, p3.facts.p2, p3.facts.p3, p3.facts.p4, p3.facts.p5, p3.facts.p6, p3.facts.p7]
+    sources:
+      - { label: "New York State Department of Financial Services, Twitter Investigation Report (October 2020)", url: "https://www.dfs.ny.gov/Twitter_Report" }

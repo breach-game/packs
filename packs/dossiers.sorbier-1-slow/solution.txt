@@ -1,0 +1,7 @@
+# Case file 06, mission 1: the shortest path, replayed by CI in every language.
+cat dossier/ssh-timing.txt
+cat dossier/updates.txt
+submit libplume
+cat dossier/sshd-libs.txt
+answer b
+answer b

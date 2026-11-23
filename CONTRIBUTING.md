@@ -156,7 +156,8 @@ A mission can override any entry with its own `noise` table.
 
 ```yaml
 order: 0                  # position among the missions of the same world
-stage: recon              # attack stage, shown in the notebook
+stage: recon              # shown in the notebook; translated ones: cadrage, recon, social, access, injection, indirect,
+                          # agency, lateral, escalation, supply, cloud, analysis, defense, response
 briefing: fb.briefing
 
 objectives:

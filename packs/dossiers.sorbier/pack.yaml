@@ -1,0 +1,15 @@
+id: dossiers.sorbier
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.sorbier-world]
+title:
+  fr: "Dossier 06 : une demi-seconde de trop"
+  en: "Case file 06: half a second too long"
+summary:
+  fr: "Inspiré de la porte dérobée découverte en 2024 dans une bibliothèque de compression présente partout. Tu mènes l'enquête : une lenteur, une bibliothèque, une archive qui ne correspond pas au dépôt, puis le retour en arrière. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the backdoor found in 2024 in a compression library present everywhere. You run the investigation: a slowdown, a library, an archive that does not match the repository, then the way back. The last mission tells the facts, with sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, supply, defense]
