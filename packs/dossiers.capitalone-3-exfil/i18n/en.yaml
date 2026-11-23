@@ -1,0 +1,8 @@
+c3.briefing: "The final step is to use the stolen keys to exfiltrate data from the S3 buckets."
+c3.obj.sync: "Exfiltrate data from the `customer-data-capone` bucket."
+c3.ada.brief: "Use the command `aws s3 sync s3://customer-data-capone .` to download sensitive files."
+c3.ada.sync: "Data retrieved. Over 100 million customer records were compromised in the actual attack."
+c3.debrief.title: "Least Privilege: Don't give away the house keys"
+c3.debrief.lesson: "A WAF server should NEVER have had read permissions on buckets containing customer data."
+c3.debrief.p1: "Strictly apply the principle of least privilege to IAM roles."
+c3.debrief.p2: "Encrypt sensitive data with separately managed keys (KMS)."

@@ -1,0 +1,8 @@
+c2.briefing: "Maintenant que nous avons accès au service de métadonnées, nous devons extraire les identifiants temporaires du rôle IAM."
+c2.obj.metadata: "Extraire le AccessKeyId depuis les métadonnées AWS."
+c2.ada.brief: "Explore l'URL `http://169.254.169.254/latest/meta-data/iam/security-credentials/WAF-Role` pour trouver la clé."
+c2.ada.flag: "Bien joué. Cette clé nous donne les mêmes droits que le serveur WAF dans le cloud d'Amazon."
+c2.debrief.title: "Métadonnées : Le talon d'Achille du Cloud"
+c2.debrief.lesson: "Le service de métadonnées (IMDSv1) est une cible de choix car il fournit des jetons d'accès sans authentification à quiconque peut l'interroger localement."
+c2.debrief.p1: "Forcer l'utilisation de IMDSv2 qui nécessite un jeton de session (PUT)."
+c2.debrief.p2: "Limiter les sauts réseau (hop limit) pour empêcher les requêtes relayées."

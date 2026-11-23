@@ -1,0 +1,8 @@
+c1.briefing: "Nous devons rejouer l'attaque de 2019 contre Capital One. La première étape consiste à tester le WAF pour voir s'il est vulnérable à une SSRF."
+c1.obj.ssrf: "Atteindre le service de métadonnées interne via le WAF."
+c1.ada.brief: "Utilise la commande `curl` pour interroger le WAF sur `waf.internal/proxy?url=...` et essaie d'atteindre l'adresse locale `169.254.169.254`."
+c1.ada.ssrf: "Parfait ! Le WAF a relayé ta requête. Nous avons accès au service de métadonnées."
+c1.debrief.title: "SSRF : Le serveur comme complice"
+c1.debrief.lesson: "Une SSRF permet à un attaquant de forcer le serveur à effectuer des requêtes vers des ressources internes normalement inaccessibles."
+c1.debrief.p1: "Valider et filtrer strictement les URLs fournies par l'utilisateur."
+c1.debrief.p2: "Désactiver les services de métadonnées non nécessaires ou passer à IMDSv2."

@@ -1,0 +1,8 @@
+c3.briefing: "La dernière étape consiste à utiliser les clés volées pour exfiltrer les données des buckets S3."
+c3.obj.sync: "Exfiltrer les données du bucket `customer-data-capone`."
+c3.ada.brief: "Utilise la commande `aws s3 sync s3://customer-data-capone .` pour télécharger les fichiers sensibles."
+c3.ada.sync: "Données récupérées. Plus de 100 millions de dossiers clients ont été compromis dans l'attaque réelle."
+c3.debrief.title: "Moindre Privilège : Ne donnez pas les clés de la maison"
+c3.debrief.lesson: "Un serveur WAF n'aurait JAMAIS dû avoir les droits de lecture sur les buckets contenant les données des clients."
+c3.debrief.p1: "Appliquer scrupuleusement le principe du moindre privilège sur les rôles IAM."
+c3.debrief.p2: "Chiffrer les données sensibles avec des clés gérées séparément (KMS)."

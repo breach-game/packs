@@ -1,0 +1,22 @@
+id: dossiers.capitalone-2-metadata
+name: "Mission 2 : Le vol d'identité"
+difficulty: 2
+skills: [cloud, reconnaissance]
+requires: dossiers.pinson-world
+briefing: c2.briefing
+objectives:
+  - { id: metadata, text: c2.obj.metadata }
+flags:
+  - { id: secret_key, value: "AKIA_CAPITAL_ONE_EXAMPLE_KEY", points: 100, objective: metadata }
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: c2.ada.flag
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2]
+  reference: "AWS Security: IMDSv2"

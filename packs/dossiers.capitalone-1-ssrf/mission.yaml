@@ -1,0 +1,21 @@
+id: dossiers.capitalone-1-ssrf
+name: "Mission 1 : Le proxy trop bavard"
+difficulty: 2
+skills: [web, ssrf]
+requires: dossiers.pinson-world
+briefing: c1.briefing
+objectives:
+  - { id: ssrf, text: c1.obj.ssrf }
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: HttpRequest, host: waf.internal, path: /proxy, query: { url: "http://169.254.169.254" } }
+    do:
+      - objective.complete: ssrf
+      - ada.say: c1.ada.ssrf
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2]
+  reference: "OWASP A10:2021-Server-Side Request Forgery (SSRF)"

@@ -1,0 +1,8 @@
+c2.briefing: "Now that we have access to the metadata service, we must extract the temporary credentials for the IAM role."
+c2.obj.metadata: "Extract the AccessKeyId from AWS metadata."
+c2.ada.brief: "Explore the URL `http://169.254.169.254/latest/meta-data/iam/security-credentials/WAF-Role` to find the key."
+c2.ada.flag: "Well done. This key gives us the same rights as the WAF server in Amazon's cloud."
+c2.debrief.title: "Metadata: The Cloud's Achilles' Heel"
+c2.debrief.lesson: "The metadata service (IMDSv1) is a prime target because it provides access tokens without authentication to anyone who can query it locally."
+c2.debrief.p1: "Enforce the use of IMDSv2 which requires a session token (PUT)."
+c2.debrief.p2: "Limit network hops to prevent relayed requests."
