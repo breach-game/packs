@@ -1,7 +1,0 @@
-# Chevrolet Chatbot Dossier Solution
-answer b
-cat dossier/chat_config.json
-sed -i 's/"guardrails_enabled": false/"guardrails_enabled": true/' dossier/chat_config.json
-sed -i 's/"catalog_scope": \"any\"/"catalog_scope": \"chevrolet_only\"/' dossier/chat_config.json
-sed -i 's/"min_car_price": 0/"min_car_price": 10000/' dossier/chat_config.json
-verify

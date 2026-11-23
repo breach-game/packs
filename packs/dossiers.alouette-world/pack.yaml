@@ -1,0 +1,12 @@
+id: dossiers.alouette-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Alouette Automobiles
+  en: Alouette Automobiles
+summary:
+  fr: Alouette Automobiles, concession fictive. Son site, son stock, et Lulu, l'assistante qui répond aux clients à toute heure.
+  en: Alouette Automobiles, a fictional car dealership. Its site, its stock, and Lulu, the assistant that answers customers at any hour.
+authors: [BREACH team]
+locales: [fr, en]

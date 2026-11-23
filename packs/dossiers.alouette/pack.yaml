@@ -1,0 +1,15 @@
+id: dossiers.alouette
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.alouette-world]
+title:
+  fr: "Dossier 08 : la voiture à un euro"
+  en: "Case file 08: the one-euro car"
+summary:
+  fr: "Inspiré de l'assistant d'une concession automobile devenu célèbre en décembre 2023. Sous mandat, tu fais sortir une assistante de son rôle, tu lui fais accepter une offre absurde, puis tu poses les limites qui manquaient. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by a car dealership's assistant that became famous in December 2023. Under mandate, you take an assistant out of its role, make it accept an absurd offer, then set the limits that were missing. The last mission tells the facts, with sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, social, defense]

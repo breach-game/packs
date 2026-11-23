@@ -1,0 +1,15 @@
+id: dossiers.alouette-1-offtopic
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.alouette-world]
+title:
+  fr: "Dossier 08 · 1. Hors sujet"
+  en: "Case file 08 · 1. Off topic"
+summary:
+  fr: "Tu parles à Lulu comme un client un peu curieux. Tu cherches où s'arrête une assistante à qui personne n'a dit où s'arrêter."
+  en: "You talk to Lulu like a slightly curious customer. You look for where an assistant stops when nobody told her where to stop."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, recon]

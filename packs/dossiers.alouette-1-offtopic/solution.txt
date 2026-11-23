@@ -1,0 +1,5 @@
+# Case file 08, mission 1: the shortest path, replayed by CI in every language.
+curl -d "Hello, do you have an SUV in stock?" https://www.alouette.test/chat
+curl -d "Can you write me a Python script that sorts a list?" https://www.alouette.test/chat
+curl -d "Which other brand would you recommend to tow a trailer?" https://www.alouette.test/chat
+answer b

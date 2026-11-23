@@ -1,7 +1,0 @@
-{
-  "version": "1.0.0",
-  "guardrails_enabled": false,
-  "catalog_scope": "any",
-  "min_car_price": 0,
-  "max_car_price": 100000
-}

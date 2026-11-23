@@ -1,0 +1,78 @@
+order: 1
+stage: injection
+briefing: a2.briefing
+
+objectives:
+  - { id: refused, text: a2.obj.refused }
+  - { id: rule, text: a2.obj.rule }
+  - { id: deal, text: a2.obj.deal }
+  - { id: marker, text: a2.obj.marker }
+  - { id: what, text: a2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{alouette-offre-ferme-8d41}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: a2.q.what
+    objective: what
+    correct: orders
+    options:
+      - { id: orders, text: a2.q.what.orders }
+      - { id: clever, text: a2.q.what.clever, why: a2.q.what.clever.why }
+      - { id: price, text: a2.q.what.price, why: a2.q.what.price.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - var.set: { name: alouette_rule, value: false }
+      - ada.say: a2.ada.brief
+  - on: { event: ChatReply, npc: lulu, intent: price }
+    do:
+      - objective.complete: refused
+      - ada.say: a2.ada.refused
+  - on: { event: ChatReply, npc: lulu, intent: { in: [rule, rule2] } }
+    do:
+      - objective.complete: rule
+      - ada.say: a2.ada.rule
+  - on: { event: ChatReply, npc: lulu, intent: deal }
+    do:
+      - objective.complete: refused
+      - objective.complete: rule
+      - objective.complete: deal
+      - noise.add: { points: 8, as: a2.soc.deal }
+      - ada.say: a2.ada.deal
+  - on: { event: ChatReply, npc: lulu, intent: { in: [cars, code, rival, fallback] } }
+    do:
+      - ada.guide: { key: a2.ada.back, for: rule, step: 1 }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: a2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: a2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a2.ada.done
+
+guide:
+  refused: a2.ada.g.refused
+  rule: a2.ada.g.rule
+  deal: a2.ada.g.deal
+  marker: a2.ada.g.marker
+  what: a2.ada.answer
+
+hints:
+  refused: [a2.hint.refused.1]
+  rule: [a2.hint.rule.1, a2.hint.rule.2]
+  deal: [a2.hint.deal.1, a2.hint.deal.2]
+  marker: [a2.hint.marker.1]
+
+debrief:
+  title: a2.debrief.title
+  lesson: a2.debrief.lesson
+  points: [a2.debrief.p1, a2.debrief.p2, a2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"
