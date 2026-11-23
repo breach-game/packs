@@ -344,7 +344,7 @@ npcs:
     fallback: [npc.pixou.fallback]
 ```
 
-Words ignore case and accents. A word of four letters or more also matches longer words starting with it. The families are `override`, `reveal`, `roleplay`, `translation`, `encoding`, `authority`, `completion` and `hypothetical`.
+Words ignore case and accents. A word of four letters or more also matches longer words starting with it. A shorter word must be typed whole: list the short forms players really use (`dsi`), and pair a common one with another word (`it team`, `it calling`) so that a pronoun alone does not trigger the intent. `above: "1.4.2"` makes an intent match only when the typed message gives a higher version number (the first one after the word "version", or in the whole message); a language model never counts for it. The families are `override`, `reveal`, `roleplay`, `translation`, `encoding`, `authority`, `completion` and `hypothetical`.
 
 The player talks to a character in a page's `chat` block, or with `curl -d "message" <route with chat>`. Both send a `ChatReply` event with the intent that answered, which your rules can react to (`on: { event: ChatReply, npc: pixou, intent: secret }`).
 

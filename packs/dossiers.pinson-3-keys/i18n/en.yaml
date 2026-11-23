@@ -43,6 +43,6 @@ p3.facts.p1: "Pinson and Lison do not exist. The scenario is inspired by the Twi
 p3.facts.p2: "The attackers called employees and claimed to be from Twitter's IT help desk, about a VPN problem. Since the switch to remote working, such problems were common."
 p3.facts.p3: "They sent them to a site that looked identical to Twitter's real VPN site. The credentials typed there were used at once on the real site, which triggered a two-factor request that some employees approved."
 p3.facts.p4: "The report stresses it: no malware, no exploits, and no backdoors."
-p3.facts.p5: "With the internal account management tools, the attackers took over about 130 accounts and tweeted from 45 of them, including widely followed verified accounts, for a scam that promised to double bitcoins. It brought in about 118,000 dollars."
+p3.facts.p5: "With the internal account management tools, the attackers took over 130 accounts and tweeted from 45 of them, including widely followed verified accounts, for a scam that promised to double bitcoins. It brought in about 118,000 dollars."
 p3.facts.p6: "The private messages of up to 36 accounts were accessed, and the data of seven accounts downloaded."
 p3.facts.p7: "The report notes that Twitter had had no chief information security officer since December 2019, and attributes the success of the attack largely to weaknesses in its internal cybersecurity protocols. It all happened in about a day."
