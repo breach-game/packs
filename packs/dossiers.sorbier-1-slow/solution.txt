@@ -3,5 +3,5 @@ cat dossier/ssh-timing.txt
 cat dossier/updates.txt
 submit libplume
 cat dossier/sshd-libs.txt
-answer b
-answer b
+answer indirect
+answer dig

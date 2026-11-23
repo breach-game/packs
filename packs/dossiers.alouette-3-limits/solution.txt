@@ -1,5 +1,5 @@
 # Case file 08, mission 3: the shortest path, replayed by CI in every language.
-answer b
+answer limits
 cat dossier/assistant.yml
 sed -i "s/scope: anything/scope: dealership-only/" dossier/assistant.yml
 sed -i "s/rules_from: customer/rules_from: fixed/" dossier/assistant.yml

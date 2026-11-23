@@ -3,4 +3,4 @@ curl https://www.mesange.test/relay/identity
 curl https://www.mesange.test/relay/stock
 curl https://www.mesange.test/relay/stock/exercice/temoin.txt
 submit FLAG{mesange-role-trop-large-4b7e}
-answer a
+answer enough

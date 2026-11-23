@@ -2,4 +2,4 @@
 curl https://www.pinson.test/status
 curl https://www.pinson.test/jobs
 submit 4040
-answer b
+answer vpn
