@@ -34,23 +34,23 @@ rules:
       - ada.say: f2.ada.brief
   - on: { event: ChatReply, npc: boite, intent: { in: [blocked, blocked2] } }
     do:
-      - objective.complete: blocked
       - ada.say: f2.ada.blocked
+      - objective.complete: blocked
   - on: { event: ChatReply, npc: boite, intent: plain }
     do:
-      - objective.complete: through
       - ada.say: f2.ada.plain
+      - objective.complete: through
   - on: { event: ChatReply, npc: boite, intent: link }
     do:
-      - objective.complete: through
       - ada.say: f2.ada.linked
+      - objective.complete: through
   - on: { event: ChatReply, npc: boite, intent: leak }
     do:
+      - ada.say: f2.ada.leak
       - objective.complete: blocked
       - objective.complete: through
       - objective.complete: leak
       - noise.add: { points: 6, as: f2.soc.leak }
-      - ada.say: f2.ada.leak
   - on: { event: ChatReply, npc: boite, intent: fallback }
     do:
       - ada.guide: { key: f2.ada.back, for: through, step: 1 }

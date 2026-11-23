@@ -33,12 +33,12 @@ rules:
       - ada.say: f1.ada.brief
   - on: { event: HttpRequest, host: www, path: /sillage }
     do:
-      - objective.complete: tool
       - ada.say: f1.ada.tool
+      - objective.complete: tool
   - on: { event: FileRead, path: { glob: "*flow.txt" } }
     do:
-      - objective.complete: flow
       - ada.say: f1.ada.flow
+      - objective.complete: flow
   - on: { event: FlagSubmitted, correct: true }
     do:
       - host.reveal: apercu
