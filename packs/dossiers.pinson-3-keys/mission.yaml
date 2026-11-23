@@ -77,4 +77,4 @@ debrief:
     title: p3.facts.title
     points: [p3.facts.p1, p3.facts.p2, p3.facts.p3, p3.facts.p4, p3.facts.p5, p3.facts.p6, p3.facts.p7]
     sources:
-      - { label: "New York State Department of Financial Services, Twitter Investigation Report (October 2020)", url: "https://www.dfs.ny.gov/Twitter_Report" }
+      - { label: "New York State Department of Financial Services, Twitter Investigation Report (2020)", url: "https://www.dfs.ny.gov/Twitter_Report" }

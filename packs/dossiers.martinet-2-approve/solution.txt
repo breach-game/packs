@@ -1,0 +1,6 @@
+# Case file 04, mission 2: the shortest path, replayed by CI in every language.
+curl -d "login noe.ext" https://sso.martinet.test/login
+curl -d "login noe.ext" https://sso.martinet.test/login
+curl -d "login noe.ext" https://sso.martinet.test/login
+submit FLAG{martinet-approuve-3e7a}
+answer c

@@ -1,0 +1,18 @@
+# Martinet - how people get in, and what they find inside
+sso:
+  # push = a notification with an Approve button
+  # number-match = the phone asks for the number shown on the login screen
+  # security-key = a physical key that checks the site address
+  second_factor: push
+  # refused requests before the account locks and the security team is warned (0 = never)
+  lock_after_denied: 0
+contractors:
+  # everything = the same intranet as employees
+  # mission-only = only the tools of their mission
+  intranet: everything
+  leak_monitoring: on
+secrets:
+  # in-scripts = written in the files that use them
+  # vault = fetched from the vault when the program runs
+  stored: in-scripts
+  rotate_after_incident: on

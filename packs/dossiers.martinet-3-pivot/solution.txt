@@ -1,0 +1,6 @@
+# Case file 04, mission 3: the shortest path, replayed by CI in every language.
+curl https://intra.martinet.test/
+curl https://intra.martinet.test/partage
+curl https://intra.martinet.test/partage/rotation-coffre.txt
+submit FLAG{martinet-coffre-51ad}
+answer a

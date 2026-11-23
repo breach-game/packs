@@ -1,0 +1,12 @@
+id: dossiers.martinet-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Martinet
+  en: Martinet
+summary:
+  fr: Martinet, application fictive de VTC. Son site public, son portail de connexion, son intranet et le coffre où dorment les secrets de ses machines.
+  en: Martinet, a fictional ride-hailing app. Its public site, its login portal, its intranet and the vault where the secrets of its machines are kept.
+authors: [BREACH team]
+locales: [fr, en]

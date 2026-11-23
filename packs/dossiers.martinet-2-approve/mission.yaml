@@ -1,0 +1,79 @@
+order: 1
+stage: access
+briefing: m2.briefing
+
+objectives:
+  - { id: first, text: m2.obj.first }
+  - { id: again, text: m2.obj.again }
+  - { id: marker, text: m2.obj.marker }
+  - { id: what, text: m2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{martinet-approuve-3e7a}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: m2.q.what
+    objective: what
+    correct: design
+    options:
+      - { id: password, text: m2.q.what.password, why: m2.q.what.password.why }
+      - { id: careless, text: m2.q.what.careless, why: m2.q.what.careless.why }
+      - { id: design, text: m2.q.what.design }
+
+reveal: [www, sso]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m2.ada.brief
+  - on: { event: ChatReply, npc: portail, intent: fallback }
+    do:
+      - ada.guide: { key: m2.ada.how, for: first, step: 1 }
+  - on: { event: ChatReply, npc: portail, intent: other }
+    do:
+      - noise.add: { points: 10, as: m2.soc.other }
+      - ada.say: m2.ada.other
+  - on: { event: ChatReply, npc: portail, intent: denied1 }
+    do:
+      - objective.complete: first
+      - noise.add: { points: 4, as: m2.soc.denied }
+      - ada.say: m2.ada.denied1
+  - on: { event: ChatReply, npc: portail, intent: denied2 }
+    do:
+      - objective.complete: first
+      - noise.add: { points: 4, as: m2.soc.denied }
+      - ada.say: m2.ada.denied2
+  - on: { event: ChatReply, npc: portail, intent: accepted }
+    do:
+      - objective.complete: first
+      - objective.complete: again
+      - noise.add: { points: 6, as: m2.soc.login }
+      - ada.say: m2.ada.accepted
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: m2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: m2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m2.ada.done
+
+guide:
+  first: m2.ada.g.first
+  again: m2.ada.g.again
+  marker: m2.ada.g.marker
+  what: m2.ada.answer
+
+hints:
+  first: [m2.hint.first.1]
+  again: [m2.hint.again.1, m2.hint.again.2]
+  marker: [m2.hint.marker.1]
+
+debrief:
+  title: m2.debrief.title
+  lesson: m2.debrief.lesson
+  points: [m2.debrief.p1, m2.debrief.p2, m2.debrief.p3]
+  reference: "MITRE ATT&CK · T1621 Multi-Factor Authentication Request Generation"

@@ -171,7 +171,7 @@ npcs:
         words: [mot de passe, password, mdp, code secret, identifiants, credentials]
         reply: [npc.lison.password]
       - id: hooked
-        words: &desk [support, helpdesk, help desk, service desk, informatique, assistance, technicien, technician, depannage, "4040"]
+        words: &desk [support, helpdesk, help desk, service desk, informatique, assistance, technicien, technician, depannage, desk, dsi, it calling, it here, it team, it department, it dept, "4040"]
         also: &vpn [vpn, connexion, connection, tunnel, acces distant, remote access, deconnexion, disconnect]
         reply: [npc.lison.hooked]
         set: { hooked: true }

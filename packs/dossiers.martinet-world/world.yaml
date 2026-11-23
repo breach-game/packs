@@ -1,0 +1,215 @@
+# Dossier 04. Everything here is fictional: reserved .test domains and private addresses only.
+# The story is inspired by a real incident, told with its source in the debrief of the last mission.
+startTime: "2027-01-25T09:00:00+01:00"
+mandate: MT-2027-004
+scope:
+  domains: ["*.martinet.test"]
+  networks: ["10.64.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.64.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.64.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, sso]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            MT-2027-004.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.martinet.test
+    ip: 10.64.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -140, h: 110 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/prestataires", label: web.nav.ext }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - footer: web.footer
+      "/prestataires":
+        page:
+          title: web.ext.title
+          blocks:
+            - nav: *nav
+            - h1: web.ext.h1
+            - p: web.ext.p1
+            - list: [web.ext.l1, web.ext.l2, web.ext.l3]
+            - p: web.ext.p2
+            - footer: web.footer
+
+  # The login portal, as the client opened it for the exercise: one witness account, one phone.
+  - id: sso
+    hostname: sso.martinet.test
+    ip: 10.64.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: 120, h: 90 }
+    links: [intra]
+    services:
+      - { port: 443, name: https, product: sso-gateway 2.7 }
+    web:
+      "/":
+        page:
+          title: web.sso.title
+          blocks:
+            - h1: web.sso.h1
+            - p: web.sso.p1
+            - p: web.sso.p2
+            - chat: portail
+            - footer: web.footer
+      "/login":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: portail,
+        }
+
+  - id: intra
+    hostname: intra.martinet.test
+    ip: 10.64.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 280, z: 60, h: 120 }
+    links: [coffre]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.intra.title
+          blocks:
+            - nav: &intranav
+                - { href: "/", label: web.intra.nav.home }
+                - { href: "/partage", label: web.intra.nav.files }
+            - h1: web.intra.h1
+            - p: web.intra.p1
+            - p: web.intra.p2
+            - footer: web.footer
+      "/partage":
+        page:
+          title: web.files.title
+          blocks:
+            - nav: *intranav
+            - h1: web.files.h1
+            - p: web.files.p1
+            - list: [web.files.l1, web.files.l2, web.files.l3]
+            - link: { href: "/partage/rotation-coffre.txt", label: web.files.open }
+            - footer: web.footer
+      "/partage/rotation-coffre.txt":
+        headers: { content-type: text/plain }
+        body: { $file: files/rotation-coffre.txt }
+
+  - id: coffre
+    hostname: coffre.martinet.test
+    ip: 10.64.0.40
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: -120, h: 140 }
+    services:
+      - { port: 443, name: https, product: coffre 9.1 }
+    web:
+      "/":
+        status: 403
+        page:
+          title: web.coffre.title
+          blocks:
+            - h1: web.coffre.h1
+            - p: web.coffre.p1
+            - footer: web.footer
+
+dns:
+  martinet.test: { A: ["10.64.0.10"] }
+  www.martinet.test: { A: ["10.64.0.10"] }
+  sso.martinet.test: { A: ["10.64.0.20"] }
+  intra.martinet.test: { A: ["10.64.0.30"] }
+  coffre.martinet.test: { A: ["10.64.0.40"] }
+
+whois:
+  martinet.test: |
+    Domain Name: MARTINET.TEST
+    Creation Date: 2016-05-02T08:00:00Z
+    Registrant Organization: Martinet SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# The exercise portal does not talk: it logs what a login attempt on the witness account does.
+# Each attempt sends an approval request to the phone of Noé, the contractor who holds the account.
+# He refuses twice. The third time, late and tired of the buzzing, he taps Approve.
+npcs:
+  - id: portail
+    name: sso-exercice
+    role: npc.portail.role
+    kind: ai
+    greeting: npc.portail.greeting
+    sheet: >
+      The activity log of a login portal during a security exercise. It does not talk: it writes
+      short, dry log lines about a login attempt and what the account holder did on his phone.
+    intents:
+      - id: other
+        words: [admin, root, direction, svc, lea, karim]
+        reply: [npc.portail.other]
+      - id: already
+        words: &login [noe, login, connexion, connecter, connect, sign in]
+        if: { var: martinet_pushes, eq: 3 }
+        reply: [npc.portail.already]
+      - id: accepted
+        words: *login
+        if: { var: martinet_pushes, eq: 2 }
+        reply: [npc.portail.accepted]
+        set: { martinet_pushes: 3 }
+      - id: denied2
+        words: *login
+        if: { var: martinet_pushes, eq: 1 }
+        reply: [npc.portail.denied2]
+        set: { martinet_pushes: 2 }
+      - id: denied1
+        words: *login
+        reply: [npc.portail.denied1]
+        set: { martinet_pushes: 1 }
+    fallback: [npc.portail.fallback]
