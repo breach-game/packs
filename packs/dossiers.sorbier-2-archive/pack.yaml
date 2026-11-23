@@ -1,5 +1,5 @@
 id: dossiers.sorbier-2-archive
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.5 <1"
 kind: mission
 requires: [dossiers.sorbier-world]
