@@ -1,0 +1,15 @@
+id: dossiers.grive
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.grive-world]
+title:
+  fr: "Dossier 09 : une ligne de trop"
+  en: "Case file 09: one line too many"
+summary:
+  fr: "Inspiré d'une faille publiée en 2025 dans un serveur d'outils git pour agents IA. Sous mandat, tu comprends comment un nom de fichier lu par un agent devient une commande sur le serveur, tu le prouves avec un programme témoin, puis tu corriges. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by a flaw published in 2025 in a git tool server for AI agents. Under mandate, you understand how a file name read by an agent becomes a command on the server, you prove it with a witness program, then you fix it. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, linux, defense]

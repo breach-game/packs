@@ -1,0 +1,5 @@
+# Case file 09, mission 1: the shortest path, replayed by CI in every language.
+curl https://forge.grive.test/
+cat dossier/notes.txt
+answer b
+answer a

@@ -1,0 +1,75 @@
+order: 0
+stage: recon
+briefing: v1.briefing
+
+# Ligne Rouge's reading notes on the tool server's code.
+files:
+  dossier/notes.txt: { $file: files/notes.txt }
+
+objectives:
+  - { id: purpose, text: v1.obj.purpose }
+  - { id: notes, text: v1.obj.notes }
+  - { id: which, text: v1.obj.which }
+  - { id: why, text: v1.obj.why }
+
+questions:
+  - id: which
+    text: v1.q.which
+    objective: which
+    correct: lines
+    options:
+      - { id: lists, text: v1.q.which.lists, why: v1.q.which.lists.why }
+      - { id: lines, text: v1.q.which.lines }
+      - { id: every, text: v1.q.which.every, why: v1.q.which.every.why }
+  - id: why
+    text: v1.q.why
+    objective: why
+    correct: shell
+    options:
+      - { id: shell, text: v1.q.why.shell }
+      - { id: slow, text: v1.q.why.slow, why: v1.q.why.slow.why }
+      - { id: agent, text: v1.q.why.agent, why: v1.q.why.agent.why }
+
+reveal: [forge]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v1.ada.brief
+  - on: { event: HttpRequest, host: forge, path: / }
+    do:
+      - ada.say: v1.ada.purpose
+      - objective.complete: purpose
+  - on: { event: FileRead, path: { glob: "*notes.txt" } }
+    do:
+      - ada.say: v1.ada.notes
+      - objective.complete: notes
+      - ada.ask: which
+  - on: { event: ObjectiveCompleted, objective: which }
+    do:
+      - ada.say: v1.ada.which
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: v1.ada.why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v1.ada.done
+
+guide:
+  purpose: v1.ada.g.purpose
+  notes: v1.ada.g.notes
+  which: v1.ada.answer
+  why: v1.ada.answer
+
+hints:
+  purpose: [v1.hint.purpose.1]
+  notes: [v1.hint.notes.1]
+  which: [v1.hint.which.1]
+  why: [v1.hint.why.1]
+
+debrief:
+  title: v1.debrief.title
+  lesson: v1.debrief.lesson
+  points: [v1.debrief.p1, v1.debrief.p2, v1.debrief.p3]
+  reference: "CWE-77 · Command Injection"

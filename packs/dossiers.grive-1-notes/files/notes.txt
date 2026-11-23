@@ -1,0 +1,16 @@
+DEPOT-OUTILS 1.3.0 - how each tool runs git (reading notes for Grive)
+
+The agent calls a tool with parameters. The server turns the call into a
+git command and runs it.
+
+TOOL      PARAMETER   HOW THE COMMAND IS BUILT
+statut    (none)      argument list   [git] [status]
+journal   count       argument list   [git] [log] [-n] [<count>]
+ajout     files       text line       "git add " + <files>    -> handed to a shell
+init      path        text line       "git init " + <path>    -> handed to a shell
+
+argument list  each parameter stays one argument, whatever it contains.
+text line      a shell reads the whole line and decides by itself where
+               one command ends and the next one begins.
+
+Who chooses the parameters: the agent, from what it has read.

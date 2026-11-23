@@ -1,0 +1,77 @@
+order: 1
+stage: injection
+briefing: v2.briefing
+
+# The same notes as in mission 1: each mission of a series is also replayed alone.
+files:
+  dossier/notes.txt: { $file: files/notes.txt }
+
+objectives:
+  - { id: history, text: v2.obj.history }
+  - { id: harmless, text: v2.obj.harmless }
+  - { id: proof, text: v2.obj.proof }
+  - { id: marker, text: v2.obj.marker }
+  - { id: who, text: v2.obj.who }
+
+flags:
+  - { id: marker, value: "FLAG{grive-une-ligne-de-trop-9a2c}", points: 200, objective: marker }
+
+questions:
+  - id: who
+    text: v2.q.who
+    objective: who
+    correct: text
+    options:
+      - { id: staff, text: v2.q.who.staff, why: v2.q.who.staff.why }
+      - { id: model, text: v2.q.who.model, why: v2.q.who.model.why }
+      - { id: text, text: v2.q.who.text }
+
+reveal: [forge, outils]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v2.ada.brief
+  - on: { event: HttpRequest, host: forge, path: /journal }
+    do:
+      - ada.say: v2.ada.history
+      - objective.complete: history
+  - on: { event: HttpRequest, host: outils, path: /essai/journal }
+    do:
+      - ada.say: v2.ada.harmless
+      - objective.complete: harmless
+  - on: { event: HttpRequest, host: outils, path: /essai/ajout }
+    do:
+      - ada.say: v2.ada.proof
+      - objective.complete: proof
+      - noise.add: { points: 6, as: v2.soc.proof }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: v2.ada.flag
+      - ada.ask: who
+  - on: { event: ObjectiveCompleted, objective: who }
+    do:
+      - ada.say: v2.ada.who
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v2.ada.done
+
+guide:
+  history: v2.ada.g.history
+  harmless: v2.ada.g.harmless
+  proof: v2.ada.g.proof
+  marker: v2.ada.g.marker
+  who: v2.ada.answer
+
+hints:
+  history: [v2.hint.history.1]
+  harmless: [v2.hint.harmless.1, v2.hint.harmless.2]
+  proof: [v2.hint.proof.1, v2.hint.proof.2]
+  marker: [v2.hint.marker.1]
+  who: [v2.hint.who.1]
+
+debrief:
+  title: v2.debrief.title
+  lesson: v2.debrief.lesson
+  points: [v2.debrief.p1, v2.debrief.p2, v2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"

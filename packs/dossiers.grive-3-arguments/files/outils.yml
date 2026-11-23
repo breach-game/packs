@@ -1,0 +1,22 @@
+# depot-outils - settings at Grive, as found during the test.
+
+server:
+  version: 1.3.0
+  logging: on
+
+commands:
+  # shell-line      the command is one line of text handed to a shell
+  # argument-list   the program and each argument are passed separately,
+  #                 no shell reads them
+  build: shell-line
+
+parameters:
+  # any    a file name can contain anything
+  # plain  letters, digits, dots, dashes, underscores and slashes only
+  file_names: any
+
+agent:
+  tools: on
+  # never / before-write: a human confirms before a tool that changes
+  # something (ajout, init) runs
+  confirm: never

@@ -1,0 +1,15 @@
+id: dossiers.grive-1-notes
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.grive-world]
+title:
+  fr: "Dossier 09 · 1. Comment l'outil lance git"
+  en: "Case file 09 · 1. How the tool runs git"
+summary:
+  fr: "L'agent de code de Grive lance git à travers un serveur d'outils. Tu lis comment chaque outil fabrique sa commande, et tu repères ceux qui passent par une ligne de texte."
+  en: "Grive's coding agent runs git through a tool server. You read how each tool builds its command, and you spot the ones that go through a line of text."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, linux]

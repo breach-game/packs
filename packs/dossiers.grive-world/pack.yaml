@@ -1,0 +1,12 @@
+id: dossiers.grive-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Grive
+  en: Grive
+summary:
+  fr: Grive, studio de développement fictif. Sa forge, et le serveur d'outils qui permet à son agent de code de lancer git.
+  en: Grive, a fictional development studio. Its code forge, and the tool server that lets its coding agent run git.
+authors: [BREACH team]
+locales: [fr, en]
