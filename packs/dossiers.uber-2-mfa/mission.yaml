@@ -1,0 +1,11 @@
+id: dossiers.uber-2-mfa
+name: "Mission 2 : La fatigue MFA"
+difficulty: 2
+skills: [social, mfa]
+requires: dossiers.pinson-world
+debrief:
+  title: "La fatigue MFA"
+  lesson: "La répétition de notifications MFA finit par pousser l'utilisateur à accepter par réflexe. Utilisez des systèmes MFA qui demandent un code à saisir ou un numéro à valider."
+  points:
+    - "L'humain est le maillon faible."
+    - "Désactiver les push automatiques sans vérification."

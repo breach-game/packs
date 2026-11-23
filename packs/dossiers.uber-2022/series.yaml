@@ -1,0 +1,8 @@
+id: dossiers.uber-2022
+name: "Dossier Uber (2022)"
+description: "Reconstitution de l'attaque sur Uber en 2022 : achat de compte, fatigue MFA et intrusion interne."
+kind: series
+missions:
+  - dossiers.uber-1-achat
+  - dossiers.uber-2-mfa
+  - dossiers.uber-3-pivot
