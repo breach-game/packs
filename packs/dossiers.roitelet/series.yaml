@@ -1,0 +1,5 @@
+# Case file 12, in playing order: how Page learns, the planted sentence, the review.
+missions:
+  - dossiers.roitelet-1-learns
+  - dossiers.roitelet-2-planted
+  - dossiers.roitelet-3-review

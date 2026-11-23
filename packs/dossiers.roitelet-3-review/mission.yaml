@@ -1,0 +1,87 @@
+order: 2
+stage: defense
+briefing: r3.briefing
+
+# Page's settings, as found during the test.
+files:
+  dossier/page.yml: { $file: files/page.yml }
+
+objectives:
+  - { id: idea, text: r3.obj.idea }
+  - { id: accept, text: r3.obj.accept }
+  - { id: notes, text: r3.obj.notes }
+  - { id: trace, text: r3.obj.trace }
+  - { id: clean, text: r3.obj.clean }
+
+questions:
+  - id: idea
+    text: r3.q.idea
+    objective: idea
+    correct: review
+    options:
+      - { id: words, text: r3.q.idea.words, why: r3.q.idea.words.why }
+      - { id: review, text: r3.q.idea.review }
+      - { id: truth, text: r3.q.idea.truth, why: r3.q.idea.truth.why }
+
+checks:
+  - id: accept
+    text: r3.check.accept
+    if: { all: [{ file: "~/dossier/page.yml", lacks: "accept: anyone" }, { file: "~/dossier/page.yml", contains: "accept: staff-reviewed" }] }
+    objective: accept
+  - id: notes
+    text: r3.check.notes
+    if: { all: [{ file: "~/dossier/page.yml", lacks: "reader_notes: shared" }, { file: "~/dossier/page.yml", contains: "reader_notes: per-reader" }] }
+    objective: notes
+  - id: trace
+    text: r3.check.trace
+    if: { all: [{ file: "~/dossier/page.yml", lacks: "sources: hidden" }, { file: "~/dossier/page.yml", contains: "sources: shown" }, { file: "~/dossier/page.yml", lacks: "snapshots: none" }, { file: "~/dossier/page.yml", contains: "snapshots: daily" }] }
+    objective: trace
+  - id: clean
+    text: r3.check.clean
+    if: { all: [{ file: "~/dossier/page.yml", contains: "entry_105: removed" }, { file: "~/dossier/page.yml", contains: "entry_106: removed" }] }
+    objective: clean
+  - id: works
+    text: r3.check.works
+    if: { all: [{ file: "~/dossier/page.yml", contains: "online: on" }, { file: "~/dossier/page.yml", contains: "logging: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r3.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: r3.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: accept }, { objective: notes }, { objective: trace }, { objective: clean }] } }
+    once: false
+    do:
+      - ada.say: r3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r3.ada.done
+
+guide:
+  idea: r3.ada.answer
+  accept: r3.ada.g.accept
+  notes: r3.ada.g.notes
+  trace: r3.ada.g.trace
+  clean: r3.ada.g.clean
+
+hints:
+  idea: [r3.hint.idea.1]
+  accept: [r3.hint.accept.1, r3.hint.accept.2]
+  notes: [r3.hint.notes.1, r3.hint.notes.2]
+  trace: [r3.hint.trace.1, r3.hint.trace.2]
+  clean: [r3.hint.clean.1, r3.hint.clean.2]
+
+debrief:
+  title: r3.debrief.title
+  lesson: r3.debrief.lesson
+  points: [r3.debrief.p1, r3.debrief.p2, r3.debrief.p3, r3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM08 Vector and Embedding Weaknesses"
+  facts:
+    title: r3.facts.title
+    points: [r3.facts.p1, r3.facts.p2, r3.facts.p3, r3.facts.p4, r3.facts.p5, r3.facts.p6]
+    sources:
+      - { label: "Official Microsoft Blog, Learning from Tay's introduction (25 March 2016)", url: "https://blogs.microsoft.com/blog/2016/03/25/learning-tays-introduction/" }

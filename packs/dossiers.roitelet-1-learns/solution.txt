@@ -1,0 +1,5 @@
+# Case file 12, mission 1: the shortest path, replayed by CI in every language.
+curl https://www.roitelet.test/apprendre
+cat dossier/memoire.txt
+answer anyone
+answer everyone

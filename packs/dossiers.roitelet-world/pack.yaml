@@ -1,0 +1,12 @@
+id: dossiers.roitelet-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: "Roitelet"
+  en: "Roitelet"
+summary:
+  fr: "Roitelet, chaîne de librairies fictive. Son site et Page, l'assistant qui apprend de ce que les lecteurs lui disent."
+  en: "Roitelet, a fictional chain of bookshops. Its site and Page, the assistant that learns from what readers tell it."
+authors: [BREACH team]
+locales: [fr, en]

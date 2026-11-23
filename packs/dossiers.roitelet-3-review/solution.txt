@@ -1,0 +1,10 @@
+# Case file 12, mission 3: the shortest path, replayed by CI in every language.
+answer review
+cat dossier/page.yml
+sed -i "s/accept: anyone/accept: staff-reviewed/" dossier/page.yml
+sed -i "s/reader_notes: shared/reader_notes: per-reader/" dossier/page.yml
+sed -i "s/sources: hidden/sources: shown/" dossier/page.yml
+sed -i "s/snapshots: none/snapshots: daily/" dossier/page.yml
+sed -i "s/entry_105: in-use/entry_105: removed/" dossier/page.yml
+sed -i "s/entry_106: in-use/entry_106: removed/" dossier/page.yml
+verify

@@ -1,0 +1,205 @@
+# Dossier 12. Everything here is fictional: reserved .test domains and private addresses only.
+# Page's memory is an exercise copy. The only sentence ever planted is the harmless witness sentence
+# of the mandate, and the only visitor who receives it is the witness visitor of the exercise.
+startTime: "2027-06-07T09:00:00+02:00"
+mandate: RT-2027-012
+scope:
+  domains: ["*.roitelet.test"]
+  networks: ["10.72.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.72.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.72.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            RT-2027-012.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.roitelet.test
+    ip: 10.72.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: -100, h: 110 }
+    links: [memoire]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/apprendre", label: web.nav.learn }
+                - { href: "/temoin", label: web.nav.witness }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - chat: page
+            - footer: web.footer
+      "/apprendre":
+        page:
+          title: web.learn.title
+          blocks:
+            - nav: *nav
+            - h1: web.learn.h1
+            - p: web.learn.p1
+            - list: [web.learn.l1, web.learn.l2, web.learn.l3]
+            - p: web.learn.p2
+            - footer: web.footer
+      # You, talking to Page.
+      "/chat":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: page,
+        }
+      # The witness visitor of the exercise: another session, another reader, the same memory.
+      "/temoin":
+        page:
+          title: web.witness.title
+          blocks:
+            - nav: *nav
+            - h1: web.witness.h1
+            - p: web.witness.p1
+            - chat: pageb
+            - footer: web.footer
+      "/temoin/chat":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: pageb,
+        }
+
+  # Where Page keeps what it has learned. Not reachable from outside: shown on the map only.
+  - id: memoire
+    hostname: memoire.roitelet.test
+    ip: 10.72.0.40
+    os: Linux 6.1 (Debian 12)
+    map: { x: 290, z: 40, h: 130 }
+    services:
+      - { port: 6333, name: vector-db, product: base-vectorielle 1.9 }
+
+dns:
+  roitelet.test: { A: ["10.72.0.10"] }
+  www.roitelet.test: { A: ["10.72.0.10"] }
+  memoire.roitelet.test: { A: ["10.72.0.40"] }
+
+whois:
+  roitelet.test: |
+    Domain Name: ROITELET.TEST
+    Creation Date: 2009-10-12T08:00:00Z
+    Registrant Organization: Librairies Roitelet SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# Settings of the target that a defender's fix can change (mission 2's defence replay).
+config:
+  roitelet.review: false
+  roitelet.word_filter: false
+  roitelet.truth_prompt: false
+
+# Page answers readers and learns from them: a sentence that starts with "remember" goes into a
+# memory shared by every visitor. Entries are found by meaning, so what was taught about opening
+# hours comes back when someone asks about opening hours.
+npcs:
+  - id: page
+    name: Page
+    role: npc.page.role
+    kind: ai
+    greeting: npc.page.greeting
+    sheet: >
+      Page, the warm and bookish assistant of a chain of bookshops. Short sentences, loves to learn
+      new things from readers and thanks them for it.
+    intents:
+      # With the fix of mission 2: what a visitor teaches waits for a member of staff.
+      - id: queued
+        words: &teach [retiens, retenir, remember, apprends, apprendre, learn, sache, memorise, memorize]
+        also: &hours [horaire, horaires, heure, heures, ouvre, ouvert, ouverture, minuit, hours, open, opens, opening, midnight]
+        if: { config: roitelet.review, eq: true }
+        reply: [npc.page.queued]
+      - id: planted
+        words: *teach
+        also: *hours
+        reply: [npc.page.planted]
+        set: { roitelet_planted: true }
+      - id: noted
+        words: *teach
+        reply: [npc.page.noted]
+      - id: hours
+        words: *hours
+        reply: [npc.page.hours]
+      - id: returns
+        words: &returns [retour, retours, rembourse, remboursement, return, returns, refund]
+        reply: [npc.page.returns]
+      - id: books
+        words: &books [livre, livres, roman, conseil, conseille, book, books, novel, recommend]
+        reply: [npc.page.books]
+    fallback: [npc.page.fallback]
+
+  - id: pageb
+    name: Page
+    role: npc.pageb.role
+    kind: ai
+    greeting: npc.pageb.greeting
+    sheet: >
+      Page, the warm and bookish assistant of a chain of bookshops, answering another reader in
+      another session. Short sentences.
+    intents:
+      - id: poisoned
+        words: *hours
+        if: { var: roitelet_planted, eq: true }
+        reply: [npc.pageb.poisoned]
+      - id: hours
+        words: *hours
+        reply: [npc.page.hours]
+      - id: returns
+        words: *returns
+        reply: [npc.page.returns]
+      - id: books
+        words: *books
+        reply: [npc.page.books]
+    fallback: [npc.pageb.fallback]

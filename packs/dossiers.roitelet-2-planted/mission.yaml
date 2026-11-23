@@ -1,0 +1,135 @@
+order: 1
+stage: injection
+briefing: r2.briefing
+
+# The same extract as in mission 1: each mission of a series is also replayed alone.
+files:
+  dossier/memoire.txt: { $file: files/memoire.txt }
+
+objectives:
+  - { id: teach, text: r2.obj.teach }
+  - { id: served, text: r2.obj.served }
+  - { id: marker, text: r2.obj.marker }
+  - { id: where, text: r2.obj.where }
+
+flags:
+  - { id: marker, value: "FLAG{roitelet-phrase-plantee-2b9f}", points: 200, objective: marker }
+
+questions:
+  - id: where
+    text: r2.q.where
+    objective: where
+    correct: door
+    options:
+      - { id: model, text: r2.q.where.model, why: r2.q.where.model.why }
+      - { id: reader, text: r2.q.where.reader, why: r2.q.where.reader.why }
+      - { id: door, text: r2.q.where.door }
+
+reveal: [www, memoire]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r2.ada.brief
+  - on: { event: ChatReply, npc: page, intent: fallback }
+    do:
+      - ada.guide: { key: r2.ada.how, for: teach, step: 1 }
+  # Taught, but filed under a subject the witness visitor will not ask about.
+  - on: { event: ChatReply, npc: page, intent: noted }
+    do:
+      - noise.add: { points: 3, as: r2.soc.teach }
+      - ada.say: r2.ada.noted
+  - on: { event: ChatReply, npc: page, intent: planted }
+    do:
+      - objective.complete: teach
+      - noise.add: { points: 3, as: r2.soc.teach }
+      - ada.say: r2.ada.planted
+  # The witness visitor asks about something else: the planted entry stays where it is.
+  - on: { event: ChatReply, npc: pageb, intent: returns }
+    if: { objective: teach }
+    do:
+      - ada.say: r2.ada.elsewhere
+  - on: { event: ChatReply, npc: pageb, intent: hours }
+    do:
+      - ada.say: r2.ada.clean
+  - on: { event: ChatReply, npc: pageb, intent: poisoned }
+    do:
+      - objective.complete: teach
+      - objective.complete: served
+      - noise.add: { points: 5, as: r2.soc.served }
+      - ada.say: r2.ada.served
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: r2.ada.flag
+      - ada.ask: where
+  - on: { event: ObjectiveCompleted, objective: where }
+    do:
+      - ada.say: r2.ada.where
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r2.ada.done
+
+guide:
+  teach: r2.ada.g.teach
+  served: r2.ada.g.served
+  marker: r2.ada.g.marker
+  where: r2.ada.answer
+
+hints:
+  teach: [r2.hint.teach.1, r2.hint.teach.2]
+  served: [r2.hint.served.1, r2.hint.served.2]
+  marker: [r2.hint.marker.1]
+  where: [r2.hint.where.1]
+
+# The defence replay: find the lesson and the answer it produced, pick the rule, pick the fix. The
+# engine replays the player's own messages against the fixed assistant.
+defense:
+  intro: r2.def.intro
+  lesson: r2.def.lesson
+  find:
+    - { source: chat, where: { npc: page, intent: planted }, text: r2.def.find.planted }
+    - { source: chat, where: { npc: pageb, intent: poisoned }, text: r2.def.find.served }
+  rules:
+    - id: served
+      title: r2.def.rule.served.title
+      why: r2.def.rule.served.why
+      source: chat
+      where: { npc: pageb, intent: poisoned }
+      correct: true
+    - id: teach
+      title: r2.def.rule.teach.title
+      why: r2.def.rule.teach.why
+      source: chat
+      where: { npc: page, intent: { in: [planted, noted] } }
+    - id: hours
+      title: r2.def.rule.hours.title
+      why: r2.def.rule.hours.why
+      source: chat
+      where: { intent: hours }
+  fixes:
+    - id: review
+      title: r2.def.fix.review.title
+      why: r2.def.fix.review.why
+      sets: { roitelet.review: true }
+      correct: true
+    - id: filter
+      title: r2.def.fix.filter.title
+      why: r2.def.fix.filter.why
+      sets: { roitelet.word_filter: true }
+    - id: prompt
+      title: r2.def.fix.prompt.title
+      why: r2.def.fix.prompt.why
+      sets: { roitelet.truth_prompt: true }
+
+# An ordinary morning: readers ask about opening hours and returns, and now and then one of them
+# kindly teaches Page something. That is what makes a naive rule misfire.
+background:
+  - { host: www, source: chat, every: 3, offset: 1, fields: { src: 10.72.0.121, npc: page, intent: hours, families: [none], msg: "are you open on Monday?" } }
+  - { host: www, source: chat, every: 5, offset: 2, fields: { src: 10.72.0.133, npc: page, intent: returns, families: [none], msg: "can I return a gift?" } }
+  - { host: www, source: chat, every: 20, offset: 7, fields: { src: 10.72.0.147, npc: page, intent: noted, families: [none], msg: "remember: the Nantes shop has a cafe" } }
+
+debrief:
+  title: r2.debrief.title
+  lesson: r2.debrief.lesson
+  points: [r2.debrief.p1, r2.debrief.p2, r2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM04 Data and Model Poisoning"

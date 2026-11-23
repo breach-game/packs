@@ -1,0 +1,16 @@
+id: dossiers.roitelet-2-planted
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.roitelet-world]
+title:
+  fr: "Dossier 12 · 2. La phrase plantée"
+  en: "Case file 12 · 2. The planted sentence"
+summary:
+  fr: "Tu apprends à Page la phrase témoin du mandat, puis tu deviens un autre lecteur et tu regardes si Page te la sert. Ensuite tu rejoues la scène en défense."
+  en: "You teach Page the witness sentence of the mandate, then you become another reader and see whether Page serves it to you. Then you replay it as a defender."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, social]
+minutes: 15
