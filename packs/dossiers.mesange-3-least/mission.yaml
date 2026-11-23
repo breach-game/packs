@@ -1,0 +1,89 @@
+order: 2
+stage: defense
+briefing: g3.briefing
+
+# The bank's cloud settings, as found during the review.
+files:
+  dossier/cloud.yml: { $file: files/cloud.yml }
+
+objectives:
+  - { id: idea, text: g3.obj.idea }
+  - { id: role, text: g3.obj.role }
+  - { id: relay, text: g3.obj.relay }
+  - { id: identity, text: g3.obj.identity }
+  - { id: alerts, text: g3.obj.alerts }
+
+questions:
+  - id: idea
+    text: g3.q.idea
+    objective: idea
+    correct: role
+    options:
+      - { id: crypt, text: g3.q.idea.crypt, why: g3.q.idea.crypt.why }
+      - { id: role, text: g3.q.idea.role }
+      - { id: hide, text: g3.q.idea.hide, why: g3.q.idea.hide.why }
+
+checks:
+  - id: role
+    text: g3.check.role
+    if: { all: [{ file: "~/dossier/cloud.yml", lacks: "storage: all" }, { file: "~/dossier/cloud.yml", contains: "storage: none" }] }
+    objective: role
+  - id: relay
+    text: g3.check.relay
+    if: { all: [{ file: "~/dossier/cloud.yml", lacks: "relay_targets: any-internal" }, { file: "~/dossier/cloud.yml", contains: "relay_targets: health-only" }] }
+    objective: relay
+  - id: identity
+    text: g3.check.identity
+    if: { all: [{ file: "~/dossier/cloud.yml", lacks: "access: any-request" }, { file: "~/dossier/cloud.yml", contains: "access: signed-session" }] }
+    objective: identity
+  - id: alerts
+    text: g3.check.alerts
+    if: { all: [{ file: "~/dossier/cloud.yml", lacks: "alerts: off" }, { file: "~/dossier/cloud.yml", contains: "alerts: on" }] }
+    objective: alerts
+  - id: works
+    text: g3.check.works
+    if: { all: [{ file: "~/dossier/cloud.yml", contains: "filtering: on" }, { file: "~/dossier/cloud.yml", contains: "encryption: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g3.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: g3.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: role }, { objective: relay }, { objective: identity }, { objective: alerts }] } }
+    once: false
+    do:
+      - ada.say: g3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g3.ada.done
+
+guide:
+  idea: g3.ada.answer
+  role: g3.ada.g.role
+  relay: g3.ada.g.relay
+  identity: g3.ada.g.identity
+  alerts: g3.ada.g.alerts
+
+hints:
+  idea: [g3.hint.idea.1]
+  role: [g3.hint.role.1, g3.hint.role.2]
+  relay: [g3.hint.relay.1, g3.hint.relay.2]
+  identity: [g3.hint.identity.1, g3.hint.identity.2]
+  alerts: [g3.hint.alerts.1, g3.hint.alerts.2]
+
+debrief:
+  title: g3.debrief.title
+  lesson: g3.debrief.lesson
+  points: [g3.debrief.p1, g3.debrief.p2, g3.debrief.p3, g3.debrief.p4]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"
+  facts:
+    title: g3.facts.title
+    points: [g3.facts.p1, g3.facts.p2, g3.facts.p3, g3.facts.p4, g3.facts.p5, g3.facts.p6, g3.facts.p7]
+    sources:
+      - { label: "Capital One, Information on the Capital One cyber incident", url: "https://www.capitalone.com/digital/facts2019/" }
+      - { label: "US Department of Justice, Western District of Washington, press release of 17 June 2022", url: "https://www.justice.gov/usao-wdwa/pr/former-seattle-tech-worker-convicted-wire-fraud-and-computer-intrusions" }
+      - { label: "US Department of Justice, Western District of Washington, press release of 4 October 2022", url: "https://www.justice.gov/usao-wdwa/pr/former-hacker-sentenced-stealing-computer-power-mine-cryptocurrency-and-stealing" }

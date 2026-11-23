@@ -1,0 +1,77 @@
+order: 1
+stage: cloud
+briefing: g2.briefing
+
+# The same review as in mission 1: each mission of a series is also replayed alone.
+files:
+  dossier/cloud-review.txt: { $file: files/cloud-review.txt }
+
+objectives:
+  - { id: pass, text: g2.obj.pass }
+  - { id: listing, text: g2.obj.listing }
+  - { id: marker, text: g2.obj.marker }
+  - { id: stop, text: g2.obj.stop }
+
+flags:
+  - { id: marker, value: "FLAG{mesange-role-trop-large-4b7e}", points: 200, objective: marker }
+
+questions:
+  - id: stop
+    text: g2.q.stop
+    objective: stop
+    correct: enough
+    options:
+      - { id: enough, text: g2.q.stop.enough }
+      - { id: sample, text: g2.q.stop.sample, why: g2.q.stop.sample.why }
+      - { id: all, text: g2.q.stop.all, why: g2.q.stop.all.why }
+
+reveal: [www, stock]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g2.ada.brief
+  - on: { event: HttpRequest, host: stock }
+    do:
+      - ada.say: g2.ada.direct
+  - on: { event: HttpRequest, host: www, path: /relay/identity }
+    do:
+      - ada.say: g2.ada.pass
+      - objective.complete: pass
+      - noise.add: { points: 4, as: g2.soc.pass }
+  - on: { event: HttpRequest, host: www, path: /relay/stock }
+    do:
+      - ada.say: g2.ada.listing
+      - objective.complete: listing
+      - noise.add: { points: 6, as: g2.soc.listing }
+  - on: { event: HttpRequest, host: www, path: /relay/stock/exercice/temoin.txt }
+    do:
+      - ada.say: g2.ada.file
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: g2.ada.flag
+      - ada.ask: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: g2.ada.stop
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g2.ada.done
+
+guide:
+  pass: g2.ada.g.pass
+  listing: g2.ada.g.listing
+  marker: g2.ada.g.marker
+  stop: g2.ada.answer
+
+hints:
+  pass: [g2.hint.pass.1, g2.hint.pass.2]
+  listing: [g2.hint.listing.1, g2.hint.listing.2]
+  marker: [g2.hint.marker.1, g2.hint.marker.2]
+  stop: [g2.hint.stop.1]
+
+debrief:
+  title: g2.debrief.title
+  lesson: g2.debrief.lesson
+  points: [g2.debrief.p1, g2.debrief.p2, g2.debrief.p3]
+  reference: "OWASP Top 10 · A10 Server-Side Request Forgery"

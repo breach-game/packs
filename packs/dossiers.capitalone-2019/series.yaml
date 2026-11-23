@@ -1,8 +1,0 @@
-id: dossiers.capitalone-2019
-name: "Dossier Capital One (2019)"
-description: "Reconstitution de l'attaque sur Capital One en 2019 : exploitation d'une faille SSRF et abus de privilèges Cloud."
-kind: series
-missions:
-  - dossiers.capitalone-1-ssrf
-  - dossiers.capitalone-2-metadata
-  - dossiers.capitalone-3-exfil

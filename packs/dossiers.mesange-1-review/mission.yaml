@@ -1,0 +1,69 @@
+order: 0
+stage: recon
+briefing: g1.briefing
+
+# The configuration review, as the bank's security officer sent it.
+files:
+  dossier/cloud-review.txt: { $file: files/cloud-review.txt }
+
+objectives:
+  - { id: stake, text: g1.obj.stake }
+  - { id: review, text: g1.obj.review }
+  - { id: role, text: g1.obj.role }
+  - { id: why, text: g1.obj.why }
+
+flags:
+  - { id: role, value: "role-passerelle", points: 100, objective: role }
+
+questions:
+  - id: why
+    text: g1.q.why
+    objective: why
+    correct: wide
+    options:
+      - { id: backup, text: g1.q.why.backup, why: g1.q.why.backup.why }
+      - { id: crypt, text: g1.q.why.crypt, why: g1.q.why.crypt.why }
+      - { id: wide, text: g1.q.why.wide }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /carte }
+    do:
+      - ada.say: g1.ada.stake
+      - objective.complete: stake
+  - on: { event: FileRead, path: { glob: "*cloud-review.txt" } }
+    do:
+      - ada.say: g1.ada.review
+      - objective.complete: review
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: g1.ada.flag
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: g1.ada.why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g1.ada.done
+
+guide:
+  stake: g1.ada.g.stake
+  review: g1.ada.g.review
+  role: g1.ada.g.role
+  why: g1.ada.answer
+
+hints:
+  stake: [g1.hint.stake.1]
+  review: [g1.hint.review.1]
+  role: [g1.hint.role.1, g1.hint.role.2]
+  why: [g1.hint.why.1]
+
+debrief:
+  title: g1.debrief.title
+  lesson: g1.debrief.lesson
+  points: [g1.debrief.p1, g1.debrief.p2, g1.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"

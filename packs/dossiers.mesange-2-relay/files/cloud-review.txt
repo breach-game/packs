@@ -1,0 +1,23 @@
+BANQUE MESANGE - cloud configuration review (extract), January 2027
+
+MACHINE          ROLE               WHAT THE MACHINE DOES
+site-01          role-site          serves the public pages
+passerelle-01    role-passerelle    filters requests before the site
+tri-01           role-tri           sorts new card applications
+sauvegarde-01    role-sauvegarde    nightly backup
+
+ROLE               STORAGE RIGHTS                  NEEDED FOR ITS JOB
+role-site          none                            none
+role-passerelle    read + list, ALL folders        none
+role-tri           read + write, demandes-2026/    read + write, demandes-2026/
+role-sauvegarde    read, ALL folders               read, all folders
+
+NOTES
+- Each machine gets a temporary pass for its role from the internal
+  identity service. The service answers any request that comes from
+  the machine, without asking for anything.
+- passerelle-01 has a relay function (health checks): it forwards a
+  request to an internal service and returns the answer. Targets
+  allowed: any internal service.
+- Storage is encrypted. A role with read rights reads in clear.
+- Storage alerts: off.

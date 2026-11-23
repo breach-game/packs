@@ -1,8 +1,0 @@
-id: dossiers.codecov-2021
-name: "Dossier Codecov (2021)"
-description: "Reconstitution de l'attaque sur Codecov en 2021 : clé extraite d'une image Docker et empoisonnement de CI."
-kind: series
-missions:
-  - dossiers.codecov-1-analyse
-  - dossiers.codecov-2-build
-  - dossiers.codecov-3-pivot
