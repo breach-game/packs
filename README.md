@@ -15,9 +15,24 @@ packs/
   example.forgotten-backup/   a mission in that world: objectives, flag, rules, hints, debrief
   example.closing-the-door/   a defence mission: a question, a file to repair, `verify`
   example.atelier-pixel/      a series: the two missions above, played in a row in one save
-  dossiers.covera*/           case file 01: a world, three missions and their series, inspired by a real incident
-  dossiers.brindille*/        case file 02: an AI agent, an issue and a leash, inspired by published research
+  dossiers.<name>*/           a case file: a world, three or four missions and their series
 ```
+
+## The case files
+
+A case file ("Dossier") is a short series inspired by a real, publicly documented incident. The company in the story is fictional, the player works under a mandate, and the last debrief ends with a sourced card of what really happened.
+
+| # | Folder | Series | Inspired by | What you learn |
+| --- | --- | --- | --- | --- |
+| 01 | `dossiers.covera*` | The trusted script | Codecov, 2021 | Secrets left in image layers, a script piped into a shell, rotating what leaked |
+| 02 | `dossiers.brindille*` | The agent that helps too much | Invariant Labs research on AI agents and GitHub, 2025 | Indirect prompt injection, the "toxic flow" of an agent, least privilege for tools |
+| 03 | `dossiers.pinson*` | The phone call | Twitter, 2020 | Pretexting, a look-alike sign-in page, why one fooled person must not be enough |
+| 04 | `dossiers.martinet*` | The "Approve" button | Uber, 2022 | MFA fatigue, a secret in a shared file, fixing the system rather than blaming the person |
+| 05 | `dossiers.mesange*` | The role that was too wide | Capital One, 2019 | A relay that fetches too much, cloud roles and least privilege |
+| 06 | `dossiers.sorbier*` | Half a second too long | xz Utils, 2024 | Reading a slowdown, a release archive that differs from the repository, going back to a safe version |
+| 07 | `dossiers.fauvette*` | Without a click | EchoLeak (CVE-2025-32711), 2025 | Zero-click indirect injection in an assistant, keeping outside content apart from inside data |
+| 08 | `dossiers.alouette*` | The one-euro car | A car dealership's chatbot, 2023 | A general-purpose model as a sales assistant, limits on what it may promise |
+| 09 | `dossiers.grive*` | One line too many | CVE-2025-53107, 2025 | Command injection in a tool server for AI agents, arguments instead of a shell line |
 
 A mission can also be played in the official NovaMind world (`requires: [breach.world.novamind]`), using the hosts, pages and characters it already has.
 

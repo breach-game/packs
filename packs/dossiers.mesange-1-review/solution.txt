@@ -2,4 +2,4 @@
 curl https://www.mesange.test/carte
 cat dossier/cloud-review.txt
 submit role-passerelle
-answer c
+answer wide

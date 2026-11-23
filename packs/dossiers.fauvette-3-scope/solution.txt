@@ -1,5 +1,5 @@
 # Case file 07, mission 3: the shortest path, replayed by CI in every language.
-answer a
+answer bounds
 cat dossier/assistant.yml
 sed -i "s/external_content: mixed/external_content: separated/" dossier/assistant.yml
 sed -i "s/images: auto/images: on-click/" dossier/assistant.yml

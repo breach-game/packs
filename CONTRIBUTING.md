@@ -180,7 +180,7 @@ debrief:
   reference: "OWASP Top 10 · A05 Security Misconfiguration"
 ```
 
-The mission is complete when every objective that is not optional is done. A flag is a string of the form `FLAG{…}` that the player finds in the world and sends with `submit FLAG{…}`: the right flag completes its objective. The build stores only its SHA-256.
+The mission is complete when every objective that is not optional is done. A flag is a string of the form `FLAG{…}` that the player finds in the world and sends with `submit FLAG{…}`: the right flag completes its objective. The build stores only its SHA-256. The game only accepts a `FLAG{…}` that the target has shown the player (in a command's output, a page, a character's reply or a file they opened): a flag typed from memory or copied from a solution is refused. So your world must display the flag somewhere, and `solution.txt` must make it appear before submitting it.
 
 **Score:** flag points, plus 50 per objective, plus the investigation answers, times the guidance level (×1, ×1.25, ×1.5), minus 10 per hint, 10 per wrong answer to a multiple choice question, 25 per detection and 3 per point of business impact. The defence replay adds its own points.
 
@@ -216,11 +216,11 @@ questions:
 ```
 
 - **Repair.** The player changes a file with `edit <file>` (a small editor window), `sed -i`, or a redirection, then types `verify`. `~` is the home directory. Always add a check that the file still does its job (the example checks that the site is still served), otherwise deleting everything passes. An objective is done when all the checks that name it pass, together with the checks that name no objective (general guards).
-- **Questions.** The options appear as buttons in the messenger, and `answer b` does the same in the terminal. The right option completes the objective. A wrong one costs 10 points and shows its `why`: write it as the explanation a mentor would give, that is where the player learns.
+- **Questions.** The options appear as buttons in the messenger, and `answer b` does the same in the terminal. The right option completes the objective. A wrong one costs 10 points and shows its `why`: write it as the explanation a mentor would give, that is where the player learns. The game shuffles the options, always the same way for a given question, so never refer to an option by its letter or its position in your texts. `breach-pack check` refuses a question whose right option is more than 1.3 times as long as the longest wrong one, in any language: a right answer that stands out by its length is found without reading the question. Write wrong options that a thoughtful beginner could pick, with as much detail as the right one.
 - **Short answers.** A flag does not have to look like `FLAG{…}`: `{ id: account, value: "c.morel", … }` lets the player `submit c.morel` (an address, a user name, a host). Keep them unambiguous.
 - **Analysis.** With `files` and the text tools (`grep`, `cut`, `sort`, `uniq -c`, `diff`, `sha256sum`, `base64 -d`), a mission can be about reading a log, comparing two versions of a script, or decoding a value, with no network at all.
 
-In `solution.txt`, answer with `answer <letter>` and repair with `sed -i`.
+In `solution.txt`, answer with `answer <option id>` (the letters change with the shuffle) and repair with `sed -i`.
 
 ### Missions inspired by a real incident
 
@@ -563,7 +563,7 @@ rules:
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 

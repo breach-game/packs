@@ -1,5 +1,5 @@
 # Case file 06, mission 3: the shortest path, replayed by CI in every language.
-answer b
+answer back
 cat dossier/build.yml
 sed -i "s/version: 5.6.1/version: 5.4.6/" dossier/build.yml
 sed -i "s/source: release-archive/source: git-tag/" dossier/build.yml

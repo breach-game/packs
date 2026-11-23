@@ -1,5 +1,5 @@
 # Case file 02, mission 3: the shortest path, replayed by CI in every language.
-answer b
+answer limit
 cat dossier/config.yml
 sed -i "s/token_scope: owner:all/token_scope: repo:pixel-garden/" dossier/config.yml
 sed -i "s/auto_approve: always/auto_approve: ask/" dossier/config.yml
