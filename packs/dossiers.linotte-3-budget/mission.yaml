@@ -87,4 +87,4 @@ debrief:
     title: l3.facts.title
     points: [l3.facts.p1, l3.facts.p2, l3.facts.p3, l3.facts.p4, l3.facts.p5, l3.facts.p6]
     sources:
-      - { label: "Sysdig Threat Research Team, LLMjacking: Stolen Cloud Credentials Used in New AI Attack (6 May 2024)", url: "https://sysdig.com/blog/llmjacking-stolen-cloud-credentials-used-in-new-ai-attack/" }
+      - { label: "Sysdig Threat Research Team, LLMjacking: Stolen Cloud Credentials Used in New AI Attack (6 May 2024)", url: "https://www.sysdig.com/blog/llmjacking-stolen-cloud-credentials-used-in-new-ai-attack" }
