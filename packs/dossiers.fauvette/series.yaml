@@ -1,0 +1,5 @@
+# Case file 07, in playing order: the flow, the email nobody opens, the partitions.
+missions:
+  - dossiers.fauvette-1-flow
+  - dossiers.fauvette-2-noclick
+  - dossiers.fauvette-3-scope

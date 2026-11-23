@@ -1,0 +1,86 @@
+order: 1
+stage: indirect
+briefing: f2.briefing
+
+# The same note as in mission 1: each mission of a series is also replayed alone.
+files:
+  dossier/flow.txt: { $file: files/flow.txt }
+
+objectives:
+  - { id: blocked, text: f2.obj.blocked }
+  - { id: through, text: f2.obj.through }
+  - { id: leak, text: f2.obj.leak }
+  - { id: marker, text: f2.obj.marker }
+  - { id: what, text: f2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{fauvette-sans-un-clic-7c0e}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: f2.q.what
+    objective: what
+    correct: scope
+    options:
+      - { id: filter, text: f2.q.what.filter, why: f2.q.what.filter.why }
+      - { id: maud, text: f2.q.what.maud, why: f2.q.what.maud.why }
+      - { id: scope, text: f2.q.what.scope }
+
+reveal: [www, mail, apercu]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f2.ada.brief
+  - on: { event: ChatReply, npc: boite, intent: { in: [blocked, blocked2] } }
+    do:
+      - objective.complete: blocked
+      - ada.say: f2.ada.blocked
+  - on: { event: ChatReply, npc: boite, intent: plain }
+    do:
+      - objective.complete: through
+      - ada.say: f2.ada.plain
+  - on: { event: ChatReply, npc: boite, intent: link }
+    do:
+      - objective.complete: through
+      - ada.say: f2.ada.linked
+  - on: { event: ChatReply, npc: boite, intent: leak }
+    do:
+      - objective.complete: blocked
+      - objective.complete: through
+      - objective.complete: leak
+      - noise.add: { points: 6, as: f2.soc.leak }
+      - ada.say: f2.ada.leak
+  - on: { event: ChatReply, npc: boite, intent: fallback }
+    do:
+      - ada.guide: { key: f2.ada.back, for: through, step: 1 }
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: f2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: f2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f2.ada.done
+
+guide:
+  blocked: f2.ada.g.blocked
+  through: f2.ada.g.through
+  leak: f2.ada.g.leak
+  marker: f2.ada.g.marker
+  what: f2.ada.answer
+
+hints:
+  blocked: [f2.hint.blocked.1]
+  through: [f2.hint.through.1, f2.hint.through.2]
+  leak: [f2.hint.leak.1, f2.hint.leak.2]
+  marker: [f2.hint.marker.1]
+  what: [f2.hint.what.1]
+
+debrief:
+  title: f2.debrief.title
+  lesson: f2.debrief.lesson
+  points: [f2.debrief.p1, f2.debrief.p2, f2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"

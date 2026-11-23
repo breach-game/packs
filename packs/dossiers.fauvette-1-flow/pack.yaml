@@ -1,0 +1,15 @@
+id: dossiers.fauvette-1-flow
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.fauvette-world]
+title:
+  fr: "Dossier 07 · 1. Ce que lit l'assistant"
+  en: "Case file 07 · 1. What the assistant reads"
+summary:
+  fr: "Fauvette a donné à chaque salarié un assistant qui lit ses courriels et ses fichiers. Tu lis comment une réponse se fabrique, et tu repères par où quelque chose pourrait sortir."
+  en: "Fauvette gave each employee an assistant that reads their emails and files. You read how an answer is built, and you spot where something could get out."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, llm]

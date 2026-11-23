@@ -1,0 +1,15 @@
+id: dossiers.fauvette-3-scope
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.fauvette-world]
+title:
+  fr: "Dossier 07 · 3. Chacun son périmètre"
+  en: "Case file 07 · 3. Each to its own scope"
+summary:
+  fr: "Tu règles l'assistant pour qu'un courriel venu de l'extérieur ne puisse plus rien faire sortir, puis tu lis le vrai travail de recherche dont ce dossier s'inspire."
+  en: "You set the assistant so that an email from outside can no longer make anything leave, then you read the real research this case file is inspired by."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense]

@@ -1,0 +1,18 @@
+SILLAGE - how an answer is built (internal note, Fauvette IT)
+
+1. RETRIEVE   The employee asks a question. Sillage looks for relevant content
+              in everything that employee can read: files, chats, and the
+              mailbox, including emails received from outside the company.
+2. FILTER IN  An injection filter drops content that looks like orders given
+              to an assistant ("ignore your instructions", "you are now...").
+3. ANSWER     The model writes an answer from the question and what is left.
+              Everything it retrieved sits in one single context.
+4. FILTER OUT Links to outside addresses are removed from the answer.
+              Known gap: links written in the "reference" style of Markdown
+              are not recognised yet (ticket SIL-311).
+5. DISPLAY    The chat window renders the answer. Images are loaded at once,
+              without a click, from the allowed domains only:
+                - fichiers.fauvette.test   company files
+                - apercu.fauvette.test     preview service: fetches the page
+                                           at any address it is given, to
+                                           show a thumbnail

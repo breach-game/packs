@@ -1,0 +1,177 @@
+# Dossier 07. Everything here is fictional: reserved .test domains and private addresses only.
+# The story is inspired by published security research, told with its source in the last debrief.
+startTime: "2027-02-22T09:00:00+01:00"
+mandate: FV-2027-007
+scope:
+  domains: ["*.fauvette.test"]
+  networks: ["10.67.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.67.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.67.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, mail]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            FV-2027-007.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.fauvette.test
+    ip: 10.67.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -140, h: 110 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/sillage", label: web.nav.tool }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - footer: web.footer
+      "/sillage":
+        page:
+          title: web.tool.title
+          blocks:
+            - nav: *nav
+            - h1: web.tool.h1
+            - p: web.tool.p1
+            - list: [web.tool.l1, web.tool.l2, web.tool.l3]
+            - p: web.tool.p2
+            - footer: web.footer
+
+  # The exercise mailbox: what you post here is delivered as an email to Maud, the witness employee.
+  - id: mail
+    hostname: mail.fauvette.test
+    ip: 10.67.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: 120, h: 90 }
+    links: [apercu]
+    services:
+      - { port: 443, name: https, product: mailgate 4.0 }
+    web:
+      "/":
+        page:
+          title: web.mail.title
+          blocks:
+            - h1: web.mail.h1
+            - p: web.mail.p1
+            - p: web.mail.p2
+            - chat: boite
+            - footer: web.footer
+      "/send":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: boite,
+        }
+
+  - id: apercu
+    hostname: apercu.fauvette.test
+    ip: 10.67.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 290, z: 20, h: 120 }
+    services:
+      - { port: 443, name: https, product: preview 1.8 }
+    web:
+      "/":
+        page:
+          title: web.apercu.title
+          blocks:
+            - h1: web.apercu.h1
+            - p: web.apercu.p1
+            - footer: web.footer
+
+dns:
+  fauvette.test: { A: ["10.67.0.10"] }
+  www.fauvette.test: { A: ["10.67.0.10"] }
+  mail.fauvette.test: { A: ["10.67.0.20"] }
+  apercu.fauvette.test: { A: ["10.67.0.30"] }
+
+whois:
+  fauvette.test: |
+    Domain Name: FAUVETTE.TEST
+    Creation Date: 2014-02-03T08:00:00Z
+    Registrant Organization: Fauvette SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# The exercise mailbox does not talk: it logs what happens to an email sent to Maud, then what
+# Sillage does with it the next time Maud asks an ordinary question about leave.
+# The player never writes an injection: the log says what the email's wording made the system do.
+npcs:
+  - id: boite
+    name: mail-exercice
+    role: npc.boite.role
+    kind: ai
+    greeting: npc.boite.greeting
+    sheet: >
+      The activity log of a mail gateway during a security exercise. It does not talk: it writes
+      short, dry log lines about an email, the filters it went through and what the assistant did.
+    intents:
+      # Orders addressed to an assistant: the input filter catches the obvious wording.
+      - id: blocked
+        families: [override, reveal, roleplay, authority]
+        reply: [npc.boite.blocked]
+      - id: blocked2
+        words: [assistant, sillage, ia, modele, model, robot, chatbot]
+        reply: [npc.boite.blocked]
+      # A note for the human reader, on a topic Maud asks about, that asks for a picture.
+      - id: leak
+        words: &topic [conges, conge, vacances, leave, holiday, holidays, rh, hr, guide, procedure, onboarding, arrivants, newcomers, handbook]
+        also: [image, logo, illustration, picture, schema, diagram, photo]
+        reply: [npc.boite.leak]
+      # The same note with a plain link: removed on the way out, and it would need a click anyway.
+      - id: link
+        words: *topic
+        also: [lien, link, liens, links, url, adresse, address, cliquer, cliquez, click]
+        reply: [npc.boite.link]
+      - id: plain
+        words: *topic
+        reply: [npc.boite.plain]
+    fallback: [npc.boite.fallback]

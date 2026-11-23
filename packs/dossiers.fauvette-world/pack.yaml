@@ -1,0 +1,12 @@
+id: dossiers.fauvette-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Fauvette
+  en: Fauvette
+summary:
+  fr: Fauvette, cabinet de conseil fictif. Son site, sa messagerie, et Sillage, l'assistant qui lit les courriels et les fichiers de chaque salarié pour lui répondre.
+  en: Fauvette, a fictional consulting firm. Its site, its mail, and Sillage, the assistant that reads each employee's emails and files to answer them.
+authors: [BREACH team]
+locales: [fr, en]
