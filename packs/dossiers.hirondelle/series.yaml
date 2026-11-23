@@ -1,0 +1,5 @@
+# Case file 10, in playing order: the link, the number next door, the owner check.
+missions:
+  - dossiers.hirondelle-1-link
+  - dossiers.hirondelle-2-next
+  - dossiers.hirondelle-3-owner

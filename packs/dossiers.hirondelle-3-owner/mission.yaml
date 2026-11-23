@@ -1,0 +1,106 @@
+order: 2
+stage: defense
+briefing: h3.briefing
+
+# The portal's settings, as found during the test.
+files:
+  dossier/portail.yml: { $file: files/portail.yml }
+
+objectives:
+  - { id: logs, text: h3.obj.logs }
+  - { id: idea, text: h3.obj.idea }
+  - { id: check, text: h3.obj.check }
+  - { id: links, text: h3.obj.links }
+  - { id: alert, text: h3.obj.alert }
+  - { id: finding, text: h3.obj.finding }
+
+questions:
+  - id: logs
+    text: h3.q.logs
+    objective: logs
+    correct: blind
+    options:
+      - { id: address, text: h3.q.logs.address, why: h3.q.logs.address.why }
+      - { id: volume, text: h3.q.logs.volume, why: h3.q.logs.volume.why }
+      - { id: blind, text: h3.q.logs.blind }
+  - id: idea
+    text: h3.q.idea
+    objective: idea
+    correct: owner
+    options:
+      - { id: owner, text: h3.q.idea.owner }
+      - { id: random, text: h3.q.idea.random, why: h3.q.idea.random.why }
+      - { id: hide, text: h3.q.idea.hide, why: h3.q.idea.hide.why }
+
+checks:
+  - id: check
+    text: h3.check.check
+    if: { all: [{ file: "~/dossier/portail.yml", lacks: "check: link-only" }, { file: "~/dossier/portail.yml", contains: "check: owner-session" }] }
+    objective: check
+  - id: links
+    text: h3.check.links
+    if: { all: [{ file: "~/dossier/portail.yml", lacks: "ids: counter" }, { file: "~/dossier/portail.yml", contains: "ids: random" }, { file: "~/dossier/portail.yml", lacks: "expire: never" }, { file: "~/dossier/portail.yml", contains: "expire: 7-days" }] }
+    objective: links
+  - id: alert
+    text: h3.check.alert
+    if: { all: [{ file: "~/dossier/portail.yml", lacks: "refused_alert: off" }, { file: "~/dossier/portail.yml", contains: "refused_alert: on" }] }
+    objective: alert
+  - id: finding
+    text: h3.check.finding
+    if: { all: [{ file: "~/dossier/portail.yml", lacks: "severity: low" }, { file: "~/dossier/portail.yml", contains: "severity: high" }, { file: "~/dossier/portail.yml", lacks: "fix_due: none" }, { file: "~/dossier/portail.yml", contains: "fix_due: 30-days" }] }
+    objective: finding
+  - id: works
+    text: h3.check.works
+    if: { all: [{ file: "~/dossier/portail.yml", contains: "online: on" }, { file: "~/dossier/portail.yml", contains: "logging: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h3.ada.brief
+      - ada.ask: logs
+  - on: { event: ObjectiveCompleted, objective: logs }
+    do:
+      - ada.say: h3.ada.logs
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: h3.ada.idea
+  - on: { event: ObjectiveCompleted, objective: alert }
+    do:
+      - ada.say: h3.ada.alert
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: check }, { objective: links }, { objective: alert }, { objective: finding }] } }
+    once: false
+    do:
+      - ada.say: h3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h3.ada.done
+
+guide:
+  logs: h3.ada.answer
+  idea: h3.ada.answer
+  check: h3.ada.g.check
+  links: h3.ada.g.links
+  alert: h3.ada.g.alert
+  finding: h3.ada.g.finding
+
+hints:
+  logs: [h3.hint.logs.1]
+  idea: [h3.hint.idea.1]
+  check: [h3.hint.check.1, h3.hint.check.2]
+  links: [h3.hint.links.1, h3.hint.links.2]
+  alert: [h3.hint.alert.1, h3.hint.alert.2]
+  finding: [h3.hint.finding.1, h3.hint.finding.2]
+
+debrief:
+  title: h3.debrief.title
+  lesson: h3.debrief.lesson
+  points: [h3.debrief.p1, h3.debrief.p2, h3.debrief.p3, h3.debrief.p4]
+  reference: "OWASP Top 10 · A01 Broken Access Control"
+  facts:
+    title: h3.facts.title
+    points: [h3.facts.p1, h3.facts.p2, h3.facts.p3, h3.facts.p4, h3.facts.p5, h3.facts.p6]
+    sources:
+      - { label: "KrebsOnSecurity, First American Financial Corp. Leaked Hundreds of Millions of Title Insurance Records (24 May 2019)", url: "https://krebsonsecurity.com/2019/05/first-american-financial-corp-leaked-hundreds-of-millions-of-title-insurance-records/" }
+      - { label: "U.S. Securities and Exchange Commission, press release 2021-102 (15 June 2021)", url: "https://www.sec.gov/news/press-release/2021-102" }

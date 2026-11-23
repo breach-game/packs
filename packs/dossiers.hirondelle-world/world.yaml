@@ -1,0 +1,150 @@
+# Dossier 10. Everything here is fictional: reserved .test domains and private addresses only.
+# The document portal is an exercise copy: it only holds made-up files, and the single file with
+# something in it is the witness file created for the mandate.
+startTime: "2027-04-14T09:00:00+02:00"
+mandate: HR-2027-010
+scope:
+  domains: ["*.hirondelle.test"]
+  networks: ["10.70.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.70.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.70.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, docs]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            HR-2027-010.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.hirondelle.test
+    ip: 10.70.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -130, h: 100 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/locataires", label: web.nav.tenants }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - footer: web.footer
+      "/locataires":
+        page:
+          title: web.tenants.title
+          blocks:
+            - nav: *nav
+            - h1: web.tenants.h1
+            - p: web.tenants.p1
+            - list: [web.tenants.l1, web.tenants.l2, web.tenants.l3]
+            - p: web.tenants.p2
+            - footer: web.footer
+
+  # The document portal. A link ends with the document number written in base64. Nothing else is
+  # asked. Only a handful of documents exist in this copy.
+  - id: docs
+    hostname: docs.hirondelle.test
+    ip: 10.70.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 280, z: 40, h: 130 }
+    services:
+      - { port: 443, name: https, product: portail-documents 3.2 }
+    web:
+      "/":
+        page:
+          title: web.docs.title
+          blocks:
+            - h1: web.docs.h1
+            - p: web.docs.p1
+            - p: web.docs.p2
+            - footer: web.footer
+      "/robots.txt":
+        headers: { content-type: text/plain }
+        body: "User-agent: *\nDisallow: /d/\n"
+      "/d/MDAwMDQ4MjEz":
+        headers: { content-type: text/plain }
+        body: "HIRONDELLE - tenant documents (exercise copy)\n\ndocument:  000048213\ntype:      lease agreement\ntenant:    Ligne Rouge test tenant (mandate HR-2027-010)\ncreated:   2027-04-12\n\n[the lease, 6 pages]\n\nThis link is personal. Keep it for your records.\n"
+      "/d/MDAwMDQ4MjE0":
+        headers: { content-type: text/plain }
+        body: "HIRONDELLE - tenant documents (exercise copy)\n\ndocument:  000048214\ntype:      inventory of fixtures\ntenant:    Ligne Rouge test tenant (mandate HR-2027-010)\ncreated:   2027-04-12\n\n[the inventory, 3 pages, 14 photographs]\n\nThis link is personal. Keep it for your records.\n"
+      "/d/MDAwMDQ4MjA3":
+        headers: { content-type: text/plain }
+        body: "HIRONDELLE - tenant documents (exercise copy)\n\ndocument:  000048207\ntype:      identity papers and bank details (witness file)\ntenant:    witness tenant of the exercise\ncreated:   2027-04-09\n\nidentity card:  [scan, made up for the exercise]\nbank details:   [made up for the exercise]\nwitness marker: FLAG{hirondelle-un-numero-plus-loin-5d1b}\n\nThis link is personal. Keep it for your records.\n"
+      "/d/MDAwMDQ4MjEy":
+        headers: { content-type: text/plain }
+        body: "HIRONDELLE - tenant documents (exercise copy)\n\ndocument:  000048212\ntype:      pay slips (3)\ntenant:    another tenant\ncreated:   2027-04-11\n\n[exercise copy: the content is replaced. On the real portal, this page shows the whole file.]\n"
+      "/d/MDAwMDQ4MjEx":
+        headers: { content-type: text/plain }
+        body: "HIRONDELLE - tenant documents (exercise copy)\n\ndocument:  000048211\ntype:      tax notice\ntenant:    another tenant\ncreated:   2027-04-11\n\n[exercise copy: the content is replaced. On the real portal, this page shows the whole file.]\n"
+      # The same number with the invisible end of line that `echo` adds: another text, so another link.
+      "/d/MDAwMDQ4MjA3Cg==":
+        status: 404
+        headers: { content-type: text/plain }
+        body: "portail-documents: no document numbered '000048207\\n' (10 characters). Numbers have 9 digits.\n"
+      "/d/000048207":
+        status: 400
+        headers: { content-type: text/plain }
+        body: "portail-documents: this link is not in the portal's format. Links end with the encoded number, as in the emails.\n"
+      "/d/000048213":
+        status: 400
+        headers: { content-type: text/plain }
+        body: "portail-documents: this link is not in the portal's format. Links end with the encoded number, as in the emails.\n"
+
+dns:
+  hirondelle.test: { A: ["10.70.0.10"] }
+  www.hirondelle.test: { A: ["10.70.0.10"] }
+  docs.hirondelle.test: { A: ["10.70.0.20"] }
+
+whois:
+  hirondelle.test: |
+    Domain Name: HIRONDELLE.TEST
+    Creation Date: 2012-09-03T08:00:00Z
+    Registrant Organization: Hirondelle SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

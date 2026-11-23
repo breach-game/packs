@@ -1,0 +1,15 @@
+id: dossiers.hirondelle-1-link
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.hirondelle-world]
+title:
+  fr: "Dossier 10 · 1. Le lien dans l'e-mail"
+  en: "Case file 10 · 1. The link in the email"
+summary:
+  fr: "Hirondelle envoie leurs documents aux locataires sous forme de liens. Tu ouvres les tiens, tu regardes ce que demande le portail, et tu lis ce qu'est vraiment la fin du lien."
+  en: "Hirondelle sends tenants their documents as links. You open yours, you look at what the portal asks for, and you read what the end of the link really is."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, web, crypto]

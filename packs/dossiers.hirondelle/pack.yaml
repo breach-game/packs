@@ -1,0 +1,15 @@
+id: dossiers.hirondelle
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.hirondelle-world]
+title:
+  fr: "Dossier 10 : à un numéro près"
+  en: "Case file 10: one number away"
+summary:
+  fr: "Inspiré d'une exposition révélée en 2019 chez un grand assureur de titres de propriété américain. Sous mandat, tu vois comment un lien de document est fait, tu écris le lien d'un dossier témoin qui n'est pas le tien, puis tu fais vérifier par le serveur qui demande. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by an exposure revealed in 2019 at a large American title insurance company. Under mandate, you see how a document link is made, you write the link of a witness file that is not yours, then you make the server check who asks. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, crypto, defense]

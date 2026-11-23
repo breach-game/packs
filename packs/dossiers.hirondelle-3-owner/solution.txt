@@ -1,0 +1,11 @@
+# Case file 10, mission 3: the shortest path, replayed by CI in every language.
+answer blind
+answer owner
+cat dossier/portail.yml
+sed -i "s/check: link-only/check: owner-session/" dossier/portail.yml
+sed -i "s/ids: counter/ids: random/" dossier/portail.yml
+sed -i "s/expire: never/expire: 7-days/" dossier/portail.yml
+sed -i "s/refused_alert: off/refused_alert: on/" dossier/portail.yml
+sed -i "s/severity: low/severity: high/" dossier/portail.yml
+sed -i "s/fix_due: none/fix_due: 30-days/" dossier/portail.yml
+verify

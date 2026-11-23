@@ -1,0 +1,18 @@
+From: documents@hirondelle.test
+To: locataire-test@lignerouge.test
+Subject: Your documents are ready
+Date: Mon, 12 Apr 2027 17:42:10 +0200
+
+Hello,
+
+Your documents are ready. Each link below is personal:
+
+  Lease agreement
+  https://docs.hirondelle.test/d/MDAwMDQ4MjEz
+
+  Inventory of fixtures
+  https://docs.hirondelle.test/d/MDAwMDQ4MjE0
+
+No password is needed: the link is enough.
+
+Hirondelle

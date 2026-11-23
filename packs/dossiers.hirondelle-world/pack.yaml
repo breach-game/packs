@@ -1,0 +1,12 @@
+id: dossiers.hirondelle-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: "Hirondelle"
+  en: "Hirondelle"
+summary:
+  fr: "Hirondelle, agence de location fictive. Son site, et le portail où les locataires lisent leurs documents grâce à un lien reçu par e-mail."
+  en: "Hirondelle, a fictional rental agency. Its website, and the portal where tenants read their documents through a link received by email."
+authors: [BREACH team]
+locales: [fr, en]

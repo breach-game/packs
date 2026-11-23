@@ -1,0 +1,31 @@
+# Hirondelle - settings of the document portal, as found during the test.
+
+portal:
+  online: on
+  logging: on
+
+access:
+  # link-only       whoever holds the link sees the document
+  # owner-session   the tenant signs in, and the server checks that the
+  #                 document is theirs before it answers
+  check: link-only
+
+links:
+  # counter   documents are numbered one after the other
+  # random    long random identifiers, nothing to count
+  ids: counter
+  # never / 7-days: how long an emailed link keeps working
+  expire: never
+
+monitoring:
+  # off / on: alert when one address asks for documents that are
+  # refused or do not exist, several times in a row
+  refused_alert: off
+
+# Finding 2027-01 of the January security review, as it was recorded.
+finding:
+  title: "documents can be read without signing in"
+  # low / high
+  severity: low
+  # none / 30-days
+  fix_due: none
