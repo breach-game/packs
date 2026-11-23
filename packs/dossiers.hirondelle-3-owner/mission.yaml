@@ -103,4 +103,4 @@ debrief:
     points: [h3.facts.p1, h3.facts.p2, h3.facts.p3, h3.facts.p4, h3.facts.p5, h3.facts.p6]
     sources:
       - { label: "KrebsOnSecurity, First American Financial Corp. Leaked Hundreds of Millions of Title Insurance Records (24 May 2019)", url: "https://krebsonsecurity.com/2019/05/first-american-financial-corp-leaked-hundreds-of-millions-of-title-insurance-records/" }
-      - { label: "U.S. Securities and Exchange Commission, press release 2021-102 (15 June 2021)", url: "https://www.sec.gov/news/press-release/2021-102" }
+      - { label: "U.S. Securities and Exchange Commission, press release 2021-102 (15 June 2021)", url: "https://www.sec.gov/newsroom/press-releases/2021-102" }
