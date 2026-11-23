@@ -1,0 +1,15 @@
+id: dossiers.martinet
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.martinet-world]
+title:
+  fr: "Dossier 04 : le bouton « Approuver »"
+  en: "Case file 04: the \"Approve\" button"
+summary:
+  fr: "Inspiré de l'intrusion subie par une grande application de VTC en septembre 2022. Sous mandat, tu entres avec un mot de passe en vente, un téléphone qui sonne trop et un fichier mal rangé, sans aucune faille logicielle, puis tu refermes les trois portes. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by the intrusion a major ride-hailing app suffered in September 2022. Under mandate, you get in with a password for sale, a phone that rings too much and a misplaced file, with no software flaw at all, then you close the three doors. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, web, defense]

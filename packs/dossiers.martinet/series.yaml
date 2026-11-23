@@ -1,0 +1,6 @@
+# Case file 04, in playing order: the bought access, the fatigue, the pivot, the doors.
+missions:
+  - dossiers.martinet-1-leak
+  - dossiers.martinet-2-approve
+  - dossiers.martinet-3-pivot
+  - dossiers.martinet-4-doors

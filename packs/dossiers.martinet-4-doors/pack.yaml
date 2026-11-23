@@ -1,0 +1,15 @@
+id: dossiers.martinet-4-doors
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.martinet-world]
+title:
+  fr: "Dossier 04 · 4. Trois portes à refermer"
+  en: "Case file 04 · 4. Three doors to close"
+summary:
+  fr: "Dernière matinée chez Martinet. Tu corriges les réglages qui ont laissé passer chaque étape, puis tu lis ce qui s'est vraiment passé."
+  en: "Last morning at Martinet. You fix the settings that let each step through, then you read what really happened."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense]
