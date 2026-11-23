@@ -1,0 +1,6 @@
+{
+  "version": "1.4.0",
+  "input_sanitization": false,
+  "execute_command": true,
+  "allow_remote_repo": true
+}

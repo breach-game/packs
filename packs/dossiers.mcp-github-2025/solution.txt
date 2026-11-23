@@ -1,0 +1,8 @@
+# GitHub MCP Vulnerability dossier solution
+answer b
+cat dossier/mcp_config.json
+sed -i 's/"version": "1.4.0"/"version": "2.0.1"/' dossier/mcp_config.json
+sed -i 's/"input_sanitization": false/"input_sanitization": true/' dossier/mcp_config.json
+sed -i 's/"execute_command": true/"execute_command": false/' dossier/mcp_config.json
+sed -i 's/"allow_remote_repo": true/"allow_remote_repo": false/' dossier/mcp_config.json
+verify
