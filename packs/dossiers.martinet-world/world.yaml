@@ -161,6 +161,12 @@ noise:
   browse: 2
   chat: 2
 
+# Settings of the target that a defender's fix can change (mission 2's defence replay).
+config:
+  martinet.push_limit: false
+  martinet.long_passwords: false
+  martinet.reminder_sent: false
+
 rules:
   - id: out-of-scope
     on: { event: OutOfScope }
@@ -198,6 +204,11 @@ npcs:
         words: &login [noe, login, connexion, connecter, connect, sign in]
         if: { var: martinet_pushes, eq: 3 }
         reply: [npc.portail.already]
+      # With the fix of mission 2 (two denials lock the account), the third request never rings.
+      - id: locked
+        words: *login
+        if: { all: [{ var: martinet_pushes, eq: 2 }, { config: martinet.push_limit, eq: true }] }
+        reply: [npc.portail.locked]
       - id: accepted
         words: *login
         if: { var: martinet_pushes, eq: 2 }

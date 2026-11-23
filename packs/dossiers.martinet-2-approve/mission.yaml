@@ -72,6 +72,55 @@ hints:
   again: [m2.hint.again.1, m2.hint.again.2]
   marker: [m2.hint.marker.1]
 
+# The defence replay: find the three attempts, pick the rule, pick the fix. The engine replays the
+# player's own attempts against the fixed portal.
+defense:
+  intro: m2.def.intro
+  lesson: m2.def.lesson
+  find:
+    - { source: chat, where: { npc: portail, intent: { glob: "denied*" } }, text: m2.def.find.denied }
+    - { source: chat, where: { npc: portail, intent: accepted }, text: m2.def.find.accepted }
+  rules:
+    - id: repeat
+      title: m2.def.rule.repeat.title
+      why: m2.def.rule.repeat.why
+      source: chat
+      where: { npc: portail, intent: { glob: "denied*" } }
+      count: { gte: 2, within: 30 }
+      correct: true
+    - id: any-denied
+      title: m2.def.rule.any.title
+      why: m2.def.rule.any.why
+      source: chat
+      where: { npc: portail, intent: { glob: "denied*" } }
+    - id: volume
+      title: m2.def.rule.volume.title
+      why: m2.def.rule.volume.why
+      source: chat
+      where: { npc: portail }
+      count: { gte: 3, within: 10 }
+  fixes:
+    - id: limit
+      title: m2.def.fix.limit.title
+      why: m2.def.fix.limit.why
+      sets: { martinet.push_limit: true }
+      correct: true
+    - id: password
+      title: m2.def.fix.password.title
+      why: m2.def.fix.password.why
+      sets: { martinet.long_passwords: true }
+    - id: reminder
+      title: m2.def.fix.reminder.title
+      why: m2.def.fix.reminder.why
+      sets: { martinet.reminder_sent: true }
+
+# An ordinary evening on the portal: the office signs in from one shared address, and now and then
+# someone taps "Deny" by mistake. That is what makes a naive rule misfire.
+background:
+  - { host: sso, source: chat, every: 2, offset: 1, fields: { src: 10.64.0.120, npc: portail, intent: signin, families: [none], msg: "login svc-bureau" } }
+  - { host: sso, source: chat, every: 45, offset: 3, fields: { src: 10.64.0.131, npc: portail, intent: denied1, families: [none], msg: "login lea.b" } }
+  - { host: sso, source: chat, every: 45, offset: 25, fields: { src: 10.64.0.142, npc: portail, intent: denied1, families: [none], msg: "login karim.d" } }
+
 debrief:
   title: m2.debrief.title
   lesson: m2.debrief.lesson
