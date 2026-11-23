@@ -1,0 +1,15 @@
+id: dossiers.mesange
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.mesange-world]
+title:
+  fr: "Dossier 05 : le rôle trop large"
+  en: "Case file 05: the role that was too wide"
+summary:
+  fr: "Inspiré de la fuite de données d'une grande banque américaine en 2019, née d'une erreur de configuration dans le cloud. Sous mandat, tu trouves le rôle trop large, tu montres jusqu'où il mène sans toucher à un seul dossier client, puis tu refermes. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2019 data breach at a large American bank, born from a cloud configuration error. Under mandate, you find the role that is too wide, you show how far it leads without touching a single customer file, then you close it. The last mission tells the facts, with sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, web, defense]

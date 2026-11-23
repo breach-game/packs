@@ -1,0 +1,123 @@
+# Dossier 05. Everything here is fictional: reserved .test domains and private addresses only.
+# The cloud is a made-up one: no real provider's addresses, commands or key formats appear.
+startTime: "2027-01-18T09:00:00+01:00"
+mandate: MS-2027-005
+scope:
+  domains: ["*.mesange.test"]
+  networks: ["10.65.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.65.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.65.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            MS-2027-005.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The public site sits behind the gateway. The gateway has a relay function, meant for health
+  # checks, that forwards a request to an internal service: the /relay routes are that function.
+  - id: www
+    hostname: www.mesange.test
+    ip: 10.65.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 20, z: -100, h: 110 }
+    links: [stock]
+    services:
+      - { port: 443, name: https, product: passerelle 3.2 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/carte", label: web.nav.card }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - footer: web.footer
+      "/carte":
+        page:
+          title: web.card.title
+          blocks:
+            - nav: *nav
+            - h1: web.card.h1
+            - p: web.card.p1
+            - list: [web.card.l1, web.card.l2, web.card.l3]
+            - p: web.card.p2
+            - footer: web.footer
+      "/relay/identity":
+        headers: { content-type: application/json }
+        body: "{\n  \"service\": \"identity\",\n  \"machine\": \"passerelle-01\",\n  \"role\": \"role-passerelle\",\n  \"pass\": \"temporary pass issued (hidden in this exercise)\",\n  \"valid\": \"6h\",\n  \"asked_by\": \"passerelle-01 (relay)\"\n}\n"
+      "/relay/stock":
+        headers: { content-type: text/plain }
+        body: "STORAGE - listing as role-passerelle\n\n  demandes-2012/      41 870 files\n  demandes-2013/      58 112 files\n  ...\n  demandes-2026/     102 344 files\n  sauvegardes/           318 files\n  exercice/temoin.txt      1 file\n\n15 folders, 1 204 551 files readable with this role\n"
+      "/relay/stock/exercice/temoin.txt":
+        headers: { content-type: text/plain }
+        body: "Witness file placed for mandate MS-2027-005.\nIf you can read this, you could read everything listed next to it.\nFLAG{mesange-role-trop-large-4b7e}\n"
+
+  - id: stock
+    hostname: stock.mesange.test
+    ip: 10.65.0.40
+    os: object storage
+    map: { x: 290, z: 40, h: 140 }
+    services:
+      - { port: 443, name: https, product: stockage 5.0 }
+    web:
+      "/":
+        status: 403
+        headers: { content-type: text/plain }
+        body: "403 - storage answers internal machines only\n"
+
+dns:
+  mesange.test: { A: ["10.65.0.10"] }
+  www.mesange.test: { A: ["10.65.0.10"] }
+  stock.mesange.test: { A: ["10.65.0.40"] }
+
+whois:
+  mesange.test: |
+    Domain Name: MESANGE.TEST
+    Creation Date: 2011-09-12T08:00:00Z
+    Registrant Organization: Banque Mesange SA
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

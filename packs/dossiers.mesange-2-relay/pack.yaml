@@ -1,0 +1,15 @@
+id: dossiers.mesange-2-relay
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.mesange-world]
+title:
+  fr: "Dossier 05 · 2. La passerelle trop serviable"
+  en: "Case file 05 · 2. The gateway that helps too much"
+summary:
+  fr: "La passerelle qui protège le site sait relayer une requête vers l'intérieur. Tu regardes ce qu'elle accepte de relayer, et jusqu'où va le rôle qu'elle porte. Tu t'arrêtes au fichier témoin."
+  en: "The gateway that protects the site can relay a request inwards. You look at what it agrees to relay, and how far the role it carries goes. You stop at the witness file."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, recon]

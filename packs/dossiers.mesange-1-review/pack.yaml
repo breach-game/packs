@@ -1,0 +1,15 @@
+id: dossiers.mesange-1-review
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.mesange-world]
+title:
+  fr: "Dossier 05 · 1. La revue de configuration"
+  en: "Case file 05 · 1. The configuration review"
+summary:
+  fr: "La Banque Mésange vient de passer au cloud. Tu lis la revue de sa configuration pour trouver le rôle qui a beaucoup plus de droits que son travail n'en demande."
+  en: "Banque Mésange has just moved to the cloud. You read its configuration review to find the role that has far more rights than its job needs."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, web]

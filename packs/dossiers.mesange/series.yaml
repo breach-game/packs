@@ -1,0 +1,5 @@
+# Case file 05, in playing order: the review, the relay, least privilege.
+missions:
+  - dossiers.mesange-1-review
+  - dossiers.mesange-2-relay
+  - dossiers.mesange-3-least

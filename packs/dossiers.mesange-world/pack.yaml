@@ -1,0 +1,12 @@
+id: dossiers.mesange-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: Mésange
+  en: Mésange
+summary:
+  fr: Banque Mésange, banque en ligne fictive. Son site public, hébergé chez un fournisseur de cloud, et la passerelle qui le protège.
+  en: Banque Mésange, a fictional online bank. Its public site, hosted with a cloud provider, and the gateway that protects it.
+authors: [BREACH team]
+locales: [fr, en]

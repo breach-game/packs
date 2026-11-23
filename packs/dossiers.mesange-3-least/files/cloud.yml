@@ -1,0 +1,23 @@
+# Banque Mesange - cloud settings, as found during the review.
+
+gateway:
+  filtering: on
+  # any-internal  the relay forwards to any internal service
+  # health-only   the relay only reaches the site's health page
+  relay_targets: any-internal
+
+identity:
+  # any-request     answers any request coming from the machine
+  # signed-session  answers only a request that first opened a signed
+  #                 session, which a relayed request cannot do
+  access: any-request
+
+roles:
+  role-passerelle:
+    # all / none
+    storage: all
+
+storage:
+  encryption: on
+  # alert when a role reads far more than it usually does
+  alerts: off

@@ -1,0 +1,5 @@
+# Case file 05, mission 1: the shortest path, replayed by CI in every language.
+curl https://www.mesange.test/carte
+cat dossier/cloud-review.txt
+submit role-passerelle
+answer c

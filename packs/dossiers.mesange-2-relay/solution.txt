@@ -1,0 +1,6 @@
+# Case file 05, mission 2: the shortest path, replayed by CI in every language.
+curl https://www.mesange.test/relay/identity
+curl https://www.mesange.test/relay/stock
+curl https://www.mesange.test/relay/stock/exercice/temoin.txt
+submit FLAG{mesange-role-trop-large-4b7e}
+answer a

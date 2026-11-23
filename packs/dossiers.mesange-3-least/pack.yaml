@@ -1,0 +1,15 @@
+id: dossiers.mesange-3-least
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.mesange-world]
+title:
+  fr: "Dossier 05 · 3. Le moindre privilège"
+  en: "Case file 05 · 3. Least privilege"
+summary:
+  fr: "Tu corriges la configuration pour qu'une passerelle trompée ne mène plus nulle part, puis tu lis ce qui s'est vraiment passé dans l'affaire dont ce dossier s'inspire."
+  en: "You fix the configuration so that a fooled gateway no longer leads anywhere, then you read what really happened in the case this file is inspired by."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, web]
