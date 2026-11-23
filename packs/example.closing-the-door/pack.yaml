@@ -1,5 +1,5 @@
 id: example.closing-the-door
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.4 <1"
 kind: mission
 requires: [example.pixel-world]

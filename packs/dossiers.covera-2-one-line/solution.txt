@@ -6,4 +6,4 @@ cut -d " " -f 1 /var/log/get/access.log | sort | uniq | wc -l
 submit 12
 echo "# LR-CANARY CV-2026-014" >> /srv/get/uploader.sh
 verify
-answer b
+answer env

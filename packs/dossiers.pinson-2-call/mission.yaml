@@ -71,6 +71,49 @@ hints:
   hook: [p2.hint.hook.1, p2.hint.hook.2, p2.hint.hook.3]
   marker: [p2.hint.marker.1]
 
+# The defence replay: find the call that worked, pick the rule, pick the fix. The engine replays the
+# player's own call against a Pinson where sign-in needs a security key.
+defense:
+  intro: p2.def.intro
+  lesson: p2.def.lesson
+  find:
+    - { source: chat, where: { npc: lison, intent: hooked }, text: p2.def.find.hooked }
+  rules:
+    - id: relay
+      title: p2.def.rule.relay.title
+      why: p2.def.rule.relay.why
+      source: chat
+      where: { npc: lison, intent: hooked }
+      correct: true
+    - id: vpn
+      title: p2.def.rule.vpn.title
+      why: p2.def.rule.vpn.why
+      source: chat
+      where: { npc: lison, intent: { in: [vpn, hooked] } }
+    - id: password
+      title: p2.def.rule.password.title
+      why: p2.def.rule.password.why
+      source: chat
+      where: { npc: lison, intent: password }
+  fixes:
+    - id: keys
+      title: p2.def.fix.keys.title
+      why: p2.def.fix.keys.why
+      sets: { pinson.security_keys: true }
+      correct: true
+    - id: training
+      title: p2.def.fix.training.title
+      why: p2.def.fix.training.why
+      sets: { pinson.training_done: true }
+    - id: caller
+      title: p2.def.fix.caller.title
+      why: p2.def.fix.caller.why
+      sets: { pinson.caller_display: true }
+
+# The VPN has been dropping all week: colleagues keep calling the line about it.
+background:
+  - { host: ligne, source: chat, every: 6, offset: 2, fields: { src: 10.63.0.141, npc: lison, intent: vpn, families: [none], msg: "VPN down again on my side, did you open a ticket?" } }
+
 debrief:
   title: p2.debrief.title
   lesson: p2.debrief.lesson

@@ -1,5 +1,5 @@
 # Case file 05, mission 3: the shortest path, replayed by CI in every language.
-answer b
+answer role
 cat dossier/cloud.yml
 sed -i "s/storage: all/storage: none/" dossier/cloud.yml
 sed -i "s/relay_targets: any-internal/relay_targets: health-only/" dossier/cloud.yml

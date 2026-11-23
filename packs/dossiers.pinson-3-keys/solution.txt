@@ -1,5 +1,5 @@
 # Case file 03, mission 3: the shortest path, replayed by CI in every language.
-answer b
+answer both
 cat dossier/access.yml
 sed -i "s/second_factor: push/second_factor: security-key/" dossier/access.yml
 sed -i "s/access: all-support/access: on-duty/" dossier/access.yml

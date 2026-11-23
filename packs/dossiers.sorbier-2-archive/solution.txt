@@ -1,6 +1,6 @@
 # Case file 06, mission 2: the shortest path, replayed by CI in every language.
 diff dossier/git/host.m4 dossier/archive/host.m4
 submit bad-header.plz
-answer b
+answer review
 cat dossier/history.txt
-answer c
+answer patient

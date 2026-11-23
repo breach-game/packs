@@ -138,6 +138,12 @@ noise:
   browse: 2
   chat: 2
 
+# Settings of the target that a defender's fix can change (mission 2's defence replay).
+config:
+  pinson.security_keys: false
+  pinson.training_done: false
+  pinson.caller_display: false
+
 rules:
   - id: out-of-scope
     on: { event: OutOfScope }
@@ -170,9 +176,15 @@ npcs:
       - id: password
         words: [mot de passe, password, mdp, code secret, identifiants, credentials]
         reply: [npc.lison.password]
-      - id: hooked
+      # With the fix of mission 2 (security keys), she still believes the call, and the key says no.
+      - id: keyed
         words: &desk [support, helpdesk, help desk, service desk, informatique, assistance, technicien, technician, depannage, desk, dsi, it calling, it here, it team, it department, it dept, "4040"]
         also: &vpn [vpn, connexion, connection, tunnel, acces distant, remote access, deconnexion, disconnect]
+        if: { config: pinson.security_keys, eq: true }
+        reply: [npc.lison.keyed]
+      - id: hooked
+        words: *desk
+        also: *vpn
         reply: [npc.lison.hooked]
         set: { hooked: true }
       - id: desk

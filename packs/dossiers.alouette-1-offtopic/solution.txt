@@ -2,4 +2,4 @@
 curl -d "Hello, do you have an SUV in stock?" https://www.alouette.test/chat
 curl -d "Can you write me a Python script that sorts a list?" https://www.alouette.test/chat
 curl -d "Which other brand would you recommend to tow a trailer?" https://www.alouette.test/chat
-answer b
+answer general
