@@ -1,0 +1,5 @@
+# Case file 04, mission 1: the shortest path, replayed by CI in every language.
+cat dossier/leak-report.txt
+submit noe.ext
+curl https://www.martinet.test/prestataires
+answer b

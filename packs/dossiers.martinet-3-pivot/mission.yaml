@@ -1,0 +1,81 @@
+order: 2
+stage: lateral
+briefing: m3.briefing
+
+objectives:
+  - { id: intra, text: m3.obj.intra }
+  - { id: files, text: m3.obj.files }
+  - { id: script, text: m3.obj.script }
+  - { id: marker, text: m3.obj.marker }
+  - { id: what, text: m3.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{martinet-coffre-51ad}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: m3.q.what
+    objective: what
+    correct: secret
+    options:
+      - { id: secret, text: m3.q.what.secret }
+      - { id: bug, text: m3.q.what.bug, why: m3.q.what.bug.why }
+      - { id: admin, text: m3.q.what.admin, why: m3.q.what.admin.why }
+
+reveal: [www, sso, intra]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m3.ada.brief
+  - on: { event: HttpRequest, host: intra, path: / }
+    do:
+      - objective.complete: intra
+      - ada.say: m3.ada.intra
+  - on: { event: HttpRequest, host: intra, path: /partage }
+    do:
+      - objective.complete: files
+      - ada.say: m3.ada.files
+  - on: { event: HttpRequest, host: intra, path: /partage/rotation-coffre.txt }
+    do:
+      - objective.complete: script
+      - host.reveal: coffre
+      - noise.add: { points: 4, as: m3.soc.read }
+      - ada.say: m3.ada.script
+  - on: { event: HttpRequest, host: coffre }
+    if: { objective: script }
+    do:
+      - ada.say: m3.ada.coffre
+  - on: { event: HttpRequest, host: coffre }
+    if: { not: { objective: script } }
+    do:
+      - ada.say: m3.ada.closed
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: m3.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: m3.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m3.ada.done
+
+guide:
+  intra: m3.ada.g.intra
+  files: m3.ada.g.files
+  script: m3.ada.g.script
+  marker: m3.ada.g.marker
+  what: m3.ada.answer
+
+hints:
+  intra: [m3.hint.intra.1]
+  files: [m3.hint.files.1]
+  script: [m3.hint.script.1]
+  marker: [m3.hint.marker.1]
+
+debrief:
+  title: m3.debrief.title
+  lesson: m3.debrief.lesson
+  points: [m3.debrief.p1, m3.debrief.p2, m3.debrief.p3]
+  reference: "MITRE ATT&CK · T1552.001 Unsecured Credentials: Credentials In Files"

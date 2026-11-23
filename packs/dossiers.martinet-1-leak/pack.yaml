@@ -1,0 +1,15 @@
+id: dossiers.martinet-1-leak
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.martinet-world]
+title:
+  fr: "Dossier 04 · 1. L'accès acheté"
+  en: "Case file 04 · 1. The bought access"
+summary:
+  fr: "La veille de fuites de Martinet a trouvé des identifiants en vente. Tu lis son rapport pour trouver le compte qui ouvre encore une porte."
+  en: "Martinet's leak monitoring found credentials for sale. You read its report to find the account that still opens a door."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, logs]

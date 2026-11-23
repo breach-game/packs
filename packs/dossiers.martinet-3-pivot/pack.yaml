@@ -1,0 +1,15 @@
+id: dossiers.martinet-3-pivot
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.martinet-world]
+title:
+  fr: "Dossier 04 · 3. Le pivot interne"
+  en: "Case file 04 · 3. The pivot inside"
+summary:
+  fr: "Tu es dans l'intranet avec un compte de prestataire, sans aucun droit particulier. Tu regardes ce que n'importe quel compte peut lire, et ce que cela ouvre."
+  en: "You are in the intranet with a contractor's account, with no special rights. You look at what any account can read, and what that opens."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, recon]
