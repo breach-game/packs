@@ -13,3 +13,4 @@ authors: [BREACH team]
 locales: [fr, en]
 difficulty: 1
 skills: [llm, recon]
+minutes: 10
