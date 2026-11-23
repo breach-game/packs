@@ -1,0 +1,15 @@
+LEAK MONITORING - monthly report for Martinet SAS - batch 2027-01
+Source: logs of password-stealing malware, resold on criminal marketplaces.
+Passwords are never shown in this report. Martinet's security team holds them.
+
+account      captured     device the malware was on       password changed since   account today
+-----------  -----------  ------------------------------  -----------------------  -------------
+lea.m        2026-03-02   Martinet laptop (managed)       yes (2026-03-03)         active
+karim.b      2026-06-17   Martinet laptop (managed)       yes (2026-06-17)         active
+ines.ext     2026-09-08   personal computer (unmanaged)   no                       closed 2026-10
+noe.ext      2026-11-21   personal computer (unmanaged)   no                       active
+paul.d       2026-12-04   personal phone (unmanaged)      yes (2026-12-20)         active
+
+Notes
+- Managed devices: the antivirus raised an alert, the password was changed within a day.
+- Unmanaged devices: Martinet saw nothing. We only learned of it by finding the batch for sale.
