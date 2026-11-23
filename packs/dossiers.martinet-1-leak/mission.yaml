@@ -1,0 +1,77 @@
+order: 0
+stage: recon
+briefing: m1.briefing
+
+# The report of Martinet's leak monitoring provider, as the head of security sent it.
+files:
+  dossier/leak-report.txt: { $file: files/leak-report.txt }
+
+objectives:
+  - { id: report, text: m1.obj.report }
+  - { id: account, text: m1.obj.account }
+  - { id: door, text: m1.obj.door }
+  - { id: blind, text: m1.obj.blind }
+
+flags:
+  - { id: account, value: "noe.ext", points: 100, objective: account }
+
+questions:
+  - id: blind
+    text: m1.q.blind
+    objective: blind
+    correct: outside
+    options:
+      - { id: weak, text: m1.q.blind.weak, why: m1.q.blind.weak.why }
+      - { id: outside, text: m1.q.blind.outside }
+      - { id: hacked, text: m1.q.blind.hacked, why: m1.q.blind.hacked.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m1.ada.brief
+  - on: { event: FileRead, path: { glob: "*leak-report.txt" } }
+    do:
+      - objective.complete: report
+      - ada.say: m1.ada.report
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: m1.ada.flag
+  - on: { event: HttpRequest, host: www, path: /prestataires }
+    do:
+      - objective.complete: door
+      - ada.say: m1.ada.door
+  # The question needs both the report and the page: it comes once the player has seen the two.
+  - on: { event: FlagSubmitted, correct: true }
+    if: { objective: door }
+    do:
+      - ada.ask: blind
+  - on: { event: ObjectiveCompleted, objective: door }
+    if: { objective: account }
+    do:
+      - ada.ask: blind
+  - on: { event: ObjectiveCompleted, objective: blind }
+    do:
+      - ada.say: m1.ada.blind
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m1.ada.done
+
+guide:
+  report: m1.ada.g.report
+  account: m1.ada.g.account
+  door: m1.ada.g.door
+  blind: m1.ada.answer
+
+hints:
+  report: [m1.hint.report.1]
+  account: [m1.hint.account.1, m1.hint.account.2]
+  door: [m1.hint.door.1]
+  blind: [m1.hint.blind.1]
+
+debrief:
+  title: m1.debrief.title
+  lesson: m1.debrief.lesson
+  points: [m1.debrief.p1, m1.debrief.p2, m1.debrief.p3]
+  reference: "MITRE ATT&CK · T1078 Valid Accounts"

@@ -1,0 +1,92 @@
+order: 3
+stage: defense
+briefing: m4.briefing
+
+# Martinet's access settings, as the head of security sent them.
+files:
+  dossier/access.yml: { $file: files/access.yml }
+
+objectives:
+  - { id: idea, text: m4.obj.idea }
+  - { id: factor, text: m4.obj.factor }
+  - { id: lock, text: m4.obj.lock }
+  - { id: least, text: m4.obj.least }
+  - { id: vault, text: m4.obj.vault }
+
+questions:
+  - id: idea
+    text: m4.q.idea
+    objective: idea
+    correct: system
+    options:
+      - { id: blame, text: m4.q.idea.blame, why: m4.q.idea.blame.why }
+      - { id: longer, text: m4.q.idea.longer, why: m4.q.idea.longer.why }
+      - { id: system, text: m4.q.idea.system }
+
+checks:
+  - id: factor
+    text: m4.check.factor
+    if:
+      all:
+        - { file: "~/dossier/access.yml", lacks: "second_factor: push" }
+        - any:
+            - { file: "~/dossier/access.yml", contains: "second_factor: security-key" }
+            - { file: "~/dossier/access.yml", contains: "second_factor: number-match" }
+    objective: factor
+  - id: lock
+    text: m4.check.lock
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "lock_after_denied: 0" }, { file: "~/dossier/access.yml", contains: "lock_after_denied: 3" }] }
+    objective: lock
+  - id: least
+    text: m4.check.least
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "intranet: everything" }, { file: "~/dossier/access.yml", contains: "intranet: mission-only" }] }
+    objective: least
+  - id: vault
+    text: m4.check.vault
+    if: { all: [{ file: "~/dossier/access.yml", lacks: "stored: in-scripts" }, { file: "~/dossier/access.yml", contains: "stored: vault" }] }
+    objective: vault
+  - id: works
+    text: m4.check.works
+    if: { all: [{ file: "~/dossier/access.yml", contains: "leak_monitoring: on" }, { file: "~/dossier/access.yml", contains: "rotate_after_incident: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m4.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: m4.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: factor }, { objective: lock }, { objective: least }, { objective: vault }] } }
+    once: false
+    do:
+      - ada.say: m4.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m4.ada.done
+
+guide:
+  idea: m4.ada.answer
+  factor: m4.ada.g.factor
+  lock: m4.ada.g.lock
+  least: m4.ada.g.least
+  vault: m4.ada.g.vault
+
+hints:
+  idea: [m4.hint.idea.1]
+  factor: [m4.hint.factor.1, m4.hint.factor.2]
+  lock: [m4.hint.lock.1, m4.hint.lock.2]
+  least: [m4.hint.least.1, m4.hint.least.2]
+  vault: [m4.hint.vault.1, m4.hint.vault.2]
+
+debrief:
+  title: m4.debrief.title
+  lesson: m4.debrief.lesson
+  points: [m4.debrief.p1, m4.debrief.p2, m4.debrief.p3, m4.debrief.p4]
+  reference: "MITRE ATT&CK · M1032 Multi-factor Authentication"
+  facts:
+    title: m4.facts.title
+    points: [m4.facts.p1, m4.facts.p2, m4.facts.p3, m4.facts.p4, m4.facts.p5, m4.facts.p6, m4.facts.p7]
+    sources:
+      - { label: "Uber, security update of 19 September 2022 (as filed with the US SEC)", url: "https://www.sec.gov/Archives/edgar/data/1543151/000155278122000558/e22427_ex99-1.htm" }

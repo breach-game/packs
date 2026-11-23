@@ -1,0 +1,13 @@
+# rotation-coffre - nightly job of the infrastructure team
+# Renews the keys of every machine through Coffre, the secrets vault.
+#
+# TODO: take this account out of the script (ticket INFRA-2291, opened in 2025)
+
+vault_url=https://coffre.martinet.test
+vault_user=svc-coffre-admin
+vault_password=(replaced for the exercise by the witness marker below)
+
+# witness marker: FLAG{martinet-coffre-51ad}
+
+coffre login "$vault_user"
+coffre rotate --all

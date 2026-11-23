@@ -1,0 +1,15 @@
+id: dossiers.martinet-2-approve
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.martinet-world]
+title:
+  fr: "Dossier 04 · 2. La fatigue"
+  en: "Case file 04 · 2. Fatigue"
+summary:
+  fr: "Le mot de passe ne suffit pas : il reste une demande à approuver sur un téléphone. Tu regardes combien de refus tient un bouton que l'on peut faire sonner sans fin."
+  en: "The password is not enough: a request must still be approved on a phone. You watch how many refusals a button holds when it can be made to ring without end."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs]
