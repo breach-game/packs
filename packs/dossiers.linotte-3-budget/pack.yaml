@@ -1,0 +1,16 @@
+id: dossiers.linotte-3-budget
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.linotte-world]
+title:
+  fr: "Dossier 11 · 3. Un budget sur le robinet"
+  en: "Case file 11 · 3. A budget on the tap"
+summary:
+  fr: "Tu arrêtes la facture, tu donnes à chaque clé le minimum nécessaire et au compte un plafond, puis tu lis ce qui s'est vraiment passé."
+  en: "You stop the bill, you give each key the least it needs and the account a ceiling, then you read what really happened."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, llm]
+minutes: 10

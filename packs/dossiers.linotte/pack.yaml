@@ -1,0 +1,16 @@
+id: dossiers.linotte
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.linotte-world]
+title:
+  fr: "Dossier 11 : le robinet ouvert"
+  en: "Case file 11: the open tap"
+summary:
+  fr: "Inspiré d'une attaque décrite en 2024, où des clés volées servaient à faire tourner des modèles d'IA payants aux frais de leur propriétaire. Sous mandat, tu lis une facture comme un journal, tu trouves une clé oubliée et tu mesures ce qu'elle peut dépenser, puis tu lui donnes des limites. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by an attack described in 2024, in which stolen keys were used to run paid AI models at the owner's expense. Under mandate, you read a bill like a log, you find a forgotten key and measure what it may spend, then you give it limits. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, logs, defense]
+incident: 2024

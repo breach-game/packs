@@ -1,0 +1,9 @@
+# Case file 11, mission 2: the shortest path, replayed by CI in every language.
+curl https://essai.linotte.test/
+curl https://essai.linotte.test/config.json
+curl -d "cle-temoin-linotte bonjour" https://passerelle.linotte.test/v1/essai
+curl -d "cle-temoin-linotte grand" https://passerelle.linotte.test/v1/essai
+curl -d "cle-temoin-linotte grand" https://passerelle.linotte.test/v1/essai
+curl -d "cle-temoin-linotte grand" https://passerelle.linotte.test/v1/essai
+submit FLAG{linotte-robinet-ouvert-7c3e}
+answer limits

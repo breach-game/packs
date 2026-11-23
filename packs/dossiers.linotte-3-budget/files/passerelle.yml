@@ -1,0 +1,25 @@
+# Linotte - settings of the AI gateway, as found during the test.
+
+service:
+  assistant: on
+  logging: on
+
+keys:
+  plume-test:
+    # active / revoked
+    status: active
+  plume-web:
+    # any / petit-only: the models this key may call
+    models: any
+
+limits:
+  # none / 800: the longest answer a request may ask for, in tokens
+  max_output_tokens: none
+  # unlimited / 30: requests one visitor may send per hour
+  per_visitor_per_hour: unlimited
+
+budget:
+  # none / 20-eur: what the account may spend in one day
+  daily_cap: none
+  # off / at-80-percent: who is told, and when
+  alert: off

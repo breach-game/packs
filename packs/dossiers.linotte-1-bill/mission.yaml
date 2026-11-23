@@ -1,0 +1,78 @@
+order: 0
+stage: analysis
+briefing: l1.briefing
+
+# The provider's usage export: one line per day, per key and per model.
+files:
+  dossier/usage.csv: { $file: files/usage.csv }
+
+objectives:
+  - { id: usage, text: l1.obj.usage }
+  - { id: key, text: l1.obj.key }
+  - { id: odd, text: l1.obj.odd }
+  - { id: unseen, text: l1.obj.unseen }
+
+flags:
+  # A plain answer: the name of the key that spends.
+  - { id: key, value: "plume-test", points: 100, objective: key }
+
+questions:
+  - id: odd
+    text: l1.q.odd
+    objective: odd
+    correct: model
+    options:
+      - { id: count, text: l1.q.odd.count, why: l1.q.odd.count.why }
+      - { id: model, text: l1.q.odd.model }
+      - { id: daily, text: l1.q.odd.daily, why: l1.q.odd.daily.why }
+  - id: unseen
+    text: l1.q.unseen
+    objective: unseen
+    correct: nobody
+    options:
+      - { id: nobody, text: l1.q.unseen.nobody }
+      - { id: hidden, text: l1.q.unseen.hidden, why: l1.q.unseen.hidden.why }
+      - { id: small, text: l1.q.unseen.small, why: l1.q.unseen.small.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l1.ada.brief
+  - on: { event: FileRead, path: { glob: "*usage.csv" } }
+    do:
+      - ada.say: l1.ada.usage
+      - objective.complete: usage
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: l1.ada.key
+      - ada.ask: odd
+  - on: { event: ObjectiveCompleted, objective: odd }
+    do:
+      - ada.say: l1.ada.odd
+      - ada.ask: unseen
+  - on: { event: ObjectiveCompleted, objective: unseen }
+    do:
+      - ada.say: l1.ada.unseen
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l1.ada.done
+
+guide:
+  usage: l1.ada.g.usage
+  key: l1.ada.g.key
+  odd: l1.ada.answer
+  unseen: l1.ada.answer
+
+hints:
+  usage: [l1.hint.usage.1]
+  key: [l1.hint.key.1, l1.hint.key.2]
+  odd: [l1.hint.odd.1]
+  unseen: [l1.hint.unseen.1]
+
+debrief:
+  title: l1.debrief.title
+  lesson: l1.debrief.lesson
+  points: [l1.debrief.p1, l1.debrief.p2, l1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM10 Unbounded Consumption"

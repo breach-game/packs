@@ -1,0 +1,16 @@
+id: dossiers.linotte-2-tap
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.linotte-world]
+title:
+  fr: "Dossier 11 · 2. Le robinet ouvert"
+  en: "Case file 11 · 2. The open tap"
+summary:
+  fr: "Une clé d'essai dépense. Tu trouves où elle traînait, puis tu mesures sur la passerelle d'exercice ce que cette clé a le droit de faire. Ensuite tu rejoues la scène en défense."
+  en: "A test key is spending. You find where it was left lying around, then you measure on the exercise gateway what that key is allowed to do. Then you replay it as a defender."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, web, recon]
+minutes: 15

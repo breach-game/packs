@@ -1,0 +1,90 @@
+order: 2
+stage: defense
+briefing: l3.briefing
+
+# The gateway's settings, as found during the test.
+files:
+  dossier/passerelle.yml: { $file: files/passerelle.yml }
+
+objectives:
+  - { id: first, text: l3.obj.first }
+  - { id: revoke, text: l3.obj.revoke }
+  - { id: scope, text: l3.obj.scope }
+  - { id: limits, text: l3.obj.limits }
+  - { id: budget, text: l3.obj.budget }
+
+questions:
+  - id: first
+    text: l3.q.first
+    objective: first
+    correct: revoke
+    options:
+      - { id: refund, text: l3.q.first.refund, why: l3.q.first.refund.why }
+      - { id: stop, text: l3.q.first.stop, why: l3.q.first.stop.why }
+      - { id: revoke, text: l3.q.first.revoke }
+
+checks:
+  - id: revoke
+    text: l3.check.revoke
+    if: { all: [{ file: "~/dossier/passerelle.yml", lacks: "status: active" }, { file: "~/dossier/passerelle.yml", contains: "status: revoked" }] }
+    objective: revoke
+  - id: scope
+    text: l3.check.scope
+    if: { all: [{ file: "~/dossier/passerelle.yml", lacks: "models: any" }, { file: "~/dossier/passerelle.yml", contains: "models: petit-only" }] }
+    objective: scope
+  - id: limits
+    text: l3.check.limits
+    if: { all: [{ file: "~/dossier/passerelle.yml", lacks: "max_output_tokens: none" }, { file: "~/dossier/passerelle.yml", contains: "max_output_tokens: 800" }, { file: "~/dossier/passerelle.yml", lacks: "per_visitor_per_hour: unlimited" }, { file: "~/dossier/passerelle.yml", contains: "per_visitor_per_hour: 30" }] }
+    objective: limits
+  - id: budget
+    text: l3.check.budget
+    if: { all: [{ file: "~/dossier/passerelle.yml", lacks: "daily_cap: none" }, { file: "~/dossier/passerelle.yml", contains: "daily_cap: 20-eur" }, { file: "~/dossier/passerelle.yml", lacks: "alert: off" }, { file: "~/dossier/passerelle.yml", contains: "alert: at-80-percent" }] }
+    objective: budget
+  - id: works
+    text: l3.check.works
+    if: { all: [{ file: "~/dossier/passerelle.yml", contains: "assistant: on" }, { file: "~/dossier/passerelle.yml", contains: "logging: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l3.ada.brief
+      - ada.ask: first
+  - on: { event: ObjectiveCompleted, objective: first }
+    do:
+      - ada.say: l3.ada.first
+  - on: { event: ObjectiveCompleted, objective: revoke }
+    do:
+      - ada.say: l3.ada.revoke
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: revoke }, { objective: scope }, { objective: limits }, { objective: budget }] } }
+    once: false
+    do:
+      - ada.say: l3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l3.ada.done
+
+guide:
+  first: l3.ada.answer
+  revoke: l3.ada.g.revoke
+  scope: l3.ada.g.scope
+  limits: l3.ada.g.limits
+  budget: l3.ada.g.budget
+
+hints:
+  first: [l3.hint.first.1]
+  revoke: [l3.hint.revoke.1, l3.hint.revoke.2]
+  scope: [l3.hint.scope.1, l3.hint.scope.2]
+  limits: [l3.hint.limits.1, l3.hint.limits.2]
+  budget: [l3.hint.budget.1, l3.hint.budget.2]
+
+debrief:
+  title: l3.debrief.title
+  lesson: l3.debrief.lesson
+  points: [l3.debrief.p1, l3.debrief.p2, l3.debrief.p3, l3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM10 Unbounded Consumption"
+  facts:
+    title: l3.facts.title
+    points: [l3.facts.p1, l3.facts.p2, l3.facts.p3, l3.facts.p4, l3.facts.p5, l3.facts.p6]
+    sources:
+      - { label: "Sysdig Threat Research Team, LLMjacking: Stolen Cloud Credentials Used in New AI Attack (6 May 2024)", url: "https://sysdig.com/blog/llmjacking-stolen-cloud-credentials-used-in-new-ai-attack/" }

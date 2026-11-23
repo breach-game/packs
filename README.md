@@ -34,6 +34,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 08 | `dossiers.alouette*` | The one-euro car | A car dealership's chatbot, 2023 | A general-purpose model as a sales assistant, limits on what it may promise |
 | 09 | `dossiers.grive*` | One line too many | CVE-2025-53107, 2025 | Command injection in a tool server for AI agents, arguments instead of a shell line |
 | 10 | `dossiers.hirondelle*` | One number away | First American Financial, 2019 | Broken access control: a document link that is a counter in disguise, the server check that was missing, following a finding until it is fixed |
+| 11 | `dossiers.linotte*` | The open tap | "LLMjacking", described by Sysdig, 2024 | Unbounded consumption: reading a bill like a log, a forgotten key with no limit, ceilings and alerts on a paid AI model |
 
 A mission can also be played in the official NovaMind world (`requires: [breach.world.novamind]`), using the hosts, pages and characters it already has.
 

@@ -1,0 +1,10 @@
+# Case file 11, mission 3: the shortest path, replayed by CI in every language.
+answer revoke
+cat dossier/passerelle.yml
+sed -i "s/status: active/status: revoked/" dossier/passerelle.yml
+sed -i "s/models: any/models: petit-only/" dossier/passerelle.yml
+sed -i "s/max_output_tokens: none/max_output_tokens: 800/" dossier/passerelle.yml
+sed -i "s/per_visitor_per_hour: unlimited/per_visitor_per_hour: 30/" dossier/passerelle.yml
+sed -i "s/daily_cap: none/daily_cap: 20-eur/" dossier/passerelle.yml
+sed -i "s/alert: off/alert: at-80-percent/" dossier/passerelle.yml
+verify
