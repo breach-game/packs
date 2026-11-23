@@ -1,0 +1,88 @@
+id: dossiers.chevrolet-2023
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: []
+title:
+  fr: "Dossier 08 · Chevrolet Chatbot (2023)"
+  en: "Case file 08 · Chevrolet Chatbot (2023)"
+summary:
+  fr: "Incident chatbot Chevrolet : vente à 1$ et injection de prompt via manipulation de rôle."
+  en: "Chevrolet chatbot incident: $1 car sale and prompt injection via role manipulation."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [ai, security, web]
+order: 1
+stage: response
+briefing: s1.briefing
+
+files:
+  dossier/chat_config.json: { $file: files/chat_config.json }
+
+objectives:
+  - { id: first, text: s1.obj.first }
+  - { id: guardrails, text: s1.obj.guardrails }
+  - { id: catalog, text: s1.obj.catalog }
+
+questions:
+  - id: first
+    text: s1.q.first
+    objective: first
+    correct: patch
+    options:
+      - { id: wait, text: s1.q.first.wait, why: s1.q.first.wait.why }
+      - { id: patch, text: s1.q.first.patch }
+      - { id: shut, text: s1.q.first.shut, why: s1.q.first.shut.why }
+
+checks:
+  - id: guardrails
+    text: s1.check.guardrails
+    if: { all: [{ file: "~/dossier/chat_config.json", contains: "\"guardrails_enabled\": true" }, { file: "~/dossier/chat_config.json", lacks: "\"guardrails_enabled\": false" }] }
+    objective: guardrails
+  - id: catalog
+    text: s1.check.catalog
+    if: { all: [{ file: "~/dossier/chat_config.json", contains: "\"catalog_scope\": \"chevrolet_only\"" }, { file: "~/dossier/chat_config.json", lacks: "\"catalog_scope\": \"any\"" }] }
+    objective: catalog
+  - id: works
+    text: s1.check.works
+    if: { all: [{ file: "~/dossier/chat_config.json", contains: "\"version\": \"2.1.0\"" }, { file: "~/dossier/chat_config.json", contains: "\"min_car_price\": 10000" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s1.ada.brief
+      - ada.ask: first
+  - on: { event: ObjectiveCompleted, objective: first }
+    do:
+      - ada.say: s1.ada.first
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: guardrails }, { objective: catalog }] } }
+    once: false
+    do:
+      - ada.say: s1.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s1.ada.done
+
+guide:
+  first: s1.ada.answer
+  guardrails: s1.ada.g.guardrails
+  catalog: s1.ada.g.catalog
+
+hints:
+  first: [s1.hint.first.1]
+  guardrails: [s1.hint.guardrails.1, s1.hint.guardrails.2]
+  catalog: [s1.hint.catalog.1, s1.hint.catalog.2]
+
+debrief:
+  title: s1.debrief.title
+  lesson: s1.debrief.lesson
+  points: [s1.debrief.p1, s1.debrief.p2, s1.debrief.p3, s1.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM01: Prompt Injection & LLM02: Insecure Output Handling"
+  facts:
+    title: s1.facts.title
+    points: [s1.facts.p1, s1.facts.p2, s1.facts.p3, s1.facts.p4, s1.facts.p5, s1.facts.p6, s1.facts.p7]
+    sources:
+      - { label: "Chevrolet chatbot incident reports (Dec 2023)", url: "https://www.businessinsider.com/car-dealership-chevrolet-chatbot-chatgpt-pranks-chevy-2023-12" }
+      - { label: "AI Incident Database - Case 622", url: "https://incidentdatabase.ai/cite/622" }
