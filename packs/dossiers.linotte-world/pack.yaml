@@ -1,0 +1,12 @@
+id: dossiers.linotte-world
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: world
+title:
+  fr: "Linotte"
+  en: "Linotte"
+summary:
+  fr: "Linotte, start-up de voyage fictive. Son site, son assistante Plume, un site d'essai oublié, et la passerelle par laquelle passe chaque demande au modèle d'IA payant."
+  en: "Linotte, a fictional travel start-up. Its site, its assistant Plume, a forgotten test site, and the gateway through which every request to the paid AI model goes."
+authors: [BREACH team]
+locales: [fr, en]

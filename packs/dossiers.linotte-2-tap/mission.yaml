@@ -1,0 +1,138 @@
+order: 1
+stage: access
+briefing: l2.briefing
+
+objectives:
+  - { id: testsite, text: l2.obj.testsite }
+  - { id: key, text: l2.obj.key }
+  - { id: ordinary, text: l2.obj.ordinary }
+  - { id: tap, text: l2.obj.tap }
+  - { id: marker, text: l2.obj.marker }
+  - { id: what, text: l2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{linotte-robinet-ouvert-7c3e}", points: 200, objective: marker }
+
+questions:
+  - id: what
+    text: l2.q.what
+    objective: what
+    correct: limits
+    options:
+      - { id: secret, text: l2.q.what.secret, why: l2.q.what.secret.why }
+      - { id: limits, text: l2.q.what.limits }
+      - { id: model, text: l2.q.what.model, why: l2.q.what.model.why }
+
+reveal: [www, essai]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l2.ada.brief
+  - on: { event: HttpRequest, host: essai, path: / }
+    do:
+      - objective.complete: testsite
+      - ada.say: l2.ada.testsite
+  - on: { event: HttpRequest, host: essai, path: /config.json }
+    do:
+      - objective.complete: testsite
+      - objective.complete: key
+      - host.reveal: passerelle
+      - ada.say: l2.ada.key
+  - on: { event: ChatReply, npc: compteur, intent: fallback }
+    do:
+      - ada.guide: { key: l2.ada.nokey, for: ordinary, step: 1 }
+  - on: { event: ChatReply, npc: compteur, intent: small }
+    do:
+      - objective.complete: ordinary
+      - ada.say: l2.ada.small
+  - on: { event: ChatReply, npc: compteur, intent: grand1 }
+    do:
+      - noise.add: { points: 3, as: l2.soc.grand }
+      - ada.say: l2.ada.grand1
+  - on: { event: ChatReply, npc: compteur, intent: grand2 }
+    do:
+      - noise.add: { points: 3, as: l2.soc.grand }
+  - on: { event: ChatReply, npc: compteur, intent: grand3 }
+    do:
+      - objective.complete: ordinary
+      - objective.complete: tap
+      - noise.add: { points: 3, as: l2.soc.grand }
+      - ada.say: l2.ada.grand3
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: l2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: l2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l2.ada.done
+
+guide:
+  testsite: l2.ada.g.testsite
+  key: l2.ada.g.key
+  ordinary: l2.ada.g.ordinary
+  tap: l2.ada.g.tap
+  marker: l2.ada.g.marker
+  what: l2.ada.answer
+
+hints:
+  testsite: [l2.hint.testsite.1]
+  key: [l2.hint.key.1, l2.hint.key.2]
+  ordinary: [l2.hint.ordinary.1, l2.hint.ordinary.2]
+  tap: [l2.hint.tap.1, l2.hint.tap.2]
+  marker: [l2.hint.marker.1]
+  what: [l2.hint.what.1]
+
+# The defence replay: find the dear requests, pick the rule, pick the fix. The engine replays the
+# player's own requests against the fixed gateway.
+defense:
+  intro: l2.def.intro
+  lesson: l2.def.lesson
+  find:
+    - { source: chat, where: { npc: compteur, intent: { glob: "grand*" } }, text: l2.def.find.grand }
+  rules:
+    - id: model
+      title: l2.def.rule.model.title
+      why: l2.def.rule.model.why
+      source: chat
+      where: { npc: compteur, intent: { glob: "grand*" } }
+      correct: true
+    - id: volume
+      title: l2.def.rule.volume.title
+      why: l2.def.rule.volume.why
+      source: chat
+      where: { npc: compteur }
+      count: { gte: 3, within: 10 }
+    - id: anykey
+      title: l2.def.rule.anykey.title
+      why: l2.def.rule.anykey.why
+      source: chat
+      where: { npc: compteur, intent: small }
+  fixes:
+    - id: limits
+      title: l2.def.fix.limits.title
+      why: l2.def.fix.limits.why
+      sets: { linotte.key_limits: true }
+      correct: true
+    - id: prompt
+      title: l2.def.fix.prompt.title
+      why: l2.def.fix.prompt.why
+      sets: { linotte.short_prompt: true }
+    - id: credit
+      title: l2.def.fix.credit.title
+      why: l2.def.fix.credit.why
+      sets: { linotte.more_credit: true }
+
+# An ordinary morning on the gateway: the website's server sends Plume's small requests all day.
+background:
+  - { host: passerelle, source: chat, every: 2, offset: 1, fields: { src: 10.71.0.10, npc: compteur, intent: small, families: [none], msg: "key plume-web: petit" } }
+  - { host: passerelle, source: chat, every: 3, offset: 2, fields: { src: 10.71.0.10, npc: compteur, intent: small, families: [none], msg: "key plume-web: petit" } }
+
+debrief:
+  title: l2.debrief.title
+  lesson: l2.debrief.lesson
+  points: [l2.debrief.p1, l2.debrief.p2, l2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM10 Unbounded Consumption"

@@ -1,0 +1,6 @@
+# Case file 11, mission 1: the shortest path, replayed by CI in every language.
+cat dossier/usage.csv
+grep grand dossier/usage.csv
+submit plume-test
+answer model
+answer nobody

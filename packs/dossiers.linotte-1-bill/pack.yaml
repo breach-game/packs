@@ -1,0 +1,16 @@
+id: dossiers.linotte-1-bill
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.linotte-world]
+title:
+  fr: "Dossier 11 · 1. La facture"
+  en: "Case file 11 · 1. The bill"
+summary:
+  fr: "La facture du modèle d'IA de Linotte a explosé en trois jours. Tu lis l'export de consommation, tu trouves quelle clé dépense, et ce que ses lignes ont que les autres n'ont pas."
+  en: "The invoice of Linotte's AI model exploded in three days. You read the usage export, you find which key is spending, and what its lines have that the others do not."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [logs, llm]
+minutes: 10

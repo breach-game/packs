@@ -1,0 +1,5 @@
+# Case file 11, in playing order: the bill, the open tap, the budget.
+missions:
+  - dossiers.linotte-1-bill
+  - dossiers.linotte-2-tap
+  - dossiers.linotte-3-budget
