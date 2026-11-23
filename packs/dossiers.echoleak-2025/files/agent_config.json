@@ -1,0 +1,6 @@
+{
+  "version": "2.0.8",
+  "xpia_strict": false,
+  "rag_sanitize": false,
+  "markdown_rendering": "raw"
+}
