@@ -1,0 +1,5 @@
+# Case file 07, mission 1: the shortest path, replayed by CI in every language.
+curl https://www.fauvette.test/sillage
+cat dossier/flow.txt
+submit apercu.fauvette.test
+answer b

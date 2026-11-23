@@ -1,0 +1,8 @@
+# Case file 07, mission 3: the shortest path, replayed by CI in every language.
+answer a
+cat dossier/assistant.yml
+sed -i "s/external_content: mixed/external_content: separated/" dossier/assistant.yml
+sed -i "s/images: auto/images: on-click/" dossier/assistant.yml
+sed -i "s/image_sources: any-allowed/image_sources: signed/" dossier/assistant.yml
+sed -i "s/egress_alerts: off/egress_alerts: on/" dossier/assistant.yml
+verify

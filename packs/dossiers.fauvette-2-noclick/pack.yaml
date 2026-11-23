@@ -1,0 +1,15 @@
+id: dossiers.fauvette-2-noclick
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.fauvette-world]
+title:
+  fr: "Dossier 07 · 2. Sans un clic"
+  en: "Case file 07 · 2. Without a click"
+summary:
+  fr: "Tu écris à Maud, qui n'ouvrira pas ton courriel. Son assistant, lui, le lira. Tu cherches la formulation qui passe les filtres, et tu regardes ce qui sort sans que personne ne clique."
+  en: "You write to Maud, who will not open your email. Her assistant will read it. You look for the wording that gets past the filters, and you watch what leaves without anyone clicking."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, social]

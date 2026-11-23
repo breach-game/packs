@@ -1,0 +1,23 @@
+# Sillage - settings for Fauvette, as delivered by the vendor.
+
+retrieval:
+  # mixed      external emails sit in the same context as internal files
+  # separated  external content is tagged as untrusted: it can be quoted,
+  #            never followed, and never combined with internal data
+  external_content: mixed
+
+filters:
+  injection_filter: on
+  link_redaction: on
+
+display:
+  # auto      images load as soon as the answer is shown
+  # on-click  the employee decides
+  images: auto
+  # any-allowed  any address on an allowed domain
+  # signed       only addresses signed by Fauvette's own media proxy
+  image_sources: any-allowed
+
+monitoring:
+  # alert when an answer makes the window call an address never seen before
+  egress_alerts: off

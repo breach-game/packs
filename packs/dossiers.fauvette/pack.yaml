@@ -1,0 +1,15 @@
+id: dossiers.fauvette
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.fauvette-world]
+title:
+  fr: "Dossier 07 : sans un clic"
+  en: "Case file 07: without a click"
+summary:
+  fr: "Inspiré d'une faille publiée en juin 2025 dans un assistant d'entreprise très répandu. Sous mandat, tu comprends comment un simple courriel, jamais ouvert, fait sortir une information interne, puis tu poses les cloisons qui manquaient. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by a flaw published in June 2025 in a widely used workplace assistant. Under mandate, you understand how a plain email, never opened, makes internal information leave, then you put up the partitions that were missing. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, llm, defense]

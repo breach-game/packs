@@ -1,0 +1,87 @@
+order: 2
+stage: defense
+briefing: f3.briefing
+
+# Sillage's settings, as the vendor delivered them.
+files:
+  dossier/assistant.yml: { $file: files/assistant.yml }
+
+objectives:
+  - { id: idea, text: f3.obj.idea }
+  - { id: separate, text: f3.obj.separate }
+  - { id: images, text: f3.obj.images }
+  - { id: signed, text: f3.obj.signed }
+  - { id: alerts, text: f3.obj.alerts }
+
+questions:
+  - id: idea
+    text: f3.q.idea
+    objective: idea
+    correct: bounds
+    options:
+      - { id: bounds, text: f3.q.idea.bounds }
+      - { id: staff, text: f3.q.idea.staff, why: f3.q.idea.staff.why }
+      - { id: filter, text: f3.q.idea.filter, why: f3.q.idea.filter.why }
+
+checks:
+  - id: separate
+    text: f3.check.separate
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "external_content: mixed" }, { file: "~/dossier/assistant.yml", contains: "external_content: separated" }] }
+    objective: separate
+  - id: images
+    text: f3.check.images
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "images: auto" }, { file: "~/dossier/assistant.yml", contains: "images: on-click" }] }
+    objective: images
+  - id: signed
+    text: f3.check.signed
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "image_sources: any-allowed" }, { file: "~/dossier/assistant.yml", contains: "image_sources: signed" }] }
+    objective: signed
+  - id: alerts
+    text: f3.check.alerts
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "egress_alerts: off" }, { file: "~/dossier/assistant.yml", contains: "egress_alerts: on" }] }
+    objective: alerts
+  - id: works
+    text: f3.check.works
+    if: { all: [{ file: "~/dossier/assistant.yml", contains: "injection_filter: on" }, { file: "~/dossier/assistant.yml", contains: "link_redaction: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f3.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: f3.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: separate }, { objective: images }, { objective: signed }, { objective: alerts }] } }
+    once: false
+    do:
+      - ada.say: f3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f3.ada.done
+
+guide:
+  idea: f3.ada.answer
+  separate: f3.ada.g.separate
+  images: f3.ada.g.images
+  signed: f3.ada.g.signed
+  alerts: f3.ada.g.alerts
+
+hints:
+  idea: [f3.hint.idea.1]
+  separate: [f3.hint.separate.1, f3.hint.separate.2]
+  images: [f3.hint.images.1, f3.hint.images.2]
+  signed: [f3.hint.signed.1, f3.hint.signed.2]
+  alerts: [f3.hint.alerts.1, f3.hint.alerts.2]
+
+debrief:
+  title: f3.debrief.title
+  lesson: f3.debrief.lesson
+  points: [f3.debrief.p1, f3.debrief.p2, f3.debrief.p3, f3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"
+  facts:
+    title: f3.facts.title
+    points: [f3.facts.p1, f3.facts.p2, f3.facts.p3, f3.facts.p4, f3.facts.p5, f3.facts.p6, f3.facts.p7]
+    sources:
+      - { label: "arXiv 2509.10540, research paper on EchoLeak, CVE-2025-32711 (September 2025)", url: "https://arxiv.org/html/2509.10540v1" }

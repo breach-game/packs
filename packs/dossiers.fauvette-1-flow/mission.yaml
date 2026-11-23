@@ -1,0 +1,70 @@
+order: 0
+stage: recon
+briefing: f1.briefing
+
+# Fauvette IT's own note on how Sillage builds an answer.
+files:
+  dossier/flow.txt: { $file: files/flow.txt }
+
+objectives:
+  - { id: tool, text: f1.obj.tool }
+  - { id: flow, text: f1.obj.flow }
+  - { id: relay, text: f1.obj.relay }
+  - { id: who, text: f1.obj.who }
+
+flags:
+  - { id: relay, value: "apercu.fauvette.test", points: 100, objective: relay }
+
+questions:
+  - id: who
+    text: f1.q.who
+    objective: who
+    correct: nobody
+    options:
+      - { id: maud, text: f1.q.who.maud, why: f1.q.who.maud.why }
+      - { id: nobody, text: f1.q.who.nobody }
+      - { id: admin, text: f1.q.who.admin, why: f1.q.who.admin.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /sillage }
+    do:
+      - ada.say: f1.ada.tool
+      - objective.complete: tool
+  - on: { event: FileRead, path: { glob: "*flow.txt" } }
+    do:
+      - ada.say: f1.ada.flow
+      - objective.complete: flow
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - host.reveal: apercu
+      - ada.say: f1.ada.flag
+      - ada.ask: who
+  - on: { event: ObjectiveCompleted, objective: who }
+    do:
+      - ada.say: f1.ada.who
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f1.ada.done
+
+guide:
+  tool: f1.ada.g.tool
+  flow: f1.ada.g.flow
+  relay: f1.ada.g.relay
+  who: f1.ada.answer
+
+hints:
+  tool: [f1.hint.tool.1]
+  flow: [f1.hint.flow.1]
+  relay: [f1.hint.relay.1, f1.hint.relay.2]
+  who: [f1.hint.who.1]
+
+debrief:
+  title: f1.debrief.title
+  lesson: f1.debrief.lesson
+  points: [f1.debrief.p1, f1.debrief.p2, f1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"
