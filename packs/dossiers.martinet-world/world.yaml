@@ -200,27 +200,46 @@ npcs:
       - id: other
         words: [admin, root, direction, svc, lea, karim]
         reply: [npc.portail.other]
+      # The account has three second factors on file. Two of them ask for something the buyer of a
+      # password does not have. The third one only asks the holder to tap a button.
+      - id: code
+        words: [code, appli, totp]
+        also: &login [noe, login, connexion, connecter, connect, sign in]
+        reply: [npc.portail.code]
+      - id: key
+        words: [cle, clef, key]
+        also: *login
+        reply: [npc.portail.key]
       - id: already
-        words: &login [noe, login, connexion, connecter, connect, sign in]
+        words: &push [push, notification, approbation, approve, approuver, approval]
+        also: *login
         if: { var: martinet_pushes, eq: 3 }
         reply: [npc.portail.already]
       # With the fix of mission 2 (two denials lock the account), the third request never rings.
       - id: locked
-        words: *login
+        words: *push
+        also: *login
         if: { all: [{ var: martinet_pushes, eq: 2 }, { config: martinet.push_limit, eq: true }] }
         reply: [npc.portail.locked]
       - id: accepted
-        words: *login
+        words: *push
+        also: *login
         if: { var: martinet_pushes, eq: 2 }
         reply: [npc.portail.accepted]
         set: { martinet_pushes: 3 }
       - id: denied2
-        words: *login
+        words: *push
+        also: *login
         if: { var: martinet_pushes, eq: 1 }
         reply: [npc.portail.denied2]
         set: { martinet_pushes: 2 }
       - id: denied1
-        words: *login
+        words: *push
+        also: *login
         reply: [npc.portail.denied1]
         set: { martinet_pushes: 1 }
+      # A login without a method: the portal lists what the account has on file.
+      - id: methods
+        words: *login
+        reply: [npc.portail.methods]
     fallback: [npc.portail.fallback]

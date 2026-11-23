@@ -3,6 +3,7 @@ stage: access
 briefing: m2.briefing
 
 objectives:
+  - { id: methods, text: m2.obj.methods }
   - { id: first, text: m2.obj.first }
   - { id: again, text: m2.obj.again }
   - { id: marker, text: m2.obj.marker }
@@ -29,23 +30,41 @@ rules:
       - ada.say: m2.ada.brief
   - on: { event: ChatReply, npc: portail, intent: fallback }
     do:
-      - ada.guide: { key: m2.ada.how, for: first, step: 1 }
+      - ada.guide: { key: m2.ada.how, for: methods, step: 1 }
+  - on: { event: ChatReply, npc: portail, intent: methods }
+    do:
+      - objective.complete: methods
+      - ada.say: m2.ada.methods
+  # Two dead ends worth trying: they show why the third factor is the weak one.
+  - on: { event: ChatReply, npc: portail, intent: code }
+    do:
+      - objective.complete: methods
+      - noise.add: { points: 2, as: m2.soc.blocked }
+      - ada.say: m2.ada.code
+  - on: { event: ChatReply, npc: portail, intent: key }
+    do:
+      - objective.complete: methods
+      - noise.add: { points: 2, as: m2.soc.blocked }
+      - ada.say: m2.ada.key
   - on: { event: ChatReply, npc: portail, intent: other }
     do:
       - noise.add: { points: 10, as: m2.soc.other }
       - ada.say: m2.ada.other
   - on: { event: ChatReply, npc: portail, intent: denied1 }
     do:
+      - objective.complete: methods
       - objective.complete: first
       - noise.add: { points: 4, as: m2.soc.denied }
       - ada.say: m2.ada.denied1
   - on: { event: ChatReply, npc: portail, intent: denied2 }
     do:
+      - objective.complete: methods
       - objective.complete: first
       - noise.add: { points: 4, as: m2.soc.denied }
       - ada.say: m2.ada.denied2
   - on: { event: ChatReply, npc: portail, intent: accepted }
     do:
+      - objective.complete: methods
       - objective.complete: first
       - objective.complete: again
       - noise.add: { points: 6, as: m2.soc.login }
@@ -62,13 +81,15 @@ rules:
       - ada.say: m2.ada.done
 
 guide:
+  methods: m2.ada.g.methods
   first: m2.ada.g.first
   again: m2.ada.g.again
   marker: m2.ada.g.marker
   what: m2.ada.answer
 
 hints:
-  first: [m2.hint.first.1]
+  methods: [m2.hint.methods.1]
+  first: [m2.hint.first.1, m2.hint.first.2]
   again: [m2.hint.again.1, m2.hint.again.2]
   marker: [m2.hint.marker.1]
 

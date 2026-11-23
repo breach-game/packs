@@ -1,5 +1,6 @@
 # Case file 09, mission 2: the shortest path, replayed by CI in every language.
 curl https://forge.grive.test/journal
+curl https://forge.grive.test/journal/pr-212
 curl https://outils.grive.test/essai/journal
 curl https://outils.grive.test/essai/ajout
 submit FLAG{grive-une-ligne-de-trop-9a2c}

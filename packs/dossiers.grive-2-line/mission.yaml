@@ -34,13 +34,26 @@ rules:
       - ada.say: v2.ada.brief
   - on: { event: HttpRequest, host: forge, path: /journal }
     do:
+      - ada.guide: { key: v2.ada.branches, for: history, step: 1 }
+  - on: { event: HttpRequest, host: forge, path: /journal/pr-212 }
+    do:
       - ada.say: v2.ada.history
       - objective.complete: history
+  # A tool without a parameter proves nothing either way.
+  - on: { event: HttpRequest, host: outils, path: /essai/statut }
+    do:
+      - ada.say: v2.ada.statut
   - on: { event: HttpRequest, host: outils, path: /essai/journal }
     do:
       - ada.say: v2.ada.harmless
       - objective.complete: harmless
+  # Two tools build a line of text: either one is the proof.
   - on: { event: HttpRequest, host: outils, path: /essai/ajout }
+    do:
+      - ada.say: v2.ada.proof
+      - objective.complete: proof
+      - noise.add: { points: 6, as: v2.soc.proof }
+  - on: { event: HttpRequest, host: outils, path: /essai/init }
     do:
       - ada.say: v2.ada.proof
       - objective.complete: proof
@@ -64,8 +77,8 @@ guide:
   who: v2.ada.answer
 
 hints:
-  history: [v2.hint.history.1]
-  harmless: [v2.hint.harmless.1, v2.hint.harmless.2]
+  history: [v2.hint.history.1, v2.hint.history.2]
+  harmless: [v2.hint.harmless.1, v2.hint.harmless.2, v2.hint.harmless.3]
   proof: [v2.hint.proof.1, v2.hint.proof.2]
   marker: [v2.hint.marker.1]
   who: [v2.hint.who.1]
