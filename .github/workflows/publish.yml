@@ -32,6 +32,8 @@ jobs:
         with:
           path: packs
           persist-credentials: false
+          # The whole history: the catalogue lists the day each pack was added and last changed.
+          fetch-depth: 0
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: breach-game/breach
@@ -52,7 +54,7 @@ jobs:
         run: >
           pnpm --silent --filter @breach/pack-cli run cli build
           "$GITHUB_WORKSPACE/packs/packs" --community --with "$GITHUB_WORKSPACE/breach/content"
-          --out "$GITHUB_WORKSPACE/site"
+          --git-dates --out "$GITHUB_WORKSPACE/site"
       - name: Sign index.json
         working-directory: breach
         env:

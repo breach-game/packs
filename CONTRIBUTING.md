@@ -84,7 +84,11 @@ authors: [Jane Doe]
 locales: [fr, en]               # one or both; players of another language see it as not yet translated
 difficulty: 1                   # optional, 1 to 3, shown in the list
 skills: [web, defense]          # optional, up to 4 of: recon, web, social, llm, logs, linux, crypto, supply, defense
+minutes: 15                     # optional, your estimate of the playing time (a series adds up its missions')
+incident: 2021                  # optional, year of the real incident the pack retells (see section 5)
 ```
+
+The game's community screen is a store: players search titles and summaries, filter by skill, difficulty and status, and sort by date, length or incident year. `summary`, `difficulty`, `skills` and `minutes` are what they see before opening your pack, so fill them in. The dates come from git: the catalogue lists the day each pack was added and last changed.
 
 Use your GitHub login as the first part of the id, so that two authors never pick the same one.
 
@@ -245,6 +249,7 @@ A mission can replay a documented attack, as the case file in `packs/dossiers.co
 - **Organisations, never private people.** Do not name an employee, a victim or a suspect, even when the press did.
 - **A class of weakness, not a recipe.** The mission shows why it worked and how to defend. It never ships the real payload, a working exploit or a real tool. Proof of access is a harmless marker (a comment line), not the attacker's change.
 - Sources are shown as plain text: the game follows no link.
+- **Give the year.** Put `incident: <year>` in the `pack.yaml` of the series (or of the mission, when it stands alone). The store lists it under *Real incidents*, and players can sort by it.
 
 ### Series: several missions in a row
 
@@ -385,6 +390,16 @@ VITE_COMMUNITY_CATALOG=/community/ pnpm dev
 ```
 
 The development server accepts this local catalogue without a signature. The published game never does.
+
+**4. Or play it in the published game, from a file.** No clone of the game needed: gather your packs into one bundle and import it from the *Import* button of *Community missions*.
+
+```bash
+# from the breach folder, for a world, its missions and a series in packs/
+pnpm --silent --filter @breach/pack-cli run cli bundle "$PWD/../packs/packs/jdoe.lost-backup*" \
+  --with "$PWD/content" --out ~/jdoe.lost-backup.breachbundle
+```
+
+`bundle` runs the same checks as CI, then writes one `.breachbundle` file with your packs and their solutions. Everything a mission needs must be in the file, except an official world. The game checks the file again when it is imported (schema, safety, ids, and every solution replayed in every language), refuses an id already used by the catalogue, keeps it on that computer only, lists it under *Imported* with a "not reviewed" badge, and saves it apart. Send the file to a friend to playtest before you open a pull request: it is the same game, without the review.
 
 ## 11. Submit it
 
