@@ -1,0 +1,16 @@
+id: dossiers.roitelet-3-review
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.roitelet-world]
+title:
+  fr: "Dossier 12 · 3. Un libraire entre les deux"
+  en: "Case file 12 · 3. A bookseller in between"
+summary:
+  fr: "Tu règles Page pour que ce qu'un visiteur enseigne soit vérifié avant de servir, tu nettoies la mémoire, puis tu lis ce qui s'est vraiment passé."
+  en: "You set Page so that what a visitor teaches is checked before it is used, you clean the memory, then you read what really happened."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, llm]
+minutes: 10

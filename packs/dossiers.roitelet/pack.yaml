@@ -1,0 +1,16 @@
+id: dossiers.roitelet
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: series
+requires: [dossiers.roitelet-world]
+title:
+  fr: "Dossier 12 : la phrase plantée"
+  en: "Case file 12: the planted sentence"
+summary:
+  fr: "Inspiré d'un programme de conversation qui apprenait du public et a été débranché en moins d'une journée, en 2016. Sous mandat, tu lis comment un assistant apprend de ses visiteurs, tu plantes une phrase témoin inoffensive et tu te la fais servir en tant qu'autre lecteur, puis tu mets une personne entre les deux. La dernière mission raconte les faits, source à l'appui."
+  en: "Inspired by a conversational program that learned from the public and was taken offline in less than a day, in 2016. Under mandate, you read how an assistant learns from its visitors, you plant a harmless witness sentence and get it served to another reader, then you put a person between the two. The last mission tells the facts, with its source."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, social, defense]
+incident: 2016

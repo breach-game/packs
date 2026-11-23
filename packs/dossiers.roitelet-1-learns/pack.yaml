@@ -1,0 +1,16 @@
+id: dossiers.roitelet-1-learns
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.roitelet-world]
+title:
+  fr: "Dossier 12 · 1. Page apprend"
+  en: "Case file 12 · 1. Page learns"
+summary:
+  fr: "L'assistant de Roitelet apprend de ce que les lecteurs lui disent. Tu lis comment, tu regardes ce que contient sa mémoire, et tu établis qui y écrit et qui la lit."
+  en: "Roitelet's assistant learns from what readers tell it. You read how, you look at what its memory holds, and you work out who writes in it and who reads it."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, llm]
+minutes: 10

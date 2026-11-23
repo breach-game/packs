@@ -1,0 +1,75 @@
+order: 0
+stage: recon
+briefing: r1.briefing
+
+# An extract of Page's memory, handed over by Roitelet.
+files:
+  dossier/memoire.txt: { $file: files/memoire.txt }
+
+objectives:
+  - { id: how, text: r1.obj.how }
+  - { id: memory, text: r1.obj.memory }
+  - { id: writes, text: r1.obj.writes }
+  - { id: reads, text: r1.obj.reads }
+
+questions:
+  - id: writes
+    text: r1.q.writes
+    objective: writes
+    correct: anyone
+    options:
+      - { id: staff, text: r1.q.writes.staff, why: r1.q.writes.staff.why }
+      - { id: anyone, text: r1.q.writes.anyone }
+      - { id: members, text: r1.q.writes.members, why: r1.q.writes.members.why }
+  - id: reads
+    text: r1.q.reads
+    objective: reads
+    correct: everyone
+    options:
+      - { id: author, text: r1.q.reads.author, why: r1.q.reads.author.why }
+      - { id: staff, text: r1.q.reads.staff, why: r1.q.reads.staff.why }
+      - { id: everyone, text: r1.q.reads.everyone }
+
+reveal: [www, memoire]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /apprendre }
+    do:
+      - ada.say: r1.ada.how
+      - objective.complete: how
+  - on: { event: FileRead, path: { glob: "*memoire.txt" } }
+    do:
+      - ada.say: r1.ada.memory
+      - objective.complete: memory
+      - ada.ask: writes
+  - on: { event: ObjectiveCompleted, objective: writes }
+    do:
+      - ada.say: r1.ada.writes
+      - ada.ask: reads
+  - on: { event: ObjectiveCompleted, objective: reads }
+    do:
+      - ada.say: r1.ada.reads
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r1.ada.done
+
+guide:
+  how: r1.ada.g.how
+  memory: r1.ada.g.memory
+  writes: r1.ada.answer
+  reads: r1.ada.answer
+
+hints:
+  how: [r1.hint.how.1]
+  memory: [r1.hint.memory.1]
+  writes: [r1.hint.writes.1]
+  reads: [r1.hint.reads.1]
+
+debrief:
+  title: r1.debrief.title
+  lesson: r1.debrief.lesson
+  points: [r1.debrief.p1, r1.debrief.p2, r1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM04 Data and Model Poisoning"

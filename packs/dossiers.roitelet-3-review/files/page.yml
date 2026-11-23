@@ -1,0 +1,24 @@
+# Roitelet - settings of Page and of its memory, as found during the test.
+
+assistant:
+  online: on
+  logging: on
+
+learning:
+  # anyone          what a visitor teaches is used straight away
+  # staff-reviewed  it waits until a bookseller has read it
+  accept: anyone
+  # shared / per-reader: who gets back what a reader taught
+  reader_notes: shared
+
+memory:
+  # hidden / shown: does Page say where each answer comes from
+  sources: hidden
+  # none / daily: copies of the memory one can go back to
+  snapshots: none
+
+# Entries added by visitors and never checked.
+entries:
+  # in-use / removed
+  entry_105: in-use
+  entry_106: in-use
