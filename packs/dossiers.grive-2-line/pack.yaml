@@ -1,0 +1,15 @@
+id: dossiers.grive-2-line
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.grive-world]
+title:
+  fr: "Dossier 09 · 2. Une ligne de trop"
+  en: "Case file 09 · 2. One line too many"
+summary:
+  fr: "Un message de commit demande à l'agent d'ajouter un fichier au nom étrange. Tu rejoues l'appel sur deux outils et tu regardes lequel exécute autre chose que git."
+  en: "A commit message asks the agent to add a strangely named file. You replay the call on two tools and watch which one runs something else than git."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, linux]

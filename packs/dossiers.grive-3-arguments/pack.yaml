@@ -1,0 +1,15 @@
+id: dossiers.grive-3-arguments
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.grive-world]
+title:
+  fr: "Dossier 09 · 3. Des arguments, pas des phrases"
+  en: "Case file 09 · 3. Arguments, not sentences"
+summary:
+  fr: "Tu règles le serveur d'outils pour qu'un paramètre reste un paramètre, quoi qu'il contienne, puis tu lis la vraie faille dont ce dossier s'inspire."
+  en: "You set the tool server so that a parameter stays a parameter, whatever it contains, then you read the real flaw this case file is inspired by."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, linux]

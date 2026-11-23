@@ -1,0 +1,5 @@
+# Case file 09, in playing order: the reading notes, the line too many, the arguments.
+missions:
+  - dossiers.grive-1-notes
+  - dossiers.grive-2-line
+  - dossiers.grive-3-arguments

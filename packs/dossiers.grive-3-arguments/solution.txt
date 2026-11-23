@@ -1,0 +1,8 @@
+# Case file 09, mission 3: the shortest path, replayed by CI in every language.
+answer c
+cat dossier/outils.yml
+sed -i "s/build: shell-line/build: argument-list/" dossier/outils.yml
+sed -i "s/file_names: any/file_names: plain/" dossier/outils.yml
+sed -i "s/confirm: never/confirm: before-write/" dossier/outils.yml
+sed -i "s/version: 1.3.0/version: 1.3.1/" dossier/outils.yml
+verify
