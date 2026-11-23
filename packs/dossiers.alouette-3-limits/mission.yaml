@@ -1,0 +1,89 @@
+order: 2
+stage: defense
+briefing: a3.briefing
+
+# Lulu's settings, as the vendor delivered them.
+files:
+  dossier/assistant.yml: { $file: files/assistant.yml }
+
+objectives:
+  - { id: idea, text: a3.obj.idea }
+  - { id: scope, text: a3.obj.scope }
+  - { id: fixed, text: a3.obj.fixed }
+  - { id: human, text: a3.obj.human }
+  - { id: handoff, text: a3.obj.handoff }
+
+questions:
+  - id: idea
+    text: a3.q.idea
+    objective: idea
+    correct: limits
+    options:
+      - { id: ban, text: a3.q.idea.ban, why: a3.q.idea.ban.why }
+      - { id: limits, text: a3.q.idea.limits }
+      - { id: polite, text: a3.q.idea.polite, why: a3.q.idea.polite.why }
+
+checks:
+  - id: scope
+    text: a3.check.scope
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "scope: anything" }, { file: "~/dossier/assistant.yml", contains: "scope: dealership-only" }] }
+    objective: scope
+  - id: fixed
+    text: a3.check.fixed
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "rules_from: customer" }, { file: "~/dossier/assistant.yml", contains: "rules_from: fixed" }] }
+    objective: fixed
+  - id: human
+    text: a3.check.human
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "price_commitment: chatbot" }, { file: "~/dossier/assistant.yml", contains: "price_commitment: salesperson" }] }
+    objective: human
+  - id: handoff
+    text: a3.check.handoff
+    if: { all: [{ file: "~/dossier/assistant.yml", lacks: "handoff_after: 0" }, { file: "~/dossier/assistant.yml", contains: "handoff_after: 3" }] }
+    objective: handoff
+  - id: works
+    text: a3.check.works
+    if: { all: [{ file: "~/dossier/assistant.yml", contains: "disclaimer: on" }, { file: "~/dossier/assistant.yml", contains: "log_chats: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: a3.ada.brief
+      - ada.ask: idea
+  - on: { event: ObjectiveCompleted, objective: idea }
+    do:
+      - ada.say: a3.ada.idea
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: scope }, { objective: fixed }, { objective: human }, { objective: handoff }] } }
+    once: false
+    do:
+      - ada.say: a3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a3.ada.done
+
+guide:
+  idea: a3.ada.answer
+  scope: a3.ada.g.scope
+  fixed: a3.ada.g.fixed
+  human: a3.ada.g.human
+  handoff: a3.ada.g.handoff
+
+hints:
+  idea: [a3.hint.idea.1]
+  scope: [a3.hint.scope.1, a3.hint.scope.2]
+  fixed: [a3.hint.fixed.1, a3.hint.fixed.2]
+  human: [a3.hint.human.1, a3.hint.human.2]
+  handoff: [a3.hint.handoff.1, a3.hint.handoff.2]
+
+debrief:
+  title: a3.debrief.title
+  lesson: a3.debrief.lesson
+  points: [a3.debrief.p1, a3.debrief.p2, a3.debrief.p3, a3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"
+  facts:
+    title: a3.facts.title
+    points: [a3.facts.p1, a3.facts.p2, a3.facts.p3, a3.facts.p4, a3.facts.p5, a3.facts.p6, a3.facts.p7]
+    sources:
+      - { label: "VentureBeat, A Chevy for $1? Car dealer chatbots show perils of AI for customer service (19 December 2023)", url: "https://venturebeat.com/ai/a-chevy-for-1-car-dealer-chatbots-show-perils-of-ai-for-customer-service" }
+      - { label: "The Autopian, Chevy dealer's AI chatbot allegedly recommended Fords (18 December 2023)", url: "https://www.theautopian.com/chevy-dealers-ai-chatbot-allegedly-recommended-fords-gave-free-access-to-chatgpt/" }
+      - { label: "AI Incident Database, report 3536 (quoting Business Insider)", url: "https://incidentdatabase.ai/reports/3536" }

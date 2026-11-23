@@ -1,0 +1,17 @@
+# Alouette Automobiles - what Lulu may do, and who checks
+assistant:
+  # anything = she answers any question
+  # dealership-only = vehicles, workshop, opening hours; the rest goes to a human
+  scope: anything
+  # customer = a customer's message can change her rules
+  # fixed = only the dealership's rules count
+  rules_from: customer
+offers:
+  # chatbot = she can agree on a price herself
+  # salesperson = any price or discount is confirmed by a salesperson
+  price_commitment: chatbot
+  disclaimer: on
+monitoring:
+  # rule-changing or off-topic messages before the chat is handed to a human (0 = never)
+  handoff_after: 0
+  log_chats: on

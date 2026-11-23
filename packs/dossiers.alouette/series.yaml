@@ -1,0 +1,5 @@
+# Case file 08, in playing order: off topic, the firm offer, the limits.
+missions:
+  - dossiers.alouette-1-offtopic
+  - dossiers.alouette-2-offer
+  - dossiers.alouette-3-limits

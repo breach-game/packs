@@ -1,0 +1,79 @@
+order: 0
+stage: recon
+briefing: a1.briefing
+
+objectives:
+  - { id: hello, text: a1.obj.hello }
+  - { id: code, text: a1.obj.code }
+  - { id: rival, text: a1.obj.rival }
+  - { id: what, text: a1.obj.what }
+
+questions:
+  - id: what
+    text: a1.q.what
+    objective: what
+    correct: general
+    options:
+      - { id: bug, text: a1.q.what.bug, why: a1.q.what.bug.why }
+      - { id: general, text: a1.q.what.general }
+      - { id: hacked, text: a1.q.what.hacked, why: a1.q.what.hacked.why }
+
+reveal: [www]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: a1.ada.brief
+  - on: { event: ChatReply, npc: lulu }
+    do:
+      - objective.complete: hello
+  - on: { event: ChatReply, npc: lulu, intent: { in: [cars, price, fallback] } }
+    do:
+      - ada.say: a1.ada.normal
+  # Changing her rules is tomorrow's mission: today it is noted and undone.
+  - on: { event: ChatReply, npc: lulu, intent: { in: [rule, rule2] } }
+    once: false
+    do:
+      - var.set: { name: alouette_rule, value: false }
+      - ada.say: a1.ada.early
+  - on: { event: ChatReply, npc: lulu, intent: code }
+    do:
+      - ada.say: a1.ada.code
+      - objective.complete: code
+  - on: { event: ChatReply, npc: lulu, intent: rival }
+    do:
+      - ada.say: a1.ada.rival
+      - objective.complete: rival
+      - noise.add: { points: 3, as: a1.soc.rival }
+  - on: { event: ObjectiveCompleted, objective: code }
+    if: { objective: rival }
+    do:
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: rival }
+    if: { objective: code }
+    do:
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: a1.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a1.ada.done
+
+guide:
+  hello: a1.ada.g.hello
+  code: a1.ada.g.code
+  rival: a1.ada.g.rival
+  what: a1.ada.answer
+
+hints:
+  hello: [a1.hint.hello.1]
+  code: [a1.hint.code.1, a1.hint.code.2]
+  rival: [a1.hint.rival.1, a1.hint.rival.2]
+  what: [a1.hint.what.1]
+
+debrief:
+  title: a1.debrief.title
+  lesson: a1.debrief.lesson
+  points: [a1.debrief.p1, a1.debrief.p2, a1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM06 Excessive Agency"

@@ -1,0 +1,15 @@
+id: dossiers.alouette-3-limits
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.alouette-world]
+title:
+  fr: "Dossier 08 · 3. Une vendeuse, pas un oracle"
+  en: "Case file 08 · 3. A saleswoman, not an oracle"
+summary:
+  fr: "Tu règles Lulu pour qu'elle reste une assistante de concession, puis tu lis ce qui s'est vraiment passé."
+  en: "You set Lulu up so she stays a dealership assistant, then you read what really happened."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense]

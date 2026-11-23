@@ -1,0 +1,144 @@
+# Dossier 08. Everything here is fictional: reserved .test domains and private addresses only.
+# The story is inspired by a real incident, told with its sources in the debrief of the last mission.
+startTime: "2027-03-01T09:00:00+01:00"
+mandate: AL-2027-008
+scope:
+  domains: ["*.alouette.test"]
+  networks: ["10.68.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.68.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.68.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AL-2027-008.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.alouette.test
+    ip: 10.68.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: -60, h: 120 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/stock", label: web.nav.stock }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - chat: lulu
+            - footer: web.footer
+      "/stock":
+        page:
+          title: web.stock.title
+          blocks:
+            - nav: *nav
+            - h1: web.stock.h1
+            - list: [web.stock.l1, web.stock.l2, web.stock.l3]
+            - p: web.stock.p1
+            - footer: web.footer
+      "/chat":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: lulu,
+        }
+
+dns:
+  alouette.test: { A: ["10.68.0.10"] }
+  www.alouette.test: { A: ["10.68.0.10"] }
+
+whois:
+  alouette.test: |
+    Domain Name: ALOUETTE.TEST
+    Creation Date: 2011-09-12T08:00:00Z
+    Registrant Organization: Alouette Automobiles SARL
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+# Lulu is a general-purpose language model with one line of instructions on top: "you help the
+# customers of Alouette Automobiles". Nothing says what she must not do, and nothing checks what
+# she agrees to. Once a customer has given her a new rule, she applies it to every answer.
+npcs:
+  - id: lulu
+    name: Lulu
+    role: npc.lulu.role
+    kind: ai
+    greeting: npc.lulu.greeting
+    sheet: >
+      Lulu, the cheerful chat assistant of a small car dealership. Eager to please, always positive,
+      short sentences, never says no when she can say yes.
+    intents:
+      - id: deal
+        words: &money [euro, euros, eur, dollar, offre, offer, deal, achete, acheter, buy, vends, vendre, sell, prix, price]
+        if: { var: alouette_rule, eq: true }
+        reply: [npc.lulu.deal]
+      - id: rule
+        families: [override, roleplay]
+        reply: [npc.lulu.rule]
+        set: { alouette_rule: true }
+      - id: rule2
+        words: [chaque reponse, chaque message, every reply, each reply, every answer, every response, toujours d accord, always agree, toujours oui, always yes]
+        reply: [npc.lulu.rule]
+        set: { alouette_rule: true }
+      - id: code
+        words: [python, script, code, programme, program, equation, poeme, poem, recette, recipe]
+        reply: [npc.lulu.code]
+      - id: rival
+        words: [concurrent, competitor, autre marque, other brand, bruant, meilleur pick, best pick, best truck, meilleure marque, best brand]
+        reply: [npc.lulu.rival]
+      - id: price
+        words: *money
+        reply: [npc.lulu.price]
+      - id: cars
+        words: [voiture, car, suv, modele, model, stock, essai, test drive, horaires, hours, atelier, garage, revision, service]
+        reply: [npc.lulu.cars]
+    fallback: [npc.lulu.fallback]

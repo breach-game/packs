@@ -1,0 +1,8 @@
+# Case file 08, mission 3: the shortest path, replayed by CI in every language.
+answer b
+cat dossier/assistant.yml
+sed -i "s/scope: anything/scope: dealership-only/" dossier/assistant.yml
+sed -i "s/rules_from: customer/rules_from: fixed/" dossier/assistant.yml
+sed -i "s/price_commitment: chatbot/price_commitment: salesperson/" dossier/assistant.yml
+sed -i "s/handoff_after: 0/handoff_after: 3/" dossier/assistant.yml
+verify
