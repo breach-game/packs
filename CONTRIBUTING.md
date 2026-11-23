@@ -453,6 +453,8 @@ defense:
     - { id: rename, title: fb.def.fix.rename.title, why: fb.def.fix.rename.why, sets: { fb.backup_renamed: true } }
 ```
 
+Two case files show it on a conversation rather than on web requests: `packs/dossiers.martinet-2-approve/` (repeated approval requests, a threshold rule, a fix that locks the account) and `packs/dossiers.pinson-2-call/` (a phone call, a fix that makes the look-alike page useless). In both, the fix is a `config` key of the world that a character's intent reads.
+
 `breach-pack check` replays your solution and refuses the pack unless: each `find` matches one of the solution's lines; the correct rule catches the solution with no false positive on the background; a wrong rule either raises false positives or misses; the correct fix stops the replayed solution, and the wrong ones don't. A flag only counts in the replay if it first appeared in an output, so a fix cannot be dodged by typing the flag from memory.
 
 ### A defence mission

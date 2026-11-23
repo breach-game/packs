@@ -45,3 +45,4 @@ npc.portail.already: "The session of noe.ext is already open. No new request is 
 ada.outOfScope: "Stop. That target is outside mandate MT-2027-004. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
 ada.noise70: "You are making a lot of noise. Slow down."
 ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+npc.portail.locked: "Attempt recorded.\n\n[sso] 23:26 noe.ext: password correct (replayed by the portal)\n[sso] 23:26 two requests already denied tonight: no new request is sent to the phone\n[sso] 23:26 account noe.ext locked, security on call alerted\n[sso] login blocked"
