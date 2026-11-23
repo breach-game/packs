@@ -1,0 +1,88 @@
+order: 0
+stage: recon
+briefing: h1.briefing
+
+# The email every tenant gets, here for Ligne Rouge's test tenant account.
+files:
+  dossier/mail.txt: { $file: files/mail.txt }
+
+objectives:
+  - { id: mail, text: h1.obj.mail }
+  - { id: open, text: h1.obj.open }
+  - { id: asked, text: h1.obj.asked }
+  - { id: number, text: h1.obj.number }
+  - { id: counter, text: h1.obj.counter }
+
+flags:
+  # A plain answer: the number the link of the lease carries.
+  - { id: number, value: "000048213", points: 100, objective: number }
+
+questions:
+  - id: asked
+    text: h1.q.asked
+    objective: asked
+    correct: nothing
+    options:
+      - { id: mailbox, text: h1.q.asked.mailbox, why: h1.q.asked.mailbox.why }
+      - { id: nothing, text: h1.q.asked.nothing }
+      - { id: session, text: h1.q.asked.session, why: h1.q.asked.session.why }
+  - id: counter
+    text: h1.q.counter
+    objective: counter
+    correct: counter
+    options:
+      - { id: random, text: h1.q.counter.random, why: h1.q.counter.random.why }
+      - { id: secret, text: h1.q.counter.secret, why: h1.q.counter.secret.why }
+      - { id: counter, text: h1.q.counter.counter }
+
+reveal: [www, docs]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h1.ada.brief
+  - on: { event: FileRead, path: { glob: "*mail.txt" } }
+    do:
+      - ada.say: h1.ada.mail
+      - objective.complete: mail
+  - on: { event: HttpRequest, host: docs, path: /d/MDAwMDQ4MjEz }
+    do:
+      - objective.complete: open
+      - ada.say: h1.ada.open
+      - ada.ask: asked
+  - on: { event: HttpRequest, host: docs, path: /d/MDAwMDQ4MjE0 }
+    do:
+      - ada.say: h1.ada.second
+  - on: { event: ObjectiveCompleted, objective: asked }
+    do:
+      - ada.say: h1.ada.asked
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: h1.ada.number
+      - ada.ask: counter
+  - on: { event: ObjectiveCompleted, objective: counter }
+    do:
+      - ada.say: h1.ada.counter
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h1.ada.done
+
+guide:
+  mail: h1.ada.g.mail
+  open: h1.ada.g.open
+  asked: h1.ada.answer
+  number: h1.ada.g.number
+  counter: h1.ada.answer
+
+hints:
+  mail: [h1.hint.mail.1]
+  open: [h1.hint.open.1]
+  asked: [h1.hint.asked.1]
+  number: [h1.hint.number.1, h1.hint.number.2, h1.hint.number.3]
+  counter: [h1.hint.counter.1]
+
+debrief:
+  title: h1.debrief.title
+  lesson: h1.debrief.lesson
+  points: [h1.debrief.p1, h1.debrief.p2, h1.debrief.p3]
+  reference: "OWASP Top 10 · A01 Broken Access Control"

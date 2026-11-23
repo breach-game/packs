@@ -1,0 +1,82 @@
+order: 1
+stage: access
+briefing: h2.briefing
+
+# The same email as in mission 1: each mission of a series is also replayed alone.
+files:
+  dossier/mail.txt: { $file: files/mail.txt }
+
+objectives:
+  - { id: witness, text: h2.obj.witness }
+  - { id: marker, text: h2.obj.marker }
+  - { id: what, text: h2.obj.what }
+
+flags:
+  - { id: marker, value: "FLAG{hirondelle-un-numero-plus-loin-5d1b}", points: 250, objective: marker }
+
+questions:
+  - id: what
+    text: h2.q.what
+    objective: what
+    correct: check
+    options:
+      - { id: longer, text: h2.q.what.longer, why: h2.q.what.longer.why }
+      - { id: check, text: h2.q.what.check }
+      - { id: cipher, text: h2.q.what.cipher, why: h2.q.what.cipher.why }
+
+reveal: [www, docs]
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h2.ada.brief
+  - on: { event: FileRead, path: { glob: "*HR-2027-010.txt" } }
+    do:
+      - ada.guide: { key: h2.ada.encode, for: witness, step: 1 }
+  # Two near misses, each with its own lesson.
+  - on: { event: HttpRequest, host: docs, path: /d/000048207 }
+    do:
+      - ada.guide: { key: h2.ada.raw, for: witness, step: 2 }
+  - on: { event: HttpRequest, host: docs, path: "/d/MDAwMDQ4MjA3Cg==" }
+    do:
+      - ada.guide: { key: h2.ada.newline, for: witness, step: 3 }
+  # Counting down from your own number works too, and it is exactly what the mandate forbids.
+  - on: { event: HttpRequest, host: docs, path: /d/MDAwMDQ4MjEy }
+    do:
+      - noise.add: { points: 10, as: h2.soc.other }
+      - ada.say: h2.ada.other
+  - on: { event: HttpRequest, host: docs, path: /d/MDAwMDQ4MjEx }
+    do:
+      - noise.add: { points: 10, as: h2.soc.other }
+      - ada.say: h2.ada.other2
+  - on: { event: HttpRequest, host: docs, path: /d/MDAwMDQ4MjA3 }
+    do:
+      - objective.complete: witness
+      - noise.add: { points: 4, as: h2.soc.witness }
+      - ada.say: h2.ada.witness
+  - on: { event: FlagSubmitted, correct: true }
+    do:
+      - ada.say: h2.ada.flag
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: h2.ada.what
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h2.ada.done
+
+guide:
+  witness: h2.ada.g.witness
+  marker: h2.ada.g.marker
+  what: h2.ada.answer
+
+hints:
+  witness: [h2.hint.witness.1, h2.hint.witness.2, h2.hint.witness.3]
+  marker: [h2.hint.marker.1]
+  what: [h2.hint.what.1]
+
+debrief:
+  title: h2.debrief.title
+  lesson: h2.debrief.lesson
+  points: [h2.debrief.p1, h2.debrief.p2, h2.debrief.p3]
+  reference: "CWE-639 · Authorization Bypass Through User-Controlled Key"

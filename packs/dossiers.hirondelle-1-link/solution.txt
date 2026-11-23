@@ -1,0 +1,7 @@
+# Case file 10, mission 1: the shortest path, replayed by CI in every language.
+cat dossier/mail.txt
+curl https://docs.hirondelle.test/d/MDAwMDQ4MjEz
+answer nothing
+echo MDAwMDQ4MjEz | base64 -d
+submit 000048213
+answer counter

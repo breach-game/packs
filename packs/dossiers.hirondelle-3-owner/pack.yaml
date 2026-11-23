@@ -1,0 +1,16 @@
+id: dossiers.hirondelle-3-owner
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.hirondelle-world]
+title:
+  fr: "Dossier 10 · 3. Pour qui"
+  en: "Case file 10 · 3. For whom"
+summary:
+  fr: "Tu règles le portail pour qu'il vérifie qui demande, tu regardes le constat qui attendait depuis janvier, puis tu lis ce qui s'est vraiment passé."
+  en: "You set the portal so that it checks who asks, you look at the finding that had been waiting since January, then you read what really happened."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, web]
+minutes: 10

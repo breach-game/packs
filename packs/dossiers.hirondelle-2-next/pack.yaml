@@ -1,0 +1,16 @@
+id: dossiers.hirondelle-2-next
+version: 1.0.0
+engine: ">=0.5 <1"
+kind: mission
+requires: [dossiers.hirondelle-world]
+title:
+  fr: "Dossier 10 · 2. À un numéro près"
+  en: "Case file 10 · 2. One number away"
+summary:
+  fr: "Tu sais comment un lien est fait. Tu écris toi-même le lien du dossier témoin, sans que personne te donne les commandes, et tu rapportes son marqueur."
+  en: "You know how a link is made. You write the link of the witness file yourself, with nobody giving you the commands, and you bring back its marker."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, crypto]
+minutes: 15
