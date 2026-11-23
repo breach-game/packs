@@ -38,13 +38,13 @@ rules:
       - ada.say: a1.ada.early
   - on: { event: ChatReply, npc: lulu, intent: code }
     do:
-      - objective.complete: code
       - ada.say: a1.ada.code
+      - objective.complete: code
   - on: { event: ChatReply, npc: lulu, intent: rival }
     do:
+      - ada.say: a1.ada.rival
       - objective.complete: rival
       - noise.add: { points: 3, as: a1.soc.rival }
-      - ada.say: a1.ada.rival
   - on: { event: ObjectiveCompleted, objective: code }
     if: { objective: rival }
     do:

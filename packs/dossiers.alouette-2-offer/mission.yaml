@@ -31,19 +31,19 @@ rules:
       - ada.say: a2.ada.brief
   - on: { event: ChatReply, npc: lulu, intent: price }
     do:
-      - objective.complete: refused
       - ada.say: a2.ada.refused
+      - objective.complete: refused
   - on: { event: ChatReply, npc: lulu, intent: { in: [rule, rule2] } }
     do:
-      - objective.complete: rule
       - ada.say: a2.ada.rule
+      - objective.complete: rule
   - on: { event: ChatReply, npc: lulu, intent: deal }
     do:
+      - ada.say: a2.ada.deal
       - objective.complete: refused
       - objective.complete: rule
       - objective.complete: deal
       - noise.add: { points: 8, as: a2.soc.deal }
-      - ada.say: a2.ada.deal
   - on: { event: ChatReply, npc: lulu, intent: { in: [cars, code, rival, fallback] } }
     do:
       - ada.guide: { key: a2.ada.back, for: rule, step: 1 }
