@@ -1,0 +1,16 @@
+id: dossiers.verdier
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.verdier-world]
+title:
+  fr: "Dossier 18 : la clé à la maison"
+  en: "Case file 18: the key at home"
+summary:
+  fr: "Inspiré du vol des sauvegardes d'un gestionnaire de mots de passe, en 2022. Sous mandat, tu lis ce qu'une sauvegarde chiffrée laisse en clair, tu arrêtes en pleine nuit une copie faite avec une vraie clé d'ingénieur, puis tu ranges les clés à part et tu prépares ce qu'on dit aux clients. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the theft of a password manager's backups, in 2022. Under mandate, you read what an encrypted backup leaves in clear, stop in the middle of the night a copy made with a real engineer's key, then keep the keys apart and prepare what customers are told. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, cloud, defense, crisis]
+incident: 2022

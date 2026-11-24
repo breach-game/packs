@@ -1,0 +1,8 @@
+# Case file 18, mission 1: the shortest path, replayed by CI in every language.
+jq ".vaults | length" dossier/echantillon.json
+jq ".vaults[0].items[0]" dossier/echantillon.json
+answer clear url
+jq -r ".vaults[].kdf.iterations" dossier/echantillon.json
+jq -r ".vaults[].customer" dossier/echantillon.json
+answer weak c-0193
+answer target

@@ -1,0 +1,16 @@
+id: dossiers.verdier-1-clear
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.verdier-world]
+title:
+  fr: "Dossier 18 · 1. Ce qui reste en clair"
+  en: "Case file 18 · 1. What stays in clear"
+summary:
+  fr: "Un échantillon de sauvegarde de coffres clients, lu avec `jq`. Tu trouves le champ qui n'est pas chiffré, le coffre le moins protégé, et ce qu'un voleur ferait de ce qu'il lit sans aucun mot de passe."
+  en: "A sample of customer vault backups, read with `jq`. You find the field that is not encrypted, the least protected vault, and what a thief would do with what can be read without any password."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [crypto, privacy, defense]
+minutes: 10

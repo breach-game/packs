@@ -1,0 +1,102 @@
+# Configuration, advice to customers, and a decision on when to tell them.
+side: defense
+order: 3
+stage: defense
+briefing: d3.briefing
+
+files:
+  dossier/coffre.yml: { $file: files/coffre.yml }
+
+objectives:
+  - { id: keys, text: d3.obj.keys }
+  - { id: format, text: d3.obj.format }
+  - { id: advice, text: d3.obj.advice }
+  - { id: tell, text: d3.obj.tell }
+
+questions:
+  - id: advice
+    text: d3.q.advice
+    objective: advice
+    correct: inside
+    options:
+      - { id: inside, text: d3.q.advice.inside }
+      - { id: master, text: d3.q.advice.master, why: d3.q.advice.master.why }
+      - { id: wait, text: d3.q.advice.wait, why: d3.q.advice.wait.why }
+  - id: tell
+    text: d3.q.tell
+    objective: tell
+    options:
+      - { id: now, text: d3.q.tell.now, impact: 2 }
+      - { id: later, text: d3.q.tell.later, impact: 6 }
+      - { id: some, text: d3.q.tell.some, impact: 8 }
+
+checks:
+  - id: keys
+    text: d3.check.keys
+    if: { all: [{ file: "~/dossier/coffre.yml", lacks: "stored_in: personal-vault" }, { file: "~/dossier/coffre.yml", contains: "stored_in: separate-hsm" }, { file: "~/dossier/coffre.yml", lacks: "usable_from: anywhere" }, { file: "~/dossier/coffre.yml", contains: "usable_from: managed-devices" }] }
+    objective: keys
+  - id: format
+    text: d3.check.format
+    if: { all: [{ file: "~/dossier/coffre.yml", lacks: "urls: clear" }, { file: "~/dossier/coffre.yml", contains: "urls: encrypted" }, { file: "~/dossier/coffre.yml", lacks: "min_iterations: 5000" }, { file: "~/dossier/coffre.yml", contains: "min_iterations: 600000" }] }
+    objective: format
+  - id: works
+    text: d3.check.works
+    if: { file: "~/dossier/coffre.yml", contains: "schedule: nightly" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: keys }
+    do:
+      - ada.say: d3.ada.keys
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: keys }, { objective: format }] } }
+    once: false
+    do:
+      - ada.say: d3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: keys }, { objective: format }] }
+    do:
+      - ada.say: d3.ada.ready
+      - ada.ask: advice
+  - on: { event: ObjectiveCompleted, objective: advice }
+    do:
+      - ada.say: d3.ada.advice
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: now }
+    do:
+      - ada.say: d3.ada.now
+  - on: { event: Answered, question: tell, option: later }
+    do:
+      - ada.say: d3.ada.later
+  - on: { event: Answered, question: tell, option: some }
+    do:
+      - ada.say: d3.ada.some
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d3.ada.done
+
+guide:
+  keys: d3.ada.g.keys
+  format: d3.ada.g.format
+  advice: d3.ada.answer
+  tell: d3.ada.answer
+
+hints:
+  keys: [d3.hint.keys.1, d3.hint.keys.2]
+  format: [d3.hint.format.1, d3.hint.format.2]
+  advice: [d3.hint.advice.1]
+  tell: [d3.hint.tell.1]
+
+debrief:
+  title: d3.debrief.title
+  lesson: d3.debrief.lesson
+  points: [d3.debrief.p1, d3.debrief.p2, d3.debrief.p3, d3.debrief.p4]
+  reference: "OWASP Top 10 · A02 Cryptographic Failures"
+  facts:
+    title: d3.facts.title
+    points: [d3.facts.p1, d3.facts.p2, d3.facts.p3, d3.facts.p4, d3.facts.p5]
+    sources:
+      - { label: "SecurityWeek, LastPass says DevOps engineer's home computer hacked (28 February 2023)", url: "https://www.securityweek.com/lastpass-says-devops-engineer-home-computer-hacked/" }
+      - { label: "TechTarget, LastPass breach tied to hack of engineer's home computer (2023)", url: "https://www.techtarget.com/cybersecurity/news/365532032/LastPass-breach-tied-to-hack-of-engineers-home-computer" }

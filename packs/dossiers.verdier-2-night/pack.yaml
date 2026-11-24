@@ -1,0 +1,16 @@
+id: dossiers.verdier-2-night
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.verdier-world]
+title:
+  fr: "Dossier 18 · 2. 3 heures du matin"
+  en: "Case file 18 · 2. 3 a.m."
+summary:
+  fr: "En pleine nuit, une clé d'ingénieur télécharge les sauvegardes des coffres depuis une adresse inconnue. Tu la repères dans le journal du stockage, tu retires la bonne clé avant la dernière copie, et tu comprends comment elle est sortie."
+  en: "In the middle of the night, an engineer's key downloads the vault backups from an unknown address. You spot it in the storage log, withdraw the right key before the last copy, and understand how it got out."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, cloud, defense]
+minutes: 12

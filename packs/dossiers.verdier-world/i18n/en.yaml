@@ -1,0 +1,5 @@
+file.readme: "Ligne Rouge workstation. Case file: Verdier. Type `mission` to see your objectives, `hint` if you are stuck."
+ada.outOfScope: "Stop. That target is outside mandate VD-2027-018. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE VD-2027-018\nClient: Verdier SAS, maker of the Verdier password manager. Scope: *.verdier.test, 10.78.0.0/24.\nPurpose: in August, an intruder got in through a developer's workstation and took code and internal documentation. Verdier fears a return visit, this time to the customer vault backups. Ligne Rouge assesses what a stolen backup would be worth, watches the storage, and proposes how to keep the keys apart.\nSet-up agreed: Ligne Rouge reads a test backup sample and the storage logs, and may withdraw a key or cut an access if a copy is in progress. Ligne Rouge decrypts no real vault.\nSigned: Verdier's head of security."

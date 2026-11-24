@@ -1,0 +1,16 @@
+id: dossiers.verdier-3-apart
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.verdier-world]
+title:
+  fr: "Dossier 18 · 3. Les clés à part"
+  en: "Case file 18 · 3. Keys kept apart"
+summary:
+  fr: "Tu ranges les clés des sauvegardes hors des coffres personnels et tu ne les rends utilisables que depuis des postes gérés, tu chiffres les adresses et tu relèves les vieux réglages. Puis tu dis aux clients quoi faire, et quand. La dernière mission raconte les faits, sources à l'appui."
+  en: "You move the backup keys out of personal vaults and make them usable only from managed devices, encrypt the addresses and raise the old settings. Then you tell customers what to do, and when. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, cloud, defense, crisis]
+minutes: 12

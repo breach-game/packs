@@ -1,0 +1,8 @@
+# Case file 18, mission 2: the shortest path, replayed by CI in every language.
+soc logs storage access
+cat dossier/cles.txt
+soc logs storage access
+contain revoke vd-devops-04
+answer src 203.0.113.47
+cat dossier/poste-maison.txt
+answer home

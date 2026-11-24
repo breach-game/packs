@@ -1,0 +1,10 @@
+STORAGE KEYS - bucket vault-backups (read access)
+
+key            holder                    usual use
+vd-backup      backup job (10.78.0.20)   writes the nightly backup
+vd-devops-01   DevOps engineer 1         restore tests, office hours
+vd-devops-02   DevOps engineer 2         restore tests, office hours
+vd-devops-03   DevOps engineer 3         on call
+vd-devops-04   DevOps engineer 4         on call, often from home
+
+The four DevOps keys are kept in each engineer's personal password vault.

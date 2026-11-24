@@ -1,0 +1,142 @@
+# A night copy of the vault backups with a real key. Withdraw the key before the last part.
+side: defense
+order: 2
+stage: defense
+briefing: d2.briefing
+reveal: [storage]
+
+files:
+  dossier/cles.txt: { $file: files/cles.txt }
+  dossier/poste-maison.txt: { $file: files/poste-maison.txt }
+
+config:
+  vd.key_revoked: false
+  vd.storage_isolated: false
+  vd.ip_blocked: false
+
+adversary:
+  id: copier
+  name: unknown
+  from: outside
+  pace: 2
+  steps:
+    - { id: list, host: storage, source: access, fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/?list-type=2", status: 200, bytes: 2210, ua: "aws-cli/2.13.4 key=vd-devops-04" } }
+    - { id: part1, host: storage, source: access, fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/2027-10-11/part-01.enc", status: 200, bytes: 1048576000, ua: "aws-cli/2.13.4 key=vd-devops-04" } }
+    - id: part2
+      host: storage
+      source: access
+      fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/2027-10-11/part-02.enc", status: 200, bytes: 1048576000, ua: "aws-cli/2.13.4 key=vd-devops-04" }
+      blockedIf: &stopped
+        any:
+          - { config: vd.key_revoked, eq: true }
+          - { config: vd.storage_isolated, eq: true }
+    - id: part3
+      host: storage
+      source: access
+      fields: { src: 198.51.100.80, method: GET, path: "/vault-backups/2027-10-11/part-03.enc", status: 200, bytes: 734003200, ua: "aws-cli/2.13.4 key=vd-devops-04" }
+      blockedIf: *stopped
+
+# The ordinary night: the backup job writes, the on-call engineer reads a log.
+background:
+  - { host: storage, source: access, every: 2, offset: 0, fields: { src: 10.78.0.20, method: PUT, path: "/vault-backups/2027-10-12/part-01.enc", status: 200, bytes: 4096, ua: "verdier-backup/4.2 key=vd-backup" } }
+  - { host: storage, source: access, every: 3, offset: 1, fields: { src: 10.78.0.43, method: GET, path: "/app-logs/2027-10-12/api.log", status: 200, bytes: 88120, ua: "aws-cli/2.13.4 key=vd-devops-03" } }
+
+containment:
+  - id: revoke-key
+    action: revoke
+    target: vd-devops-04
+    text: d2.contain.revoke
+    sets: { vd.key_revoked: true }
+    impact: 1
+  - id: block-ip
+    action: block
+    target: 203.0.113.47
+    text: d2.contain.block
+    sets: { vd.ip_blocked: true }
+    impact: 0
+  - id: isolate-storage
+    action: isolate
+    target: stockage.verdier.test
+    text: d2.contain.isolate
+    sets: { vd.storage_isolated: true }
+    impact: 30
+
+objectives:
+  - { id: stop, text: d2.obj.stop }
+  - { id: src, text: d2.obj.src }
+  - { id: how, text: d2.obj.how }
+
+investigation:
+  - { id: src, text: d2.q.src, value: "203.0.113.47", points: 75, objective: src }
+
+questions:
+  - id: how
+    text: d2.q.how
+    objective: how
+    correct: home
+    options:
+      - { id: home, text: d2.q.how.home }
+      - { id: guess, text: d2.q.how.guess, why: d2.q.how.guess.why }
+      - { id: inside, text: d2.q.how.inside, why: d2.q.how.inside.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d2.ada.brief
+      - checkpoint.save: start
+  - on: { event: AdversaryStep, step: list, blocked: false }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.list
+  - on: { event: AdversaryStep, step: part1, blocked: false }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.part1
+  - on: { event: AdversaryStep, step: part2, blocked: false }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.part2
+  - on: { event: AdversaryStep, step: part3, blocked: false }
+    do:
+      - mission.fail: d2.ada.fail
+  - on: { event: Contained, containment: block-ip }
+    do:
+      - ada.say: d2.ada.blocked
+  - on: { event: Contained, containment: isolate-storage }
+    do:
+      - ada.say: d2.ada.costly
+  - on: { event: AdversaryStep, stop: true }
+    do:
+      - objective.complete: stop
+  - on: { event: Contained, containment: revoke-key }
+    do:
+      - objective.complete: stop
+  - on: { event: Contained, containment: isolate-storage }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: d2.ada.stopped
+  - on: { event: ObjectiveCompleted, objective: src }
+    do:
+      - ada.say: d2.ada.src
+      - ada.ask: how
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d2.ada.done
+
+guide:
+  stop: d2.ada.g.stop
+  src: d2.ada.g.src
+  how: d2.ada.answer
+
+hints:
+  stop: [d2.hint.stop.1, d2.hint.stop.2, d2.hint.stop.3]
+  src: [d2.hint.src.1]
+  how: [d2.hint.how.1]
+
+debrief:
+  title: d2.debrief.title
+  lesson: d2.debrief.lesson
+  points: [d2.debrief.p1, d2.debrief.p2, d2.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

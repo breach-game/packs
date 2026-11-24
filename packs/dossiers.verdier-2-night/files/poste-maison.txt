@@ -1,0 +1,7 @@
+SECURITY TEAM NOTE - home computer of DevOps engineer 4 (checked remotely with their consent, 12 Oct, 02:50)
+
+- a media server for films and music, installed years ago, last updated 2024
+  vendor advisory: remote code execution, fixed in a later version
+- an unknown program started at login, recording keystrokes
+- the engineer types their master password on this computer to reach their vault,
+  where key vd-devops-04 is kept
