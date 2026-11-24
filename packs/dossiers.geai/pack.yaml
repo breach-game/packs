@@ -1,0 +1,16 @@
+id: dossiers.geai
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.geai-world]
+title:
+  fr: "Dossier 36 : le frigoriste"
+  en: "Case file 36: the refrigeration contractor"
+summary:
+  fr: "Inspiré du vol de quarante millions de cartes dans une chaîne de magasins en 2013. Joué côté défense : la sonde avait sonné, deux fois, et personne n'avait bougé. Tu relis ces alertes, tu suis les données des caisses jusqu'à la sortie, tu coupes, puis tu remontes jusqu'au compte d'un prestataire de réfrigération qui n'aurait jamais dû voir les caisses. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the theft of forty million cards from a retail chain in 2013. Played on the defence side: the sensor had rung, twice, and nobody had moved. You read those alerts again, follow the tills' data to the way out, cut it, then trace it back to a refrigeration contractor's account that should never have seen the tills. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+incident: 2013

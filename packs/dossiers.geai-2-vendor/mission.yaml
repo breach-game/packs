@@ -1,0 +1,126 @@
+# Case file 36, mission 2: the way in. The portal's sign-in export shows the refrigeration
+# contractor's account used at night from the address the data later left to; the firewall rules
+# show a "temporary" rule letting the contractor portal reach the tills. The player names the
+# account and the rule, rewrites the segmentation judged by `verify`, decides when to tell the
+# public (a decision: no option is wrong), and orders the events.
+side: defense
+order: 2
+stage: report
+startTime: "2027-12-15T09:00:00+01:00"
+briefing: c2.briefing
+reveal: [portail, caisses, relais]
+
+config:
+  gc.out_blocked: true
+  gc.relay_isolated: true
+
+files:
+  portail/connexions.csv: { $file: files/connexions-portail.csv }
+  reseau/pare-feu.csv: { $file: files/pare-feu.csv }
+  reseau/cloisonnement.yml: { $file: files/cloisonnement.yml }
+
+objectives:
+  - { id: account, text: c2.obj.account }
+  - { id: rule, text: c2.obj.rule }
+  - { id: walls, text: c2.obj.walls }
+  - { id: announce, text: c2.obj.announce }
+  - { id: story, text: c2.obj.story }
+
+investigation:
+  - { id: account, text: c2.q.account, value: "froid-nord", points: 75, objective: account }
+  - { id: rule, text: c2.q.rule, value: "R-17", points: 75, objective: rule }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: announce
+    text: c2.q.announce
+    objective: announce
+    options:
+      - { id: now, text: c2.q.announce.now, impact: 3 }
+      - { id: after, text: c2.q.announce.after, impact: 5 }
+      - { id: banks, text: c2.q.announce.banks, impact: 2 }
+
+checks:
+  - id: tills
+    text: c2.check.tills
+    if: { file: "~/reseau/cloisonnement.yml", contains: "portal_to_tills: deny" }
+    objective: walls
+  - id: out
+    text: c2.check.out
+    if: { file: "~/reseau/cloisonnement.yml", contains: "file_server_to_internet: update-servers-only" }
+    objective: walls
+  - id: factor
+    text: c2.check.factor
+    if: { file: "~/reseau/cloisonnement.yml", contains: "contractor_second_factor: required" }
+    objective: walls
+  - id: temp
+    text: c2.check.temp
+    if: { file: "~/reseau/cloisonnement.yml", contains: "temporary_rules: expire-after-90-days" }
+    objective: walls
+  - id: works
+    text: c2.check.works
+    if: { file: "~/reseau/cloisonnement.yml", contains: "contractor_portal: enabled" }
+
+timelines:
+  - id: semaines
+    text: c2.tl.text
+    objective: story
+    events:
+      - { id: signin, text: c2.tl.signin }
+      - { id: program, text: c2.tl.program }
+      - { id: alert, text: c2.tl.alert }
+      - { id: leaves, text: c2.tl.leaves }
+      - { id: police, text: c2.tl.police }
+      - { id: cut, text: c2.tl.cut }
+      - { id: public, text: c2.tl.public }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: c2.ada.account
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: c2.ada.rule
+  - on: { event: Verified }
+    if: { not: { objective: walls } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: walls }
+    do:
+      - ada.say: c2.ada.walls
+      - ada.ask: announce
+  - on: { event: ObjectiveCompleted, objective: announce }
+    do:
+      - ada.say: c2.ada.announce
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  account: c2.ada.g.account
+  rule: c2.ada.g.rule
+  walls: c2.ada.g.walls
+  announce: c2.ada.g.announce
+  story: c2.ada.g.story
+
+hints:
+  account: [c2.hint.account.1, c2.hint.account.2]
+  rule: [c2.hint.rule.1, c2.hint.rule.2]
+  walls: [c2.hint.walls.1, c2.hint.walls.2]
+  story: [c2.hint.story.1, c2.hint.story.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "PCI DSS v4.0 · Requirement 1, network segmentation"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "US Senate Commerce Committee, A \"Kill Chain\" Analysis of the 2013 Target Data Breach (March 2014)", url: "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883" }
+      - { label: "US Senate Commerce Committee, press release on the staff report (March 2014)", url: "https://www.commerce.senate.gov/2014/3/rockefeller-staff-report-details-target-s-missed-opportunities-to-stop-massive-data-breach" }

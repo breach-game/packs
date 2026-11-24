@@ -1,0 +1,6 @@
+# Grand Cabas - network segmentation and contractor access. Possible values after the #.
+contractor_portal: enabled
+portal_to_tills: allow              # allow | deny
+file_server_to_internet: any        # any | update-servers-only
+contractor_second_factor: none      # none | required
+temporary_rules: never-reviewed     # never-reviewed | expire-after-90-days

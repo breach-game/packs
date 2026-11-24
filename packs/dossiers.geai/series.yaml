@@ -1,0 +1,4 @@
+# Case file series, in playing order: the ignored alerts, then the contractor's way in.
+missions:
+  - dossiers.geai-1-alerts
+  - dossiers.geai-2-vendor

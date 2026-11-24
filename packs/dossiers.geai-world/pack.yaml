@@ -1,0 +1,12 @@
+id: dossiers.geai-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Grand Cabas"
+  en: "Grand Cabas"
+summary:
+  fr: "Grand Cabas, chaîne de magasins fictive, la semaine avant Noël. Des milliers de caisses, un portail pour les prestataires, une sonde de détection toute neuve, et une équipe qui croule sous les alertes."
+  en: "Grand Cabas, a fictional retail chain, the week before Christmas. Thousands of tills, a portal for contractors, a brand-new detection sensor, and a team buried under alerts."
+authors: [BREACH team]
+locales: [fr, en]
