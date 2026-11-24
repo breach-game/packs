@@ -1,0 +1,13 @@
+# Case file 35, mission 2: the shortest path, replayed by CI in every language.
+cat inventaire/noms.csv
+grep -c ",none," inventaire/noms.csv
+answer orphans 3
+cat inventaire/historique.txt
+answer since 2025
+cat inventaire/regles.yml
+sed -i "s/name_without_owner: allowed/name_without_owner: refused/" inventaire/regles.yml
+sed -i "s/unused_for_90_days: keep-online/unused_for_90_days: switch-off/" inventaire/regles.yml
+sed -i "s/change_to_access_check: no-review/change_to_access_check: second-person-review/" inventaire/regles.yml
+sed -i "s/security_test_scope: listed-names/security_test_scope: everything-that-answers/" inventaire/regles.yml
+verify
+answer everyone

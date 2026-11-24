@@ -1,0 +1,6 @@
+# Boréal Télécom - rules of the inventory of internet-facing names. Possible values after the #.
+inventory: enabled
+name_without_owner: allowed           # allowed | refused
+unused_for_90_days: keep-online       # keep-online | switch-off
+change_to_access_check: no-review     # no-review | second-person-review
+security_test_scope: listed-names     # listed-names | everything-that-answers

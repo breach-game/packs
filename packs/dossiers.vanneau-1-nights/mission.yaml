@@ -1,0 +1,118 @@
+# Case file 35, mission 1: the three nights. Requests reach the old API from addresses that take
+# turns, each for the next customer number, each answered 200 with no token. The player names the
+# machine, proves on the mandate's test record that the old API answers anyone while the current
+# one refuses, writes a rule on reads of the old path (the current API's paths look alike), and
+# switches the old service off, which refuses the attacker's last requests.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [api, ancien]
+
+files:
+  alerte.txt: { $file: files/alerte.txt }
+  regles/ancienne-api.yml: |
+    title: Customer records read through the old API
+    source: access
+
+adversary:
+  id: reader
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: r1, host: ancien, source: access, fields: { src: 203.0.113.14, method: GET, path: /clients/100001, status: 200, bytes: 412, ua: "python-client/3.11" } }
+    - { id: r2, host: ancien, source: access, fields: { src: 198.51.100.77, method: GET, path: /clients/100002, status: 200, bytes: 409, ua: "python-client/3.11" } }
+    - { id: r3, host: ancien, source: access, fields: { src: 192.0.2.203, method: GET, path: /clients/100003, status: 200, bytes: 431, ua: "python-client/3.11" } }
+    - { id: r4, host: ancien, source: access, fields: { src: 203.0.113.14, method: GET, path: /clients/100004, status: 200, bytes: 398, ua: "python-client/3.11" } }
+    - { id: r5, host: ancien, source: access, fields: { src: 198.51.100.77, method: GET, path: /clients/100005, status: 200, bytes: 420, ua: "python-client/3.11" } }
+    - { id: r6, host: ancien, source: access, fields: { src: 192.0.2.203, method: GET, path: /clients/100006, status: 200, bytes: 415, ua: "python-client/3.11" }, blockedIf: { config: bt.old_off, eq: true } }
+    - { id: r7, host: ancien, source: access, fields: { src: 203.0.113.14, method: GET, path: /clients/100007, status: 200, bytes: 402, ua: "python-client/3.11" }, blockedIf: { config: bt.old_off, eq: true } }
+
+# The current API at work: the app and a partner, every request with a token.
+background:
+  - { host: api, source: access, every: 2, offset: 0, fields: { src: 192.0.2.31, method: GET, path: /v3/clients/me, status: 200, bytes: 380, ua: "BorealApp/8.2 (Android 15)" } }
+  - { host: api, source: access, every: 3, offset: 1, fields: { src: 198.51.100.40, method: GET, path: /v3/clients/204418/offres, status: 200, bytes: 1210, ua: "partner-gateway/2.0" } }
+  - { host: api, source: access, every: 5, offset: 2, fields: { src: 192.0.2.57, method: GET, path: /v3/clients/me, status: 401, bytes: 96, ua: "BorealApp/8.2 (iOS 18)" } }
+
+containment:
+  - id: off
+    action: disable
+    target: api-old
+    text: c1.contain.off
+    sets: { bt.old_off: true }
+    impact: 0
+
+objectives:
+  - { id: next, text: c1.obj.next }
+  - { id: proof, text: c1.obj.proof }
+  - { id: rule, text: c1.obj.rule }
+  - { id: off, text: c1.obj.off }
+  - { id: why, text: c1.obj.why }
+
+investigation:
+  - { id: next, text: c1.q.next, value: "100001", points: 75, objective: next }
+  - { id: proof, text: c1.q.proof, value: "BT-TEST-7Q4K", points: 100, objective: proof }
+
+hunts:
+  - id: old
+    file: regles/ancienne-api.yml
+    catch: { source: access, where: { path: { glob: "/clients/*" } } }
+    objective: rule
+
+questions:
+  - id: why
+    text: c1.q.why
+    objective: why
+    correct: both
+    options:
+      - { id: both, text: c1.q.why.both }
+      - { id: password, text: c1.q.why.password, why: c1.q.why.password.why }
+      - { id: speed, text: c1.q.why.speed, why: c1.q.why.speed.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: next }
+    do:
+      - ada.say: c1.ada.next
+  - on: { event: ObjectiveCompleted, objective: proof }
+    do:
+      - ada.say: c1.ada.proof
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: c1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: c1.ada.rule
+  - on: { event: Contained, containment: off }
+    do:
+      - objective.complete: off
+      - ada.say: c1.ada.off
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  next: c1.ada.g.next
+  proof: c1.ada.g.proof
+  rule: c1.ada.g.rule
+  off: c1.ada.g.off
+  why: c1.ada.g.why
+
+hints:
+  next: [c1.hint.next.1, c1.hint.next.2]
+  proof: [c1.hint.proof.1, c1.hint.proof.2]
+  rule: [c1.hint.rule.1, c1.hint.rule.2]
+  off: [c1.hint.off.1]
+  why: [c1.hint.why.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP API Security Top 10 · API2 and API9"

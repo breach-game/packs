@@ -1,0 +1,11 @@
+{
+  "customer": 900001,
+  "kind": "TEST RECORD - created for mandate BT-2028-102",
+  "name": "Camille Exemple",
+  "birth_date": "1990-01-01",
+  "phone": "+33 6 39 98 00 01",
+  "email": "camille.exemple@boreal.test",
+  "address": "1 rue de l'Essai, 00000 Ville-Test",
+  "id_document": "TEST-PASSPORT-000001",
+  "reference": "BT-TEST-7Q4K"
+}

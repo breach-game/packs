@@ -1,0 +1,9 @@
+api-old.boreal.test - change history (from the code repository)
+
+2024-06-10  v1.0  partner API opened for a reseller. Every request checks the partner's key.
+2025-03-18  v1.2  "simplify the key check for the migration" - reviewed by: nobody
+                  (since this change the key check always answers "valid", even with no key)
+2025-09-30        the reseller's contract ends. Team that built the API is dissolved.
+                  Ticket "switch off api-old" opened, assigned to: nobody. Still open.
+2028-08-14        certificate renewed automatically.
+2028-09-17        first unusual requests.

@@ -1,0 +1,12 @@
+id: dossiers.vanneau-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Boréal Télécom"
+  en: "Boréal Télécom"
+summary:
+  fr: "Boréal Télécom, opérateur fictif. Des millions de clients, une API moderne bien gardée, et dans un coin une ancienne adresse que plus personne ne regarde."
+  en: "Boréal Télécom, a fictional operator. Millions of customers, a modern, well-guarded API, and in a corner an old address nobody looks at any more."
+authors: [BREACH team]
+locales: [fr, en]

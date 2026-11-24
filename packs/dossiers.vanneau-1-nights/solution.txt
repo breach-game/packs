@@ -1,0 +1,11 @@
+# Case file 35, mission 1: the shortest path, replayed by CI in every language.
+cat alerte.txt
+soc logs ancien access
+answer next 100001
+curl https://api.boreal.test/v3/clients/900001
+curl https://api-old.boreal.test/clients/900001
+answer proof BT-TEST-7Q4K
+echo "path|startswith: /clients/" >> regles/ancienne-api.yml
+rule test regles/ancienne-api.yml
+contain disable api-old
+answer both

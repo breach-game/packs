@@ -1,0 +1,101 @@
+# Case file 35 "Vanneau". Inspired by a 2022 telecom data breach: an internet-facing API on a
+# domain that had been dormant for years answered without checking who was asking, because of a
+# coding error nobody had detected. Played on the defence side. The only record the player ever
+# reads is a test record created for the mandate; the customer records that leave are only seen as
+# log lines. The old API is a scripted route: it answers one fixed address, nothing to reuse.
+startTime: "2028-09-19T23:10:00+02:00"
+mandate: BT-2028-102
+scope:
+  domains: ["*.boreal.test"]
+  networks: ["10.105.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.105.0.2
+
+config:
+  bt.old_off: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.105.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [www, api, ancien]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            BT-2028-102.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: www, hostname: www.boreal.test, ip: 10.105.0.10, os: Linux, map: { x: 40, z: -120, h: 110 }, services: [{ port: 443, name: https, product: Customer website }] }
+
+  # The current API: every request needs a token.
+  - id: api
+    hostname: api.boreal.test
+    ip: 10.105.0.20
+    os: Linux
+    map: { x: 200, z: -40, h: 140 }
+    services:
+      - { port: 443, name: https, product: boreal-api 3.8 }
+    web:
+      "/v3/clients/900001":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\":\"unauthenticated\",\"detail\":\"a signed-in customer or partner token is required\"}\n"
+
+  # The old API, kept "for a partner" in 2025 and never switched off.
+  - id: ancien
+    hostname: api-old.boreal.test
+    ip: 10.105.0.21
+    os: Linux
+    map: { x: 260, z: 140, h: 80 }
+    services:
+      - { port: 443, name: https, product: boreal-api 1.2 }
+    web:
+      "/clients/900001":
+        headers: { content-type: application/json }
+        body: { $file: files/test-900001.json }
+        variants:
+          - id: switched-off
+            if: { config: bt.old_off, eq: true }
+            status: 410
+            headers: { content-type: application/json }
+            body: "{\"error\":\"gone\",\"detail\":\"this service was switched off\"}\n"
+
+  - id: outside
+    hostname: inconnu.boreal.test
+    ip: 10.105.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  boreal.test: { A: ["10.105.0.10"] }
+  www.boreal.test: { A: ["10.105.0.10"] }
+  api.boreal.test: { A: ["10.105.0.20"] }
+  api-old.boreal.test: { A: ["10.105.0.21"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
