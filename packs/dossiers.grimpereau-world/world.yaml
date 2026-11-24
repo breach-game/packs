@@ -90,7 +90,7 @@ hosts:
         hostname: "annuaire\n"
     system:
       logins:
-        - { user: ir, from: 10.99.0.66, at: "Wed Dec 15 09:12" }
+        - { user: ir, from: 10.99.0.66, at: "Wed Dec 15 09:12", until: "09:20  (00:08)" }
         - { user: svcvigie, from: 10.99.0.20, at: "Sun Dec 12 03:41", until: "04:28  (00:47)" }
         - { user: adm-dsi, from: 10.99.0.31, at: "Fri Dec 10 17:02", until: "17:20  (00:18)" }
         - { user: svcvigie, from: 10.99.0.20, at: "Fri Dec 10 14:00", until: "14:00  (00:00)" }

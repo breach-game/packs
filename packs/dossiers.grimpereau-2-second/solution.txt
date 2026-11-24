@@ -7,6 +7,6 @@ last
 exit
 answer account svcvigie
 answer everywhere
-contain rotate svcvigie
+contain rotate compte-supervision
 timeline histoire
 timeline histoire chain signed installed beacons cname login advisory

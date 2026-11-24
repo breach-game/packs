@@ -20,7 +20,7 @@ files:
 containment:
   - id: control
     action: block
-    target: 198.51.100.66
+    target: poste-de-commande
     text: e2.contain.control
     sets: { lm.c2_blocked: true }
     impact: 0

@@ -9,4 +9,4 @@
 2027-06-09T02:22:41Z mbx=dir-generale app=0f3e9a71 ip=198.51.100.150 items=133
 2027-06-12T10:31:02Z mbx=communication app=5c21d0be ip=10.98.0.152 items=17
 2027-06-15T02:40:31Z mbx=dir-generale app=0f3e9a71 ip=198.51.100.150 items=214
-2027-06-16T08:45:00Z alert=unregistered-app app=0f3e9a71 mbx=dir-generale
+2027-06-16T07:55:00Z alert=unregistered-app app=0f3e9a71 mbx=dir-generale

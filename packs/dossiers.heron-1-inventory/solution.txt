@@ -4,7 +4,7 @@ sbom inventaire --vuln
 answer listed catalogue
 unzip -l inventaire/reservations/reservations.jar
 answer hidden reservations
-contain block sortie-reservations
+contain block sortie-serveur
 deploy
 deploy catalogue 4.2.1
 answer logged

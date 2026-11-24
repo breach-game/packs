@@ -9,9 +9,13 @@ stage: defense
 briefing: c1.briefing
 reveal: [compta, fichiers, planning, messagerie, sauvegarde, dc1, dc2]
 
+config:
+  ar.backup_lost: false
+
 files:
   traces/alerte.txt: { $file: files/alerte.txt }
   regles/vague.yml: |
+    # fields of source auth: src, user, method
     title: The shared admin account used from the accounting workstation
     source: auth
 
@@ -19,19 +23,19 @@ adversary:
   id: wave
   name: unknown
   from: compta
-  pace: 2
+  pace: 3
   delay: 0
   steps:
     - { id: w1, host: fichiers, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
-    - { id: w2, host: planning, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
-    - { id: w3, host: messagerie, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
-    - { id: w4, host: sauvegarde, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password }, blockedIf: { config: ar.admin_disabled, eq: true } }
+    - { id: w2, host: planning, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password }, blockedIf: { config: ar.admin_disabled, eq: true } }
+    - { id: w3, host: messagerie, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password }, blockedIf: { config: ar.admin_disabled, eq: true } }
+    - { id: w4, host: sauvegarde, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password }, blockedIf: { config: ar.admin_disabled, eq: true }, sets: { ar.backup_lost: true } }
 
 # Ordinary sign-ins: the IT team from its admin workstation, the accountant to the file server.
 background:
   - { host: fichiers, source: auth, every: 2, offset: 0, fields: { src: 10.102.0.50, user: compta-01, method: password } }
   - { host: planning, source: auth, every: 3, offset: 1, fields: { src: 10.102.0.31, user: adm-global, method: password } }
-  - { host: dc1, source: auth, every: 4, offset: 2, fields: { src: 10.102.0.31, user: dsi-chef, method: password } }
+  - { host: fichiers, source: auth, every: 4, offset: 2, fields: { src: 10.102.0.31, user: dsi-chef, method: password } }
   - { host: messagerie, source: auth, every: 3, offset: 2, fields: { src: 10.102.0.31, user: adm-global, method: password } }
 
 containment:
@@ -78,17 +82,43 @@ rules:
     once: false
     do:
       - ada.guide: { key: c1.ada.again, for: rule, step: 1 }
+  - on: { event: AdversaryStep, step: w1 }
+    if: { config: ar.admin_disabled, eq: true }
+    do:
+      - ada.say: c1.ada.inflight
+  - on: { event: ConfigPatched }
+    if: { config: ar.backup_lost, eq: true }
+    do:
+      - ada.warn: c1.ada.backup
   - on: { event: ObjectiveCompleted, objective: rule }
+    if: { all: [{ config: ar.backup_lost, eq: false }, { config: ar.admin_disabled, eq: false }] }
     do:
       - ada.say: c1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: rule }
+    if: { any: [{ config: ar.backup_lost, eq: true }, { config: ar.admin_disabled, eq: true }] }
+    do:
+      - ada.say: c1.ada.rule.after
   - on: { event: Contained, containment: admin }
     do:
       - objective.complete: admin
+  - on: { event: Contained, containment: admin }
+    if: { config: ar.backup_lost, eq: false }
+    do:
       - ada.say: c1.ada.admin
       - ada.ask: reach
+  - on: { event: Contained, containment: admin }
+    if: { config: ar.backup_lost, eq: true }
+    do:
+      - ada.say: c1.ada.admin.late
+      - ada.ask: reach
   - on: { event: MissionCompleted }
+    if: { config: ar.backup_lost, eq: false }
     do:
       - ada.say: c1.ada.done
+  - on: { event: MissionCompleted }
+    if: { config: ar.backup_lost, eq: true }
+    do:
+      - ada.say: c1.ada.done.late
 
 guide:
   origin: c1.ada.g.origin

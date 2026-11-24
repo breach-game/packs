@@ -14,6 +14,7 @@ config:
 
 files:
   regles/battement.yml: |
+    # fields of source ids: src, dst, sid (signature id), signature (alert text), priority
     title: TLS heartbeat read attempt
     source: ids
   certs/webmail.crt:
@@ -37,7 +38,7 @@ adversary:
     - { id: p1, host: webmail, source: ids, fields: { src: 203.0.113.52, dst: 10.96.0.11, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
     - { id: p2, host: extranet, source: ids, fields: { src: 203.0.113.52, dst: 10.96.0.12, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
     - { id: p3, host: vpn, source: ids, fields: { src: 198.51.100.130, dst: 10.96.0.13, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
-    - { id: p4, host: webmail, source: ids, fields: { src: 192.0.2.201, dst: 10.96.0.11, sid: 9014071, priority: 1, signature: "VERRETLS TLS heartbeat response too large" } }
+    - { id: p4, host: webmail, source: ids, fields: { src: 192.0.2.201, dst: 10.96.0.11, sid: 9014071, priority: 1, signature: "VERRETLS TLS heartbeat request length mismatch" } }
 
 # Ordinary alerts of a working morning: the backup scanner, a staff member's script.
 background:
