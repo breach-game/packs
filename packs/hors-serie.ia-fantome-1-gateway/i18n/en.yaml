@@ -17,7 +17,7 @@ f1.ada.service: "One \"CV summary\" site alone gets more uploads than all the ot
 f1.ada.g.accounts: "Same idea, on the account (3rd field): `grep dst=resume-cv.example /var/log/passerelle/acces.log | grep method=POST | cut -d \" \" -f 3 | sort | uniq | wc -l`. Then `answer accounts <number>`."
 f1.ada.g.accounts.standard: "Count the distinct accounts that upload to this service."
 f1.ada.accounts: "Six accounts, all from the recruiting team (`rec-`). Not one person, a team habit. Before concluding, read the ticket the DPO attached: `cat tickets/TIL-2291.txt` (on your workstation, after `exit`)."
-f1.ada.g.why: "Read `tickets/TIL-2291.txt` on your workstation, and the in-house assistant's page."
+f1.ada.g.why: "Read `tickets/TIL-2291.txt` on your workstation, and the in-house assistant's page: `curl -s https://assistant.tilia.test/`."
 f1.ada.done: "The problem is not the team. It is a real need with no approved tool to meet it. Banning will not be enough: we need a gateway that says no at the right moment, and a tool that says yes."
 f1.hint.service.1: "`cut -d \" \" -f 4` keeps the destination; `sort | uniq -c | sort -rn` counts and sorts."
 f1.hint.service.2: "`answer service resume-cv.example`"
