@@ -20,10 +20,11 @@ adversary:
   id: quish
   name: brumevaux-mairie.example
   from: outside
-  pace: 1
+  # One mail every three commands: the first two land while the player reads, a quick block
+  # stops the rest (mail3 to mail5).
+  pace: 3
   delay: 0
   steps:
-    # Two mails are already delivered when the accounting department calls.
     - id: mail1
       host: mx
       source: mail
@@ -54,7 +55,8 @@ adversary:
 containment:
   - id: sender
     action: block
-    target: brumevaux-mairie.example
+    # A neutral target, so that `contain` alone does not give the `sender` answer.
+    target: expediteur-campagne
     text: e3.contain.sender
     sets: { bv.sender_blocked: true }
     impact: 0
@@ -114,12 +116,15 @@ rules:
       - ada.say: e3.ada.why
   - on: { event: Contained, containment: sender }
     do:
-      - objective.complete: block
       - ada.say: e3.ada.block
+      - objective.complete: block
   - on: { event: Contained, containment: purge }
     do:
-      - objective.complete: purge
       - ada.say: e3.ada.purge
+      - objective.complete: purge
+  - on: { event: AdversaryStep, step: { in: [mail3, mail4, mail5] }, blocked: true }
+    do:
+      - ada.say: e3.ada.refused
   - on: { event: AdversaryStep, step: mail4, blocked: false }
     do:
       - ada.warn: e3.ada.more

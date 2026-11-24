@@ -10,7 +10,7 @@ t1.q.first.thrown.why: "A tag that stops, or changes its route, shows on the oth
 t1.q.first.confront: "Nadia rings her ex on the spot to demand an explanation"
 t1.q.first.confront.why: "That is the moment when everything can turn worse. If she ever wants to talk to them, it will be after preparing what comes next, not in the anger of the discovery, and never alone."
 t1.q.tag: "This is Nadia's decision. What does she do with the tag?"
-t1.q.tag.police: "Hand it to the police with the alert history"
+t1.q.tag.police: "Take it to the police, still in the bag, with the alert history"
 t1.q.tag.keep: "Leave it in place a few days, long enough to prepare"
 t1.q.tag.silence: "Silence it now, knowing that this will be noticed"
 t1.ada.brief: "Tonight we fix nothing, we understand. First read what the phone saw: `cat telephone/alertes.txt`, then the desk's note: `cat permanence/sac.txt`."

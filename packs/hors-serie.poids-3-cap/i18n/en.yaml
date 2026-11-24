@@ -23,7 +23,7 @@ p3.ada.key: "`cle-demo-site`: the key behind the \"Try it\" button on the home p
 p3.ada.g.caps: "`cat api/limites.yml`: each line gives its possible values after the `#`. Pick the one that sets a limit with `sed -i` or `edit`, then `verify`."
 p3.ada.g.caps.standard: "Fix `api/limites.yml`, then run `verify`."
 p3.ada.almost: "Not yet. `verify` tells you which lines are not right."
-p3.ada.caps: "Four caps: per minute, per answer, per month, and a demo key that can no longer spend other people's money. None stops a customer from working. Now the quote: `cat devis/reponse.txt`, then look the standard up in the catalogue."
+p3.ada.caps: "Four caps: per minute, per answer, per month, and a demo key that can no longer spend other people's money. None stops a customer from working. Now the quote."
 p3.ada.g.invented: "Read `cat devis/reponse.txt`, then look for the reference: `grep -c \"4471\" devis/catalogue-normes.txt`. Answer with `answer invented <number>`."
 p3.ada.g.invented.standard: "Look in `devis/catalogue-normes.txt` for the standard the model cited, and say how many lines hold it."
 p3.ada.invented: "Zero. The standard on wall thickness exists, it is called NF-CUVE 3052, and the model made up another that sounds right: the right prefix, a plausible number, an article, and \"you can quote it as is\". It did not lie. It wrote what looked most like a good answer. One question."

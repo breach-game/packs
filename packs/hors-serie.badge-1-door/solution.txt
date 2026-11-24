@@ -5,4 +5,4 @@ answer behind
 grep "B-0099" acces/journal.csv
 grep "B-0099" acces/badges.csv
 answer lost B-0099
-contain revoke B-0099
+contain revoke badge-perdu

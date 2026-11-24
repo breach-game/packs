@@ -64,10 +64,36 @@ rules:
   - on: { event: ObjectiveCompleted, objective: proof }
     do:
       - ada.say: w3.ada.proof
+  # Any look at a traveller's device beyond the ping sweep: by name, by address, or ports found
+  # in a wider scan. The var keeps it to one warning.
   - on: { event: ServiceDiscovered, host: invite101 }
+    if: { not: { var: touched, eq: 1 } }
     do:
+      - var.set: { name: touched, value: 1 }
       - noise.add: { points: 15, as: w3.noise.guest }
       - ada.warn: w3.ada.guest
+  - on: { event: Scan, target: { contains: invite-10 } }
+    if: { not: { var: touched, eq: 1 } }
+    do:
+      - var.set: { name: touched, value: 1 }
+      - noise.add: { points: 15, as: w3.noise.guest }
+      - ada.warn: w3.ada.guest
+  - on: { event: Scan, target: { contains: 10.115.0.10 } }
+    if: { not: { var: touched, eq: 1 } }
+    do:
+      - var.set: { name: touched, value: 1 }
+      - noise.add: { points: 15, as: w3.noise.guest }
+      - ada.warn: w3.ada.guest
+  # The controller loads the corrected file at its restart tonight (services cannot follow a file
+  # yet), so a scan made right after the fix still finds 445 open: Ada says why.
+  - on: { event: Scan, target: { contains: pc-test } }
+    if: { objective: fix }
+    do:
+      - ada.say: w3.ada.rescan
+  - on: { event: Scan, target: { contains: 10.115.0.50 } }
+    if: { objective: fix }
+    do:
+      - ada.say: w3.ada.rescan
   - on: { event: ObjectiveCompleted, objective: fix }
     do:
       - ada.say: w3.ada.fix

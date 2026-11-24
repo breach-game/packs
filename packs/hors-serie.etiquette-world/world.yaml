@@ -93,6 +93,8 @@ dns:
   www.brumevaux.test: { A: ["10.114.0.10"] }
   mx.brumevaux.test: { A: ["10.114.0.20"] }
   dns.brumevaux.test: { A: ["10.114.0.2"] }
+  # Re-registered by a new holder and parked: the name resolves again (mission 4).
+  vallon-liens.example: { A: ["203.0.113.77"], NS: ["ns1.parking-pages.example.", "ns2.parking-pages.example."] }
 
 whois:
   vallon-liens.example: |

@@ -7,6 +7,8 @@
 side: defense
 order: 4
 stage: defense
+# Thursday, the last day of the mandate (the whois database was updated that morning).
+startTime: "2029-10-11T09:00:00+02:00"
 briefing: e4.briefing
 reveal: [www]
 
@@ -74,7 +76,7 @@ rules:
   - on: { event: FileRead, path: { contains: message-habitante } }
     do:
       - ada.guide: { key: e4.ada.message, for: read, step: 1 }
-  - on: { event: QrDecoded, text: { contains: vallon-liens } }
+  - on: { event: QrDecoded, text: { contains: vallon-liens.example/mediatheque } }
     do:
       - objective.complete: read
   - on: { event: ObjectiveCompleted, objective: read }

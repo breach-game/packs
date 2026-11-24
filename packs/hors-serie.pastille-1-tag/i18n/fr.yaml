@@ -10,7 +10,7 @@ t1.q.first.thrown.why: "Une balise qui s'arrête ou qui change de trajet, ça se
 t1.q.first.confront: "Nadia appelle son ex sur-le-champ pour lui demander des comptes"
 t1.q.first.confront.why: "C'est le moment où tout peut s'envenimer. Si elle veut lui parler un jour, ce sera après avoir préparé la suite, pas dans la colère de la découverte, et jamais seule."
 t1.q.tag: "C'est la décision de Nadia. Que fait-elle de la balise ?"
-t1.q.tag.police: "La remettre à la police avec l'historique des alertes"
+t1.q.tag.police: "L'apporter à la police, dans le sac, avec l'historique des alertes"
 t1.q.tag.keep: "La laisser en place quelques jours, le temps de se préparer"
 t1.q.tag.silence: "La faire taire maintenant, en sachant que cela se verra"
 t1.ada.brief: "Ce soir on ne répare rien, on comprend. Lis d'abord ce que le téléphone a vu : `cat telephone/alertes.txt`, puis la note de la permanence : `cat permanence/sac.txt`."

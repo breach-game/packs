@@ -4,6 +4,6 @@ strings banc/Salaires_2029.pdf.lnk
 answer server maj-garance.example
 cat banc/postes-usb.csv
 answer poste cao-07
-contain isolate cao-07
+contain isolate poste-cle
 answer handin
 answer thank

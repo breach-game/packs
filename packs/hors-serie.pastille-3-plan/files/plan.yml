@@ -1,9 +1,9 @@
 # Nadia's plan - written with her at the Relais help desk. Possible values after the #.
 decides: nadia
 help_sought_from: her-own-phone                # her-own-phone | safe-device
-first_step: delete-everything-tonight          # delete-everything-tonight | talk-to-helpline-first
+first_step: delete-everything-tonight          # talk-to-helpline-first | delete-everything-tonight
 evidence: left-on-the-phone                    # left-on-the-phone | copies-kept-off-the-phone
-passwords: changed-on-her-own-phone            # changed-on-her-own-phone | changed-from-safe-device
+passwords: changed-on-her-own-phone            # changed-from-safe-device | changed-on-her-own-phone
 second_factor: sms-on-her-own-phone            # sms-on-her-own-phone | app-on-safe-device
-old_tablet: still-signed-in                    # still-signed-in | signed-out-when-she-is-ready
+old_tablet: still-signed-in                    # signed-out-when-she-is-ready | still-signed-in
 phone: cleaned-by-hand                         # cleaned-by-hand | replaced-or-reset-when-she-is-ready
