@@ -1,0 +1,9 @@
+# Case file 15, mission 3: the shortest path, replayed by CI in every language.
+answer fix
+cat dossier/charly.yml
+sed -i "s/answers_from: model-memory/answers_from: published-pages/" dossier/charly.yml
+sed -i "s/cite_source: off/cite_source: on/" dossier/charly.yml
+sed -i "s/when_unsure: improvise/when_unsure: hand-over/" dossier/charly.yml
+sed -i "s/money_quotes_only: off/money_quotes_only: on/" dossier/charly.yml
+sed -i "s/sample_check: never/sample_check: weekly/" dossier/charly.yml
+verify

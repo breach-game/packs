@@ -1,0 +1,7 @@
+# Case file 15, mission 2: the shortest path, replayed by CI in every language.
+cat dossier/reclamation.txt
+cat dossier/conversation-8812.txt
+answer amount 37.60
+cat dossier/projet-reponse.txt
+answer separate
+answer refund

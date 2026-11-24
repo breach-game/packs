@@ -1,0 +1,79 @@
+order: 1
+stage: recon
+briefing: c1.briefing
+reveal: [www]
+
+objectives:
+  - { id: retro, text: c1.obj.retro }
+  - { id: policy, text: c1.obj.policy }
+  - { id: pet, text: c1.obj.pet }
+  - { id: which, text: c1.obj.which }
+
+questions:
+  - id: which
+    text: c1.q.which
+    objective: which
+    correct: both
+    options:
+      - { id: both, text: c1.q.which.both }
+      - { id: page, text: c1.q.which.page, why: c1.q.which.page.why }
+      - { id: bot, text: c1.q.which.bot, why: c1.q.which.bot.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ChatReply, npc: charly, intent: retro }
+    do:
+      - objective.complete: retro
+  - on: { event: ChatReply, npc: charly, intent: grief }
+    do:
+      - ada.guide: { key: c1.ada.grief, for: retro, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: retro }
+    do:
+      - ada.say: c1.ada.retro
+  - on: { event: HttpRequest, host: www, path: /tarifs/deuil }
+    do:
+      - objective.complete: policy
+  - on: { event: ObjectiveCompleted, objective: policy }
+    if: { objective: retro }
+    do:
+      - ada.say: c1.ada.policy
+  - on: { event: ChatReply, npc: charly, intent: pet }
+    do:
+      - ada.guide: { key: c1.ada.petsaid, for: pet, step: 1 }
+  - on: { event: HttpRequest, host: www, path: /conditions }
+    if: { var: charly_pet, eq: true }
+    do:
+      - objective.complete: pet
+  - on: { event: ChatReply, npc: charly, intent: pet }
+    do:
+      - var.set: { name: charly_pet, value: true }
+  - on: { event: ObjectiveCompleted, objective: pet }
+    do:
+      - ada.say: c1.ada.pet
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: retro }, { objective: policy }, { objective: pet }] }
+    do:
+      - ada.ask: which
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  retro: c1.ada.g.retro
+  policy: c1.ada.g.policy
+  pet: c1.ada.g.pet
+  which: c1.ada.answer
+
+hints:
+  retro: [c1.hint.retro.1, c1.hint.retro.2]
+  policy: [c1.hint.policy.1]
+  pet: [c1.hint.pet.1, c1.hint.pet.2]
+  which: [c1.hint.which.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM09 Misinformation"

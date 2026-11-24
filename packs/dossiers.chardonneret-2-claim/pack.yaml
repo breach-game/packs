@@ -1,0 +1,16 @@
+id: dossiers.chardonneret-2-claim
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.chardonneret-world]
+title:
+  fr: "Dossier 15 · 2. La réclamation"
+  en: "Case file 15 · 2. The complaint"
+summary:
+  fr: "Un voyageur a cru Charly et réclame la différence. Tu retrouves la conversation, tu relis la réponse que le service juridique a préparée, et tu aides la directrice à décider."
+  en: "A traveller believed Charly and claims the difference. You find the conversation, read the answer the legal team drafted, and help the director decide."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, defense, crisis]
+minutes: 10

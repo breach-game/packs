@@ -1,0 +1,76 @@
+side: defense
+order: 2
+stage: crisis
+briefing: c2.briefing
+
+files:
+  dossier/reclamation.txt: { $file: files/reclamation.txt }
+  dossier/conversation-8812.txt: { $file: files/conversation.txt }
+  dossier/projet-reponse.txt: { $file: files/projet-reponse.txt }
+
+objectives:
+  - { id: amount, text: c2.obj.amount }
+  - { id: draft, text: c2.obj.draft }
+  - { id: decide, text: c2.obj.decide }
+
+investigation:
+  - { id: amount, text: c2.q.amount, value: "37.60", points: 75, objective: amount }
+
+questions:
+  - id: draft
+    text: c2.q.draft
+    objective: draft
+    correct: separate
+    options:
+      - { id: separate, text: c2.q.draft.separate }
+      - { id: tone, text: c2.q.draft.tone, why: c2.q.draft.tone.why }
+      - { id: page, text: c2.q.draft.page, why: c2.q.draft.page.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: decide
+    text: c2.q.decide
+    objective: decide
+    options:
+      - { id: refund, text: c2.q.decide.refund, impact: 1 }
+      - { id: voucher, text: c2.q.decide.voucher, impact: 3 }
+      - { id: refuse, text: c2.q.decide.refuse, impact: 8 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: amount }
+    do:
+      - ada.say: c2.ada.amount
+      - ada.ask: draft
+  - on: { event: ObjectiveCompleted, objective: draft }
+    do:
+      - ada.say: c2.ada.draft
+      - ada.ask: decide
+  - on: { event: Answered, question: decide, option: refund }
+    do:
+      - ada.say: c2.ada.refund
+  - on: { event: Answered, question: decide, option: voucher }
+    do:
+      - ada.say: c2.ada.voucher
+  - on: { event: Answered, question: decide, option: refuse }
+    do:
+      - ada.say: c2.ada.refuse
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  amount: c2.ada.g.amount
+  draft: c2.ada.answer
+  decide: c2.ada.answer
+
+hints:
+  amount: [c2.hint.amount.1, c2.hint.amount.2]
+  draft: [c2.hint.draft.1]
+  decide: [c2.hint.decide.1]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM09 Misinformation"

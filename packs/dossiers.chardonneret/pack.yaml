@@ -1,0 +1,16 @@
+id: dossiers.chardonneret
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.chardonneret-world]
+title:
+  fr: "Dossier 15 : la réponse de l'assistant"
+  en: "Case file 15: the assistant's answer"
+summary:
+  fr: "Inspiré d'une décision de justice de 2024 contre une compagnie aérienne dont l'assistant avait promis un remboursement impossible. Sous mandat, tu prends l'assistant en défaut, tu aides à répondre au voyageur trompé, puis tu le fais répondre depuis la source. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by a 2024 ruling against an airline whose assistant had promised an impossible refund. Under mandate, you catch the assistant out, help answer the misled traveller, then make it answer from the source. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, defense]
+incident: 2024

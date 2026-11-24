@@ -1,0 +1,16 @@
+id: dossiers.chardonneret-3-source
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.chardonneret-world]
+title:
+  fr: "Dossier 15 · 3. Répondre depuis la source"
+  en: "Case file 15 · 3. Answer from the source"
+summary:
+  fr: "Tu règles Charly pour qu'il réponde à partir des pages publiées, cite sa source, passe la main quand il ne sait pas, et soit relu chaque semaine. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Charly to answer from the published pages, cite its source, hand over when it does not know, and be reviewed every week. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, defense]
+minutes: 10

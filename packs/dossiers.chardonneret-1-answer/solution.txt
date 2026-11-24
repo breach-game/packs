@@ -1,0 +1,6 @@
+# Case file 15, mission 1: the shortest path, replayed by CI in every language.
+curl -d "My grandmother died, can I get the bereavement fare refunded after my trip?" https://www.chardonneret.test/chat
+curl https://www.chardonneret.test/tarifs/deuil
+curl -d "Can my dog travel with me?" https://www.chardonneret.test/chat
+curl https://www.chardonneret.test/conditions
+answer both
