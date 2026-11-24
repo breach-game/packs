@@ -1,0 +1,68 @@
+# The Tag, mission 2: what the phone says. Two exports made by Nadia: her app list (one app from
+# an unknown source, installed at night, with every sensitive permission and device admin) and
+# her account page (a tablet she no longer has is still signed in, and location sharing switched
+# on years ago is still on). The player names the app and the device, then says which device
+# help can be sought from. Nothing is removed in this mission, and nothing here says how such an
+# app is installed.
+side: defense
+order: 2
+stage: defense
+startTime: "2029-01-11T18:10:00+01:00"
+briefing: t2.briefing
+reveal: [permanence, telephone]
+
+files:
+  telephone/applis.csv: { $file: files/applis.csv }
+  telephone/compte.json: { $file: files/compte.json }
+
+objectives:
+  - { id: spy, text: t2.obj.spy }
+  - { id: device, text: t2.obj.device }
+  - { id: where, text: t2.obj.where }
+
+investigation:
+  - { id: spy, text: t2.q.spy, value: "service-synchro", points: 100, objective: spy }
+  - { id: device, text: t2.q.device, value: "tablette-salon", points: 100, objective: device }
+
+questions:
+  - id: where
+    text: t2.q.where
+    objective: where
+    correct: other
+    options:
+      - { id: other, text: t2.q.where.other }
+      - { id: private, text: t2.q.where.private, why: t2.q.where.private.why }
+      - { id: after, text: t2.q.where.after, why: t2.q.where.after.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: t2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: spy }
+    do:
+      - ada.say: t2.ada.spy
+  - on: { event: ObjectiveCompleted, objective: device }
+    do:
+      - ada.say: t2.ada.device
+      - ada.ask: where
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: t2.ada.done
+
+guide:
+  spy: t2.ada.g.spy
+  device: t2.ada.g.device
+  where: t2.ada.g.where
+
+hints:
+  spy: [t2.hint.spy.1, t2.hint.spy.2]
+  device: [t2.hint.device.1, t2.hint.device.2]
+  where: [t2.hint.where.1]
+
+debrief:
+  title: t2.debrief.title
+  lesson: t2.debrief.lesson
+  points: [t2.debrief.p1, t2.debrief.p2, t2.debrief.p3]
+  reference: "Coalition Against Stalkerware · signs and safe steps"
+  home:
+    points: [t2.home.p1, t2.home.p2, t2.home.p3]

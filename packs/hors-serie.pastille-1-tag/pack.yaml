@@ -1,0 +1,16 @@
+id: hors-serie.pastille-1-tag
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.pastille-world]
+title:
+  fr: "La Pastille · 1. Ce qui voyage avec elle"
+  en: "The Tag · 1. What travels with her"
+summary:
+  fr: "Le téléphone de Nadia l'a prévenue qu'une balise inconnue se déplaçait avec elle. Tu lis l'historique des alertes, tu dis depuis quand, tu dis ce qu'il ne faut pas faire dans la minute, puis Nadia décide quoi faire de la balise."
+  en: "Nadia's phone warned her that an unknown tag was moving with her. You read the alert history, say since when, say what should not be done in the first minute, then Nadia decides what to do with the tag."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, mobile, defense]
+minutes: 10

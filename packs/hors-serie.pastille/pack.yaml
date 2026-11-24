@@ -1,0 +1,15 @@
+id: hors-serie.pastille
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [hors-serie.pastille-world]
+title:
+  fr: "Hors-série : La Pastille"
+  en: "Side series: The Tag"
+summary:
+  fr: "Une permanence d'aide numérique, et une personne qui se demande si quelqu'un sait toujours où elle est. Joué uniquement de son côté, avec son accord, sur ses seuls appareils : une balise qui voyage avec elle, une application qu'elle n'a pas installée, puis un plan écrit avec elle. On n'y apprend aucune technique de surveillance. On y apprend à reconnaître les signes, et pourquoi la sécurité de la personne passe avant le ménage."
+  en: "A digital help desk, and someone wondering whether somebody always knows where she is. Played only on her side, with her agreement, on her own devices: a tag travelling with her, an app she did not install, then a plan written with her. No surveillance technique is taught here. What is taught is how to recognise the signs, and why the person's safety comes before the clean-up."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, mobile, defense]

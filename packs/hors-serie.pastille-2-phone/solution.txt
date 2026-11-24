@@ -1,0 +1,7 @@
+# The Tag, mission 2: the shortest path, replayed by CI in every language.
+cat telephone/applis.csv
+grep "unknown-source" telephone/applis.csv
+answer spy service-synchro
+jq ".devices" telephone/compte.json
+answer device tablette-salon
+answer other
