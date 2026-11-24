@@ -20,7 +20,7 @@ checks:
     objective: pin
   - id: perms
     text: l2.check.perms
-    if: { all: [{ file: "~/depot/ci.yml", lacks: "write-all" }, { file: "~/depot/ci.yml", contains: "permissions: read-all" }] }
+    if: { all: [{ file: "~/depot/ci.yml", lacks: "write-all" }, { any: [{ file: "~/depot/ci.yml", contains: "permissions: read-all" }, { file: "~/depot/ci.yml", contains: "contents: read" }, { file: "~/depot/ci.yml", contains: "permissions: {}" }] }] }
     objective: perms
   - id: works
     text: l2.check.works

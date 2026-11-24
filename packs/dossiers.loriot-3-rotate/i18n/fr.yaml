@@ -29,7 +29,7 @@ l3.ada.forge: "Oui : un jeton qui meurt avec son travail est le meilleur secret 
 l3.ada.advisory: "Le choix qui coûte le moins : les 3 400 projets savent quoi vérifier, et la confiance tient parce qu'on a parlé le premier."
 l3.ada.changelog: "Peu de gens lisent les notes de version. Ceux qui vérifient leurs dépendances apprendront l'histoire ailleurs."
 l3.ada.quiet: "Aucune fausse version, c'est vrai. Mais le journal était public, et quelqu'un finira par en parler à ta place."
-l3.ada.done: "Une action épinglée, des jetons qui ne servent qu'une fois, des secrets remplacés, et des utilisateurs prévenus. Ouvre le débrief : à la fin, le cas réel."
+l3.ada.done: "Une action épinglée, des jetons qui ne servent qu'une fois, des secrets remplacés. Ouvre le débrief : à la fin, le cas réel."
 l3.hint.rotate.1: "Deux lignes valent `old`."
 l3.hint.rotate.2: "`sed -i \"s/npm_token: old/npm_token: rotated/\" dossier/secrets.yml` et `sed -i \"s/deploy_key: old/deploy_key: rotated/\" dossier/secrets.yml`, puis `verify`."
 l3.hint.log.1: "`sed -i \"s/run_812_log: public/run_812_log: deleted/\" dossier/secrets.yml`, puis `verify`."

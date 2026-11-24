@@ -5,6 +5,7 @@ side: defense
 order: 2
 stage: recovery
 briefing: h2.briefing
+startTime: "2027-11-26T08:00:00+01:00"
 reveal: [comptoir07, cles, annuaire]
 
 files:

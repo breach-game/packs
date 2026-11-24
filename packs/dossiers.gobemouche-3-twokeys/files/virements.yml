@@ -1,9 +1,16 @@
 # Gobemouche Ingenierie - rules for outgoing transfers.
 transfers:
+  # a number: signatures needed for a transfer
   approvals: 1
+  # number-in-request | directory: which number to call back
   callback: number-in-request
+  # yes | no: does a video call count as an approval?
   video_call_counts: yes
+  # allowed | never: may a "confidential" request skip these rules?
   confidential_bypass: allowed
+  # 0h | 24h | 48h: wait before paying a new beneficiary
   new_beneficiary_hold: 0h
+  # nobody | a team: who hears about a doubt
   report_doubt_to: nobody
+  # EUR
   currency: EUR

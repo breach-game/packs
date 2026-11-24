@@ -28,7 +28,7 @@ checks:
     objective: keys
   - id: places
     text: p3.check.places
-    if: { all: [{ file: "~/entrepot/compte.yml", lacks: "allowed_networks: any" }, { file: "~/entrepot/compte.yml", contains: "allowed_networks: [10.82.0.25]" }, { file: "~/entrepot/compte.yml", contains: "devices: managed" }] }
+    if: { all: [{ file: "~/entrepot/compte.yml", lacks: "allowed_networks: any" }, { file: "~/entrepot/compte.yml", contains: "10.82.0.25" }, { file: "~/entrepot/compte.yml", contains: "devices: managed" }] }
     objective: places
   - id: works
     text: p3.check.works
