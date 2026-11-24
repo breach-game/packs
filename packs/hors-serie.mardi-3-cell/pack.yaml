@@ -1,0 +1,16 @@
+id: hors-serie.mardi-3-cell
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.mardi-world]
+title:
+  fr: "Le Mardi noir · 3. La cellule de crise"
+  en: "Black Tuesday · 3. The crisis room"
+summary:
+  fr: "Les camions roulent, la base est saine. Il reste à raconter la nuit dans l'ordre avec `timeline`, à remettre les zones d'hiver en service proprement avec `deploy` et `flag`, à dire ce qui change pour la prochaine livraison, et à décider quoi dire aux clients."
+  en: "The trucks are rolling, the database is sound. What's left: tell the night in order with `timeline`, bring the winter zones back cleanly with `deploy` and `flag`, say what changes for the next release, and decide what to tell the customers."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crisis, defense, logs]
+minutes: 12

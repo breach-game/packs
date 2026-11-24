@@ -1,0 +1,85 @@
+# Black Tuesday, 07:40: the zones table was rewritten by migration 0042. Four nightly archives exist;
+# the last three hold only an error file, because the backup script ignores rsync's exit code.
+side: defense
+order: 2
+stage: recovery
+briefing: m2.briefing
+reveal: [planif, sauvegarde]
+
+# Played alone, the morning starts after the option was switched off.
+config:
+  tr.zones: false
+
+containment:
+  - id: restore
+    action: restore
+    target: zones
+    text: m2.contain.restore
+    sets: { tr.restored: true }
+    impact: 4
+
+objectives:
+  - { id: good, text: m2.obj.good }
+  - { id: silent, text: m2.obj.silent }
+  - { id: restore, text: m2.obj.restore }
+  - { id: check, text: m2.obj.check }
+
+investigation:
+  - { id: good, text: m2.q.good, value: "2027-11-19", points: 100, objective: good }
+
+questions:
+  - id: silent
+    text: m2.q.silent
+    objective: silent
+    correct: exitcode
+    options:
+      - { id: exitcode, text: m2.q.silent.exitcode }
+      - { id: disk, text: m2.q.silent.disk, why: m2.q.silent.disk.why }
+      - { id: nobackup, text: m2.q.silent.nobackup, why: m2.q.silent.nobackup.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: good }
+    do:
+      - ada.say: m2.ada.good
+      - ada.ask: silent
+  - on: { event: ObjectiveCompleted, objective: silent }
+    do:
+      - ada.say: m2.ada.silent
+  - on: { event: Contained, containment: restore }
+    do:
+      - objective.complete: restore
+  - on: { event: ObjectiveCompleted, objective: restore }
+    do:
+      - ada.say: m2.ada.restored
+  - on: { event: SystemRead, host: planif, what: journalctl }
+    if: { config: tr.restored, eq: true }
+    do:
+      - objective.complete: check
+  - on: { event: SystemRead, host: planif, what: systemctl }
+    if: { config: tr.restored, eq: true }
+    do:
+      - objective.complete: check
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m2.ada.done
+
+guide:
+  good: m2.ada.g.good
+  silent: m2.ada.g.silent
+  restore: m2.ada.g.restore
+  check: m2.ada.g.check
+
+hints:
+  good: [m2.hint.good.1, m2.hint.good.2]
+  silent: [m2.hint.silent.1, m2.hint.silent.2]
+  restore: [m2.hint.restore.1]
+  check: [m2.hint.check.1]
+
+debrief:
+  title: m2.debrief.title
+  lesson: m2.debrief.lesson
+  points: [m2.debrief.p1, m2.debrief.p2, m2.debrief.p3]
+  reference: "ANSSI · Sauvegarde des systèmes d'information"

@@ -1,0 +1,12 @@
+# Side series "Le Mardi noir", mission 2: the shortest path, replayed by CI in every language.
+ssh astreinte@sauvegarde.gavotte.test
+ls -l /srv/sauvegardes
+tar -tzvf /srv/sauvegardes/tournees-2027-11-22.tgz
+tar -tzvf /srv/sauvegardes/tournees-2027-11-19.tgz
+journalctl -u sauvegarde-nuit
+exit
+answer good 2027-11-19
+answer exitcode
+contain restore zones
+ssh astreinte@planif.gavotte.test
+journalctl -u tournees -n 3

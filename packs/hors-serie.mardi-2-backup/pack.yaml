@@ -1,0 +1,16 @@
+id: hors-serie.mardi-2-backup
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.mardi-world]
+title:
+  fr: "Le Mardi noir · 2. La sauvegarde de Schrödinger"
+  en: "Black Tuesday · 2. Schrödinger's backup"
+summary:
+  fr: "La migration de la nuit a abîmé la table des zones, et le retour arrière ne la répare pas. Il faut une sauvegarde. Tu ouvres les archives avec `tar`, tu lis le journal de la sauvegarde nocturne, tu trouves la dernière qui contient vraiment quelque chose, puis tu restaures."
+  en: "Last night's migration damaged the zones table, and rolling back does not repair it. A backup is needed. You open the archives with `tar`, read the nightly backup's journal, find the last one that really holds something, then restore."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, crisis, defense]
+minutes: 12

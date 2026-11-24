@@ -1,0 +1,15 @@
+id: hors-serie.mardi
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: series
+requires: [hors-serie.mardi-world]
+title:
+  fr: "Hors-série : le Mardi noir"
+  en: "Side series: Black Tuesday"
+summary:
+  fr: "Pas d'attaquant, juste un mardi. Une mise à jour qui plante le calcul des tournées d'un transporteur, une sauvegarde vide depuis trois jours, une cellule de crise. Tu choisis le plus petit geste avec `flag` et `rollback`, tu ouvres les archives avec `tar`, puis tu remets la nuit dans l'ordre et tu livres proprement avec `deploy`."
+  en: "No attacker, just a Tuesday. An update that crashes a carrier's rounds planner, a backup empty for three days, a crisis room. You pick the smallest move with `flag` and `rollback`, open the archives with `tar`, then put the night back in order and ship cleanly with `deploy`."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [crisis, linux, defense]

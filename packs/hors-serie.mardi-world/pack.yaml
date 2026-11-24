@@ -1,0 +1,12 @@
+id: hors-serie.mardi-world
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: world
+title:
+  fr: "Transports Gavotte"
+  en: "Transports Gavotte"
+summary:
+  fr: "Transports Gavotte, transporteur régional fictif : soixante camions, trois dépôts, et un service qui calcule chaque nuit les tournées du lendemain."
+  en: "Transports Gavotte, a fictional regional carrier: sixty trucks, three depots, and a service that works out the next day's rounds every night."
+authors: [BREACH team]
+locales: [fr, en]

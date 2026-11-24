@@ -1,0 +1,191 @@
+# Side series "Le Mardi noir". No attacker: an update that breaks, a backup never tested, a crisis
+# room. Everything here is fictional: reserved .test domains and private addresses only.
+startTime: "2027-11-23T06:52:00+01:00"
+mandate: GV-2027-058
+scope:
+  domains: ["*.gavotte.test"]
+  networks: ["10.89.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.89.0.2
+
+config:
+  tr.v42: true
+  tr.zones: true
+  tr.restored: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.89.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [planif]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            GV-2027-058.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The rounds planner: it works out every truck's round for the day.
+  - id: planif
+    hostname: planif.gavotte.test
+    ip: 10.89.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: 40, h: 130 }
+    links: [sauvegarde]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+      - { port: 443, name: https, product: nginx 1.24 }
+    users:
+      - { name: astreinte, home: /home/astreinte }
+    ssh:
+      - { user: astreinte, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "planif\n"
+      home:
+        astreinte:
+          LISEZMOI.txt: { $t: file.astreinte.readme }
+    web:
+      "/sante":
+        headers: { content-type: application/json }
+        body: "{\"service\": \"tournees\", \"status\": \"ok\", \"rounds_today\": 58}\n"
+        variants:
+          - id: down
+            if: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] }
+            status: 503
+            headers: { content-type: application/json }
+            body: "{\"service\": \"tournees\", \"status\": \"down\", \"rounds_today\": 0}\n"
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: Nov08, cmd: /sbin/init }
+        - { pid: 512, user: root, start: Nov08, cmd: "/usr/sbin/cron -f" }
+        - { pid: 640, user: root, start: Nov08, cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 702, user: www-data, start: Nov08, cmd: "nginx: worker process" }
+        - pid: 3381
+          user: tournees
+          start: "06:58"
+          cpu: 22.5
+          mem: 8.4
+          cmd: "/opt/tournees/bin/tournees --config /etc/tournees/tournees.yml"
+          if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } }
+      sockets:
+        - { local: "0.0.0.0:22", pid: 640 }
+        - { local: "0.0.0.0:443", pid: 702 }
+        - { local: "127.0.0.1:8080", pid: 3381, if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } } }
+      services:
+        - name: tournees
+          description: Calcul des tournees Gavotte
+          state: failed
+          since: "Tue 2027-11-23 06:01:14 CET"
+          exec: "/opt/tournees/bin/tournees --config /etc/tournees/tournees.yml"
+          unit: /etc/systemd/system/tournees.service
+          if: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] }
+        - name: tournees
+          description: Calcul des tournees Gavotte
+          since: "Tue 2027-11-23 06:58:40 CET"
+          pid: 3381
+          exec: "/opt/tournees/bin/tournees --config /etc/tournees/tournees.yml"
+          unit: /etc/systemd/system/tournees.service
+          if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } }
+        - { name: nginx, description: A high performance web server, since: "Mon 2027-11-08 07:00:02 CET", pid: 702 }
+      journal:
+        - { at: "Nov 23 05:58:02", unit: tournees, pid: 2914, text: "deploy: version 4.2.0 installed by ci-livraison (flags: planif.zones-hiver=on)" }
+        - { at: "Nov 23 06:00:41", unit: tournees, pid: 3010, text: "tournees 4.2.0 starting" }
+        - { at: "Nov 23 06:00:43", unit: tournees, pid: 3010, text: "db: migration 0042_zones_hiver applied (table zones rewritten, 1 204 rows)" }
+        - { at: "Nov 23 06:00:44", unit: tournees, pid: 3010, text: "flag planif.zones-hiver=on: loading winter zones" }
+        - { at: "Nov 23 06:00:44", unit: tournees, pid: 3010, text: "panic: assignment to entry in nil map (zones_hiver.go:88)" }
+        - { at: "Nov 23 06:00:44", unit: tournees, text: "tournees.service: Main process exited, code=exited, status=2/INVALIDARGUMENT" }
+        - { at: "Nov 23 06:01:14", unit: tournees, text: "tournees.service: Start request repeated too quickly." }
+        - { at: "Nov 23 06:01:14", unit: tournees, text: "tournees.service: Failed with result 'exit-code'." }
+        - { at: "Nov 23 06:58:40", unit: tournees, pid: 3381, text: "tournees starting, winter zones off", if: { config: tr.zones, eq: false } }
+        - { at: "Nov 23 06:58:40", unit: tournees, pid: 3381, text: "tournees 4.1.3 starting", if: { all: [{ config: tr.v42, eq: false }, { config: tr.zones, eq: true }] } }
+        - { at: "Nov 23 06:58:41", unit: tournees, pid: 3381, text: "warning: zones table has 1 204 rows in the 0042 format, 312 rounds point to unknown zones", if: { all: [{ config: tr.restored, eq: false }, { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } }] } }
+        - { at: "Nov 23 07:01:05", unit: tournees, pid: 3381, text: "zones table restored from tournees-2027-11-19.tgz, 3 days replayed from depot sheets: 0 rounds point to unknown zones", if: { config: tr.restored, eq: true } }
+        - { at: "Nov 23 06:58:41", unit: tournees, pid: 3381, text: "58 rounds computed for today", if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } } }
+      logins:
+        - { user: astreinte, from: 10.89.0.66, at: "Tue Nov 23 06:52" }
+        - { user: ci-livraison, from: 10.89.0.30, at: "Tue Nov 23 05:57", until: "05:58  (00:01)" }
+
+  # The backup server: one archive per night.
+  - id: sauvegarde
+    hostname: sauvegarde.gavotte.test
+    ip: 10.89.0.40
+    os: Linux 6.1 (Debian 12)
+    map: { x: 260, z: -60, h: 100 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: astreinte, home: /home/astreinte }
+    ssh:
+      - { user: astreinte, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "sauvegarde\n"
+      srv:
+        sauvegardes:
+          tournees-2027-11-19.tgz:
+            $archive:
+              format: tgz
+              files:
+                base/zones.csv: "zone,depot,communes\nN1,nord,12\nN2,nord,9\nC1,centre,14\nS1,sud,11\n"
+                base/tournees.csv: "jour,camions,tournees\n2027-11-19,58,58\n"
+          tournees-2027-11-20.tgz:
+            $archive:
+              format: tgz
+              files:
+                ERREUR.txt: "rsync: [sender] send_files failed to open \"/var/lib/tournees/base\": Permission denied (13)\n"
+          tournees-2027-11-21.tgz:
+            $archive:
+              format: tgz
+              files:
+                ERREUR.txt: "rsync: [sender] send_files failed to open \"/var/lib/tournees/base\": Permission denied (13)\n"
+          tournees-2027-11-22.tgz:
+            $archive:
+              format: tgz
+              files:
+                ERREUR.txt: "rsync: [sender] send_files failed to open \"/var/lib/tournees/base\": Permission denied (13)\n"
+    system:
+      services:
+        - { name: sauvegarde-nuit, description: Sauvegarde nocturne des tournees, state: inactive, since: "Tue 2027-11-23 02:00:19 CET", exec: "/usr/local/bin/sauvegarde-nuit.sh", unit: /etc/systemd/system/sauvegarde-nuit.service }
+      journal:
+        - { at: "Nov 19 02:00:11", unit: sauvegarde-nuit, pid: 9120, text: "archive tournees-2027-11-19.tgz: 2 files" }
+        - { at: "Nov 19 02:00:12", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+        - { at: "Nov 20 02:00:09", unit: sauvegarde-nuit, pid: 9244, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 20 02:00:10", unit: sauvegarde-nuit, pid: 9244, text: "archive tournees-2027-11-20.tgz: 1 file" }
+        - { at: "Nov 20 02:00:10", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+        - { at: "Nov 21 02:00:08", unit: sauvegarde-nuit, pid: 9371, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 21 02:00:09", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+        - { at: "Nov 22 02:00:10", unit: sauvegarde-nuit, pid: 9502, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 22 02:00:11", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+        - { at: "Nov 23 02:00:18", unit: sauvegarde-nuit, pid: 9633, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 23 02:00:19", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+
+dns:
+  gavotte.test: { A: ["10.89.0.20"] }
+  planif.gavotte.test: { A: ["10.89.0.20"] }
+  sauvegarde.gavotte.test: { A: ["10.89.0.40"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
