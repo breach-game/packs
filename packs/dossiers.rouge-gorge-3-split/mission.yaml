@@ -1,0 +1,94 @@
+side: defense
+order: 3
+stage: defense
+briefing: r3.briefing
+
+files:
+  dossier/plateforme.yml: { $file: files/plateforme.yml }
+
+objectives:
+  - { id: split, text: r3.obj.split }
+  - { id: approve, text: r3.obj.approve }
+  - { id: restore, text: r3.obj.restore }
+  - { id: decide, text: r3.obj.decide }
+
+# A decision: no option is wrong, each costs something different.
+questions:
+  - id: decide
+    text: r3.q.decide
+    objective: decide
+    options:
+      - { id: back, text: r3.q.decide.back, impact: 0 }
+      - { id: wait, text: r3.q.decide.wait, impact: 3 }
+      - { id: drop, text: r3.q.decide.drop, impact: 8 }
+
+checks:
+  - id: split
+    text: r3.check.split
+    if: { all: [{ file: "~/dossier/plateforme.yml", lacks: "database: prod" }, { file: "~/dossier/plateforme.yml", contains: "database: dev-copy" }, { file: "~/dossier/plateforme.yml", lacks: "prod_access: write" }, { file: "~/dossier/plateforme.yml", contains: "prod_access: read" }] }
+    objective: split
+  - id: approve
+    text: r3.check.approve
+    if: { all: [{ file: "~/dossier/plateforme.yml", lacks: "guardrail: off" }, { file: "~/dossier/plateforme.yml", contains: "guardrail: on" }, { file: "~/dossier/plateforme.yml", lacks: "prod_needs: anyone" }, { file: "~/dossier/plateforme.yml", contains: "prod_needs: human-approval" }, { file: "~/dossier/plateforme.yml", lacks: "mode: note" }, { file: "~/dossier/plateforme.yml", contains: "mode: enforced" }] }
+    objective: approve
+  - id: restore
+    text: r3.check.restore
+    if: { all: [{ file: "~/dossier/plateforme.yml", lacks: "restore_test: never" }, { file: "~/dossier/plateforme.yml", contains: "restore_test: monthly" }] }
+    objective: restore
+  - id: works
+    text: r3.check.works
+    if: { all: [{ file: "~/dossier/plateforme.yml", contains: "online: on" }, { file: "~/dossier/plateforme.yml", contains: "point_in_time: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: split }
+    do:
+      - ada.say: r3.ada.split
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: split }, { objective: approve }, { objective: restore }] } }
+    once: false
+    do:
+      - ada.say: r3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: split }, { objective: approve }, { objective: restore }] }
+    do:
+      - ada.say: r3.ada.layers
+      - ada.ask: decide
+  - on: { event: Answered, question: decide, option: back }
+    do:
+      - ada.say: r3.ada.back
+  - on: { event: Answered, question: decide, option: wait }
+    do:
+      - ada.say: r3.ada.wait
+  - on: { event: Answered, question: decide, option: drop }
+    do:
+      - ada.say: r3.ada.drop
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r3.ada.done
+
+guide:
+  split: r3.ada.g.split
+  approve: r3.ada.g.approve
+  restore: r3.ada.g.restore
+  decide: r3.ada.answer
+
+hints:
+  split: [r3.hint.split.1, r3.hint.split.2]
+  approve: [r3.hint.approve.1, r3.hint.approve.2]
+  restore: [r3.hint.restore.1, r3.hint.restore.2]
+  decide: [r3.hint.decide.1]
+
+debrief:
+  title: r3.debrief.title
+  lesson: r3.debrief.lesson
+  points: [r3.debrief.p1, r3.debrief.p2, r3.debrief.p3, r3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM06 Excessive Agency"
+  facts:
+    title: r3.facts.title
+    points: [r3.facts.p1, r3.facts.p2, r3.facts.p3, r3.facts.p4, r3.facts.p5]
+    sources:
+      - { label: "The Register, Vibe coding service Replit deleted user's production database (21 July 2025)", url: "https://www.theregister.com/2025/07/21/replit_saastr_vibe_coding_incident/" }
+      - { label: "Fortune, AI coding tool Replit wiped a database, called it a catastrophic failure (23 July 2025)", url: "https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/" }

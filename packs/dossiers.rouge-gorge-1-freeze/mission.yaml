@@ -1,0 +1,127 @@
+# The coding agent works during the freeze. Its script is fixed: it reads, its tests fail, it looks at
+# production, then it empties a table "to start from a clean state". Contain it before that line.
+side: defense
+order: 1
+stage: defense
+briefing: r1.briefing
+reveal: [dev, db]
+
+files:
+  dossier/AGENT.md: { $file: files/AGENT.md }
+  dossier/env.txt: { $file: files/env.txt }
+
+config:
+  rg.agent_paused: false
+  rg.prod_revoked: false
+  rg.db_isolated: false
+
+adversary:
+  id: batisseur
+  name: Batisseur
+  from: agent
+  pace: 2
+  steps:
+    - { id: plan, host: dev, source: agent, fields: { agent: batisseur, tool: read_file, args: "AGENT.md", role: agent, confirmed: "no", src: 10.74.0.21 } }
+    - { id: tests, host: dev, source: agent, fields: { agent: batisseur, tool: run_tests, args: "npm test (3 failed)", role: agent, confirmed: "no", src: 10.74.0.21 } }
+    - id: peek
+      host: db
+      source: db
+      fields: { user: batisseur, db: prod, src: 10.74.0.20, query: "SELECT count(*) FROM contacts", rows: 1206 }
+    - id: wipe
+      host: db
+      source: db
+      fields: { user: batisseur, db: prod, src: 10.74.0.20, query: "DELETE FROM contacts", rows: 1206 }
+      blockedIf: &stopped
+        any:
+          - { config: rg.agent_paused, eq: true }
+          - { config: rg.prod_revoked, eq: true }
+          - { config: rg.db_isolated, eq: true }
+
+# The team at work on the freeze: reading, nothing else.
+background:
+  - { host: dev, source: agent, every: 4, offset: 1, fields: { agent: batisseur, tool: read_file, args: "src/contacts.ts", role: agent, confirmed: "no", src: 10.74.0.21 } }
+  - { host: db, source: db, every: 3, offset: 0, fields: { user: app, db: prod, src: 10.74.0.10, query: "SELECT * FROM contacts WHERE owner = $1", rows: 38 } }
+
+containment:
+  - id: pause-agent
+    action: disable
+    target: batisseur
+    text: r1.contain.pause
+    sets: { rg.agent_paused: true }
+    impact: 2
+  - id: revoke-prod
+    action: revoke
+    target: batisseur-prod
+    text: r1.contain.revoke
+    sets: { rg.prod_revoked: true }
+    impact: 0
+  - id: isolate-db
+    action: isolate
+    target: db.rouge-gorge.test
+    text: r1.contain.isolate
+    sets: { rg.db_isolated: true }
+    impact: 40
+
+objectives:
+  - { id: stop, text: r1.obj.stop }
+  - { id: table, text: r1.obj.table }
+  - { id: why, text: r1.obj.why }
+
+investigation:
+  - { id: table, text: r1.q.table, value: "contacts", points: 75, objective: table }
+
+questions:
+  - id: why
+    text: r1.q.why
+    objective: why
+    correct: key
+    options:
+      - { id: key, text: r1.q.why.key }
+      - { id: unread, text: r1.q.why.unread, why: r1.q.why.unread.why }
+      - { id: vague, text: r1.q.why.vague, why: r1.q.why.vague.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r1.ada.brief
+      - checkpoint.save: start
+  - on: { event: AdversaryStep, step: tests, blocked: false }
+    do:
+      - ada.say: r1.ada.tests
+  - on: { event: AdversaryStep, step: peek, blocked: false }
+    do:
+      - ada.warn: r1.ada.peek
+  - on: { event: AdversaryStep, step: wipe, blocked: false }
+    do:
+      - mission.fail: r1.ada.fail
+  - on: { event: AdversaryStep, stop: true }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: r1.ada.stopped
+  - on: { event: Contained, containment: isolate-db }
+    do:
+      - ada.say: r1.ada.costly
+  - on: { event: ObjectiveCompleted, objective: table }
+    do:
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r1.ada.done
+
+guide:
+  stop: r1.ada.g.stop
+  table: r1.ada.g.table
+  why: r1.ada.answer
+
+hints:
+  stop: [r1.hint.stop.1, r1.hint.stop.2, r1.hint.stop.3]
+  table: [r1.hint.table.1]
+  why: [r1.hint.why.1]
+
+debrief:
+  title: r1.debrief.title
+  lesson: r1.debrief.lesson
+  points: [r1.debrief.p1, r1.debrief.p2, r1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM06 Excessive Agency"

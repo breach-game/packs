@@ -1,0 +1,10 @@
+# Case file 14, mission 2: the shortest path, replayed by CI in every language.
+cat garde-fous/batisseur.yml
+eval run garde-fous/batisseur.yml
+echo "env: prod" >> garde-fous/batisseur.yml
+echo "writes: yes" >> garde-fous/batisseur.yml
+echo "approved: no" >> garde-fous/batisseur.yml
+eval run garde-fous/batisseur.yml
+cat dossier/conversation.txt
+cat dossier/sauvegardes.txt
+answer check

@@ -1,0 +1,12 @@
+id: dossiers.rouge-gorge-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Rouge-gorge"
+  en: "Rouge-gorge"
+summary:
+  fr: "Rouge-gorge, jeune entreprise fictive qui tient le carnet d'adresses des organisateurs d'événements. Son application est écrite en grande partie par un agent de programmation, qui travaille sur un serveur de développement relié à la base de production."
+  en: "Rouge-gorge, a fictional young company that keeps the address book of event organisers. Its application is largely written by a coding agent, which works on a development server connected to the production database."
+authors: [BREACH team]
+locales: [fr, en]

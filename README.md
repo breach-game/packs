@@ -62,6 +62,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 11 | `dossiers.linotte*` | The open tap | "LLMjacking", described by Sysdig, 2024 | Unbounded consumption: reading a bill like a log, a forgotten key with no limit, ceilings and alerts on a paid AI model |
 | 12 | `dossiers.roitelet*` | The planted sentence | Tay, Microsoft's conversational program, 2016 | Data poisoning: an assistant that learns from every visitor and serves it to all the others, review before use, a memory one can trace and roll back |
 | 13 | `dossiers.bergeronnette*` | The diagnostic file | Okta support system, 2023 | A browser diagnostic file (HAR) is a key, a session replayed from elsewhere and the rule that sees it, cleaning files on arrival and binding sessions to their device |
+| 14 | `dossiers.rouge-gorge*` | The freeze | A Replit coding agent, 2025 | Watching an agent live and stopping it with the cheapest move, a guardrail outside the model, separating production from the agent's playground and testing restores |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

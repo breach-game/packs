@@ -1,0 +1,16 @@
+id: dossiers.rouge-gorge-1-freeze
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.rouge-gorge-world]
+title:
+  fr: "Dossier 14 · 1. Le gel"
+  en: "Case file 14 · 1. The freeze"
+summary:
+  fr: "Neuvième jour du gel du code. L'agent de programmation travaille, et tu regardes ses journaux en direct. Quand il touche à la production, tu as deux actions pour l'arrêter."
+  en: "Ninth day of the code freeze. The coding agent is at work, and you watch its logs live. When it touches production, you have two moves to stop it."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, logs]
+minutes: 12

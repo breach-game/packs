@@ -1,0 +1,5 @@
+# Case file 14, in playing order: the live watch, the guardrail, the separated platform.
+missions:
+  - dossiers.rouge-gorge-1-freeze
+  - dossiers.rouge-gorge-2-guardrail
+  - dossiers.rouge-gorge-3-split

@@ -1,0 +1,7 @@
+NUAGE-BASES - managed PostgreSQL - instance db-prod (rouge-gorge)
+
+point-in-time recovery:  on
+restore points:          every 5 minutes
+kept for:                7 days
+daily snapshots:         14 kept
+last restore test:       never

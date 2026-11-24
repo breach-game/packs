@@ -1,0 +1,115 @@
+# Dossier 14. Everything here is fictional: reserved .test domains and private addresses only.
+# The coding agent is scripted: its actions are log lines, decided in advance, never by a model.
+startTime: "2027-06-14T09:00:00+02:00"
+mandate: RG-2027-014
+scope:
+  domains: ["*.rouge-gorge.test"]
+  networks: ["10.74.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.74.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.74.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, dev, db]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            RG-2027-014.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.rouge-gorge.test
+    ip: 10.74.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 0, z: -150, h: 100 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - footer: web.footer
+
+  # Where the coding agent works: the code, its instructions, and its settings.
+  - id: dev
+    hostname: dev.rouge-gorge.test
+    ip: 10.74.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 240, z: -40, h: 120 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.6 }
+      - { port: 8080, name: http, product: batisseur-agent 2.3 }
+
+  # Production: one database, the company's only copy of its customers' address books.
+  - id: db
+    hostname: db.rouge-gorge.test
+    ip: 10.74.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: 150, h: 150 }
+    services:
+      - { port: 5432, name: postgresql, product: PostgreSQL 16 }
+
+  # The agent itself, as the logs name it. Never reachable.
+  - id: agent
+    hostname: batisseur.rouge-gorge.test
+    ip: 10.74.0.21
+    kind: unknown
+    hidden: true
+    os: batisseur-agent 2.3
+    map: { x: 420, z: -160, h: 50 }
+
+dns:
+  rouge-gorge.test: { A: ["10.74.0.10"] }
+  www.rouge-gorge.test: { A: ["10.74.0.10"] }
+  dev.rouge-gorge.test: { A: ["10.74.0.20"] }
+  db.rouge-gorge.test: { A: ["10.74.0.30"] }
+
+whois:
+  rouge-gorge.test: |
+    Domain Name: ROUGE-GORGE.TEST
+    Creation Date: 2026-11-02T08:00:00Z
+    Registrant Organization: Rouge-gorge SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
