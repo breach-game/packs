@@ -1,0 +1,137 @@
+# Case file 33, mission 1: the opened accounts. A stranger talked through a customer's camera. The
+# sign-in export shows a first-try sign-in from an unknown address with an unknown client; a second
+# export shows the same client trying one password per account, across many accounts and several
+# addresses. No device flaw, no password shown. The player names the address, counts the opened
+# accounts, says where the passwords came from, closes sessions and forces new passwords, then
+# rewrites the sign-in policy judged by `verify`.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [comptes]
+
+files:
+  support/ticket-4471.txt: { $file: files/ticket-4471.txt }
+  comptes/connexions.csv: { $file: files/connexions.csv }
+  comptes/essais.csv: { $file: files/essais.csv }
+  comptes/connexion.yml: { $file: files/connexion.yml }
+
+objectives:
+  - { id: where, text: c1.obj.where }
+  - { id: opened, text: c1.obj.opened }
+  - { id: source, text: c1.obj.source }
+  - { id: close, text: c1.obj.close }
+  - { id: policy, text: c1.obj.policy }
+
+investigation:
+  - { id: where, text: c1.q.where, value: "203.0.113.77", points: 75, objective: where }
+  - { id: opened, text: c1.q.opened, value: "5", points: 75, objective: opened }
+
+questions:
+  - id: source
+    text: c1.q.source
+    objective: source
+    correct: reuse
+    options:
+      - { id: reuse, text: c1.q.source.reuse }
+      - { id: camera, text: c1.q.source.camera, why: c1.q.source.camera.why }
+      - { id: guess, text: c1.q.source.guess, why: c1.q.source.guess.why }
+
+containment:
+  - id: sessions
+    action: revoke
+    target: sessions
+    text: c1.contain.sessions
+    sets: { lc.sessions_closed: true }
+    impact: 0
+  - id: passwords
+    action: reset
+    target: mots-de-passe
+    text: c1.contain.passwords
+    sets: { lc.passwords_reset: true }
+    impact: 1
+
+checks:
+  - id: factor
+    text: c1.check.factor
+    if: { file: "~/comptes/connexion.yml", contains: "second_factor: required" }
+    objective: policy
+  - id: alert
+    text: c1.check.alert
+    if: { file: "~/comptes/connexion.yml", contains: "new_device_alert: email" }
+    objective: policy
+  - id: leaked
+    text: c1.check.leaked
+    if: { file: "~/comptes/connexion.yml", contains: "leaked_password_check: on" }
+    objective: policy
+  - id: rate
+    text: c1.check.rate
+    if: { file: "~/comptes/connexion.yml", contains: "attempts_per_address: 5-per-minute" }
+    objective: policy
+  - id: change
+    text: c1.check.change
+    if: { file: "~/comptes/connexion.yml", contains: "on_password_change: close-sessions" }
+    objective: policy
+  - id: works
+    text: c1.check.works
+    if: { file: "~/comptes/connexion.yml", contains: "sign_in: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: where }
+    do:
+      - ada.say: c1.ada.where
+  - on: { event: ObjectiveCompleted, objective: opened }
+    do:
+      - ada.say: c1.ada.opened
+      - ada.ask: source
+  - on: { event: ObjectiveCompleted, objective: source }
+    do:
+      - ada.say: c1.ada.source
+  - id: close-a
+    on: { event: Contained, containment: sessions }
+    if: { config: lc.passwords_reset, eq: true }
+    do:
+      - objective.complete: close
+  - id: close-b
+    on: { event: Contained, containment: passwords }
+    if: { config: lc.sessions_closed, eq: true }
+    do:
+      - objective.complete: close
+  - on: { event: Contained, containment: passwords }
+    if: { config: lc.sessions_closed, eq: false }
+    do:
+      - ada.say: c1.ada.still
+  - on: { event: ObjectiveCompleted, objective: close }
+    do:
+      - ada.say: c1.ada.close
+  - on: { event: Verified }
+    if: { not: { objective: policy } }
+    once: false
+    do:
+      - ada.say: c1.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  where: c1.ada.g.where
+  opened: c1.ada.g.opened
+  source: c1.ada.g.source
+  close: c1.ada.g.close
+  policy: c1.ada.g.policy
+
+hints:
+  where: [c1.hint.where.1, c1.hint.where.2]
+  opened: [c1.hint.opened.1, c1.hint.opened.2]
+  source: [c1.hint.source.1]
+  close: [c1.hint.close.1]
+  policy: [c1.hint.policy.1, c1.hint.policy.2]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP · Credential Stuffing Prevention Cheat Sheet"

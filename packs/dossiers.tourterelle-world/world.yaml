@@ -1,0 +1,63 @@
+# Case file 33 "Tourterelle". Inspired by the camera accounts opened in 2019 with passwords reused
+# from other leaks, and by what the regulator later found about staff access to customer videos.
+# Played on the defence side only, at the maker. No device is attacked and no password list is
+# shown: the player reads sign-in exports and viewing records, closes sessions, and rewrites two
+# policy files judged by `verify`.
+startTime: "2027-12-11T09:00:00+01:00"
+mandate: LC-2027-161
+scope:
+  domains: ["*.lucarne.test"]
+  networks: ["10.103.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.103.0.2
+
+config:
+  lc.sessions_closed: false
+  lc.passwords_reset: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.103.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [comptes, video, support]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            LC-2027-161.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: comptes, hostname: comptes.lucarne.test, ip: 10.103.0.20, os: Linux, map: { x: 60, z: -80, h: 110 }, services: [{ port: 443, name: https, product: Customer sign-in }] }
+  - { id: video, hostname: video.lucarne.test, ip: 10.103.0.30, os: Linux, map: { x: 240, z: 20, h: 130 }, services: [{ port: 443, name: https, product: Video storage }] }
+  - { id: support, hostname: support.lucarne.test, ip: 10.103.0.40, os: Linux, map: { x: 120, z: 160, h: 90 }, services: [{ port: 443, name: https, product: Support console }] }
+
+dns:
+  lucarne.test: { A: ["10.103.0.20"] }
+  comptes.lucarne.test: { A: ["10.103.0.20"] }
+  video.lucarne.test: { A: ["10.103.0.30"] }
+  support.lucarne.test: { A: ["10.103.0.40"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

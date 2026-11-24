@@ -1,0 +1,16 @@
+id: dossiers.tourterelle-2-watchers
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.tourterelle-world]
+title:
+  fr: "Dossier 33 · 2. Qui regarde ?"
+  en: "Case file 33 · 2. Who is watching?"
+summary:
+  fr: "En cherchant l'intrus, tu as vu des lectures de vidéos qui ne viennent pas de l'extérieur. Tu comptes qui regarde quoi dans l'entreprise, tu trouves le compte qui regarde beaucoup trop, tu réécris les droits d'accès aux vidéos, puis tu décides comment le dire aux clients."
+  en: "Looking for the intruder, you saw video viewings that do not come from outside. You count who watches what inside the company, find the account that watches far too much, rewrite the access rights to videos, then decide how to tell the customers."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, privacy, defense]
+minutes: 12

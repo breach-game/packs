@@ -1,0 +1,123 @@
+# Case file 33, mission 2: the staff's own access. Storage records show customer videos opened from
+# inside the company. Support accounts open a doorbell or a garden for a ticket; one contractor
+# account opens bedrooms and living rooms, with no ticket at all. No video is shown, no person is
+# named: an account, a role, a count. The player names the account, counts the viewings with no
+# ticket, says why it was possible, rewrites the access rights judged by `verify`, and decides how
+# to tell the customers (a decision: no option is wrong).
+side: defense
+order: 2
+stage: report
+startTime: "2027-12-13T09:30:00+01:00"
+briefing: c2.briefing
+reveal: [video, support]
+
+config:
+  lc.sessions_closed: true
+  lc.passwords_reset: true
+
+files:
+  interne/note.txt: { $file: files/note.txt }
+  interne/lectures.csv: { $file: files/lectures.csv }
+  interne/acces-video.yml: { $file: files/acces-video.yml }
+
+objectives:
+  - { id: viewer, text: c2.obj.viewer }
+  - { id: noticket, text: c2.obj.noticket }
+  - { id: why, text: c2.obj.why }
+  - { id: rights, text: c2.obj.rights }
+  - { id: tell, text: c2.obj.tell }
+
+investigation:
+  - { id: viewer, text: c2.q.viewer, value: "presta-22", points: 75, objective: viewer }
+  - { id: noticket, text: c2.q.noticket, value: "17", points: 75, objective: noticket }
+
+questions:
+  - id: why
+    text: c2.q.why
+    objective: why
+    correct: everyone
+    options:
+      - { id: everyone, text: c2.q.why.everyone }
+      - { id: stolen, text: c2.q.why.stolen, why: c2.q.why.stolen.why }
+      - { id: shared, text: c2.q.why.shared, why: c2.q.why.shared.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: tell
+    text: c2.q.tell
+    objective: tell
+    options:
+      - { id: each, text: c2.q.tell.each, impact: 2 }
+      - { id: notice, text: c2.q.tell.notice, impact: 1 }
+      - { id: later, text: c2.q.tell.later, impact: 4 }
+
+checks:
+  - id: default
+    text: c2.check.default
+    if: { file: "~/interne/acces-video.yml", contains: "default_access: none" }
+    objective: rights
+  - id: consent
+    text: c2.check.consent
+    if: { file: "~/interne/acces-video.yml", contains: "support_access: ticket-and-customer-consent" }
+    objective: rights
+  - id: log
+    text: c2.check.log
+    if: { file: "~/interne/acces-video.yml", contains: "access_log: on" }
+    objective: rights
+  - id: bulk
+    text: c2.check.bulk
+    if: { file: "~/interne/acces-video.yml", contains: "bulk_viewing_alert: on" }
+    objective: rights
+  - id: works
+    text: c2.check.works
+    if: { file: "~/interne/acces-video.yml", contains: "support_console: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: viewer }
+    do:
+      - ada.say: c2.ada.viewer
+  - on: { event: ObjectiveCompleted, objective: noticket }
+    do:
+      - ada.say: c2.ada.noticket
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: c2.ada.why
+  - on: { event: Verified }
+    if: { not: { objective: rights } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: rights }
+    do:
+      - ada.say: c2.ada.rights
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  viewer: c2.ada.g.viewer
+  noticket: c2.ada.g.noticket
+  why: c2.ada.g.why
+  rights: c2.ada.g.rights
+  tell: c2.ada.g.tell
+
+hints:
+  viewer: [c2.hint.viewer.1, c2.hint.viewer.2]
+  noticket: [c2.hint.noticket.1, c2.hint.noticket.2]
+  why: [c2.hint.why.1]
+  rights: [c2.hint.rights.1, c2.hint.rights.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "CNIL · Guide de la sécurité des données personnelles"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "FTC, press release on Ring: employees surveilled customers, hackers took control of cameras (May 2023)", url: "https://www.ftc.gov/news-events/news/press-releases/2023/05/ftc-says-ring-employees-illegally-surveilled-customers-failed-stop-hackers-taking-control-users" }
+      - { label: "FTC, refunds sent to Ring customers (April 2024)", url: "https://www.ftc.gov/news-events/news/press-releases/2024/04/ftc-sends-refunds-ring-customers-stemming-2023-settlement-over-charges-company-failed-block" }

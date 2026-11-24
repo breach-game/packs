@@ -1,0 +1,16 @@
+id: dossiers.tourterelle-1-voice
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.tourterelle-world]
+title:
+  fr: "Dossier 33 · 1. La voix dans le salon"
+  en: "Case file 33 · 1. The voice in the living room"
+summary:
+  fr: "Un inconnu parle à une famille par sa caméra. La caméra n'a aucune faille : quelqu'un s'est connecté au compte, du premier coup. Tu trouves d'où, tu comptes les comptes ouverts de la même façon, tu fermes les sessions, puis tu réécris la politique de connexion du fabricant."
+  en: "A stranger talks to a family through their camera. The camera has no flaw: someone signed in to the account, first try. You find where from, count the accounts opened the same way, close the sessions, then rewrite the maker's sign-in policy."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, privacy, defense]
+minutes: 12

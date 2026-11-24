@@ -1,0 +1,16 @@
+id: dossiers.tourterelle
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.tourterelle-world]
+title:
+  fr: "Dossier 33 : la voix dans le salon"
+  en: "Case file 33: the voice in the living room"
+summary:
+  fr: "Inspiré des comptes de caméras connectées ouverts en 2019 avec des mots de passe réutilisés. Joué côté défense, chez le fabricant : les comptes ouverts, les sessions à fermer, la politique de connexion à réécrire, puis une seconde question, plus gênante : qui, dans l'entreprise, peut regarder les vidéos des clients ? La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the connected camera accounts opened in 2019 with reused passwords. Played on the defence side, at the maker: the opened accounts, the sessions to close, the sign-in policy to rewrite, then a second, more awkward question: who, inside the company, can watch customers' videos? The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, privacy, defense]
+incident: 2019

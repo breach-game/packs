@@ -1,0 +1,12 @@
+id: dossiers.tourterelle-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Lucarne"
+  en: "Lucarne"
+summary:
+  fr: "Lucarne, fabricant fictif de sonnettes et de caméras connectées. Des millions de foyers, un compte par client, un mot de passe pour l'ouvrir, et une équipe de support qui voit beaucoup de choses."
+  en: "Lucarne, a fictional maker of connected doorbells and cameras. Millions of homes, one account per customer, one password to open it, and a support team that sees a great deal."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,6 @@
+# Lucarne - who can open customer videos from inside the company. Possible values after the #.
+support_console: enabled
+default_access: all-staff-and-contractors   # all-staff-and-contractors | none
+support_access: any-video                   # any-video | ticket-and-customer-consent
+access_log: off                             # off | on
+bulk_viewing_alert: off                     # off | on

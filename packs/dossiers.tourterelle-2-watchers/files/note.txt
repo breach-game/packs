@@ -1,0 +1,13 @@
+LUCARNE - internal note, security team, 2027-12-13
+
+While exporting sign-ins for ticket 4471 we pulled the video storage server's
+read records for the same week (interne/lectures.csv). They are raw storage
+records: the support console itself keeps no log of who watches what.
+
+Each line is one customer video opened from inside Lucarne.
+  account   the internal account that opened it
+  role      support | engineering | contractor
+  camera    where the customer placed the camera
+  ticket    the support ticket that justified it, or "-" when there is none
+
+Current rights are in interne/acces-video.yml.

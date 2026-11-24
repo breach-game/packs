@@ -1,0 +1,18 @@
+# Case file 33, mission 1: the shortest path, replayed by CI in every language.
+cat support/ticket-4471.txt
+cat comptes/connexions.csv
+answer where 203.0.113.77
+cat comptes/essais.csv
+grep -c opened comptes/essais.csv
+answer opened 5
+answer reuse
+contain
+contain revoke sessions
+contain reset mots-de-passe
+cat comptes/connexion.yml
+sed -i "s/second_factor: optional/second_factor: required/" comptes/connexion.yml
+sed -i "s/new_device_alert: off/new_device_alert: email/" comptes/connexion.yml
+sed -i "s/leaked_password_check: off/leaked_password_check: on/" comptes/connexion.yml
+sed -i "s/attempts_per_address: unlimited/attempts_per_address: 5-per-minute/" comptes/connexion.yml
+sed -i "s/on_password_change: keep-sessions/on_password_change: close-sessions/" comptes/connexion.yml
+verify
