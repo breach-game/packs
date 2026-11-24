@@ -1,0 +1,16 @@
+id: dossiers.pivert
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.pivert-world]
+title:
+  fr: "Dossier 38 : votre mot de passe a expiré"
+  en: "Case file 38: your password has expired"
+summary:
+  fr: "Inspiré de la campagne d'hameçonnage par SMS de l'été 2022 contre des entreprises de la tech. Joué côté défense : des employés reçoivent un SMS du « service informatique », trois donnent leur mot de passe et leur code. Tu lis le message, tu comptes les comptes ouverts, tu fermes. Puis tu regardes l'équipe pilote, qui a reçu le même SMS, a fait la même erreur, et n'a rien perdu. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the summer 2022 SMS phishing campaign against tech companies. Played on the defence side: employees get a text from the \"IT department\", three give their password and their code. You read the message, count the opened accounts, close them. Then you look at the pilot team, who got the same text, made the same mistake, and lost nothing. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs, defense]
+incident: 2022

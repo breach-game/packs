@@ -1,0 +1,16 @@
+id: dossiers.pivert-1-expired
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.pivert-world]
+title:
+  fr: "Dossier 38 · 1. Votre mot de passe a expiré"
+  en: "Case file 38 · 1. Your password has expired"
+summary:
+  fr: "Un vendredi après-midi, des dizaines d'employés reçoivent le même SMS. Tu lis le message sur un téléphone de test, tu trouves où mène son lien, tu comptes les comptes qui se connectent depuis une adresse inconnue, tu fermes, puis tu dis pourquoi le code par SMS n'a rien empêché."
+  en: "One Friday afternoon, dozens of employees get the same text. You read the message on a test phone, find where its link leads, count the accounts signing in from an unknown address, close them, then say why the code by text prevented nothing."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs, defense]
+minutes: 12

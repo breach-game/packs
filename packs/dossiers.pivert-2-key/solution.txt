@@ -1,0 +1,14 @@
+# Case file 38, mission 2: the shortest path, replayed by CI in every language.
+cat pilote/rapport.csv
+grep -c ",typed," pilote/rapport.csv
+answer typed 2
+grep ",typed," pilote/rapport.csv
+answer opened 0
+answer address
+cat sso/politique.yml
+sed -i "s/second_factor: sms-code/second_factor: security-key/" sso/politique.yml
+sed -i "s/keys_per_person: 1/keys_per_person: 2/" sso/politique.yml
+sed -i "s/when_a_key_is_lost: sms-code/when_a_key_is_lost: helpdesk-checks-identity/" sso/politique.yml
+sed -i "s/it_writes_by_text: sometimes/it_writes_by_text: never/" sso/politique.yml
+verify
+answer exposed

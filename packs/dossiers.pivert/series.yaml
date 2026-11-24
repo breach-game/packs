@@ -1,0 +1,4 @@
+# Case file series, in playing order: the text message, then the security key.
+missions:
+  - dossiers.pivert-1-expired
+  - dossiers.pivert-2-key

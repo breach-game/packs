@@ -1,0 +1,12 @@
+# Case file 38, mission 1: the shortest path, replayed by CI in every language.
+cat signalement.txt
+sms
+sms 2
+answer link semaphore-sso.example
+soc logs sso auth
+soc search 203.0.113.9
+answer count 3
+contain
+contain revoke sessions
+contain block semaphore-sso.example
+answer relay
