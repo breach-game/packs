@@ -1,0 +1,12 @@
+id: dossiers.pivert-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Sémaphore"
+  en: "Sémaphore"
+summary:
+  fr: "Sémaphore, entreprise fictive qui envoie les SMS et les codes de connexion de milliers d'autres sociétés. Ses employés se connectent tous par la même page, avec un mot de passe et un code reçu par SMS. Une équipe pilote teste autre chose."
+  en: "Sémaphore, a fictional company that sends the texts and sign-in codes of thousands of other businesses. Its employees all sign in through the same page, with a password and a code received by text. A pilot team is testing something else."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,116 @@
+# Case file 38, mission 1: the text message. A test phone holds three messages, one of them posing
+# as the IT department with a link to a look-alike domain. The sign-in log shows three employee
+# accounts accepted from one unknown address minutes later, password and code both right. The
+# player names the domain, counts the accounts, closes their sessions and blocks the domain, and
+# says why the one-time code did not protect. The look-alike page is never shown.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [sso, console]
+
+files:
+  signalement.txt: { $file: files/signalement.txt }
+
+sms:
+  - { id: carrier, from: Nordtel, at: "2028-08-03 10:02", text: c1.sms.carrier }
+  - { id: it, from: "+1 202 555 0142", at: "2028-08-04 15:52", text: c1.sms.it }
+  - { id: real, from: Semaphore, at: "2028-08-04 16:05", text: c1.sms.real }
+
+adversary:
+  id: phisher
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: p1, host: sso, source: auth, fields: { src: 203.0.113.9, user: agent-014, method: "password+sms-code" } }
+    - { id: p2, host: sso, source: auth, fields: { src: 203.0.113.9, user: agent-052, method: "password+sms-code" } }
+    - { id: p3, host: sso, source: auth, fields: { src: 203.0.113.9, user: ops-007, method: "password+sms-code" } }
+    - { id: p4, host: console, source: auth, fields: { src: 203.0.113.9, user: agent-014, method: "session" }, blockedIf: { config: sm.sessions_closed, eq: true } }
+    - { id: p5, host: console, source: auth, fields: { src: 203.0.113.9, user: ops-007, method: "session" }, blockedIf: { config: sm.sessions_closed, eq: true } }
+
+background:
+  - { host: sso, source: auth, every: 2, offset: 0, fields: { src: 192.0.2.41, user: agent-021, method: "password+sms-code" } }
+  - { host: sso, source: auth, every: 3, offset: 1, fields: { src: 198.51.100.73, user: agent-014, method: "password+sms-code" } }
+  - { host: sso, source: auth, every: 4, offset: 2, fields: { src: 192.0.2.118, user: dev-033, method: "password+sms-code" } }
+
+containment:
+  - id: sessions
+    action: revoke
+    target: sessions
+    text: c1.contain.sessions
+    sets: { sm.sessions_closed: true }
+    impact: 1
+  - id: domain
+    action: block
+    target: semaphore-sso.example
+    text: c1.contain.domain
+    sets: { sm.domain_blocked: true }
+    impact: 0
+
+objectives:
+  - { id: link, text: c1.obj.link }
+  - { id: count, text: c1.obj.count }
+  - { id: close, text: c1.obj.close }
+  - { id: code, text: c1.obj.code }
+
+investigation:
+  - { id: link, text: c1.q.link, value: "semaphore-sso.example", points: 75, objective: link }
+  - { id: count, text: c1.q.count, value: "3", points: 100, objective: count }
+
+questions:
+  - id: code
+    text: c1.q.code
+    objective: code
+    correct: relay
+    options:
+      - { id: relay, text: c1.q.code.relay }
+      - { id: guess, text: c1.q.code.guess, why: c1.q.code.guess.why }
+      - { id: nosms, text: c1.q.code.nosms, why: c1.q.code.nosms.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: link }
+    do:
+      - ada.say: c1.ada.link
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: c1.ada.count
+  - id: close-a
+    on: { event: Contained, containment: sessions }
+    if: { config: sm.domain_blocked, eq: true }
+    do:
+      - objective.complete: close
+  - id: close-b
+    on: { event: Contained, containment: domain }
+    if: { config: sm.sessions_closed, eq: true }
+    do:
+      - objective.complete: close
+  - on: { event: ObjectiveCompleted, objective: close }
+    do:
+      - ada.say: c1.ada.close
+      - ada.ask: code
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  link: c1.ada.g.link
+  count: c1.ada.g.count
+  close: c1.ada.g.close
+  code: c1.ada.g.code
+
+hints:
+  link: [c1.hint.link.1, c1.hint.link.2]
+  count: [c1.hint.count.1, c1.hint.count.2]
+  close: [c1.hint.close.1]
+  code: [c1.hint.code.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "CISA · Implementing Phishing-Resistant MFA"

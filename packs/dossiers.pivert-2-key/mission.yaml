@@ -1,0 +1,121 @@
+# Case file 38, mission 2: the security key. The pilot report shows that two of twelve pilot members
+# typed their password on the look-alike page, like the others, and that the attacker's sign-ins
+# were refused for lack of the key. The player counts both, says what a key does that a code does
+# not, rewrites the sign-in policy judged by `verify`, and decides the roll-out order (a decision).
+side: defense
+order: 2
+stage: report
+startTime: "2028-08-07T09:30:00+02:00"
+briefing: c2.briefing
+reveal: [sso]
+
+config:
+  sm.sessions_closed: true
+  sm.domain_blocked: true
+
+files:
+  pilote/rapport.csv: { $file: files/pilote.csv }
+  sso/politique.yml: { $file: files/politique.yml }
+
+objectives:
+  - { id: typed, text: c2.obj.typed }
+  - { id: opened, text: c2.obj.opened }
+  - { id: why, text: c2.obj.why }
+  - { id: policy, text: c2.obj.policy }
+  - { id: first, text: c2.obj.first }
+
+investigation:
+  - { id: typed, text: c2.q.typed, value: "2", points: 75, objective: typed }
+  - { id: opened, text: c2.q.opened, value: "0", points: 75, objective: opened }
+
+questions:
+  - id: why
+    text: c2.q.why
+    objective: why
+    correct: address
+    options:
+      - { id: address, text: c2.q.why.address }
+      - { id: trained, text: c2.q.why.trained, why: c2.q.why.trained.why }
+      - { id: skipped, text: c2.q.why.skipped, why: c2.q.why.skipped.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: first
+    text: c2.q.first
+    objective: first
+    options:
+      - { id: exposed, text: c2.q.first.exposed, impact: 1 }
+      - { id: everyone, text: c2.q.first.everyone, impact: 3 }
+      - { id: volunteers, text: c2.q.first.volunteers, impact: 4 }
+
+checks:
+  - id: key
+    text: c2.check.key
+    if: { file: "~/sso/politique.yml", contains: "second_factor: security-key" }
+    objective: policy
+  - id: two
+    text: c2.check.two
+    if: { file: "~/sso/politique.yml", contains: "keys_per_person: 2" }
+    objective: policy
+  - id: lost
+    text: c2.check.lost
+    if: { file: "~/sso/politique.yml", contains: "when_a_key_is_lost: helpdesk-checks-identity" }
+    objective: policy
+  - id: text
+    text: c2.check.text
+    if: { file: "~/sso/politique.yml", contains: "it_writes_by_text: never" }
+    objective: policy
+  - id: works
+    text: c2.check.works
+    if: { file: "~/sso/politique.yml", contains: "sign_in: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: typed }
+    do:
+      - ada.say: c2.ada.typed
+  - on: { event: ObjectiveCompleted, objective: opened }
+    do:
+      - ada.say: c2.ada.opened
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: c2.ada.why
+  - on: { event: Verified }
+    if: { not: { objective: policy } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: policy }
+    do:
+      - ada.say: c2.ada.policy
+      - ada.ask: first
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  typed: c2.ada.g.typed
+  opened: c2.ada.g.opened
+  why: c2.ada.g.why
+  policy: c2.ada.g.policy
+  first: c2.ada.g.first
+
+hints:
+  typed: [c2.hint.typed.1, c2.hint.typed.2]
+  opened: [c2.hint.opened.1, c2.hint.opened.2]
+  why: [c2.hint.why.1]
+  policy: [c2.hint.policy.1, c2.hint.policy.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "FIDO Alliance · passkeys and security keys"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4]
+    sources:
+      - { label: "Twilio, Incident Report: Employee and Customer Account Compromise (August to October 2022)", url: "https://www.twilio.com/blog/august-2022-social-engineering-attack" }
+      - { label: "Cloudflare, The mechanics of a sophisticated phishing scam and how we stopped it (August 2022)", url: "https://blog.cloudflare.com/2022-07-sms-phishing-attacks" }
+      - { label: "Group-IB, press release on the 0ktapus campaign (August 2022)", url: "https://www.group-ib.com/media-center/press-releases/0ktapus-campaign/" }

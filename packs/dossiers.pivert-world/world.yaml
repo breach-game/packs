@@ -1,0 +1,69 @@
+# Case file 38 "Pivert". Inspired by the 2022 SMS phishing campaign against technology companies:
+# texts posing as the IT department, look-alike sign-in pages that collect the password and the
+# one-time code, and one company whose hardware security keys made the stolen passwords useless.
+# Played on the defence side only. The look-alike page is never shown or served: the player reads
+# a text message, sign-in logs and a pilot report.
+startTime: "2028-08-04T16:20:00+02:00"
+mandate: SM-2028-077
+scope:
+  domains: ["*.semaphore.test"]
+  networks: ["10.108.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.108.0.2
+
+config:
+  sm.sessions_closed: false
+  sm.domain_blocked: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.108.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [sso, console]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            SM-2028-077.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: sso, hostname: connexion.semaphore.test, ip: 10.108.0.20, os: Linux, map: { x: 80, z: -80, h: 130 }, services: [{ port: 443, name: https, product: Single sign-on }] }
+  - { id: console, hostname: console.semaphore.test, ip: 10.108.0.30, os: Linux, map: { x: 260, z: 60, h: 110 }, services: [{ port: 443, name: https, product: Customer support console }] }
+
+  - id: outside
+    hostname: inconnu.semaphore.test
+    ip: 10.108.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  semaphore.test: { A: ["10.108.0.20"] }
+  connexion.semaphore.test: { A: ["10.108.0.20"] }
+  console.semaphore.test: { A: ["10.108.0.30"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

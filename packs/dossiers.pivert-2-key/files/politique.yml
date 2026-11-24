@@ -1,0 +1,6 @@
+# Sémaphore - sign-in policy for employees. Possible values after the #.
+sign_in: enabled
+second_factor: sms-code               # sms-code | security-key
+keys_per_person: 1                    # 1 | 2
+when_a_key_is_lost: sms-code          # sms-code | helpdesk-checks-identity
+it_writes_by_text: sometimes          # sometimes | never

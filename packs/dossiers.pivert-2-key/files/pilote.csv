@@ -1,0 +1,14 @@
+account,team,second_factor,got_text,on_fake_page,attacker_sign_in
+dev-033,engineering,security-key,yes,ignored,-
+dev-041,engineering,security-key,yes,ignored,-
+dev-058,engineering,security-key,yes,typed,refused: no key present
+ops-002,operations,security-key,yes,ignored,-
+ops-011,operations,security-key,yes,reported,-
+ops-019,operations,security-key,no,-,-
+agent-003,support,security-key,yes,typed,refused: no key present
+agent-009,support,security-key,yes,ignored,-
+agent-027,support,security-key,yes,reported,-
+sec-001,security,security-key,yes,reported,-
+sec-004,security,security-key,yes,ignored,-
+fin-006,finance,security-key,no,-,-
+# Rest of the company, for comparison (900 accounts, sms-code): 3 typed, 3 opened.

@@ -1,0 +1,16 @@
+id: dossiers.pivert-2-key
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.pivert-world]
+title:
+  fr: "Dossier 38 · 2. La clé"
+  en: "Case file 38 · 2. The key"
+summary:
+  fr: "Douze employés testaient des clés de sécurité matérielles. Ils ont reçu le même SMS. Tu comptes ceux qui ont donné leur mot de passe, puis les comptes ouverts, tu dis ce que la clé fait qu'un code ne fait pas, tu réécris la politique de connexion, puis tu décides qui reçoit une clé en premier."
+  en: "Twelve employees were testing hardware security keys. They got the same text. You count those who gave their password, then the opened accounts, say what the key does that a code does not, rewrite the sign-in policy, then decide who gets a key first."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs, defense]
+minutes: 10
