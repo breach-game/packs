@@ -20,21 +20,38 @@ adversary:
   from: outside
   pace: 2
   steps:
-    - { id: list, host: storage, source: access, fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/?list-type=2", status: 200, bytes: 2210, ua: "aws-cli/2.13.4 key=vd-devops-04" } }
-    - { id: part1, host: storage, source: access, fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/2027-10-11/part-01.enc", status: 200, bytes: 1048576000, ua: "aws-cli/2.13.4 key=vd-devops-04" } }
+    # From 203.0.113.47, the firewall block works too: the refused tries stay in the flow log, and the
+    # copier carries on, until it comes back from another address with the same key.
+    - id: list
+      host: storage
+      source: access
+      fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/?list-type=2", status: 200, bytes: 2210, ua: "aws-cli/2.13.4 key=vd-devops-04" }
+      blockedIf: &fromfirst
+        any:
+          - { config: vd.ip_blocked, eq: true }
+          - { config: vd.key_revoked, eq: true }
+          - { config: vd.storage_isolated, eq: true }
+      continueIfBlocked: true
+    - id: part1
+      host: storage
+      source: access
+      fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/2027-10-11/part-01.enc", status: 200, bytes: 1048576000, ua: "aws-cli/2.13.4 key=vd-devops-04" }
+      blockedIf: *fromfirst
+      continueIfBlocked: true
     - id: part2
       host: storage
       source: access
       fields: { src: 203.0.113.47, method: GET, path: "/vault-backups/2027-10-11/part-02.enc", status: 200, bytes: 1048576000, ua: "aws-cli/2.13.4 key=vd-devops-04" }
-      blockedIf: &stopped
-        any:
-          - { config: vd.key_revoked, eq: true }
-          - { config: vd.storage_isolated, eq: true }
+      blockedIf: *fromfirst
+      continueIfBlocked: true
     - id: part3
       host: storage
       source: access
       fields: { src: 198.51.100.80, method: GET, path: "/vault-backups/2027-10-11/part-03.enc", status: 200, bytes: 734003200, ua: "aws-cli/2.13.4 key=vd-devops-04" }
-      blockedIf: *stopped
+      blockedIf:
+        any:
+          - { config: vd.key_revoked, eq: true }
+          - { config: vd.storage_isolated, eq: true }
 
 # The ordinary night: the backup job writes, the on-call engineer reads a log.
 background:

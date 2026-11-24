@@ -49,6 +49,14 @@ rules:
   - on: { event: ChatReply, npc: charly, intent: pet }
     do:
       - var.set: { name: charly_pet, value: true }
+  # The other order: the conditions read first, then Charly asked.
+  - on: { event: HttpRequest, host: www, path: /conditions }
+    do:
+      - var.set: { name: read_conditions, value: true }
+  - on: { event: ChatReply, npc: charly, intent: pet }
+    if: { var: read_conditions, eq: true }
+    do:
+      - objective.complete: pet
   - on: { event: ObjectiveCompleted, objective: pet }
     do:
       - ada.say: c1.ada.pet

@@ -36,12 +36,22 @@ rules:
   - on: { event: ObjectiveCompleted, objective: owner }
     do:
       - ada.say: s1.ada.owner
-  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js }
-    do:
-      - ada.guide: { key: s1.ada.same, for: phone, step: 1 }
   - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js, variant: mobile }
     do:
       - objective.complete: phone
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js, variant: mobile-iphone }
+    do:
+      - objective.complete: phone
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js, variant: mobile-android }
+    do:
+      - objective.complete: phone
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js, variant: mobile-ua }
+    do:
+      - objective.complete: phone
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js }
+    if: { not: { objective: phone } }
+    do:
+      - ada.guide: { key: s1.ada.same, for: phone, step: 1 }
   - on: { event: ObjectiveCompleted, objective: phone }
     do:
       - ada.say: s1.ada.phone

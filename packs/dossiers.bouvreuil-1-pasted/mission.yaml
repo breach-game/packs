@@ -9,6 +9,8 @@ reveal: [gateway]
 files:
   dossier/dlp-export.txt: { $file: files/dlp-export.txt }
   regles/gros-envois.yml: |
+    # fields of an access line: src, method, path (the full address), status, bytes (size sent), ua
+    # modifiers: |contains |startswith |endswith |gte (a number at least this big)
     title: A big paste sent to the public assistant
     source: access
 

@@ -1,7 +1,7 @@
 GATEWAY FILTER - fields known for each upload to an AI assistant
 
 dest    public     an assistant run by an outside company (assistant.example)
-        internal   an assistant run inside Bouvreuil (none yet)
+        internal   an assistant run inside Bouvreuil (being set up)
 label   confidential   the leak prevention tool recognised source code, a netlist,
                        a roadmap or anything marked "Bouvreuil confidential"
         public         nothing recognised

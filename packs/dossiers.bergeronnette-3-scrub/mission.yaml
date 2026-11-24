@@ -26,7 +26,7 @@ questions:
 checks:
   - id: scrub
     text: b3.check.scrub
-    if: { all: [{ file: "~/dossier/guichet.yml", lacks: "har_scrub: off" }, { file: "~/dossier/guichet.yml", contains: "har_scrub: on" }, { file: "~/dossier/guichet.yml", lacks: "keep: forever" }, { file: "~/dossier/guichet.yml", contains: "keep: 30-days" }] }
+    if: { all: [{ file: "~/dossier/guichet.yml", lacks: "har_scrub: off" }, { file: "~/dossier/guichet.yml", contains: "har_scrub: on" }, { file: "~/dossier/guichet.yml", lacks: "keep: forever" }, { any: [{ file: "~/dossier/guichet.yml", contains: "keep: 30-days" }, { file: "~/dossier/guichet.yml", contains: "keep: 90-days" }] }] }
     objective: scrub
   - id: account
     text: b3.check.account

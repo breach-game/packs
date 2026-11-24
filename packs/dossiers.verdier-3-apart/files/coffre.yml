@@ -1,6 +1,6 @@
 # Verdier - backup keys and vault format - mandate VD-2027-018
 backup_keys:
-  # personal-vault | separate-hsm: where the keys that decrypt the backups live
+  # personal-vault | separate-hsm: where the keys that read and decrypt the backups live
   stored_in: personal-vault
   # anywhere | managed-devices: from where those keys may be used
   usable_from: anywhere
