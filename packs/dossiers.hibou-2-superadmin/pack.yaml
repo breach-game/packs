@@ -1,0 +1,16 @@
+id: dossiers.hibou-2-superadmin
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.hibou-world]
+title:
+  fr: "Dossier 37 · 2. Le compte qui voyait tout"
+  en: "Case file 37 · 2. The account that saw everything"
+summary:
+  fr: "Le fabricant laisse ses clients relire la configuration de son accès de support, telle qu'elle était le jour de l'intrusion. Tu désignes les lignes fautives, tu dis pourquoi un seul compte comptait autant, puis tu écris l'accès de support tel qu'il aurait dû être."
+  en: "The maker lets its customers review the configuration of its support access, as it was on the day of the intrusion. You point at the faulty lines, say why a single account mattered so much, then write the support access as it should have been."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [iot, privacy, defense]
+minutes: 10

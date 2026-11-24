@@ -1,0 +1,16 @@
+id: dossiers.hibou
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.hibou-world]
+title:
+  fr: "Dossier 37 : cent cinquante mille fenêtres"
+  en: "Case file 37: a hundred and fifty thousand windows"
+summary:
+  fr: "Inspiré de l'intrusion de 2021 chez un fabricant de caméras connectées au cloud. Joué entièrement côté défense, d'abord depuis le siège d'un client : une clinique apprend que quelqu'un a pu regarder par ses caméras, et que sa clé Wi-Fi était rangée chez le fabricant. Puis chez le fabricant : un compte de support qui voyait tout, chez tout le monde. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2021 intrusion at a maker of cloud-connected cameras. Played entirely on the defence side, first from a customer's seat: a clinic learns that someone could look through its cameras, and that its Wi-Fi key was stored at the maker. Then at the maker: a support account that saw everything, at every customer. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [iot, privacy, defense]
+incident: 2021

@@ -1,0 +1,16 @@
+camera,place,zone,audio,network
+cam-01,main entrance,public,off,wifi-clinique
+cam-02,car park,public,off,wifi-clinique
+cam-03,reception desk,public,on,wifi-clinique
+cam-04,pharmacy store,staff,off,wifi-clinique
+cam-05,corridor A,public,off,wifi-clinique
+cam-06,corridor B,public,off,wifi-clinique
+cam-07,consultation room 1,care,on,wifi-clinique
+cam-08,consultation room 2,care,on,wifi-clinique
+cam-09,recovery room,care,on,wifi-clinique
+cam-10,staff room,staff,on,wifi-clinique
+cam-11,delivery bay,public,off,wifi-clinique
+cam-12,waiting room,public,on,wifi-clinique
+cam-13,night ward corridor,care,off,wifi-clinique
+cam-14,server cupboard,staff,off,wifi-clinique
+# wifi-clinique is also the network of the nurses' tablets and the patient records terminals.

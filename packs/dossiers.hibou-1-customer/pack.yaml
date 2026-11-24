@@ -1,0 +1,16 @@
+id: dossiers.hibou-1-customer
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.hibou-world]
+title:
+  fr: "Dossier 37 · 1. L'avis du fabricant"
+  en: "Case file 37 · 1. The maker's notice"
+summary:
+  fr: "Le fabricant des caméras d'une clinique annonce qu'un intrus a eu accès aux images en direct de ses clients. Tu comptes les caméras placées là où elles n'auraient jamais dû être, tu trouves ce que le fabricant gardait d'autre, tu changes la clé, puis tu réécris les règles de la clinique."
+  en: "The maker of a clinic's cameras announces that an intruder had access to its customers' live pictures. You count the cameras placed where they should never have been, find what else the maker was keeping, change the key, then rewrite the clinic's rules."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [iot, privacy, defense]
+minutes: 12

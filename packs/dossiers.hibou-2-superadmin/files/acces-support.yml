@@ -1,0 +1,12 @@
+# Vigie - support access to the cloud console, as it was on 8 March
+support_tool: enabled
+accounts:
+  - name: super-support             # one account, used by the whole support team
+    lockout_after: 10 failed tries
+    password: written in a deployment script, same as on the test server
+    session_length: 8h
+    scope: every customer, live video and audio, no approval needed
+    audit_log: kept 30 days
+customer_device_config:
+  wifi_key: stored readable         # so that support can help with connection problems
+  site_address: stored

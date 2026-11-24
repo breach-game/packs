@@ -1,0 +1,6 @@
+# Clinique des Tilleuls - camera rules. Possible values after the #.
+cameras: enabled
+cameras_in_care_rooms: allowed         # allowed | forbidden
+audio_recording: on                    # on | off
+camera_network: shared-with-medical    # shared-with-medical | separate
+vendor_support_access: always-on       # always-on | on-request-for-one-hour

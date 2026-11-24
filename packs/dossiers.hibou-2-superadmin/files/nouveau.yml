@@ -1,0 +1,7 @@
+# Vigie - support access, new design. Possible values after the #.
+support_tool: enabled
+support_accounts: one-shared          # one-shared | one-per-person
+second_factor: optional               # optional | required
+customer_video: always-open           # always-open | customer-approves-each-session
+stored_wifi_keys: readable            # readable | encrypted
+session_log: kept-by-vigie            # kept-by-vigie | visible-to-customer
