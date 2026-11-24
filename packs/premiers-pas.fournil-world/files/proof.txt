@@ -1,0 +1,8 @@
+Ligne Rouge - subdomain takeover proof
+Mandate BF-2027-011, test account lignerouge-audit (Nuage)
+
+This bucket was created by the auditors to prove that promo.fournil.test
+still points to a bucket name anyone could claim. It holds nothing else
+and will be deleted at the end of the test.
+
+proof: FLAG{fournil-orphan-claimed-9b3e}

@@ -1,0 +1,14 @@
+id: paths.first-steps
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: path
+title:
+  fr: "Parcours : premiers pas"
+  en: "Path: first steps"
+summary:
+  fr: "Pour qui n'a jamais ouvert un terminal : lire un fichier, un journal, du JSON, un enregistrement DNS, puis deux failles simples d'une petite boulangerie. Chaque étape apprend une seule chose."
+  en: "For anyone who has never opened a terminal: read a file, a log, some JSON, a DNS record, then two simple flaws at a small bakery. Each step teaches one thing."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, logs, web]

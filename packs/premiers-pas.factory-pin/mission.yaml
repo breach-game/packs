@@ -1,0 +1,66 @@
+order: 2
+stage: iot
+briefing: fp.briefing
+reveal: [www]
+
+objectives:
+  - { id: find, text: fp.obj.find }
+  - { id: guide, text: fp.obj.guide }
+  - { id: login, text: fp.obj.login }
+  - { id: fix, text: fp.obj.fix }
+
+flags:
+  - { id: oven, value: "FLAG{fournil-pin-usine-4d7c}", points: 100, objective: login }
+
+questions:
+  - id: fix
+    text: fp.q.fix
+    objective: fix
+    correct: both
+    options:
+      - { id: both, text: fp.q.fix.both }
+      - { id: guide, text: fp.q.fix.guide, why: fp.q.fix.guide.why }
+      - { id: page, text: fp.q.fix.page, why: fp.q.fix.page.why }
+      - { id: pin, text: fp.q.fix.pin, why: fp.q.fix.pin.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: fp.ada.brief
+  - on: { event: HttpRequest, host: www, path: /pro }
+    do:
+      - objective.complete: find
+      - host.reveal: four
+  - on: { event: HttpRequest, host: four, path: / }
+    do:
+      - ada.guide: { key: fp.ada.form, for: guide, step: 1 }
+  - on: { event: HttpRequest, host: four, path: /aide }
+    do:
+      - objective.complete: guide
+  - on: { event: ChatReply, npc: four, intent: factory }
+    do:
+      - ada.guide: { key: fp.ada.opened, for: login, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: login }
+    do:
+      - ada.say: fp.ada.stop
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: fp.ada.done
+
+guide:
+  find: fp.ada.find
+  guide: fp.ada.oven
+  login: fp.ada.login
+  fix: fp.ada.answer
+
+hints:
+  find: [fp.hint.find.1, fp.hint.find.2]
+  guide: [fp.hint.guide.1]
+  login: [fp.hint.login.1, fp.hint.login.2]
+
+debrief:
+  title: fp.debrief.title
+  lesson: fp.debrief.lesson
+  points: [fp.debrief.p1, fp.debrief.p2, fp.debrief.p3]
+  reference: "OWASP Top 10 · A07 · OWASP IoT Top 10 · I1"

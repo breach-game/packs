@@ -1,0 +1,16 @@
+id: premiers-pas.orphan-subdomain
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [premiers-pas.fournil-world]
+title:
+  fr: Le sous-domaine orphelin
+  en: The orphan subdomain
+summary:
+  fr: "Premiers pas. Une campagne d'été terminée, un seau de stockage supprimé, et un nom DNS resté en place. Prouve que n'importe qui pourrait le reprendre, puis fais le ménage dans la zone."
+  en: "First steps. A summer campaign over, a storage bucket deleted, and a DNS name left behind. Prove that anyone could take it over, then clean up the zone."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, cloud, defense]
+minutes: 10

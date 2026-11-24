@@ -1,0 +1,75 @@
+file.readme: |
+  Poste Ligne Rouge, relié par VPN au réseau d'Au Bon Fournil.
+  Tout ce que tu tapes ici n'atteint que ce réseau, et le compte de test
+  de Ligne Rouge chez Nuage.
+
+    help              la liste des commandes
+    mission           le briefing et les objectifs en cours
+    hint              un indice d'Ada, si tu bloques
+
+  Lis d'abord le mandat :  cat mandate/BF-2027-011.txt
+
+  Ada
+file.mandate: |
+  ==============================================================
+   LIGNE ROUGE  ·  société de tests d'intrusion
+   MANDAT DE TEST D'INTRUSION  No BF-2027-011
+  ==============================================================
+
+  CLIENT          Au Bon Fournil SAS, Tours
+  SIGNÉ PAR       la gérance
+  TESTEURS        Ada (responsable), {user} (junior)
+
+  PÉRIMÈTRE       *.fournil.test, 10.31.0.0/24
+                  Chez Nuage : uniquement le compte de test
+                  lignerouge-audit, pour prouver qu'un nom est libre.
+                  Tout le reste est INTERDIT.
+
+  RÈGLES          Lecture seule sur les machines du client : aucune
+                  modification, aucune suppression, aucun arrêt.
+                  Une preuve, puis on s'arrête et on écrit.
+
+  Sans cette autorisation écrite, accéder à un système
+  d'information est un délit (article 323-1 du Code pénal).
+  Le mandat, c'est ce qui sépare un testeur d'un intrus.
+web.nav.home: "Accueil"
+web.nav.pro: "Espace pro"
+web.home.title: "Au Bon Fournil · boulangeries à Tours"
+web.home.h1: "Du pain au levain, depuis 1987"
+web.home.p1: "Trois boulangeries à Tours, un fournil central et du pain cuit chaque nuit."
+web.home.shop1: "Place Plumereau, du mardi au dimanche"
+web.home.shop2: "Rue Nationale, tous les jours"
+web.home.shop3: "Les Halles, le samedi matin"
+web.home.comment: "TODO : retirer le lien vers la promo d'été, la campagne est finie"
+web.footer: "© Au Bon Fournil SAS · Tours"
+web.pro.title: "Espace pro · Au Bon Fournil"
+web.pro.h1: "Restaurants et cantines"
+web.pro.p1: "Nos outils pour les professionnels et l'équipe."
+web.pro.th.what: "Outil"
+web.pro.th.where: "Adresse"
+web.pro.r.orders: "Commandes en gros"
+web.pro.r.oven: "Pilotage du four du fournil central"
+web.oven.title: "Fourneo 3.2 · Fournil central"
+web.oven.h1: "Fourneo 3.2"
+web.oven.p1: "Pilotage du four : températures, programmes, démarrage et arrêt."
+web.oven.label: "Code d'accès"
+web.oven.button: "Se connecter"
+web.oven.help: "Guide de démarrage"
+web.oven.footer: "Fourneo · four connecté professionnel"
+web.console.title: "Nuage · console"
+web.console.h1: "Compte lignerouge-audit"
+web.console.p1: "Créer un seau de stockage. Les noms sont uniques dans tout Nuage : un nom libéré peut être repris par n'importe quel compte."
+web.console.label: "Nom du nouveau seau"
+web.console.button: "Créer le seau"
+web.console.footer: "Nuage · stockage objet"
+npc.four.role: "Page de connexion du four"
+npc.four.wrong: "Code incorrect."
+npc.four.factory: "Connecté (code d'usine).\n\nFOURNEO 3.2 · four n°1 · fournil central\n  sole : 248 °C   voûte : 236 °C   programme : levain 750 g\n  prochain démarrage : 02:30 (automatique)\n  [ Arrêter ]  [ Modifier le programme ]  [ Paramètres ]\n\n  témoin d'audit : FLAG{fournil-pin-usine-4d7c}"
+npc.console.role: "Console Nuage"
+npc.console.created: "Seau fournil-promo-2025 créé dans le compte lignerouge-audit (région fr-ouest).\nFichier témoin index.txt déposé.\nAccès public en lecture : activé."
+npc.console.again: "Ce seau existe déjà dans ton compte."
+npc.console.other: "Nom introuvable dans ton compte. Pour en créer un, tape son nom exact."
+npc.console.help: "Tape le nom exact du seau à créer."
+ada.outOfScope: "Stop. Cette cible est hors mandat, et le poste l'a bloquée. Sans autorisation écrite, c'est l'article 323-1 du Code pénal. Notre périmètre : *.fournil.test, et notre propre compte de test chez Nuage."
+ada.noise70: "Tu fais beaucoup de bruit. Leur hébergeur va le remarquer : ralentis."
+ada.detected: "Repérés. On revient au dernier point de reprise. Plus discrètement cette fois."

