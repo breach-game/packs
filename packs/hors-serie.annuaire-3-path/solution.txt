@@ -1,0 +1,14 @@
+# Side series "L'Annuaire", mission 3: the shortest path, replayed by CI in every language.
+ssh ir@sauvegarde.ardoise.test
+last
+journalctl -u ssh
+cat /etc/sauvegarde/nuit.conf
+exit
+path chemin annuaire sauvegarde stockage
+timeline faits anon spray bind ssh copy cut
+cat revue/admins.ldif
+sed -i "/uid=svc-sauvegarde/d" revue/admins.ldif
+sed -i "/uid=ext-prestataire/d" revue/admins.ldif
+verify
+contain rotate svc-sauvegarde
+answer own

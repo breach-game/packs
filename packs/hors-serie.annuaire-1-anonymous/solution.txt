@@ -1,0 +1,9 @@
+# Side series "L'Annuaire", mission 1: the shortest path, replayed by CI in every language.
+ldapsearch -x -H ldap://annuaire.ardoise.test -b dc=ardoise,dc=test "(description=*)" uid description
+answer password svc-sauvegarde
+ldapsearch -x -H ldap://annuaire.ardoise.test -b dc=ardoise,dc=test "(memberOf=cn=admins-annuaire*)" uid description
+answer former ext-prestataire
+contain disable acces-anonyme
+ldapsearch -x -H ldap://annuaire.ardoise.test -b dc=ardoise,dc=test "(uid=*)" uid
+ldapsearch -x -H ldap://annuaire.ardoise.test -D cn=lecteur-ir,ou=services,dc=ardoise,dc=test -w Lr-lecture-2027 -b ou=lignes,dc=ardoise,dc=test "(cn=*)" cn
+answer map

@@ -1,0 +1,15 @@
+id: hors-serie.annuaire
+version: 1.0.0
+engine: ">=0.16 <1"
+kind: series
+requires: [hors-serie.annuaire-world]
+title:
+  fr: "Hors-série : L'Annuaire"
+  en: "Side series: The Directory"
+summary:
+  fr: "Un réseau de bus, un annuaire de vingt ans que personne n'a jamais revu. Côté défense : tu lis ce qu'il dit à tout le monde avec `ldapsearch`, tu attrapes une pulvérisation de mots de passe avec une règle qui compte, puis tu retraces le chemin et fais le premier ménage."
+  en: "A bus network, a twenty-year-old directory nobody ever reviewed. On the defence side: you read what it tells everyone with `ldapsearch`, catch a password spray with a counting rule, then trace the path and do the first clean-up."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, logs, linux]

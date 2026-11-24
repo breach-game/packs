@@ -1,0 +1,12 @@
+# Side series "L'Annuaire", mission 2: the shortest path, replayed by CI in every language.
+cat regles/pulverisation.yml
+echo "err: 49" >> regles/pulverisation.yml
+rule test regles/pulverisation.yml
+echo "count|gte: 3" >> regles/pulverisation.yml
+echo "within: 10" >> regles/pulverisation.yml
+echo "by: src" >> regles/pulverisation.yml
+rule test regles/pulverisation.yml
+soc logs annuaire ldap
+soc logs annuaire ldap
+answer who svc-sauvegarde
+contain disable svc-sauvegarde

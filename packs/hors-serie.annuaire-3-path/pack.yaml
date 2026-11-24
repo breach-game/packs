@@ -1,0 +1,16 @@
+id: hors-serie.annuaire-3-path
+version: 1.0.0
+engine: ">=0.16 <1"
+kind: mission
+requires: [hors-serie.annuaire-world]
+title:
+  fr: "L'Annuaire · 3. Retracer le chemin"
+  en: "The Directory · 3. Tracing the path"
+summary:
+  fr: "Le compte est coupé. Avec `last`, `journalctl` et la configuration de la sauvegarde, tu retraces le chemin de l'attaquant et l'ordre des faits, puis tu fais le ménage : groupe des administrateurs revu et jugé par `verify`, mot de passe changé, et un vrai compte pour l'appli des horaires."
+  en: "The account is cut off. With `last`, `journalctl` and the backup configuration, you trace the attacker's path and the order of events, then clean up: admins group reviewed and judged by `verify`, password changed, and a real account for the timetable app."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, linux, logs]
+minutes: 15

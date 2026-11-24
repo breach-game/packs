@@ -1,0 +1,118 @@
+# The Directory 2: a password spray on LDAP binds from one outside address, one try per account,
+# then the backup account (password in its description) works, signs in to the backup server and
+# starts copying payroll out. Disabling the account stops every later step.
+side: defense
+order: 2
+stage: defense
+briefing: d2.briefing
+reveal: [annuaire, sauvegarde, stockage]
+
+config:
+  ad.anon.closed: true
+
+files:
+  regles/pulverisation.yml: |
+    title: One password tried on many directory accounts
+    source: ldap
+
+adversary:
+  id: sprayer
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: s1, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=accueil-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s2, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=accueil-02,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s3, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=compta-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s4, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=rh-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s5, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=planning-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s6, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=dsi-chef,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s7, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=ext-prestataire,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+    - { id: s8, host: annuaire, source: ldap, fields: { src: 198.51.100.77, bind: "uid=svc-sauvegarde,ou=services,dc=ardoise,dc=test", err: 0, base: "dc=ardoise,dc=test", filter: "(objectClass=*)", entries: 14 }, blockedIf: { config: ad.svc.disabled, eq: true } }
+    - { id: ssh, host: sauvegarde, source: auth, fields: { src: 198.51.100.77, user: svc-sauvegarde, method: password }, blockedIf: { config: ad.svc.disabled, eq: true }, sets: { ad.spray.seen: true } }
+    - { id: copy1, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 48210944 }, blockedIf: { config: ad.svc.disabled, eq: true } }
+    - { id: copy2, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 51380224 }, blockedIf: { config: ad.svc.disabled, eq: true } }
+    - { id: copy3, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 49807360 }, blockedIf: { config: ad.svc.disabled, eq: true } }
+    - { id: copy4, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 50331648 }, blockedIf: { config: ad.svc.disabled, eq: true } }
+
+# Apps binding with their own accounts, and now and then a person mistyping a password.
+background:
+  - { host: annuaire, source: ldap, every: 2, offset: 0, fields: { src: 10.94.0.40, bind: "uid=app-horaires,ou=services,dc=ardoise,dc=test", err: 0, base: "ou=lignes,dc=ardoise,dc=test", filter: "(cn=*)", entries: 2 } }
+  - { host: annuaire, source: ldap, every: 3, offset: 1, fields: { src: 10.94.0.31, bind: "uid=dsi-chef,ou=personnes,dc=ardoise,dc=test", err: 0, base: "dc=ardoise,dc=test", filter: "(uid=dsi-chef)", entries: 1 } }
+  - { host: annuaire, source: ldap, every: 15, offset: 4, fields: { src: 10.94.0.51, bind: "uid=accueil-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+  - { host: annuaire, source: ldap, every: 15, offset: 9, fields: { src: 10.94.0.53, bind: "uid=compta-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+  - { host: annuaire, source: ldap, every: 15, offset: 13, fields: { src: 10.94.0.57, bind: "uid=rh-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
+
+containment:
+  - id: svc
+    action: disable
+    target: svc-sauvegarde
+    text: d2.contain.svc
+    sets: { ad.svc.disabled: true }
+    impact: 2
+
+objectives:
+  - { id: rule, text: d2.obj.rule }
+  - { id: who, text: d2.obj.who }
+  - { id: stop, text: d2.obj.stop }
+
+investigation:
+  - { id: who, text: d2.q.who, value: "svc-sauvegarde", points: 100, objective: who }
+
+hunts:
+  - id: spray
+    file: regles/pulverisation.yml
+    catch: { source: ldap, where: { src: 198.51.100.77, err: 49 } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d2.ada.brief
+  - on: { event: AdversaryStep, step: s3 }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.failures
+  - on: { event: AdversaryStep, step: s8 }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.success
+  - on: { event: AdversaryStep, step: ssh }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.ssh
+  - on: { event: AdversaryStep, step: copy1 }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: d2.ada.copy
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: d2.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: d2.ada.rule
+  - on: { event: Contained, containment: svc }
+    do:
+      - objective.complete: stop
+      - ada.say: d2.ada.stopped
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d2.ada.done
+
+guide:
+  rule: d2.ada.g.rule
+  who: d2.ada.g.who
+  stop: d2.ada.g.stop
+
+hints:
+  rule: [d2.hint.rule.1, d2.hint.rule.2, d2.hint.rule.3]
+  who: [d2.hint.who.1, d2.hint.who.2]
+  stop: [d2.hint.stop.1]
+
+debrief:
+  title: d2.debrief.title
+  lesson: d2.debrief.lesson
+  points: [d2.debrief.p1, d2.debrief.p2, d2.debrief.p3]
+  reference: "MITRE ATT&CK · T1110.003 Password Spraying (détection)"

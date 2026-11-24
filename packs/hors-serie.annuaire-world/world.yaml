@@ -1,0 +1,166 @@
+# Side series "L'Annuaire", played from the defence side. Everything here is fictional: reserved
+# .test domains, private addresses, and documentation addresses for the outside. The directory
+# is data read by `ldapsearch`; nothing is cracked.
+startTime: "2027-12-15T09:00:00+01:00"
+mandate: AR-2027-077
+scope:
+  domains: ["*.ardoise.test"]
+  networks: ["10.94.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.94.0.2
+
+config:
+  ad.anon.closed: false
+  ad.svc.disabled: false
+  ad.pw.reset: false
+  ad.spray.seen: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.94.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [annuaire, sauvegarde]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AR-2027-077.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The directory every account lives in.
+  - id: annuaire
+    hostname: annuaire.ardoise.test
+    ip: 10.94.0.10
+    os: Debian 12
+    map: { x: 40, z: 70, h: 120 }
+    links: [sauvegarde]
+    services:
+      - { port: 389, name: ldap, product: OpenLDAP slapd 2.6 }
+    directory:
+      base: "dc=ardoise,dc=test"
+      anonymous: { config: ad.anon.closed, eq: false }
+      binds:
+        - { dn: "cn=lecteur-ir,ou=services,dc=ardoise,dc=test", password: "Lr-lecture-2027" }
+      entries:
+        - dn: "uid=dsi-chef,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: dsi-chef, cn: "Responsable informatique", mail: dsi-chef@ardoise.test, memberOf: "cn=admins-annuaire,ou=groupes,dc=ardoise,dc=test" }
+        - dn: "uid=accueil-01,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: accueil-01, cn: "Agent d'accueil 1", mail: accueil-01@ardoise.test }
+        - dn: "uid=accueil-02,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: accueil-02, cn: "Agent d'accueil 2", mail: accueil-02@ardoise.test }
+        - dn: "uid=compta-01,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: compta-01, cn: "Comptable 1", mail: compta-01@ardoise.test }
+        - dn: "uid=rh-01,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: rh-01, cn: "Ressources humaines 1", mail: rh-01@ardoise.test }
+        - dn: "uid=planning-01,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: planning-01, cn: "Planning des chauffeurs", mail: planning-01@ardoise.test, memberOf: "cn=conducteurs,ou=groupes,dc=ardoise,dc=test" }
+        - dn: "uid=ext-prestataire,ou=personnes,dc=ardoise,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: ext-prestataire, cn: "Prestataire migration", description: "Prestataire de la migration 2025, contrat termine le 2026-06-30", memberOf: "cn=admins-annuaire,ou=groupes,dc=ardoise,dc=test" }
+        - dn: "uid=svc-sauvegarde,ou=services,dc=ardoise,dc=test"
+          attrs: { objectClass: [account], uid: svc-sauvegarde, description: "Compte de la sauvegarde de nuit. MDP provisoire : Ardoise-Hiver27 (a changer apres installation)", memberOf: "cn=admins-annuaire,ou=groupes,dc=ardoise,dc=test" }
+          if: { config: ad.pw.reset, eq: false }
+        - dn: "uid=svc-sauvegarde,ou=services,dc=ardoise,dc=test"
+          attrs: { objectClass: [account], uid: svc-sauvegarde, description: "Compte de la sauvegarde de nuit (secret dans le coffre)" }
+          if: { config: ad.pw.reset, eq: true }
+        - dn: "uid=app-horaires,ou=services,dc=ardoise,dc=test"
+          attrs: { objectClass: [account], uid: app-horaires, description: "Appli des horaires : lit ou=lignes en anonyme" }
+        - dn: "cn=lecteur-ir,ou=services,dc=ardoise,dc=test"
+          attrs: { objectClass: [account], cn: lecteur-ir, description: "Ligne Rouge, lecture seule, mandat AR-2027-077" }
+        - dn: "cn=admins-annuaire,ou=groupes,dc=ardoise,dc=test"
+          attrs: { objectClass: groupOfNames, cn: admins-annuaire, member: ["uid=dsi-chef,ou=personnes,dc=ardoise,dc=test", "uid=ext-prestataire,ou=personnes,dc=ardoise,dc=test", "uid=svc-sauvegarde,ou=services,dc=ardoise,dc=test"] }
+        - dn: "cn=conducteurs,ou=groupes,dc=ardoise,dc=test"
+          attrs: { objectClass: groupOfNames, cn: conducteurs, member: ["uid=planning-01,ou=personnes,dc=ardoise,dc=test"] }
+        - dn: "cn=ligne-12,ou=lignes,dc=ardoise,dc=test"
+          attrs: { objectClass: device, cn: ligne-12, description: "Gare - Hopital, toutes les 10 min" }
+        - dn: "cn=ligne-31,ou=lignes,dc=ardoise,dc=test"
+          attrs: { objectClass: device, cn: ligne-31, description: "Campus - Zone d'activites, toutes les 15 min" }
+
+  # The backup server: it copies every night to the storage, with the backup account.
+  - id: sauvegarde
+    hostname: sauvegarde.ardoise.test
+    ip: 10.94.0.20
+    os: Debian 12
+    map: { x: 220, z: -30, h: 110 }
+    links: [stockage]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.sauvegarde }
+      etc:
+        sauvegarde:
+          nuit.conf: "# sauvegarde de nuit\ncompte=svc-sauvegarde\nsource=/srv/partages /srv/paie /srv/annuaire-export\ndestination=stockage.ardoise.test:/volume1/nuit\n"
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: Dec01, cmd: /sbin/init }
+        - { pid: 588, user: root, start: Dec01, cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 7421, user: svc-sauvegarde, start: "09:01", cpu: 6.2, mem: 1.1, cmd: "rsync -a /srv/paie/ 198.51.100.77::depot/", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
+      services:
+        - { name: ssh, description: OpenBSD Secure Shell server, since: "Wed 2027-12-01 07:00:03 CET", pid: 588, exec: "/usr/sbin/sshd -D", unit: /lib/systemd/system/ssh.service }
+        - { name: sauvegarde-nuit, description: Sauvegarde de nuit vers le stockage, state: inactive, unit: /etc/systemd/system/sauvegarde-nuit.service }
+      journal:
+        - { at: "Dec 15 02:00:01", unit: sauvegarde-nuit, text: "Started sauvegarde-nuit.service - Sauvegarde de nuit vers le stockage." }
+        - { at: "Dec 15 02:41:17", unit: sauvegarde-nuit, pid: 3120, text: "rsync vers stockage.ardoise.test:/volume1/nuit : 41 812 fichiers, termine" }
+        - { at: "Dec 15 02:41:18", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
+        - { at: "Dec 15 09:01:02", unit: ssh, pid: 7402, text: "Accepted password for svc-sauvegarde from 198.51.100.77 port 50412 ssh2", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:01:15", unit: ssh, pid: 7402, text: "svc-sauvegarde : ls /srv/paie /srv/annuaire-export", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:01:31", unit: ssh, pid: 7402, text: "svc-sauvegarde : rsync -a /srv/paie/ 198.51.100.77::depot/", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:03:40", unit: ssh, pid: 7402, text: "pam_unix(sshd:session): session closed for user svc-sauvegarde (account disabled)", if: { config: ad.svc.disabled, eq: true } }
+      logins:
+        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:01", until: "still logged in", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
+        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:01", until: "09:03  (00:02)", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: true }] } }
+        - { user: dsi-chef, tty: pts/0, from: 10.94.0.31, at: "Mon Dec 13 17:12", until: "17:20  (00:08)" }
+
+  # The storage the nightly backup goes to.
+  - id: stockage
+    hostname: stockage.ardoise.test
+    ip: 10.94.0.30
+    os: NAS 7.2
+    map: { x: 380, z: -110, h: 90 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 8.8 }
+
+  # Somewhere outside: the address the attacker comes from. Never reachable.
+  - id: outside
+    hostname: inconnu.ardoise.test
+    ip: 10.94.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  ardoise.test: { A: ["10.94.0.10"] }
+  annuaire.ardoise.test: { A: ["10.94.0.10"] }
+  sauvegarde.ardoise.test: { A: ["10.94.0.20"] }
+  stockage.ardoise.test: { A: ["10.94.0.30"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  ldapsearch: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

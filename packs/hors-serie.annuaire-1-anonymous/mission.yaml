@@ -1,0 +1,76 @@
+# The Directory 1: anonymous search is open, a service account's description holds its password,
+# a former contractor is still in the admins group. Read only, then close anonymous search.
+side: defense
+order: 1
+stage: defense
+briefing: d1.briefing
+reveal: [annuaire, sauvegarde]
+
+containment:
+  - id: anon
+    action: disable
+    target: acces-anonyme
+    text: d1.contain.anon
+    sets: { ad.anon.closed: true }
+    impact: 1
+
+objectives:
+  - { id: password, text: d1.obj.password }
+  - { id: former, text: d1.obj.former }
+  - { id: closed, text: d1.obj.closed }
+  - { id: why, text: d1.obj.why }
+
+investigation:
+  - { id: password, text: d1.q.password, value: "svc-sauvegarde", points: 100, objective: password }
+  - { id: former, text: d1.q.former, value: "ext-prestataire", points: 100, objective: former }
+
+questions:
+  - id: why
+    text: d1.q.why
+    objective: why
+    correct: map
+    options:
+      - { id: map, text: d1.q.why.map }
+      - { id: write, text: d1.q.why.write, why: d1.q.why.write.why }
+      - { id: internet, text: d1.q.why.internet, why: d1.q.why.internet.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: password }
+    do:
+      - ada.say: d1.ada.password
+  - on: { event: ObjectiveCompleted, objective: former }
+    do:
+      - ada.say: d1.ada.former
+  - on: { event: LdapSearch }
+    if: { config: ad.anon.closed, eq: true }
+    do:
+      - objective.complete: closed
+      - ada.say: d1.ada.closed
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: password }, { objective: former }, { objective: closed }] }
+    do:
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d1.ada.done
+
+guide:
+  password: d1.ada.g.password
+  former: d1.ada.g.former
+  closed: d1.ada.g.closed
+  why: d1.ada.g.why
+
+hints:
+  password: [d1.hint.password.1, d1.hint.password.2]
+  former: [d1.hint.former.1, d1.hint.former.2]
+  closed: [d1.hint.closed.1]
+  why: [d1.hint.why.1]
+
+debrief:
+  title: d1.debrief.title
+  lesson: d1.debrief.lesson
+  points: [d1.debrief.p1, d1.debrief.p2, d1.debrief.p3]
+  reference: "CIS Controls v8 · 5.1, 5.3, 6.8 (inventaire et revue des comptes)"
