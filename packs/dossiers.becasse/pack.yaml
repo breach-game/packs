@@ -1,0 +1,16 @@
+id: dossiers.becasse
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.becasse-world]
+title:
+  fr: "Dossier 28 : la clé grand public"
+  en: "Case file 28: the consumer key"
+summary:
+  fr: "Inspiré des jetons de messagerie fabriqués de l'été 2023. Joué entièrement côté défense, depuis la place du client : une application inconnue lit les boîtes de la direction, son jeton est signé par une clé qui n'aurait jamais dû valoir, et seul un journal détaillé l'a montré. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the forged mail tokens of summer 2023. Played entirely on the defence side, from the customer's seat: an unknown application reads the management's mailboxes, its token is signed by a key that should never have worked, and only a detailed log showed it. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, logs, crypto, defense]
+incident: 2023

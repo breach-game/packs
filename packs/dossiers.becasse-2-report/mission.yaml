@@ -1,0 +1,88 @@
+# Case file 28, mission 2: the report. The detailed access log over a month (four mailboxes), the
+# provider's published keys read with `jq` (the consumer key of 2016 was due for retirement in
+# 2021), what made the intrusion visible (the paid detailed log), and the key's story in order.
+side: defense
+order: 2
+stage: report
+startTime: "2027-06-21T14:00:00+02:00"
+briefing: b2.briefing
+reveal: [messagerie]
+
+config:
+  bc.blocked: true
+
+files:
+  traces/acces-boites.log: { $file: files/acces-boites.log }
+  traces/cles-cirrus.json: { $file: files/cles-cirrus.json }
+
+objectives:
+  - { id: boxes, text: b2.obj.boxes }
+  - { id: retire, text: b2.obj.retire }
+  - { id: seen, text: b2.obj.seen }
+  - { id: story, text: b2.obj.story }
+
+investigation:
+  - { id: boxes, text: b2.q.boxes, value: "4", points: 75, objective: boxes }
+  - { id: retire, text: b2.q.retire, value: "2021-04-01", points: 100, objective: retire }
+
+questions:
+  - id: seen
+    text: b2.q.seen
+    objective: seen
+    correct: detailed
+    options:
+      - { id: detailed, text: b2.q.seen.detailed }
+      - { id: provider, text: b2.q.seen.provider, why: b2.q.seen.provider.why }
+      - { id: antivirus, text: b2.q.seen.antivirus, why: b2.q.seen.antivirus.why }
+
+timelines:
+  - id: cle
+    text: b2.tl.text
+    objective: story
+    events:
+      - { id: created, text: b2.tl.created }
+      - { id: retire, text: b2.tl.retire }
+      - { id: forged, text: b2.tl.forged }
+      - { id: alert, text: b2.tl.alert }
+      - { id: revoked, text: b2.tl.revoked }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: boxes }
+    do:
+      - ada.say: b2.ada.boxes
+  - on: { event: ObjectiveCompleted, objective: retire }
+    do:
+      - ada.say: b2.ada.retire
+      - ada.ask: seen
+  - on: { event: ObjectiveCompleted, objective: seen }
+    do:
+      - ada.say: b2.ada.seen
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b2.ada.done
+
+guide:
+  boxes: b2.ada.g.boxes
+  retire: b2.ada.g.retire
+  seen: b2.ada.g.seen
+  story: b2.ada.g.story
+
+hints:
+  boxes: [b2.hint.boxes.1, b2.hint.boxes.2]
+  retire: [b2.hint.retire.1, b2.hint.retire.2]
+  story: [b2.hint.story.1, b2.hint.story.2]
+
+debrief:
+  title: b2.debrief.title
+  lesson: b2.debrief.lesson
+  points: [b2.debrief.p1, b2.debrief.p2, b2.debrief.p3]
+  reference: "CSRB · Review of the Summer 2023 Exchange Online Intrusion"
+  facts:
+    title: b2.facts.title
+    points: [b2.facts.p1, b2.facts.p2, b2.facts.p3, b2.facts.p4, b2.facts.p5]
+    sources:
+      - { label: "Cyber Safety Review Board, Review of the Summer 2023 Microsoft Exchange Online Intrusion (March 2024)", url: "https://www.cisa.gov/sites/default/files/2024-04/CSRB_Review_of_the_Summer_2023_MEO_Intrusion_Final_508c.pdf" }
+      - { label: "CISA and FBI, Advisory AA23-193A: Enhanced Monitoring to Detect APT Activity Targeting Outlook Online (July 2023)", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-193a" }

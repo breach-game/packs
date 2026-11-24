@@ -1,0 +1,12 @@
+# Cirrus Mail, detailed message access log (MailItemsAccessed), Vauclair Water Agency
+2027-05-15T09:02:11Z mbx=dir-generale app=5c21d0be ip=10.98.0.140 items=31
+2027-05-19T01:14:52Z mbx=dir-generale app=0f3e9a71 ip=198.51.100.150 items=402
+2027-05-19T01:20:07Z mbx=dir-financiere app=0f3e9a71 ip=198.51.100.150 items=288
+2027-05-23T03:41:30Z mbx=juridique app=0f3e9a71 ip=198.51.100.151 items=176
+2027-05-23T09:15:44Z mbx=juridique app=5c21d0be ip=10.98.0.141 items=9
+2027-06-02T02:05:19Z mbx=cabinet app=0f3e9a71 ip=198.51.100.151 items=95
+2027-06-02T08:00:00Z mbx=cabinet app=9aa3c4f0 ip=10.98.0.60 items=1440
+2027-06-09T02:22:41Z mbx=dir-generale app=0f3e9a71 ip=198.51.100.150 items=133
+2027-06-12T10:31:02Z mbx=communication app=5c21d0be ip=10.98.0.152 items=17
+2027-06-15T02:40:31Z mbx=dir-generale app=0f3e9a71 ip=198.51.100.150 items=214
+2027-06-16T08:45:00Z alert=unregistered-app app=0f3e9a71 mbx=dir-generale

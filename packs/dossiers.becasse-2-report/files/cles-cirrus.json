@@ -1,0 +1,8 @@
+{
+  "issuer": "https://login.cirrus.example",
+  "keys": [
+    { "kid": "grand-public-2016", "use": "sig", "service": "consumer", "created": "2016-04-01", "retire_after": "2021-04-01", "revoked": "2027-06-18" },
+    { "kid": "entreprise-2027-a", "use": "sig", "service": "organisations", "created": "2027-01-10", "retire_after": "2027-07-10" },
+    { "kid": "entreprise-2027-b", "use": "sig", "service": "organisations", "created": "2027-04-10", "retire_after": "2027-10-10" }
+  ]
+}
