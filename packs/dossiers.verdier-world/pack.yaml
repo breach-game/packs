@@ -1,0 +1,12 @@
+id: dossiers.verdier-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Verdier"
+  en: "Verdier"
+summary:
+  fr: "Verdier, éditeur fictif d'un gestionnaire de mots de passe. Ses sauvegardes de coffres clients dorment dans un stockage objet, chiffrées par des clés que quatre ingénieurs peuvent utiliser."
+  en: "Verdier, the fictional maker of a password manager. Its customer vault backups sleep in object storage, encrypted with keys that four engineers can use."
+authors: [BREACH team]
+locales: [fr, en]

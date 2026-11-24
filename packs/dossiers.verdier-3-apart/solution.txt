@@ -1,0 +1,9 @@
+# Case file 18, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/coffre.yml
+sed -i "s/stored_in: personal-vault/stored_in: separate-hsm/" dossier/coffre.yml
+sed -i "s/usable_from: anywhere/usable_from: managed-devices/" dossier/coffre.yml
+sed -i "s/urls: clear/urls: encrypted/" dossier/coffre.yml
+sed -i "s/min_iterations: 5000/min_iterations: 600000/" dossier/coffre.yml
+verify
+answer inside
+answer now

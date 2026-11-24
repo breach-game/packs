@@ -1,0 +1,58 @@
+# Reading a backup sample: what a thief gets without the master password.
+side: defense
+order: 1
+stage: defense
+briefing: d1.briefing
+
+files:
+  dossier/echantillon.json: { $file: files/echantillon.json }
+
+objectives:
+  - { id: clear, text: d1.obj.clear }
+  - { id: weak, text: d1.obj.weak }
+  - { id: worth, text: d1.obj.worth }
+
+investigation:
+  - { id: clear, text: d1.q.clear, value: "url", points: 50, objective: clear }
+  - { id: weak, text: d1.q.weak, value: "c-0193", points: 75, objective: weak }
+
+questions:
+  - id: worth
+    text: d1.q.worth
+    objective: worth
+    correct: target
+    options:
+      - { id: target, text: d1.q.worth.target }
+      - { id: nothing, text: d1.q.worth.nothing, why: d1.q.worth.nothing.why }
+      - { id: login, text: d1.q.worth.login, why: d1.q.worth.login.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: clear }
+    do:
+      - ada.say: d1.ada.clear
+  - on: { event: ObjectiveCompleted, objective: weak }
+    do:
+      - ada.say: d1.ada.weak
+      - ada.ask: worth
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d1.ada.done
+
+guide:
+  clear: d1.ada.g.clear
+  weak: d1.ada.g.weak
+  worth: d1.ada.answer
+
+hints:
+  clear: [d1.hint.clear.1, d1.hint.clear.2]
+  weak: [d1.hint.weak.1, d1.hint.weak.2]
+  worth: [d1.hint.worth.1]
+
+debrief:
+  title: d1.debrief.title
+  lesson: d1.debrief.lesson
+  points: [d1.debrief.p1, d1.debrief.p2, d1.debrief.p3]
+  reference: "OWASP Top 10 · A02 Cryptographic Failures"

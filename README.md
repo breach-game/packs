@@ -66,6 +66,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 15 | `dossiers.chardonneret*` | The assistant's answer | Air Canada's chatbot ruling, 2024 | A chat assistant that makes up rules confidently, a company answering for its assistant, grounding answers in published pages and handing over when unsure |
 | 16 | `dossiers.sittelle*` | Somebody else's script | The Polyfill script service, 2024 | A third-party script that changes owner and content, serving a different file to phones, counting diverted visitors in DNS, self-hosting with Subresource Integrity and a strict CSP |
 | 17 | `dossiers.bouvreuil*` | What gets pasted | Samsung engineers and a public AI assistant, 2023 | Pasting into a public assistant is sending, a rule on upload size, an egress filter that reads labels, an internal assistant and training rather than a ban |
+| 18 | `dossiers.verdier*` | The key at home | LastPass, 2022 | What an encrypted backup leaves in clear, withdrawing a stolen key rather than blocking an address, keeping backup keys apart and usable from managed devices only, telling customers what to change |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

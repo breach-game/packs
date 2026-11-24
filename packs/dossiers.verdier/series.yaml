@@ -1,0 +1,5 @@
+# Case file 18, in playing order: the backup read, the night copy stopped, the keys kept apart.
+missions:
+  - dossiers.verdier-1-clear
+  - dossiers.verdier-2-night
+  - dossiers.verdier-3-apart

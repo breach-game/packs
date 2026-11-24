@@ -1,0 +1,5 @@
+file.readme: "Poste Ligne Rouge. Dossier : Verdier. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+ada.outOfScope: "Stop. Cette cible est hors du mandat VD-2027-018. Hors mandat, ce n'est plus un test : c'est un délit (article 323-1 du Code pénal). Reviens dans le périmètre."
+ada.noise70: "Tu fais beaucoup de bruit. Ralentis."
+ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte des points."
+file.mandate: "MANDAT VD-2027-018\nClient : Verdier SAS, éditeur du gestionnaire de mots de passe Verdier. Périmètre : *.verdier.test, 10.78.0.0/24.\nObjet : en août, un intrus est passé par le poste d'un développeur et a emporté du code et de la documentation interne. Verdier craint qu'il revienne, cette fois vers les sauvegardes des coffres clients. Ligne Rouge évalue ce que vaudrait une sauvegarde volée, surveille le stockage et propose comment séparer les clés.\nDispositif convenu : Ligne Rouge lit un échantillon de sauvegarde de test et les journaux du stockage, et peut retirer une clé ou couper un accès si une copie est en cours. Ligne Rouge ne déchiffre aucun coffre réel.\nSigné : la responsable de la sécurité de Verdier."

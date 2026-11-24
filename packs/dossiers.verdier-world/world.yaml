@@ -1,0 +1,85 @@
+# Dossier 18. Everything here is fictional: reserved .test and .example domains, private and documentation addresses only.
+startTime: "2027-10-12T02:40:00+02:00"
+mandate: VD-2027-018
+scope:
+  domains: ["*.verdier.test"]
+  networks: ["10.78.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.78.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.78.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [storage]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            VD-2027-018.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # Object storage: the nightly customer vault backups land here.
+  - id: storage
+    hostname: stockage.verdier.test
+    ip: 10.78.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 90, z: -70, h: 130 }
+    services:
+      - { port: 443, name: https, product: object storage gateway 3.4 }
+
+  # Whoever uses the stolen key, seen only through the storage log. Never reachable.
+  - id: outside
+    hostname: inconnu.verdier.test
+    ip: 10.78.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 320, z: 200, h: 40 }
+
+dns:
+  verdier.test: { A: ["10.78.0.10"] }
+  stockage.verdier.test: { A: ["10.78.0.30"] }
+
+whois:
+  verdier.test: |
+    Domain Name: VERDIER.TEST
+    Creation Date: 2008-03-02T08:00:00Z
+    Registrant Organization: Verdier SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

@@ -1,0 +1,32 @@
+{
+  "format": "verdier-backup/3",
+  "note": "test sample: three fictional customer vaults, as the nightly backup stores them",
+  "vaults": [
+    {
+      "customer": "c-0412",
+      "created": "2024-02-11",
+      "kdf": { "name": "PBKDF2-SHA256", "iterations": 600000 },
+      "items": [
+        { "url": "https://banque-du-nord.example/connexion", "username": "ENC:aGk3c1x0bTJz", "password": "ENC:Zm9xUjdLbW5wQ2Q=", "notes": "ENC:" },
+        { "url": "https://mail.example/login", "username": "ENC:cDRyMm9t", "password": "ENC:bjhXcXRaMXZkZg==", "notes": "ENC:" }
+      ]
+    },
+    {
+      "customer": "c-0193",
+      "created": "2013-06-30",
+      "kdf": { "name": "PBKDF2-SHA256", "iterations": 5000 },
+      "items": [
+        { "url": "https://portefeuille-crypto.example/wallet", "username": "ENC:dDV2a2x4", "password": "ENC:cTNuWm1hTHI4eQ==", "notes": "ENC:c2VlZCBwaHJhc2U=" },
+        { "url": "https://vpn.entreprise.example", "username": "ENC:bTFhcjl6", "password": "ENC:a1c0djJkUnB4cA==", "notes": "ENC:" }
+      ]
+    },
+    {
+      "customer": "c-0877",
+      "created": "2019-09-04",
+      "kdf": { "name": "PBKDF2-SHA256", "iterations": 100100 },
+      "items": [
+        { "url": "https://impots.example/espace", "username": "ENC:eDJmcjhi", "password": "ENC:dzdOcW1YM2tlRg==", "notes": "ENC:" }
+      ]
+    }
+  ]
+}
