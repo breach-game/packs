@@ -1,0 +1,16 @@
+id: dossiers.geai-1-alerts
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.geai-world]
+title:
+  fr: "Dossier 36 · 1. Deux alertes classées"
+  en: "Case file 36 · 1. Two alerts closed"
+summary:
+  fr: "La police prévient une chaîne de magasins : des cartes volées viennent de ses caisses. La sonde de détection avait sonné deux semaines plus tôt, et les alertes avaient été classées. Tu les relis, tu suis les données jusqu'à l'adresse où elles sortent, tu coupes la route, puis tu dis pourquoi personne n'avait réagi."
+  en: "The police warn a retail chain: stolen cards come from its tills. The detection sensor had rung two weeks earlier, and the alerts had been closed. You read them again, follow the data to the address where it leaves, cut the road, then say why nobody had reacted."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+minutes: 12

@@ -1,0 +1,7 @@
+time,account,company,src,usual_src,result
+2027-11-12T09:04:10,elec-ouest,Électricité de l'Ouest,198.51.100.31,198.51.100.31,ok
+2027-11-13T14:20:55,froid-nord,Froid du Nord (refrigeration),192.0.2.60,192.0.2.60,ok
+2027-11-15T02:47:31,froid-nord,Froid du Nord (refrigeration),203.0.113.45,192.0.2.60,ok
+2027-11-15T02:51:12,froid-nord,Froid du Nord (refrigeration),203.0.113.45,192.0.2.60,ok
+2027-11-16T08:12:40,nettoyage-sud,Propreté du Sud,198.51.100.84,198.51.100.84,ok
+2027-11-18T10:33:02,froid-nord,Froid du Nord (refrigeration),192.0.2.60,192.0.2.60,ok

@@ -1,0 +1,113 @@
+# Case file 36, mission 1: the ignored alerts. The alert queue export shows two alerts on the till
+# server closed as noise; the live sensor log repeats them; the firewall's flow totals show the
+# till server sending large volumes to an internal file server, which sends them outside. The
+# player names the machine, the outside address, blocks it and isolates the relay, and says why
+# nobody had reacted. The program itself is never shown.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [sonde, caisses, relais]
+
+files:
+  soc/alertes-classees.txt: { $file: files/alertes-classees.txt }
+
+adversary:
+  id: thief
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: t1, host: sonde, source: ids, fields: { src: 10.106.0.20, dst: 10.106.0.80, signature: "UNKNOWN-PROGRAM written to till server", priority: 1, sid: 9002101 } }
+    - { id: t2, host: caisses, source: flow, fields: { src: 10.106.0.80, dst: 10.106.0.90, dport: 445, bytes: 734003200 } }
+    - { id: t3, host: sonde, source: ids, fields: { src: 10.106.0.80, dst: 10.106.0.90, signature: "CARD-DATA pattern in a file share", priority: 1, sid: 9002117 } }
+    - { id: t4, host: relais, source: flow, fields: { src: 10.106.0.90, dst: 203.0.113.45, dport: 443, bytes: 729808896 } }
+    - { id: t5, host: relais, source: flow, fields: { src: 10.106.0.90, dst: 203.0.113.45, dport: 443, bytes: 734003200 }, blockedIf: { config: gc.out_blocked, eq: true } }
+    - { id: t6, host: relais, source: flow, fields: { src: 10.106.0.90, dst: 203.0.113.45, dport: 443, bytes: 731906048 }, blockedIf: { any: [{ config: gc.out_blocked, eq: true }, { config: gc.relay_isolated, eq: true }] } }
+
+# Ordinary traffic: the tills talk to the payment processor, shops fetch price lists.
+background:
+  - { host: caisses, source: flow, every: 2, offset: 0, fields: { src: 10.106.0.80, dst: 198.51.100.10, dport: 443, bytes: 48200 } }
+  - { host: relais, source: flow, every: 3, offset: 1, fields: { src: 10.106.0.131, dst: 10.106.0.90, dport: 445, bytes: 220400 } }
+  - { host: sonde, source: ids, every: 4, offset: 2, fields: { src: 10.106.0.140, dst: 10.106.0.5, signature: "POLICY printer firmware out of date", priority: 3, sid: 9000412 } }
+
+containment:
+  - id: out
+    action: block
+    target: 203.0.113.45
+    text: c1.contain.out
+    sets: { gc.out_blocked: true }
+    impact: 0
+  - id: relay
+    action: isolate
+    target: relais
+    text: c1.contain.relay
+    sets: { gc.relay_isolated: true }
+    impact: 2
+
+objectives:
+  - { id: machine, text: c1.obj.machine }
+  - { id: exit, text: c1.obj.exit }
+  - { id: cut, text: c1.obj.cut }
+  - { id: ignored, text: c1.obj.ignored }
+
+investigation:
+  - { id: machine, text: c1.q.machine, value: "10.106.0.80", points: 75, objective: machine }
+  - { id: exit, text: c1.q.exit, value: "203.0.113.45", points: 100, objective: exit }
+
+questions:
+  - id: ignored
+    text: c1.q.ignored
+    objective: ignored
+    correct: noowner
+    options:
+      - { id: noowner, text: c1.q.ignored.noowner }
+      - { id: silent, text: c1.q.ignored.silent, why: c1.q.ignored.silent.why }
+      - { id: hidden, text: c1.q.ignored.hidden, why: c1.q.ignored.hidden.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: machine }
+    do:
+      - ada.say: c1.ada.machine
+  - on: { event: ObjectiveCompleted, objective: exit }
+    do:
+      - ada.say: c1.ada.exit
+  - id: cut-a
+    on: { event: Contained, containment: out }
+    if: { config: gc.relay_isolated, eq: true }
+    do:
+      - objective.complete: cut
+  - id: cut-b
+    on: { event: Contained, containment: relay }
+    if: { config: gc.out_blocked, eq: true }
+    do:
+      - objective.complete: cut
+  - on: { event: ObjectiveCompleted, objective: cut }
+    do:
+      - ada.say: c1.ada.cut
+      - ada.ask: ignored
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  machine: c1.ada.g.machine
+  exit: c1.ada.g.exit
+  cut: c1.ada.g.cut
+  ignored: c1.ada.g.ignored
+
+hints:
+  machine: [c1.hint.machine.1, c1.hint.machine.2]
+  exit: [c1.hint.exit.1, c1.hint.exit.2]
+  cut: [c1.hint.cut.1]
+  ignored: [c1.hint.ignored.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "NIST SP 800-61 · Computer Security Incident Handling Guide"

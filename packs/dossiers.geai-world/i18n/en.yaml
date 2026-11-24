@@ -1,0 +1,3 @@
+file.readme: "Ligne Rouge workstation. Case file: Geai. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE GC-2027-188\nClient: Grand Cabas, retail chain. Scope: *.cabas.test, 10.106.0.0/24.\nPurpose: the police have told Grand Cabas that stolen cards are circulating and that they come from its tills. Ligne Rouge helps find the leak, cut it, then understand how the intruder got in.\nAgreed set-up: defence only. Reading logs, measures approved by management and run through `contain`.\nSigned: the head of security of Grand Cabas."
+ada.outOfScope: "Stop. This target is outside mandate GC-2027-188. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

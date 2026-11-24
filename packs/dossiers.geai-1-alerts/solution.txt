@@ -1,0 +1,12 @@
+# Case file 36, mission 1: the shortest path, replayed by CI in every language.
+soc sources
+cat soc/alertes-classees.txt
+soc logs sonde ids
+answer machine 10.106.0.80
+flows --src 10.106.0.80
+flows --src 10.106.0.90
+answer exit 203.0.113.45
+contain
+contain block 203.0.113.45
+contain isolate relais
+answer noowner

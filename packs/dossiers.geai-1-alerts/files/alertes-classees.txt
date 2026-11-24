@@ -1,0 +1,15 @@
+GRAND CABAS - security operations, alert queue export
+
+id      raised            sensor message                                        status
+A-8841  2027-11-30 03:12  unknown program written to caisses (10.106.0.80)      closed: "noise, new sensor"
+A-8902  2027-12-02 04:40  unknown program written to caisses (10.106.0.80)      closed: "duplicate of A-8841"
+A-8903  2027-12-02 09:15  printer firmware out of date                           closed: "known"
+...     (1 412 other alerts raised between 30 November and 2 December, 1 398 closed as noise)
+
+Sensor settings:
+  automatic removal of unknown programs : OFF  ("we want to see how it behaves first")
+  owner of the alert queue outside office hours : none
+
+Note of 2027-12-14 07:30: the police called. Cards used in our shops since late
+November are for sale. Live sensor log: soc logs sonde ids
+Traffic totals of the firewall: flows

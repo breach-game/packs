@@ -1,0 +1,16 @@
+id: dossiers.geai-2-vendor
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.geai-world]
+title:
+  fr: "Dossier 36 · 2. Le frigoriste"
+  en: "Case file 36 · 2. The refrigeration contractor"
+summary:
+  fr: "Le programme est arrivé sur le serveur des caisses depuis le portail des prestataires. Tu trouves le compte qui s'y est connecté d'ailleurs, la règle du pare-feu qui laissait le portail parler aux caisses, tu réécris le cloisonnement, tu décides quand l'annoncer, puis tu remets ces semaines dans l'ordre."
+  en: "The program reached the till server from the contractor portal. You find the account that signed in from elsewhere, the firewall rule that let the portal talk to the tills, rewrite the segmentation, decide when to announce it, then put those weeks in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+minutes: 14

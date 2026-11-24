@@ -1,0 +1,14 @@
+# Case file 36, mission 2: the shortest path, replayed by CI in every language.
+cat portail/connexions.csv
+answer account froid-nord
+cat reseau/pare-feu.csv
+answer rule R-17
+cat reseau/cloisonnement.yml
+sed -i "s/portal_to_tills: allow/portal_to_tills: deny/" reseau/cloisonnement.yml
+sed -i "s/file_server_to_internet: any/file_server_to_internet: update-servers-only/" reseau/cloisonnement.yml
+sed -i "s/contractor_second_factor: none/contractor_second_factor: required/" reseau/cloisonnement.yml
+sed -i "s/temporary_rules: never-reviewed/temporary_rules: expire-after-90-days/" reseau/cloisonnement.yml
+verify
+answer now
+timeline semaines
+timeline semaines signin program alert leaves police cut public

@@ -1,0 +1,7 @@
+rule,from_zone,to_zone,port,action,comment
+R-01,internet,contractor-portal,443,allow,contractors submit invoices
+R-07,shops,file-server,445,allow,price lists
+R-11,tills,payment-processor,443,allow,card payments
+R-17,contractor-portal,tills,any,allow,"temporary, for the 2025 fridge monitoring pilot"
+R-21,file-server,internet,any,allow,software updates
+R-30,any,any,any,deny,default
