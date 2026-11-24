@@ -1,0 +1,16 @@
+id: dossiers.pluvier-1-stealer
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.pluvier-world]
+title:
+  fr: "Dossier 22 · 1. Le portable du prestataire"
+  en: "Case file 22 · 1. The contractor's laptop"
+summary:
+  fr: "Une archive trouvée sur un forum : ce qu'un logiciel espion a volé sur l'ordinateur personnel d'un prestataire. Tu l'ouvres avec `unzip`, tu trouves le compte de Pluvier qu'elle contient, et tu constates depuis quand son mot de passe n'a pas changé."
+  en: "An archive found on a forum: what spyware stole from a contractor's personal computer. You open it with `unzip`, find the Pluvier account it holds, and see how long its password has gone unchanged."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, cloud, defense]
+minutes: 10

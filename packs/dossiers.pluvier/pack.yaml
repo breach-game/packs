@@ -1,0 +1,16 @@
+id: dossiers.pluvier
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [dossiers.pluvier-world]
+title:
+  fr: "Dossier 22 : le mot de passe du salon"
+  en: "Case file 22: the living-room password"
+summary:
+  fr: "Inspiré de la vague de vols de données de 2024 chez les clients d'une plateforme de données en ligne, avec des mots de passe volés des années plus tôt. Sous mandat, tu ouvres l'archive d'un logiciel espion, tu arrêtes les copies en révoquant le bon identifiant, puis tu changes la serrure et tu réponds à la rançon. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2024 wave of data theft from customers of an online data platform, with passwords stolen years earlier. Under mandate, you open a spyware archive, stop the copies by revoking the right credential, then change the lock and answer the ransom. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, logs, defense, crisis]
+incident: 2024

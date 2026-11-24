@@ -1,0 +1,9 @@
+# Case file 22, mission 2: the shortest path, replayed by CI in every language.
+soc logs warehouse db
+contain
+contain revoke svc-rapports
+answer account
+soc logs warehouse db
+echo "user: svc-rapports" >> regles/lecture-massive.yml
+echo "rows|gte: 100000" >> regles/lecture-massive.yml
+rule test regles/lecture-massive.yml

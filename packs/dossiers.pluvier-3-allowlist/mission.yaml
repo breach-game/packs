@@ -1,0 +1,87 @@
+# The account settings, then a decision on the ransom demand.
+side: defense
+order: 3
+stage: defense
+briefing: p3.briefing
+
+files:
+  entrepot/compte.yml: { $file: files/compte.yml }
+
+objectives:
+  - { id: keys, text: p3.obj.keys }
+  - { id: places, text: p3.obj.places }
+  - { id: answer, text: p3.obj.answer }
+
+questions:
+  - id: answer
+    text: p3.q.answer
+    objective: answer
+    options:
+      - { id: refuse, text: p3.q.answer.refuse, impact: 3 }
+      - { id: pay, text: p3.q.answer.pay, impact: 9 }
+      - { id: wait, text: p3.q.answer.wait, impact: 7 }
+
+checks:
+  - id: keys
+    text: p3.check.keys
+    if: { all: [{ file: "~/entrepot/compte.yml", contains: "second_factor: required" }, { file: "~/entrepot/compte.yml", contains: "sign_in: key-pair" }, { file: "~/entrepot/compte.yml", contains: "rotation: 90d" }] }
+    objective: keys
+  - id: places
+    text: p3.check.places
+    if: { all: [{ file: "~/entrepot/compte.yml", lacks: "allowed_networks: any" }, { file: "~/entrepot/compte.yml", contains: "allowed_networks: [10.82.0.25]" }, { file: "~/entrepot/compte.yml", contains: "devices: managed" }] }
+    objective: places
+  - id: works
+    text: p3.check.works
+    if: { file: "~/entrepot/compte.yml", contains: "audit_log: on" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: keys }
+    do:
+      - ada.say: p3.ada.keys
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: keys }, { objective: places }] } }
+    once: false
+    do:
+      - ada.say: p3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: keys }, { objective: places }] }
+    do:
+      - ada.say: p3.ada.ready
+      - ada.ask: answer
+  - on: { event: Answered, question: answer, option: refuse }
+    do:
+      - ada.say: p3.ada.refuse
+  - on: { event: Answered, question: answer, option: pay }
+    do:
+      - ada.say: p3.ada.pay
+  - on: { event: Answered, question: answer, option: wait }
+    do:
+      - ada.say: p3.ada.wait
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p3.ada.done
+
+guide:
+  keys: p3.ada.g.keys
+  places: p3.ada.g.places
+  answer: p3.ada.answer
+
+hints:
+  keys: [p3.hint.keys.1, p3.hint.keys.2]
+  places: [p3.hint.places.1, p3.hint.places.2]
+  answer: [p3.hint.answer.1]
+
+debrief:
+  title: p3.debrief.title
+  lesson: p3.debrief.lesson
+  points: [p3.debrief.p1, p3.debrief.p2, p3.debrief.p3, p3.debrief.p4]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"
+  facts:
+    title: p3.facts.title
+    points: [p3.facts.p1, p3.facts.p2, p3.facts.p3, p3.facts.p4, p3.facts.p5]
+    sources:
+      - { label: "Google Cloud (Mandiant), UNC5537 Targets Snowflake Customer Instances for Data Theft and Extortion (June 2024)", url: "https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion" }
+      - { label: "SecurityWeek, Snowflake Attacks: Mandiant Links Data Breaches to Infostealer Infections (June 2024)", url: "https://www.securityweek.com/snowflake-attacks-mandiant-links-data-breaches-to-infostealer-infections/" }

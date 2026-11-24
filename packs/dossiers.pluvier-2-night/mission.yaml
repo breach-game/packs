@@ -1,0 +1,144 @@
+# The stolen service account, used from outside. Blocking an address is not enough: the account is the key.
+side: defense
+order: 2
+stage: defense
+briefing: p2.briefing
+reveal: [warehouse, reports]
+
+files:
+  regles/lecture-massive.yml: |
+    title: The reporting account reading far more than it should
+    source: db
+
+config:
+  pl.revoked: false
+  pl.ip_blocked: false
+  pl.isolated: false
+
+adversary:
+  id: thieves
+  name: unknown
+  from: outside
+  pace: 2
+  steps:
+    - { id: bookings, host: warehouse, source: db, fields: { user: svc-rapports, db: pluvier, src: 203.0.113.66, query: "SELECT * FROM reservations", rows: 2310000 } }
+    - { id: customers, host: warehouse, source: db, fields: { user: svc-rapports, db: pluvier, src: 198.51.100.140, query: "SELECT * FROM clients", rows: 1870000 } }
+    - id: cards
+      host: warehouse
+      source: db
+      fields: { user: svc-rapports, db: pluvier, src: 198.51.100.140, query: "SELECT * FROM paiements", rows: 960000 }
+      blockedIf: &stopped
+        any:
+          - { config: pl.revoked, eq: true }
+          - { config: pl.isolated, eq: true }
+    - id: stage
+      host: warehouse
+      source: db
+      fields: { user: svc-rapports, db: pluvier, src: 192.0.2.233, query: "COPY INTO @sortie FROM clients", rows: 1870000 }
+      blockedIf: *stopped
+
+# The ordinary day: the nightly report, two analysts at work.
+background:
+  - { host: warehouse, source: db, every: 3, offset: 0, fields: { user: svc-rapports, db: pluvier, src: 10.82.0.25, query: "SELECT agence, SUM(montant) FROM reservations GROUP BY agence", rows: 42 } }
+  - { host: warehouse, source: db, every: 4, offset: 1, fields: { user: a.marchal, db: pluvier, src: 10.82.0.31, query: "SELECT * FROM reservations WHERE depart >= CURRENT_DATE", rows: 184000 } }
+  - { host: warehouse, source: db, every: 5, offset: 2, fields: { user: p.ferrand, db: pluvier, src: 10.82.0.33, query: "SELECT COUNT(*) FROM clients", rows: 1 } }
+
+containment:
+  - id: revoke
+    action: revoke
+    target: svc-rapports
+    text: p2.contain.revoke
+    sets: { pl.revoked: true }
+    impact: 1
+  - id: block-ip
+    action: block
+    target: 203.0.113.66
+    text: p2.contain.block
+    sets: { pl.ip_blocked: true }
+    impact: 0
+  - id: isolate
+    action: isolate
+    target: entrepot.pluvier.test
+    text: p2.contain.isolate
+    sets: { pl.isolated: true }
+    impact: 25
+
+objectives:
+  - { id: stop, text: p2.obj.stop }
+  - { id: why, text: p2.obj.why }
+  - { id: rule, text: p2.obj.rule }
+
+questions:
+  - id: why
+    text: p2.q.why
+    objective: why
+    correct: account
+    options:
+      - { id: account, text: p2.q.why.account }
+      - { id: slow, text: p2.q.why.slow, why: p2.q.why.slow.why }
+      - { id: fine, text: p2.q.why.fine, why: p2.q.why.fine.why }
+
+hunts:
+  - id: bulk
+    file: regles/lecture-massive.yml
+    catch: { source: db, where: { user: svc-rapports, rows: { gte: 100000 } } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: AdversaryStep, step: bookings }
+    if: { not: { objective: stop } }
+    do:
+      - ada.say: p2.ada.bookings
+  - on: { event: AdversaryStep, step: customers }
+    if: { not: { objective: stop } }
+    do:
+      - ada.say: p2.ada.customers
+  - on: { event: AdversaryStep, step: cards }
+    if: { not: { objective: stop } }
+    do:
+      - ada.warn: p2.ada.cards
+  - on: { event: Contained, containment: block-ip }
+    do:
+      - ada.say: p2.ada.blocked
+  - on: { event: Contained, containment: revoke }
+    do:
+      - objective.complete: stop
+  - on: { event: Contained, containment: isolate }
+    do:
+      - objective.complete: stop
+  - on: { event: AdversaryStep, stop: true }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: p2.ada.stopped
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: p2.ada.why
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: p2.ada.again, for: rule, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  stop: p2.ada.g.stop
+  why: p2.ada.answer
+  rule: p2.ada.g.rule
+
+hints:
+  stop: [p2.hint.stop.1, p2.hint.stop.2]
+  why: [p2.hint.why.1]
+  rule: [p2.hint.rule.1, p2.hint.rule.2, p2.hint.rule.3]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

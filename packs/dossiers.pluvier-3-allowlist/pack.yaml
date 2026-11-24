@@ -1,0 +1,16 @@
+id: dossiers.pluvier-3-allowlist
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.pluvier-world]
+title:
+  fr: "Dossier 22 · 3. Les lieux sûrs"
+  en: "Case file 22 · 3. Safe places"
+summary:
+  fr: "Tu règles le compte de Pluvier sur l'entrepôt : une seconde étape pour les humains, une clé pour le compte de service, une liste d'adresses autorisées, des secrets qui changent, des prestataires sur des appareils gérés. Puis tu réponds à la demande de rançon. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Pluvier's account on the warehouse: a second step for humans, a key for the service account, a list of allowed addresses, secrets that change, contractors on managed devices. Then you answer the ransom demand. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, defense, crisis]
+minutes: 12
