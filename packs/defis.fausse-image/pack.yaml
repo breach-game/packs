@@ -1,0 +1,17 @@
+id: defis.fausse-image
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · La fausse image"
+  en: "Challenge · The false picture"
+summary:
+  fr: "La boutique accepte des avatars. L'équipe y a envoyé un fichier témoin qui porte un nom d'image et n'en est pas une. Montre ce qu'il est, sous quel type le serveur le sert, rapporte le marqueur, puis dis comment l'empêcher. Sans aide."
+  en: "The shop accepts avatars. The team sent it a witness file that has a picture's name and is not one. Show what it is, what type the server serves it as, report the marker, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, recon]
+minutes: 8

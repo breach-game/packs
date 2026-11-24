@@ -1,0 +1,17 @@
+id: defis.origine-miroir
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · L'origine en miroir"
+  en: "Challenge · The mirrored origin"
+summary:
+  fr: "L'API du profil dit à n'importe quel site qu'il peut la lire avec les cookies du client. Le mandat te donne une origine témoin : montre-le, rapporte le marqueur, puis dis comment l'empêcher. Sans aide."
+  en: "The profile API tells any site it may read it with the customer's cookies. The mandate gives you a witness origin: show it, report the marker, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, recon]
+minutes: 8

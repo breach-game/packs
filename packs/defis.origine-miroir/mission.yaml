@@ -1,0 +1,40 @@
+# Challenge: a cross-origin policy that mirrors the caller. The profile API answers the mandate's
+# witness origin with that origin allowed and credentials allowed. Only the witness origin exists.
+order: 7
+stage: exploitation
+briefing: d7.briefing
+reveal: [shop]
+
+objectives:
+  - { id: marker, text: d7.obj.marker }
+  - { id: fix, text: d7.obj.fix }
+
+flags:
+  - { id: marker, value: "FLAG{polygone-origine-miroir-7a2c}", points: 250, objective: marker }
+
+questions:
+  - id: fix
+    text: d7.q.fix
+    objective: fix
+    correct: list
+    options:
+      - { id: list, text: d7.q.fix.list }
+      - { id: star, text: d7.q.fix.star, why: d7.q.fix.star.why }
+      - { id: contains, text: d7.q.fix.contains, why: d7.q.fix.contains.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d7.ada.brief
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d7.ada.done
+
+debrief:
+  title: d7.debrief.title
+  lesson: d7.debrief.lesson
+  points: [d7.debrief.p1, d7.debrief.p2, d7.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"

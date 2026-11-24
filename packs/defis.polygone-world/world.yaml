@@ -73,6 +73,29 @@ hosts:
             headers: { content-type: application/json }
             body: "{\"error\": \"no such invoice\"}\n"
 
+      # Challenge 7: the profile API answers a foreign origin with credentials allowed.
+      "/api/profil":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first (cookie session=...)\"}\n"
+        variants:
+          - id: cross
+            cookie: "session=pg-client-2031"
+            header: "Origin: https://audit-lignerouge.example"
+            headers: { content-type: application/json, access-control-allow-origin: "https://audit-lignerouge.example", access-control-allow-credentials: "true", vary: Origin }
+            body: "{\"account\": \"pg-client-2031\", \"name\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"email\": \"gestion@melezes.example\", \"iban_end\": \"...7741\", \"witness_marker\": \"FLAG{polygone-origine-miroir-7a2c}\"}\n"
+          - id: own
+            cookie: "session=pg-client-2031"
+            headers: { content-type: application/json, access-control-allow-origin: "https://boutique.polygone.test", access-control-allow-credentials: "true", vary: Origin }
+            body: "{\"account\": \"pg-client-2031\", \"name\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"email\": \"gestion@melezes.example\", \"iban_end\": \"...7741\"}\n"
+      # Challenge 8: two avatars. A real picture, and the witness file the shop accepted as one.
+      "/avatars/a-1041.png":
+        headers: { content-type: image/png, x-content-type-options: nosniff }
+        body: "(binary image data, 18 KB)\n"
+      "/avatars/temoin.png":
+        headers: { content-type: text/html, x-witness: "FLAG{polygone-fausse-image-3d9e}" }
+        body: "<!doctype html>\n<html><body><p>Ligne Rouge witness file, mandate PG-2027-050. Harmless: it only says it is a page.</p></body></html>\n"
+
   # Single sign-on for the staff.
   - id: sso
     hostname: sso.polygone.test
@@ -82,6 +105,17 @@ hosts:
     services:
       - { port: 22, name: ssh, product: OpenSSH 9.2 }
       - { port: 443, name: https, product: keycloak 24 }
+    web:
+      # Challenge 9: the staff directory API accepts a token issued for another application.
+      "/api/interne/annuaire":
+        status: 401
+        headers: { content-type: application/json, www-authenticate: "Bearer realm=\"support-interne\"" }
+        body: "{\"error\": \"bearer token required\", \"expected_audience\": \"support-interne\"}\n"
+        variants:
+          - id: foreign
+            header: "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzc28ucG9seWdvbmUudGVzdCIsImF1ZCI6InBvcnRhaWwtY2xpZW50cyIsInN1YiI6InBnLWNsaWVudC0yMDMxIiwiZXhwIjoxODI3OTAzNjAwfQ.m4Qx7Tn2VbK9sLr0aWc3Yh"
+            headers: { content-type: application/json }
+            body: "{\"expected_audience\": \"support-interne\", \"token_audience\": \"portail-clients\", \"accepted\": true, \"staff\": [\"accueil (poste 12)\", \"astreinte (poste 40)\"], \"witness_marker\": \"FLAG{polygone-jeton-voisin-b41f}\"}\n"
 
   # Where a scripted attacker comes from, never shown on the map.
   - id: outside

@@ -1,0 +1,45 @@
+# Challenge: an upload that is not what its name says. The witness file sent through the avatar
+# form is a harmless page named like a picture; the shop stored it and serves it as a page. The
+# marker is a response header, so the player has to look at how the file is served.
+order: 8
+stage: exploitation
+briefing: d8.briefing
+reveal: [shop]
+
+files:
+  depot/temoin.png: { $file: files/temoin.png.txt }
+  depot/LISEZMOI.txt: "Sent through the avatar form on 2027-11-02 under mandate PG-2027-050.\nStored by the shop as /avatars/temoin.png\nA real avatar, for comparison: /avatars/a-1041.png\n"
+
+objectives:
+  - { id: marker, text: d8.obj.marker }
+  - { id: fix, text: d8.obj.fix }
+
+flags:
+  - { id: marker, value: "FLAG{polygone-fausse-image-3d9e}", points: 250, objective: marker }
+
+questions:
+  - id: fix
+    text: d8.q.fix
+    objective: fix
+    correct: content
+    options:
+      - { id: content, text: d8.q.fix.content }
+      - { id: extension, text: d8.q.fix.extension, why: d8.q.fix.extension.why }
+      - { id: size, text: d8.q.fix.size, why: d8.q.fix.size.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d8.ada.brief
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d8.ada.done
+
+debrief:
+  title: d8.debrief.title
+  lesson: d8.debrief.lesson
+  points: [d8.debrief.p1, d8.debrief.p2, d8.debrief.p3]
+  reference: "OWASP Top 10 · A04 Insecure Design"

