@@ -1,0 +1,16 @@
+id: dossiers.macareux
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.macareux-world]
+title:
+  fr: "Dossier 41 : le connecteur du chat"
+  en: "Case file 41: the chat connector"
+summary:
+  fr: "Inspiré du vol de données de l'été 2025 passé par l'intégration d'un outil de chat. Joué côté défense : le jeton d'un connecteur tiers, volé chez son éditeur, exporte la nuit les tickets du CRM d'une entreprise. Tu lis le journal de l'API, tu retires le jeton, puis tu cherches dans les tickets exportés les clés et mots de passe que des gens y avaient collés. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the summer 2025 data theft that went through a chat tool's integration. Played on the defence side: the token of a third-party connector, stolen at its vendor, exports a company's CRM tickets at night. You read the API log, remove the token, then search the exported tickets for the keys and passwords people had pasted into them. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+incident: 2025

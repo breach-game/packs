@@ -1,0 +1,9 @@
+# Case file 44, mission 1: the shortest path, replayed by CI in every language.
+ssh ir@ws-0412.hublot.test
+ps -ef
+answer program sysmond
+journalctl -u edr-agent
+answer alert 21:55
+exit
+contain isolate ws-0412
+answer hr

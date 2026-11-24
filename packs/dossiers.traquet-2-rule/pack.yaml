@@ -1,0 +1,16 @@
+id: dossiers.traquet-2-rule
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.traquet-world]
+title:
+  fr: "Dossier 45 · 2. Voir venir le suivant"
+  en: "Case file 45 · 2. Seeing the next one coming"
+summary:
+  fr: "Deux autres personnes ont reçu la même invitation. Tu écris la règle qui voit une connexion par code d'appareil qui ne vient pas d'une salle de réunion, sans alerter sur les salles, puis tu choisis où couper ce flux."
+  en: "Two other people got the same invitation. You write the rule that sees a device code sign-in that does not come from a meeting room, without alerting on the rooms, then choose where to cut this flow."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, defense]
+minutes: 12

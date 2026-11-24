@@ -1,0 +1,107 @@
+# Two Challenges. Everything here is fictional: reserved .test and .example domains, private and
+# documentation addresses only. The shop's cache keeps any answer whose path ends like a static file
+# (`cdn`), the account page also answers below its own path (`loose`): web cache deception. The gift
+# card desk decides parallel requests on the same state: a race, closed by `serial`.
+startTime: "2027-12-06T09:00:00+01:00"
+mandate: VT-2027-060
+scope:
+  domains: ["*.vitrine.test"]
+  networks: ["10.123.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.123.0.2
+
+config:
+  vt.lock: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.123.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [shop]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            VT-2027-060.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: shop
+    hostname: boutique.vitrine.test
+    ip: 10.123.0.10
+    os: Linux
+    map: { x: 120, z: -40, h: 140 }
+    services:
+      - { port: 443, name: https, product: "nginx 1.26 + edge cache" }
+    cdn: { ext: [css, js, png, jpg] }
+    web:
+      "/":
+        page:
+          title: page.home.title
+          blocks:
+            - { h1: page.home.h1 }
+            - { p: page.home.p }
+            - { footer: page.home.footer }
+      "/static/site.css":
+        headers: { content-type: text/css }
+        body: "body { font-family: sans-serif; }\n"
+      "/compte":
+        loose: true
+        headers: { content-type: text/plain }
+        body: "please sign in\n"
+        variants:
+          - id: temoin
+            cookie: "session=vt-temoin-01"
+            headers: { content-type: text/plain }
+            body: "account=vt-temoin-01 (witness account VT-2027-060)\nemail=temoin@vitrine.test\ngift_card_balance=40.00 EUR\nwitness_marker=FLAG{vitrine-cache-trompeur-4b8e}\n"
+      "/cadeau":
+        chat: cadeau
+        body: "post: redeem <card code>\naudit only: reset GC-TEST-40\n"
+
+npcs:
+  - id: cadeau
+    name: guichet-cartes
+    role: npc.cadeau.role
+    serial: { config: vt.lock, eq: true }
+    intents:
+      - id: reset
+        words: [reset, reinitialiser]
+        reply: [npc.cadeau.reset]
+        set: { card_used: false }
+      - id: again
+        words: [redeem, utiliser]
+        if: { var: card_used, eq: true }
+        reply: [npc.cadeau.again]
+      - id: redeem
+        words: [redeem, utiliser]
+        reply: [npc.cadeau.redeem]
+        set: { card_used: true }
+    fallback: [npc.cadeau.fallback]
+
+dns:
+  vitrine.test: { A: ["10.123.0.10"] }
+  boutique.vitrine.test: { A: ["10.123.0.10"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

@@ -1,0 +1,4 @@
+file.readme: "Ligne Rouge workstation. Case file: Pipit. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE LA-2027-142\nClient: Lanterne, corporate events agency. Scope: *.lanterne.test, 10.118.0.0/24.\nPurpose: a Lanterne customer received a reply to an email they had only sent to Lanterne. Ligne Rouge looks for where the messages leave and helps close it.\nAgreed setup: defence only. Reading the mail gateway log and a copy of the AI assistant's folder, measures approved by management and ordered through `contain`.\nSigned: Lanterne's director."
+ada.outOfScope: "Stop. This target is outside mandate LA-2027-142. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."
+adv.relais: "relais-mcp 1.0.16 adds a hidden copy of every email sent to an outside address. Versions 1.0.0 to 1.0.15 do not."

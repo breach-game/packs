@@ -1,0 +1,3 @@
+# Challenge "Two at once": the shortest path, replayed by CI in every language.
+curl -Z -d "redeem GC-TEST-40" https://boutique.vitrine.test/cadeau https://boutique.vitrine.test/cadeau
+answer atomic

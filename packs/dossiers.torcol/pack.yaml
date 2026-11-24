@@ -1,0 +1,16 @@
+id: dossiers.torcol
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.torcol-world]
+title:
+  fr: "Dossier 44 : le premier jour"
+  en: "Case file 44: the first day"
+summary:
+  fr: "Inspiré de l'éditeur de sécurité qui a raconté, en 2024, avoir embauché sans le savoir un faux informaticien. Joué côté défense : le soir de son arrivée, le portable du nouvel ingénieur charge un logiciel espion. Tu lis le poste, tu l'isoles, puis tu reprends l'embauche pas à pas pour voir où elle aurait pu s'arrêter. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the security vendor that told, in 2024, how it had unknowingly hired a fake IT worker. Played on the defence side: on the evening it arrives, the new engineer's laptop loads spyware. You read the workstation, isolate it, then go back over the hiring step by step to see where it could have stopped. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, linux, defense]
+incident: 2024

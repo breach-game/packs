@@ -1,0 +1,9 @@
+# Case file 45, mission 2: the shortest path, replayed by CI in every language.
+cat regles/code-appareil.yml
+soc logs idp signin
+soc search device_code
+answer who 2
+echo "flow: device_code" >> regles/code-appareil.yml
+echo "app: Visio" >> regles/code-appareil.yml
+rule test regles/code-appareil.yml
+answer rooms

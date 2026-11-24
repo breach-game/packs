@@ -1,0 +1,16 @@
+id: dossiers.traquet-1-code
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.traquet-world]
+title:
+  fr: "Dossier 45 · 1. Le code de la réunion"
+  en: "Case file 45 · 1. The meeting's code"
+summary:
+  fr: "Un « journaliste » invite une salariée à une visio et lui envoie un code à taper sur la page de connexion de Passerelle. La page est la vraie. Tu lis le message, tu trouves dans le journal la connexion qu'elle a ouverte à quelqu'un d'autre, tu fermes, puis tu dis pourquoi le second facteur n'a rien arrêté."
+  en: "A \"journalist\" invites an employee to a video call and sends her a code to type on Passerelle's sign-in page. The page is the real one. You read the message, find in the log the session she opened to someone else, close it, then say why the second factor stopped nothing."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs, defense]
+minutes: 12

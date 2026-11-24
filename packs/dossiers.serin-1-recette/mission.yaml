@@ -1,0 +1,74 @@
+# Case file 43, mission 1: the test account. The sign-in page's source keeps a 2019 note about a
+# test account; 123456 / 123456 opens it. The dashboard shows the witness marker and the test
+# application's number. The proof is that application; the number just below is a real person and
+# costs noise. The player says what to do next: stop and report.
+order: 1
+stage: exploitation
+briefing: s1.briefing
+reveal: [admin]
+
+objectives:
+  - { id: login, text: s1.obj.login }
+  - { id: marker, text: s1.obj.marker }
+  - { id: proof, text: s1.obj.proof }
+  - { id: stop, text: s1.obj.stop }
+
+flags:
+  - { id: marker, value: "FLAG{serin-recette-2019-a7c4}", points: 200, objective: marker }
+
+questions:
+  - id: stop
+    text: s1.q.stop
+    objective: stop
+    correct: report
+    options:
+      - { id: report, text: s1.q.stop.report }
+      - { id: count, text: s1.q.stop.count, why: s1.q.stop.count.why }
+      - { id: sample, text: s1.q.stop.sample, why: s1.q.stop.sample.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s1.ada.brief
+  - on: { event: ChatReply, npc: login, intent: recette }
+    do:
+      - objective.complete: login
+  - on: { event: ObjectiveCompleted, objective: login }
+    do:
+      - ada.say: s1.ada.login
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.say: s1.ada.marker
+  - on: { event: HttpRequest, host: admin, path: /api/applications/64185402, variant: own }
+    do:
+      - objective.complete: proof
+  - on: { event: ObjectiveCompleted, objective: proof }
+    do:
+      - ada.say: s1.ada.proof
+      - ada.ask: stop
+  - on: { event: HttpRequest, host: admin, path: /api/applications/64185401, variant: other }
+    once: false
+    do:
+      - noise.add: { points: 25, as: s1.noise.real }
+      - ada.warn: s1.ada.real
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s1.ada.done
+
+guide:
+  login: s1.ada.g.login
+  marker: s1.ada.g.marker
+  proof: s1.ada.g.proof
+  stop: s1.ada.g.stop
+
+hints:
+  login: [s1.hint.login.1, s1.hint.login.2]
+  marker: [s1.hint.marker.1]
+  proof: [s1.hint.proof.1]
+  stop: [s1.hint.stop.1]
+
+debrief:
+  title: s1.debrief.title
+  lesson: s1.debrief.lesson
+  points: [s1.debrief.p1, s1.debrief.p2, s1.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

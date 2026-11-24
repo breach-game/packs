@@ -1,0 +1,16 @@
+id: dossiers.pipit-2-publisher
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.pipit-world]
+title:
+  fr: "Dossier 42 · 2. Qui l'avait publié"
+  en: "Case file 42 · 2. Who had published it"
+summary:
+  fr: "Le paquet portait le nom du service de mail, mais pas sa signature. Tu confirmes l'avis avec `sbom --vuln`, tu comptes les mails partis en copie, tu remplaces l'outil par celui de l'éditeur, version fixée, puis tu choisis la règle pour la suite."
+  en: "The package carried the mail service's name, not its signature. You confirm the advisory with `sbom --vuln`, count the emails that left in copy, replace the tool with the vendor's own, pinned, then choose the rule for what comes next."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, llm, defense]
+minutes: 14

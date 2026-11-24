@@ -1,0 +1,12 @@
+id: defis.vitrine-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Vitrine"
+  en: "Vitrine"
+summary:
+  fr: "Vitrine, boutique fictive de cartes cadeaux, servie derrière un cache qui garde tout ce qui ressemble à un fichier statique. Le monde de deux défis."
+  en: "Vitrine, a fictional gift card shop, served behind a cache that keeps anything that looks like a static file. The world of two challenges."
+authors: [BREACH team]
+locales: [fr, en]

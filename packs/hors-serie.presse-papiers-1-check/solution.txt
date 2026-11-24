@@ -1,0 +1,6 @@
+# Side series "Le Presse-papiers", mission 1: the shortest path, replayed by CI in every language.
+cat tickets/2291.txt
+curl -s https://www.contremarque.test/concerts/nuit-blanche
+answer server maj.contremarque-billet.example
+answer widget stats-billet.example
+answer hands

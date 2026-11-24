@@ -1,0 +1,12 @@
+id: dossiers.traquet-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Passerelle"
+  en: "Passerelle"
+summary:
+  fr: "Passerelle, association fictive qui accompagne des journalistes et des chercheurs en exil. Une petite équipe, beaucoup de rendez-vous en visio avec des inconnus, et un compte en ligne pour tout : messagerie, documents, visio."
+  en: "Passerelle, a fictional association that supports journalists and researchers in exile. A small team, many video calls with strangers, and one online account for everything: mail, documents, video calls."
+authors: [BREACH team]
+locales: [fr, en]

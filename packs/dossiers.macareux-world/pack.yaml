@@ -1,0 +1,12 @@
+id: dossiers.macareux-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Ardoise"
+  en: "Ardoise"
+summary:
+  fr: "Ardoise, éditeur fictif d'un logiciel de facturation. Ses commerciaux et son support vivent dans un CRM, Registre, relié à une dizaine d'outils tiers, dont le chat de son site, Converso."
+  en: "Ardoise, a fictional billing software vendor. Its sales and support teams live in a CRM, Registre, linked to a dozen third-party tools, including its website chat, Converso."
+authors: [BREACH team]
+locales: [fr, en]

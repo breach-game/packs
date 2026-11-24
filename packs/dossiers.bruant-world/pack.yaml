@@ -1,0 +1,12 @@
+id: dossiers.bruant-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Ombrelle"
+  en: "Ombrelle"
+summary:
+  fr: "Ombrelle, éditeur fictif de Garde-Notes, une extension de navigateur qui range les notes et les captures de quatre cent mille personnes. Une petite équipe, un compte développeur sur le magasin d'extensions, et des mises à jour qui partent toutes seules chez les utilisateurs."
+  en: "Ombrelle, the fictional publisher of Garde-Notes, a browser extension that keeps the notes and clippings of four hundred thousand people. A small team, one developer account on the extension store, and updates that reach users on their own."
+authors: [BREACH team]
+locales: [fr, en]

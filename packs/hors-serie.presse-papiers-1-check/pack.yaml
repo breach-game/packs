@@ -1,0 +1,16 @@
+id: hors-serie.presse-papiers-1-check
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [hors-serie.presse-papiers-world]
+title:
+  fr: "Le Presse-papiers · 1. Je ne suis pas un robot"
+  en: "The Clipboard · 1. I am not a robot"
+summary:
+  fr: "La page d'un concert demande de prouver qu'on est humain en collant une ligne dans un terminal. Tu lis ce que le bouton met dans le presse-papiers, avec `clip` ou dans la source, sans jamais le lancer, et tu trouves d'où vient ce bloc."
+  en: "A concert page asks you to prove you are human by pasting a line into a terminal. You read what the button puts on the clipboard, with `clip` or in the source, without ever running it, and find where the block comes from."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, web, defense]
+minutes: 10

@@ -1,0 +1,16 @@
+id: dossiers.macareux-1-token
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.macareux-world]
+title:
+  fr: "Dossier 41 · 1. Le jeton de Converso"
+  en: "Case file 41 · 1. Converso's token"
+summary:
+  fr: "Converso prévient : des jetons de ses clients ont été volés. Tu lis le journal de l'API du CRM, tu trouves l'adresse qui se sert du jeton et ce qu'elle a exporté, tu retires le jeton, puis tu dis pourquoi le CRM a tout accepté."
+  en: "Converso warns that some of its customers' tokens were stolen. You read the CRM API log, find the address using the token and what it exported, remove the token, then say why the CRM accepted everything."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+minutes: 12

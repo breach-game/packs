@@ -1,0 +1,10 @@
+# Case file 42, mission 1: the shortest path, replayed by CI in every language.
+soc logs mx mail
+soc search bcc=
+answer bcc copie@relais-archive.example
+diff archives/relais-mcp-1.0.15/index.js assistant/node_modules/relais-mcp/index.js
+cat assistant/package-lock.json
+answer version 1.0.16
+contain remove relais-mcp
+cat assistant/package.json
+answer caret

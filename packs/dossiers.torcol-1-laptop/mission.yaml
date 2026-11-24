@@ -1,0 +1,90 @@
+# Case file 44, mission 1: the laptop. The endpoint agent's journal shows a downloaded archive, a
+# program started from it, then it reading saved logins and wiping the shell history. The player
+# names the first high alert's time, isolates the workstation, and chooses how to reach the person.
+side: defense
+order: 1
+stage: defense
+briefing: t1.briefing
+reveal: [ws0412, fw]
+
+adversary:
+  id: sysmond
+  name: sysmond
+  from: ws0412
+  pace: 2
+  delay: 0
+  steps:
+    - { id: x1, host: fw, source: flow, fields: { action: allow, src: 10.120.0.112, dst: 203.0.113.188, dport: 443, bytes: 48210 }, blockedIf: { config: hu.isolated, eq: true } }
+    - { id: x2, host: fw, source: flow, fields: { action: allow, src: 10.120.0.112, dst: 203.0.113.188, dport: 443, bytes: 912044 }, blockedIf: { config: hu.isolated, eq: true } }
+    - { id: x3, host: fw, source: flow, fields: { action: allow, src: 10.120.0.112, dst: 10.120.0.30, dport: 22, bytes: 3120 }, blockedIf: { config: hu.isolated, eq: true } }
+    - { id: x4, host: fw, source: flow, fields: { action: allow, src: 10.120.0.112, dst: 203.0.113.188, dport: 443, bytes: 4120533 }, blockedIf: { config: hu.isolated, eq: true } }
+
+containment:
+  - id: isolate
+    action: isolate
+    target: ws-0412
+    text: t1.contain.isolate
+    sets: { hu.isolated: true }
+    impact: 0
+
+objectives:
+  - { id: program, text: t1.obj.program }
+  - { id: alert, text: t1.obj.alert }
+  - { id: isolate, text: t1.obj.isolate }
+  - { id: call, text: t1.obj.call }
+
+investigation:
+  - { id: program, text: t1.q.program, value: "sysmond", points: 50, objective: program }
+  - { id: alert, text: t1.q.alert, value: "21:55", points: 75, objective: alert }
+
+questions:
+  - id: call
+    text: t1.q.call
+    objective: call
+    correct: hr
+    options:
+      - { id: hr, text: t1.q.call.hr }
+      - { id: chat, text: t1.q.call.chat, why: t1.q.call.chat.why }
+      - { id: wipe, text: t1.q.call.wipe, why: t1.q.call.wipe.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: t1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: program }
+    do:
+      - ada.say: t1.ada.program
+  - on: { event: ObjectiveCompleted, objective: alert }
+    do:
+      - ada.say: t1.ada.alert
+  - on: { event: AdversaryStep, step: x3 }
+    do:
+      - ada.warn: t1.ada.spread
+  - on: { event: Contained, containment: isolate }
+    do:
+      - objective.complete: isolate
+  - on: { event: ObjectiveCompleted, objective: isolate }
+    do:
+      - ada.say: t1.ada.isolate
+      - ada.ask: call
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: t1.ada.done
+
+guide:
+  program: t1.ada.g.program
+  alert: t1.ada.g.alert
+  isolate: t1.ada.g.isolate
+  call: t1.ada.g.call
+
+hints:
+  program: [t1.hint.program.1]
+  alert: [t1.hint.alert.1, t1.hint.alert.2]
+  isolate: [t1.hint.isolate.1]
+  call: [t1.hint.call.1]
+
+debrief:
+  title: t1.debrief.title
+  lesson: t1.debrief.lesson
+  points: [t1.debrief.p1, t1.debrief.p2, t1.debrief.p3]
+  reference: "MITRE ATT&CK · T1555.003 Credentials from Web Browsers"

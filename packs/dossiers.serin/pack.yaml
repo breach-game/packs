@@ -1,0 +1,16 @@
+id: dossiers.serin
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.serin-world]
+title:
+  fr: "Dossier 43 : le compte de recette"
+  en: "Case file 43: the test account"
+summary:
+  fr: "Inspiré de l'exposition, à l'été 2025, des candidatures passées par le chatbot de recrutement d'une grande chaîne de restauration. Côté attaque, sous mandat : le portail d'administration du chatbot garde un compte de test ouvert depuis des années, et chaque candidature n'est qu'un numéro. Tu le prouves sur une fausse candidature, sans en lire une vraie, puis tu fermes le compte et tu fais vérifier à qui appartient chaque dossier. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the exposure, in summer 2025, of the applications that went through a large restaurant chain's hiring chatbot. Attack side, under mandate: the chatbot's admin portal keeps a test account open for years, and each application is only a number. You prove it on a fake application, without reading a real one, then close the account and have the portal check who owns each file. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, llm, defense]
+incident: 2025

@@ -1,0 +1,16 @@
+id: dossiers.serin-1-recette
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.serin-world]
+title:
+  fr: "Dossier 43 · 1. Le compte de recette"
+  en: "Case file 43 · 1. The test account"
+summary:
+  fr: "Un commentaire oublié dans la page de connexion parle d'un compte de test de 2019. Tu essaies l'identifiant le plus banal, tu entres, tu lis la candidature de test prévue pour l'audit, et tu t'arrêtes là : la candidature voisine appartient à une vraie personne."
+  en: "A comment left in the sign-in page mentions a 2019 test account. You try the most obvious credentials, get in, read the test application planned for the audit, and stop there: the one next door belongs to a real person."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, recon]
+minutes: 12

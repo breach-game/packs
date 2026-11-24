@@ -1,0 +1,16 @@
+id: hors-serie.presse-papiers-3-rule
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [hors-serie.presse-papiers-world]
+title:
+  fr: "Le Presse-papiers · 3. La règle de la maison"
+  en: "The Clipboard · 3. The house rule"
+summary:
+  fr: "Tu retires le widget tiers de la configuration du site et de sa politique de sécurité, sans casser le paiement, tu vérifies que la page du concert redevient normale, puis tu choisis ce qui change aux guichets et la phrase que tout le monde retiendra."
+  en: "You remove the third-party widget from the site's configuration and its security policy, without breaking payment, check that the concert page is normal again, then choose what changes at the box offices and the sentence everyone will remember."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, social, defense]
+minutes: 12

@@ -1,0 +1,97 @@
+# Case file 41, mission 2: the tickets. Ardoise rebuilt a sample of what the stolen query returned.
+# Two tickets hold cloud access keys (example-shaped, never real), one an engineer's database
+# password. The player counts the keys with grep, finds the ticket with the password with jq,
+# rotates both, and picks a support rule. Facts card: GTIG on the Salesloft Drift theft, 2025.
+side: defense
+order: 2
+stage: report
+briefing: m2.briefing
+reveal: [crm]
+
+files:
+  export/cases.json: { $file: files/cases.json }
+
+containment:
+  - id: keys
+    action: rotate
+    target: aws-keys
+    text: m2.contain.keys
+    sets: { ar.keys_rotated: true }
+    impact: 1
+  - id: db
+    action: rotate
+    target: warehouse-password
+    text: m2.contain.db
+    sets: { ar.db_rotated: true }
+    impact: 0
+
+objectives:
+  - { id: keys, text: m2.obj.keys }
+  - { id: ticket, text: m2.obj.ticket }
+  - { id: rotate, text: m2.obj.rotate }
+  - { id: habit, text: m2.obj.habit }
+
+investigation:
+  - { id: keys, text: m2.q.keys, value: "2", points: 75, objective: keys }
+  - { id: ticket, text: m2.q.ticket, value: "5003X06", points: 75, objective: ticket }
+
+questions:
+  - id: habit
+    text: m2.q.habit
+    objective: habit
+    correct: scan
+    options:
+      - { id: scan, text: m2.q.habit.scan }
+      - { id: delete, text: m2.q.habit.delete, why: m2.q.habit.delete.why }
+      - { id: encrypt, text: m2.q.habit.encrypt, why: m2.q.habit.encrypt.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: keys }
+    do:
+      - ada.say: m2.ada.keys
+  - on: { event: ObjectiveCompleted, objective: ticket }
+    do:
+      - ada.say: m2.ada.ticket
+  - id: rotate-a
+    on: { event: Contained, containment: keys }
+    if: { config: ar.db_rotated, eq: true }
+    do:
+      - objective.complete: rotate
+  - id: rotate-b
+    on: { event: Contained, containment: db }
+    if: { config: ar.keys_rotated, eq: true }
+    do:
+      - objective.complete: rotate
+  - on: { event: ObjectiveCompleted, objective: rotate }
+    do:
+      - ada.say: m2.ada.rotate
+      - ada.ask: habit
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m2.ada.done
+
+guide:
+  keys: m2.ada.g.keys
+  ticket: m2.ada.g.ticket
+  rotate: m2.ada.g.rotate
+  habit: m2.ada.g.habit
+
+hints:
+  keys: [m2.hint.keys.1, m2.hint.keys.2]
+  ticket: [m2.hint.ticket.1, m2.hint.ticket.2]
+  rotate: [m2.hint.rotate.1]
+  habit: [m2.hint.habit.1]
+
+debrief:
+  title: m2.debrief.title
+  lesson: m2.debrief.lesson
+  points: [m2.debrief.p1, m2.debrief.p2, m2.debrief.p3]
+  reference: "OWASP · Secrets Management Cheat Sheet"
+  facts:
+    title: m2.facts.title
+    points: [m2.facts.p1, m2.facts.p2, m2.facts.p3, m2.facts.p4, m2.facts.p5]
+    sources:
+      - { label: "Google Threat Intelligence Group, data theft from Salesforce instances via Salesloft Drift (26 August 2025)", url: "https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift" }

@@ -1,0 +1,4 @@
+file.readme: "Poste Ligne Rouge. Dossier : Pipit. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.mandate: "MANDAT LA-2027-142\nClient : Lanterne, agence d'événements d'entreprise. Périmètre : *.lanterne.test, 10.118.0.0/24.\nObjet : un client de Lanterne a reçu une réponse à un mail qu'il n'avait envoyé qu'à Lanterne. Ligne Rouge cherche par où les messages sortent et aide à fermer.\nCadre convenu : défense seulement. Lecture du journal de la passerelle de mail et d'une copie du dossier de l'assistant IA, mesures validées par la direction et passées par `contain`.\nSigné : la directrice de Lanterne."
+ada.outOfScope: "Stop. Cette cible est hors du mandat LA-2027-142. Même pour défendre, hors mandat c'est un délit (article 323-1 du Code pénal)."
+adv.relais: "relais-mcp 1.0.16 ajoute une copie cachée de chaque mail envoyé vers une adresse extérieure. Les versions 1.0.0 à 1.0.15 ne le font pas."

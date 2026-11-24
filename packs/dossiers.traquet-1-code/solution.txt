@@ -1,0 +1,9 @@
+# Case file 45, mission 1: the shortest path, replayed by CI in every language.
+sms
+sms invite
+answer link connexion.passerelle.test
+soc logs idp signin
+soc search device_code
+answer account s.benali
+contain revoke s.benali
+answer herself

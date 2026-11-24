@@ -1,0 +1,7 @@
+file.readme: "Ligne Rouge workstation. Case file: Traquet. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE PA-2027-145\nClient: Passerelle, association. Scope: *.passerelle.test, 10.121.0.0/24.\nPurpose: an employee followed a video call invitation that asked her to type a code. Ligne Rouge helps Passerelle measure what was opened, close it and stop it happening again.\nAgreed setup: defence only. Reading the employee's phone (with her consent) and the identity provider's logs, measures ordered through `contain`.\nSigned: Passerelle's coordinator."
+ada.outOfScope: "Stop. This target is outside mandate PA-2027-145. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."
+page.device.title: "Passerelle · connect a device"
+page.device.h1: "Connect a device"
+page.device.p: "Enter the code shown on the device you want to connect to your Passerelle account. Never enter a code you did not see appear on your own device."
+page.device.footer: "Passerelle · identity provider"

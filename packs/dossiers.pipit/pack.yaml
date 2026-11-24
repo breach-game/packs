@@ -1,0 +1,16 @@
+id: dossiers.pipit
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.pipit-world]
+title:
+  fr: "Dossier 42 : la copie cachée"
+  en: "Case file 42: the hidden copy"
+summary:
+  fr: "Inspiré du premier faux serveur MCP repéré sur npm, à l'automne 2025. Joué côté défense : l'assistant IA d'une agence envoie ses mails par un outil installé depuis npm, et une mise à jour ajoute une seule ligne, une copie cachée de chaque message. Tu la trouves dans le journal de la passerelle et dans le code, tu arrêtes l'outil, puis tu remontes à qui l'avait publié. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the first fake MCP server spotted on npm, in autumn 2025. Played on the defence side: an agency's AI assistant sends its mail through a tool installed from npm, and an update adds a single line, a hidden copy of every message. You find it in the gateway log and in the code, stop the tool, then trace who had published it. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, llm, logs, defense]
+incident: 2025

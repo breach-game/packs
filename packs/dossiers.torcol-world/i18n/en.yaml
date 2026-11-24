@@ -1,0 +1,3 @@
+file.readme: "Ligne Rouge workstation. Case file: Torcol. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE HU-2027-144\nClient: Hublot, navigation software publisher. Scope: *.hublot.test, 10.120.0.0/24.\nPurpose: incident response on call. The security agent of a brand new workstation just raised alerts. Understand, contain, then help Hublot review its remote hiring process.\nAgreed setup: defence only. Read-only access to workstations (account ir), measures approved by management and ordered through `contain`, HR files shared by human resources.\nSigned: Hublot's CTO."
+ada.outOfScope: "Stop. This target is outside mandate HU-2027-144. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

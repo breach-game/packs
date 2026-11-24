@@ -1,0 +1,121 @@
+# Box office 02: the pasted line started cm-verif with --from, which installed syncd-helper and an
+# @reboot crontab line. The player reads the process tree (PPID column), the strings of the helper,
+# isolates the workstation and removes the helper, then writes an audit rule that catches the other
+# clerks pasting the same line today, and not the tool's everyday use.
+side: defense
+order: 2
+stage: hunt
+briefing: p2.briefing
+reveal: [guichet02, guichet05, guichet07]
+
+files:
+  regles/collage.yml: "title: Box office tool fetching its update from elsewhere\nsource: audit\n"
+
+adversary:
+  id: paste
+  name: cm-verif --from
+  from: guichet05
+  pace: 2
+  delay: 0
+  steps:
+    - { id: g05, host: guichet05, source: audit, fields: { user: lucas, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --silent --from maj.contremarque-billet.example --ticket NB-4471" } }
+    - { id: g07, host: guichet07, source: audit, fields: { user: sarah, exe: /usr/local/bin/cm-verif, cmd: "cm-verif --silent --from maj.contremarque-billet.example --ticket NB-4471" } }
+    - { id: g05b, host: guichet05, source: audit, fields: { user: lucas, exe: /home/lucas/.cache/syncd-helper, cmd: "/home/lucas/.cache/syncd-helper" } }
+
+containment:
+  - id: isolate
+    action: isolate
+    target: guichet02
+    text: p2.contain.isolate
+    sets: { pp.isolated: true }
+    impact: 1
+  - id: clean
+    action: remove
+    target: syncd-helper
+    text: p2.contain.clean
+    sets: { pp.cleaned: true }
+    writes:
+      - host: guichet02
+        path: /var/spool/cron/crontabs/ines
+        content: "# m h dom mon dow command\n0 9 * * 1-6 /usr/local/bin/cm-verif --check --ticket ouverture\n"
+    removes:
+      - { host: guichet02, path: /home/ines/.cache/syncd-helper }
+
+objectives:
+  - { id: parent, text: p2.obj.parent }
+  - { id: take, text: p2.obj.take }
+  - { id: stop, text: p2.obj.stop }
+  - { id: clean, text: p2.obj.clean }
+  - { id: rule, text: p2.obj.rule }
+
+investigation:
+  - { id: parent, text: p2.q.parent, value: "2231", points: 75, objective: parent }
+
+questions:
+  - id: take
+    text: p2.q.take
+    objective: take
+    correct: sessions
+    options:
+      - { id: sessions, text: p2.q.take.sessions }
+      - { id: tickets, text: p2.q.take.tickets, why: p2.q.take.tickets.why }
+      - { id: screen, text: p2.q.take.screen, why: p2.q.take.screen.why }
+
+hunts:
+  - id: collage
+    file: regles/collage.yml
+    catch: { source: audit, where: { cmd: { contains: "--from" } } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: parent }
+    do:
+      - ada.say: p2.ada.parent
+      - ada.ask: take
+  - on: { event: ObjectiveCompleted, objective: take }
+    do:
+      - ada.say: p2.ada.take
+  - on: { event: Contained, containment: isolate }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: p2.ada.stop
+  - on: { event: Contained, containment: clean }
+    do:
+      - objective.complete: clean
+  - on: { event: ObjectiveCompleted, objective: clean }
+    do:
+      - ada.say: p2.ada.clean
+  - on: { event: AdversaryStep, step: g07 }
+    do:
+      - ada.say: p2.ada.others
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: p2.ada.rule
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  parent: p2.ada.g.parent
+  take: p2.ada.g.take
+  stop: p2.ada.g.stop
+  clean: p2.ada.g.clean
+  rule: p2.ada.g.rule
+
+hints:
+  parent: [p2.hint.parent.1, p2.hint.parent.2]
+  take: [p2.hint.take.1]
+  stop: [p2.hint.stop.1]
+  clean: [p2.hint.clean.1, p2.hint.clean.2]
+  rule: [p2.hint.rule.1, p2.hint.rule.2]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "MITRE ATT&CK · T1053.003 Scheduled Task/Job: Cron"

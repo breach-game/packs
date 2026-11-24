@@ -1,0 +1,16 @@
+id: dossiers.torcol-1-laptop
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.torcol-world]
+title:
+  fr: "Dossier 44 · 1. Le portable du nouveau"
+  en: "Case file 44 · 1. The new hire's laptop"
+summary:
+  fr: "Lundi soir, 21 h 58 : l'agent de sécurité du portable d'un ingénieur arrivé le jour même lève trois alertes. Tu lis le poste avec `ps` et `journalctl`, tu isoles avant que ça parte plus loin, et tu choisis comment appeler la personne."
+  en: "Monday night, 9:58 pm: the security agent on the laptop of an engineer who started that day raises three alerts. You read the workstation with `ps` and `journalctl`, isolate it before it goes further, and choose how to call the person."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, logs, defense]
+minutes: 12

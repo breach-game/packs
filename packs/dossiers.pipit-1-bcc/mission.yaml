@@ -1,0 +1,103 @@
+# Case file 42, mission 1: the blind copy. The mail gateway shows that every message the assistant
+# sends carries the same outside address in Bcc; human mail does not. The package code, compared
+# with the previous version, adds one line. The caret range in package.json let the update in.
+side: defense
+order: 1
+stage: defense
+briefing: p1.briefing
+reveal: [mx]
+
+files:
+  assistant/package.json: "{\n  \"name\": \"lanterne-assistant\",\n  \"version\": \"3.2.0\",\n  \"private\": true,\n  \"dependencies\": {\n    \"relais-mcp\": \"^1.0.0\",\n    \"calendrier-mcp\": \"2.1.4\"\n  }\n}\n"
+  assistant/package-lock.json: "{\n  \"name\": \"lanterne-assistant\",\n  \"version\": \"3.2.0\",\n  \"lockfileVersion\": 3,\n  \"packages\": {\n    \"\": { \"name\": \"lanterne-assistant\", \"version\": \"3.2.0\" },\n    \"node_modules/relais-mcp\": { \"version\": \"1.0.16\" },\n    \"node_modules/calendrier-mcp\": { \"version\": \"2.1.4\" }\n  }\n}\n"
+  assistant/node_modules/relais-mcp/index.js: { $file: files/index-1.0.16.js }
+  archives/relais-mcp-1.0.15/index.js: { $file: files/index-1.0.15.js }
+
+adversary:
+  id: copy
+  name: relais-mcp
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: a1, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: contrat@client-aurore.test, subject: "Contrat seminaire Aurore - version signee", bcc: copie@relais-archive.example } }
+    - { id: a2, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: compta@client-bastide.test, subject: "Devis 2027-311 soiree Bastide", bcc: copie@relais-archive.example } }
+    - { id: a3, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: rh@client-aurore.test, subject: "Liste des participants et regimes alimentaires", bcc: copie@relais-archive.example } }
+    - { id: a4, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: direction@client-cormier.test, subject: "Acces a la plateforme d inscription", bcc: copie@relais-archive.example }, blockedIf: { config: la.removed, eq: true } }
+    - { id: a5, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: compta@client-bastide.test, subject: "Facture acompte 2027-311", bcc: copie@relais-archive.example }, blockedIf: { config: la.removed, eq: true } }
+    - { id: a6, host: mx, source: mail, fields: { from: assistant@lanterne.test, to: contrat@client-dune.test, subject: "Contrat gala Dune - coordonnees bancaires", bcc: copie@relais-archive.example }, blockedIf: { config: la.removed, eq: true } }
+
+background:
+  - { host: mx, source: mail, every: 2, offset: 0, fields: { from: claire@lanterne.test, to: traiteur@saveurs.test, subject: "Menu du 14" } }
+  - { host: mx, source: mail, every: 3, offset: 1, fields: { from: hugo@lanterne.test, to: contrat@client-aurore.test, subject: "Re: horaires installation" } }
+  - { host: mx, source: mail, every: 5, offset: 2, fields: { from: assistant@lanterne.test, to: equipe@lanterne.test, subject: "Planning de la semaine" } }
+
+containment:
+  - id: remove
+    action: remove
+    target: relais-mcp
+    text: p1.contain.remove
+    sets: { la.removed: true }
+    impact: 1
+
+objectives:
+  - { id: bcc, text: p1.obj.bcc }
+  - { id: version, text: p1.obj.version }
+  - { id: stop, text: p1.obj.stop }
+  - { id: range, text: p1.obj.range }
+
+investigation:
+  - { id: bcc, text: p1.q.bcc, value: "copie@relais-archive.example", points: 75, objective: bcc }
+  - { id: version, text: p1.q.version, value: "1.0.16", points: 75, objective: version }
+
+questions:
+  - id: range
+    text: p1.q.range
+    objective: range
+    correct: caret
+    options:
+      - { id: caret, text: p1.q.range.caret }
+      - { id: hacked, text: p1.q.range.hacked, why: p1.q.range.hacked.why }
+      - { id: model, text: p1.q.range.model, why: p1.q.range.model.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: bcc }
+    do:
+      - ada.say: p1.ada.bcc
+  - on: { event: ObjectiveCompleted, objective: version }
+    do:
+      - ada.say: p1.ada.version
+  - on: { event: Contained, containment: remove }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: p1.ada.stop
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: version }, { objective: stop }] }
+    do:
+      - ada.ask: range
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  bcc: p1.ada.g.bcc
+  version: p1.ada.g.version
+  stop: p1.ada.g.stop
+  range: p1.ada.g.range
+
+hints:
+  bcc: [p1.hint.bcc.1, p1.hint.bcc.2]
+  version: [p1.hint.version.1, p1.hint.version.2]
+  stop: [p1.hint.stop.1]
+  range: [p1.hint.range.1]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "MITRE ATT&CK · T1195.002 Compromise Software Supply Chain"
