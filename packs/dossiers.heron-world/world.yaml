@@ -1,0 +1,155 @@
+# Case file 25 "Héron". Inspired by the logging library flaw of December 2021. Played on the
+# defence side only: an inventory, a mitigation, a patch, then the traces. The library (Carnet),
+# its lookup syntax and every company are fictional: reserved .test domains and private addresses
+# only; outside addresses come from the documentation ranges and are never reachable.
+startTime: "2027-12-10T23:05:00+01:00"
+mandate: AL-2027-112
+scope:
+  domains: ["*.albe.test"]
+  networks: ["10.95.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.95.0.2
+
+config:
+  he.egress: false
+  he.partial: false
+  he.patched: false
+  he.isolated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.95.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [portail, catalogue, reservations]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AL-2027-112.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The public portal: opening hours and news. No Java at all.
+  - id: portail
+    hostname: albe.test
+    ip: 10.95.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: -140, h: 90 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: "Médiathèques d'Albe"
+          blocks:
+            - { h1: page.portail.h1 }
+            - { p: page.portail.p }
+
+  # The online catalogue, written in-house in Java. Its inventory is kept up to date.
+  - id: catalogue
+    hostname: catalogue.albe.test
+    ip: 10.95.0.21
+    os: Linux 6.1 (Debian 12)
+    map: { x: 220, z: -60, h: 110 }
+    links: [base]
+    services:
+      - { port: 443, name: https, product: Liseuse 4.1.7 (Java 17) }
+    web:
+      "/":
+        page:
+          title: "Catalogue · Albe"
+          blocks:
+            - { h1: page.catalogue.h1 }
+            - { p: page.catalogue.p }
+
+  # Room and laptop bookings, bought from a vendor. Ships as one big archive.
+  - id: reservations
+    hostname: reservations.albe.test
+    ip: 10.95.0.22
+    os: Linux 6.1 (Debian 12)
+    map: { x: 260, z: 100, h: 100 }
+    links: [base]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+      - { port: 8443, name: https, product: Resa+ 3.1 (Java 11) }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "reservations\n"
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.readme }
+      var:
+        tmp:
+          .cache:
+            kworkerd:
+              $binary: { format: elf, strings: ["stratum+tcp://198.51.100.40:3333", "threads=4", "donate-level=0"] }
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: "Dec08", cmd: "/sbin/init" }
+        - { pid: 402, user: root, start: "Dec08", cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 911, user: resa, start: "Dec08", cmd: "java -Xmx2g -jar /opt/resa/reservations.jar" }
+        - { pid: 23117, ppid: 911, user: resa, start: "21:48", cmd: "/var/tmp/.cache/kworkerd -o 198.51.100.40:3333", if: { config: he.isolated, eq: false } }
+      sockets:
+        - { local: "0.0.0.0:22", pid: 402 }
+        - { local: "0.0.0.0:8443", pid: 911 }
+        - { state: SYN-SENT, local: "10.95.0.22:41822", peer: "198.51.100.40:3333", pid: 23117, if: { config: he.isolated, eq: false } }
+      services:
+        - { name: resa, description: Resa+ booking service, state: active, enabled: true, unit: /etc/systemd/system/resa.service }
+      journal:
+        - { at: "Dec 10 21:47:12", unit: resa, pid: 911, text: "WARN lookup resolved for request header User-Agent" }
+        - { at: "Dec 10 21:47:13", unit: resa, pid: 911, text: "INFO class loaded from remote location" }
+        - { at: "Dec 10 21:48:40", unit: resa, pid: 911, text: "INFO child process started: /var/tmp/.cache/kworkerd" }
+      logins:
+        - { user: ir, from: 10.95.0.66, at: "Sat Dec 11 09:02" }
+        - { user: admin-resa, from: 10.95.0.31, at: "Wed Dec  8 10:14", until: "10:40  (00:26)" }
+
+  - id: base
+    hostname: base.albe.test
+    ip: 10.95.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 420, z: 0, h: 120 }
+    services:
+      - { port: 5432, name: postgresql, product: PostgreSQL 15 }
+
+dns:
+  albe.test: { A: ["10.95.0.10"] }
+  catalogue.albe.test: { A: ["10.95.0.21"] }
+  reservations.albe.test: { A: ["10.95.0.22"] }
+  base.albe.test: { A: ["10.95.0.30"] }
+
+# The published weakness of the fictional logging library, for `sbom --vuln`.
+advisories:
+  - id: BRX-2027-1210
+    package: carnet-core
+    versions: ["2.0.0", "2.10.0", "2.13.3", "2.14.0", "2.14.1", "2.15.0", "2.16.0"]
+    severity: critical
+    summary: adv.carnet
+    fixed: "2.17.1"
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

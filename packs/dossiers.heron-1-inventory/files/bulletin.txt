@@ -1,0 +1,12 @@
+BRX-2027-1210 - carnet-core - CRITICAL - published 2027-12-10 21:30 CET
+
+Affected: carnet-core 2.0.0 to 2.14.1.
+Impact: when an application logs a text that contains a remote lookup (%{distant:...}),
+carnet-core resolves it, contacts the server it names and may load and run a class from it.
+Any logged field counts: a search box, a user name, a request header.
+
+Fix: carnet-core 2.15.0 (released tonight).
+Until you can upgrade: block outgoing connections from affected servers.
+
+Update 2027-12-10 22:40: 2.15.0 is NOT enough in every configuration.
+Upgrade to 2.17.1.

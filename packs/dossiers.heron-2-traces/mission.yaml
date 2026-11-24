@@ -1,0 +1,129 @@
+# Case file 25, mission 2: Saturday morning. Live scans carry a (fictional) remote lookup in their
+# User-Agent: the player writes the rule. The firewall log of Friday night shows the booking server
+# called out at 21:47, before the egress block; `ps` and `ss` show the miner it started. Nothing
+# can fail: the fixes of mission 1 hold, the scans hit closed doors.
+side: defense
+order: 2
+startTime: "2027-12-11T09:00:00+01:00"
+stage: defense
+briefing: h2.briefing
+reveal: [portail, catalogue, reservations, base]
+
+config:
+  he.egress: true
+  he.patched: true
+
+files:
+  regles/recherche-distante.yml: |
+    title: Remote lookup in a request
+    source: access
+  traces/pare-feu-vendredi.log: { $file: files/pare-feu-vendredi.log }
+
+adversary:
+  id: scanners
+  name: unknown
+  from: portail
+  pace: 1
+  delay: 0
+  steps:
+    - { id: s1, host: catalogue, source: access, fields: { src: 203.0.113.14, method: GET, path: "/", status: 200, ua: "%{distant:ldap://198.51.100.23:1389/a}" } }
+    - { id: s2, host: catalogue, source: access, fields: { src: 192.0.2.81, method: GET, path: "/recherche", status: 200, ua: "%{distant:ldap://198.51.100.61:1389/x}" } }
+    - { id: s3, host: reservations, source: access, fields: { src: 203.0.113.14, method: GET, path: "/login", status: 200, ua: "%{distant:ldap://198.51.100.23:1389/a}" } }
+    - { id: s4, host: reservations, source: flow, fields: { action: deny, src: 10.95.0.22, dst: 198.51.100.23, dport: 1389, bytes: 0 } }
+    - { id: s5, host: catalogue, source: access, fields: { src: 198.51.100.200, method: GET, path: "/", status: 200, ua: "%{distant:dns://198.51.100.9/c}" } }
+
+# Ordinary readers searching the catalogue and booking rooms.
+background:
+  - { host: catalogue, source: access, every: 2, offset: 0, fields: { src: 10.95.0.140, method: GET, path: "/recherche", status: 200, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/120.0" } }
+  - { host: catalogue, source: access, every: 3, offset: 1, fields: { src: 10.95.0.152, method: GET, path: "/notice/48211", status: 200, ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) Safari/604.1" } }
+  - { host: reservations, source: access, every: 4, offset: 2, fields: { src: 10.95.0.163, method: POST, path: "/salle/3", status: 302, ua: "Mozilla/5.0 (X11; Linux x86_64) Chrome/119.0" } }
+  - { host: catalogue, source: access, every: 5, offset: 3, fields: { src: 10.95.0.170, method: GET, path: "/distant/aide", status: 404, ua: "curl/8.4.0" } }
+
+containment:
+  - id: isolate
+    action: isolate
+    target: reservations
+    text: h2.contain.isolate
+    sets: { he.isolated: true }
+    impact: 2
+
+objectives:
+  - { id: rule, text: h2.obj.rule }
+  - { id: when, text: h2.obj.when }
+  - { id: what, text: h2.obj.what }
+  - { id: stop, text: h2.obj.stop }
+  - { id: next, text: h2.obj.next }
+
+investigation:
+  - { id: when, text: h2.q.when, value: "21:47", points: 75, objective: when }
+  - { id: what, text: h2.q.what, value: "kworkerd", points: 75, objective: what }
+
+hunts:
+  - id: lookup
+    file: regles/recherche-distante.yml
+    catch: { source: access, where: { ua: { contains: "%{distant:" } } }
+    objective: rule
+
+questions:
+  - id: next
+    text: h2.q.next
+    objective: next
+    correct: rebuild
+    options:
+      - { id: rebuild, text: h2.q.next.rebuild }
+      - { id: kill, text: h2.q.next.kill, why: h2.q.next.kill.why }
+      - { id: wait, text: h2.q.next.wait, why: h2.q.next.wait.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h2.ada.brief
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: h2.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: h2.ada.rule
+  - on: { event: ObjectiveCompleted, objective: when }
+    do:
+      - ada.say: h2.ada.when
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: h2.ada.what
+  - on: { event: Contained, containment: isolate }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: stop }, { objective: what }] }
+    do:
+      - ada.say: h2.ada.stopped
+      - ada.ask: next
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h2.ada.done
+
+guide:
+  rule: h2.ada.g.rule
+  when: h2.ada.g.when
+  what: h2.ada.g.what
+  stop: h2.ada.g.stop
+  next: h2.ada.g.next
+
+hints:
+  rule: [h2.hint.rule.1, h2.hint.rule.2]
+  when: [h2.hint.when.1, h2.hint.when.2]
+  what: [h2.hint.what.1, h2.hint.what.2]
+  stop: [h2.hint.stop.1]
+
+debrief:
+  title: h2.debrief.title
+  lesson: h2.debrief.lesson
+  points: [h2.debrief.p1, h2.debrief.p2, h2.debrief.p3]
+  reference: "CSRB · Review of the December 2021 Log4j Event"
+  facts:
+    title: h2.facts.title
+    points: [h2.facts.p1, h2.facts.p2, h2.facts.p3, h2.facts.p4, h2.facts.p5]
+    sources:
+      - { label: "Apache Software Foundation, Apache Log4j CVEs (December 2021)", url: "https://news.apache.org/foundation/entry/apache-log4j-cves" }
+      - { label: "Cyber Safety Review Board, Review of the December 2021 Log4j Event (July 2022)", url: "https://www.cisa.gov/sites/default/files/publications/CSRB-Report-on-Log4-July-11-2022_508.pdf" }

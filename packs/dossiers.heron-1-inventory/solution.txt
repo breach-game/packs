@@ -1,0 +1,10 @@
+# Case file 25, mission 1: the shortest path, replayed by CI in every language.
+cat bulletin/BRX-2027-1210.txt
+sbom inventaire --vuln
+answer listed catalogue
+unzip -l inventaire/reservations/reservations.jar
+answer hidden reservations
+contain block sortie-reservations
+deploy
+deploy catalogue 4.2.1
+answer logged

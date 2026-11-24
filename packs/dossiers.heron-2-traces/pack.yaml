@@ -1,0 +1,16 @@
+id: dossiers.heron-2-traces
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.heron-world]
+title:
+  fr: "Dossier 25 · 2. Samedi matin"
+  en: "Case file 25 · 2. Saturday morning"
+summary:
+  fr: "Les balayages continuent. Tu écris la règle qui les repère, tu retrouves dans le pare-feu l'heure où un serveur a répondu avant la parade, tu identifies ce qui tourne depuis, puis tu décides du sort du serveur. La dernière mission raconte les faits, sources à l'appui."
+  en: "The scans go on. You write the rule that spots them, find in the firewall log the time a server answered before the stopgap, identify what has been running since, then decide the server's fate. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, linux, defense]
+minutes: 15

@@ -1,0 +1,113 @@
+# Case file 25, mission 1: Friday night, the advisory is out. Inventory with `sbom`, the vendor
+# archive that hides the library, egress cut for what cannot be patched, and a first fix that is
+# not enough. Defence only: no request ever carries the lookup.
+side: defense
+order: 1
+stage: defense
+briefing: h1.briefing
+reveal: [portail, catalogue, reservations]
+
+files:
+  bulletin/BRX-2027-1210.txt: { $file: files/bulletin.txt }
+  inventaire/portail/package-lock.json: { $file: files/package-lock.json }
+  inventaire/catalogue/bom.json: { $file: files/catalogue-bom.json }
+  inventaire/reservations/bom.json: { $file: files/reservations-bom.json }
+  inventaire/reservations/reservations.jar:
+    $archive:
+      format: zip
+      files:
+        META-INF/MANIFEST.MF: "Manifest-Version: 1.0\nMain-Class: fr.resaplus.Main\nImplementation-Version: 3.1.0\n"
+        BOOT-INF/classes/application.properties: "server.port=8443\nresa.sites=12\n"
+        BOOT-INF/lib/resa-core-3.1.0.jar: { $binary: { format: data, strings: ["resa-core 3.1.0"] } }
+        BOOT-INF/lib/pont-web-5.3.2.jar: { $binary: { format: data, strings: ["pont-web 5.3.2"] } }
+        BOOT-INF/lib/carnet-core-2.14.1.jar: { $binary: { format: data, strings: ["carnet-core 2.14.1", "lookup: distant"] } }
+        BOOT-INF/lib/pool-sql-8.0.4.jar: { $binary: { format: data, strings: ["pool-sql 8.0.4"] } }
+
+releases:
+  - service: catalogue
+    current: "4.1.7"
+    versions:
+      - { version: "4.1.7" }
+      - { version: "4.2.0", sets: { he.partial: true }, impact: 1 }
+      - { version: "4.2.1", sets: { he.patched: true }, impact: 1 }
+
+containment:
+  - id: egress
+    action: block
+    target: sortie-reservations
+    text: h1.contain.egress
+    sets: { he.egress: true }
+    impact: 1
+
+objectives:
+  - { id: listed, text: h1.obj.listed }
+  - { id: hidden, text: h1.obj.hidden }
+  - { id: shield, text: h1.obj.shield }
+  - { id: patch, text: h1.obj.patch }
+  - { id: why, text: h1.obj.why }
+
+investigation:
+  - { id: listed, text: h1.q.listed, value: "catalogue", points: 50, objective: listed }
+  - { id: hidden, text: h1.q.hidden, value: "reservations", points: 75, objective: hidden }
+
+questions:
+  - id: why
+    text: h1.q.why
+    objective: why
+    correct: logged
+    options:
+      - { id: logged, text: h1.q.why.logged }
+      - { id: admin, text: h1.q.why.admin, why: h1.q.why.admin.why }
+      - { id: system, text: h1.q.why.system, why: h1.q.why.system.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: listed }
+    do:
+      - ada.say: h1.ada.listed
+  - on: { event: ObjectiveCompleted, objective: hidden }
+    do:
+      - ada.say: h1.ada.hidden
+  - on: { event: Contained, containment: egress }
+    do:
+      - objective.complete: shield
+  - on: { event: ObjectiveCompleted, objective: shield }
+    do:
+      - ada.say: h1.ada.shield
+  - on: { event: ConfigPatched }
+    if: { all: [{ config: he.partial, eq: true }, { config: he.patched, eq: false }] }
+    do:
+      - ada.warn: h1.ada.partial
+  - on: { event: ConfigPatched }
+    if: { config: he.patched, eq: true }
+    do:
+      - objective.complete: patch
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: patch }, { objective: shield }] }
+    do:
+      - ada.say: h1.ada.patched
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h1.ada.done
+
+guide:
+  listed: h1.ada.g.listed
+  hidden: h1.ada.g.hidden
+  shield: h1.ada.g.shield
+  patch: h1.ada.g.patch
+  why: h1.ada.g.why
+
+hints:
+  listed: [h1.hint.listed.1, h1.hint.listed.2]
+  hidden: [h1.hint.hidden.1, h1.hint.hidden.2]
+  shield: [h1.hint.shield.1]
+  patch: [h1.hint.patch.1, h1.hint.patch.2]
+
+debrief:
+  title: h1.debrief.title
+  lesson: h1.debrief.lesson
+  points: [h1.debrief.p1, h1.debrief.p2, h1.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"

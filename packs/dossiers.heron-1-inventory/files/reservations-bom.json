@@ -1,0 +1,8 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "metadata": { "component": { "name": "resa-plus", "version": "3.1.0", "supplier": { "name": "Resa+ (vendor)" } } },
+  "components": [
+    { "type": "application", "name": "resa-plus", "version": "3.1.0" }
+  ]
+}
