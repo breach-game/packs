@@ -117,7 +117,8 @@ hosts:
             uploader.sh: { $file: files/uploader.sh }
       srv:
         get:
-          uploader.sh: { $file: files/uploader.sh }
+          # The publishing account owns what it publishes: that is the whole problem.
+          uploader.sh: { $content: { $file: files/uploader.sh }, $owner: release }
       var:
         log:
           get:
