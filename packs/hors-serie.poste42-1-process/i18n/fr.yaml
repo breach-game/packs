@@ -1,5 +1,5 @@
 p1.briefing: "Lundi, 8 h 40. Le pare-feu du Laboratoire Ombelle signale le poste de paillasse 42 : une connexion vers une adresse jamais vue, toutes les cinq minutes, depuis une semaine. Le rapport est dans `alertes/`. Le laboratoire t'a ouvert un accès en lecture seule au poste (compte `ir`). Les mesures passent par `contain`."
-p1.obj.remote: "Trouver quel programme du poste parle à l'adresse inconnue"
+p1.obj.remote: "Trouver quel programme du poste parle à l'extérieur, et vers quelle adresse (answer remote)"
 p1.obj.restart: "Comprendre pourquoi l'arrêter vendredi n'a servi à rien"
 p1.obj.stop: "Arrêter ce qui le relance"
 p1.obj.check: "Vérifier sur le poste qu'il ne tourne plus"

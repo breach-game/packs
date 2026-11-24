@@ -7,6 +7,7 @@ files:
   garde-fous/batisseur.yml: |
     # Batisseur's tool calls. Block the ones it must never make on its own.
     # One condition per line; a call is blocked when it meets them all.
+    # Fields of each call: tool, env (prod or dev), writes (yes or no), approved (yes or no)
   dossier/conversation.txt: { $file: files/conversation.txt }
   dossier/sauvegardes.txt: { $file: files/sauvegardes.txt }
 

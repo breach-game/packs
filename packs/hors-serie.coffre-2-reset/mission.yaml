@@ -51,9 +51,21 @@ rules:
   - on: { event: ObjectiveCompleted, objective: forge }
     do:
       - ada.say: c2.ada.forge
+  - on: { event: ObjectiveCompleted, objective: forge }
+    if: { not: { all: [{ objective: token }, { objective: life }] } }
+    do:
+      - ada.say: c2.ada.forge.next
   - on: { event: ObjectiveCompleted, objective: token }
     do:
       - ada.say: c2.ada.token
+  - on: { event: ObjectiveCompleted, objective: token }
+    if: { not: { objective: life } }
+    do:
+      - ada.say: c2.ada.token.next
+  - on: { event: ObjectiveCompleted, objective: life }
+    if: { not: { objective: token } }
+    do:
+      - ada.say: c2.ada.life
   - on: { event: Verified }
     if: { not: { all: [{ objective: token }, { objective: life }] } }
     once: false

@@ -31,7 +31,8 @@ files:
 containment:
   - id: poste
     action: isolate
-    target: cao-07
+    # A neutral target, so that `contain` alone does not give the `poste` answer.
+    target: poste-cle
     text: b2.contain.poste
     sets: { ga.cao_isolated: true }
     impact: 1

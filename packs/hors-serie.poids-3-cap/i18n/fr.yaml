@@ -23,7 +23,7 @@ p3.ada.key: "`cle-demo-site` : la clé du bouton « Essayer » de la page d'accu
 p3.ada.g.caps: "`cat api/limites.yml` : chaque ligne donne ses valeurs possibles après le `#`. Choisis celle qui pose une limite avec `sed -i` ou `edit`, puis `verify`."
 p3.ada.g.caps.standard: "Corrige `api/limites.yml`, puis lance `verify`."
 p3.ada.almost: "Pas encore. `verify` te dit quelles lignes ne vont pas."
-p3.ada.caps: "Quatre plafonds : par minute, par réponse, par mois, et une clé de démonstration qui ne peut plus dépenser l'argent des autres. Aucun n'empêche un client de travailler. Maintenant le devis : `cat devis/reponse.txt`, puis cherche la norme dans le catalogue."
+p3.ada.caps: "Quatre plafonds : par minute, par réponse, par mois, et une clé de démonstration qui ne peut plus dépenser l'argent des autres. Aucun n'empêche un client de travailler. Maintenant le devis."
 p3.ada.g.invented: "Lis `cat devis/reponse.txt`, puis cherche la référence : `grep -c \"4471\" devis/catalogue-normes.txt`. Réponds avec `answer invented <nombre>`."
 p3.ada.g.invented.standard: "Cherche dans `devis/catalogue-normes.txt` la norme que le modèle a citée, et dis combien de lignes la contiennent."
 p3.ada.invented: "Zéro. La norme sur l'épaisseur des parois existe, elle s'appelle NF-CUVE 3052, et le modèle en a fabriqué une autre qui sonne juste : le bon préfixe, un numéro plausible, un article, et « vous pouvez la citer telle quelle ». Il n'a pas menti. Il a écrit ce qui ressemblait le plus à une bonne réponse. Une question."

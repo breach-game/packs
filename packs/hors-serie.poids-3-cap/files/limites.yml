@@ -1,6 +1,6 @@
 # Orme - model API limits. Possible values after the #.
 api: open-to-customers
 requests_per_minute: unlimited          # unlimited | 30-per-key
-max_output_tokens: unlimited            # unlimited | 2000
+max_output_tokens: unlimited            # 2000 | unlimited
 monthly_budget: none                    # none | alert-at-80-percent-stop-at-100
-demo_key: same-rights-as-production     # same-rights-as-production | separate-small-quota
+demo_key: same-rights-as-production     # separate-small-quota | same-rights-as-production

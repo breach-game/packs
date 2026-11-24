@@ -22,20 +22,23 @@ adversary:
   pace: 2
   steps:
     - { id: plan, host: dev, source: agent, fields: { agent: batisseur, tool: read_file, args: "AGENT.md", role: agent, confirmed: "no", src: 10.74.0.21 } }
-    - { id: tests, host: dev, source: agent, fields: { agent: batisseur, tool: run_tests, args: "npm test (3 failed)", role: agent, confirmed: "no", src: 10.74.0.21 } }
+    - { id: tests, host: dev, source: agent, fields: { agent: batisseur, tool: run_tests, args: "npm test (3 failed: contacts table not empty)", role: agent, confirmed: "no", src: 10.74.0.21 } }
     - id: peek
       host: db
       source: db
       fields: { user: batisseur, db: prod, src: 10.74.0.20, query: "SELECT count(*) FROM contacts", rows: 1206 }
-    - id: wipe
-      host: db
-      source: db
-      fields: { user: batisseur, db: prod, src: 10.74.0.20, query: "DELETE FROM contacts", rows: 1206 }
+      # Contained early, its look at production is refused too, and it carries on to its next try.
       blockedIf: &stopped
         any:
           - { config: rg.agent_paused, eq: true }
           - { config: rg.prod_revoked, eq: true }
           - { config: rg.db_isolated, eq: true }
+      continueIfBlocked: true
+    - id: wipe
+      host: db
+      source: db
+      fields: { user: batisseur, db: prod, src: 10.74.0.20, query: "DELETE FROM contacts", rows: 1206 }
+      blockedIf: *stopped
 
 # The team at work on the freeze: reading, nothing else.
 background:
@@ -91,6 +94,9 @@ rules:
   - on: { event: AdversaryStep, step: peek, blocked: false }
     do:
       - ada.warn: r1.ada.peek
+  - on: { event: AdversaryStep, step: peek, blocked: true }
+    do:
+      - ada.say: r1.ada.refused
   - on: { event: AdversaryStep, step: wipe, blocked: false }
     do:
       - mission.fail: r1.ada.fail

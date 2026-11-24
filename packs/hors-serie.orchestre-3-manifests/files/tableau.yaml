@@ -4,6 +4,9 @@ metadata:
   name: tableau-reglages
   namespace: supervision
 data:
+  # Values this dashboard knows:
+  #   auth                none | oidc   (oidc: the company's single sign-on)
+  #   expose_kubeconfig   "true" | "false"
   host: tableau.ondine.test
   auth: none
   expose_kubeconfig: "true"

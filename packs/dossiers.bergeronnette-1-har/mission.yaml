@@ -34,9 +34,13 @@ rules:
       - objective.complete: har
       - host.reveal: admin
       - ada.guide: { key: b1.ada.jq, for: console, step: 1 }
+  - on: { event: CommandRun, command: jq }
+    if: { objective: har }
+    do:
+      - ada.guide: { key: b1.ada.g.console, for: console, step: 2 }
   - on: { event: HttpRequest, host: admin, path: /console, variant: session }
     do:
-      - ada.guide: { key: b1.ada.inside, for: console, step: 2 }
+      - ada.guide: { key: b1.ada.inside, for: console, step: 3 }
   - on: { event: ObjectiveCompleted, objective: console }
     do:
       - ada.say: b1.ada.stop

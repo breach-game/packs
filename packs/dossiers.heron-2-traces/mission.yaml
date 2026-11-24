@@ -15,6 +15,7 @@ config:
 
 files:
   regles/recherche-distante.yml: |
+    # fields of source access: src, method, path, status, ua (the User-Agent header)
     title: Remote lookup in a request
     source: access
   traces/pare-feu-vendredi.log: { $file: files/pare-feu-vendredi.log }

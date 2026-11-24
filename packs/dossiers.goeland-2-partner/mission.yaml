@@ -13,6 +13,8 @@ reveal: [passerelle, partage, www]
 config:
   az.script_restored: true
   az.domain_blocked: true
+  az.partner_disabled: false
+  az.admin_rotated: false
 
 files:
   note.txt: { $file: files/note.txt }
@@ -26,6 +28,7 @@ objectives:
   - { id: account, text: c2.obj.account }
   - { id: address, text: c2.obj.address }
   - { id: clear, text: c2.obj.clear }
+  - { id: close, text: c2.obj.close }
   - { id: policy, text: c2.obj.policy }
   - { id: partners, text: c2.obj.partners }
   - { id: story, text: c2.obj.story }
@@ -44,6 +47,21 @@ questions:
       - { id: one, text: c2.q.partners.one, impact: 1 }
       - { id: all, text: c2.q.partners.all, impact: 3 }
       - { id: watch, text: c2.q.partners.watch, impact: 4 }
+
+# The intruder signed in again this morning: close the account in use and change the stolen password.
+containment:
+  - id: account
+    action: disable
+    target: compte-vole
+    text: c2.contain.account
+    sets: { az.partner_disabled: true }
+    impact: 1
+  - id: password
+    action: rotate
+    target: mot-de-passe-admin
+    text: c2.contain.password
+    sets: { az.admin_rotated: true }
+    impact: 0
 
 checks:
   - id: factor
@@ -92,6 +110,32 @@ rules:
   - on: { event: ObjectiveCompleted, objective: clear }
     do:
       - ada.say: c2.ada.clear
+  - on: { event: ObjectiveCompleted, objective: clear }
+    if: { not: { objective: close } }
+    do:
+      - ada.say: c2.ada.clear.close
+  - id: close-a
+    on: { event: Contained, containment: account }
+    if: { config: az.admin_rotated, eq: true }
+    do:
+      - objective.complete: close
+  - id: close-b
+    on: { event: Contained, containment: password }
+    if: { config: az.partner_disabled, eq: true }
+    do:
+      - objective.complete: close
+  - on: { event: ObjectiveCompleted, objective: close }
+    do:
+      - ada.say: c2.ada.close
+  - on: { event: ObjectiveCompleted, objective: close }
+    if: { not: { objective: policy } }
+    do:
+      - ada.say: c2.ada.close.next
+  - on: { event: ObjectiveCompleted, objective: close }
+    if: { objective: policy }
+    do:
+      - ada.say: c2.ada.decide
+      - ada.ask: partners
   - on: { event: Verified }
     if: { not: { objective: policy } }
     once: false
@@ -100,6 +144,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: policy }
     do:
       - ada.say: c2.ada.policy
+  - on: { event: ObjectiveCompleted, objective: policy }
+    if: { objective: close }
+    do:
+      - ada.say: c2.ada.decide
       - ada.ask: partners
   - on: { event: ObjectiveCompleted, objective: partners }
     do:
@@ -112,6 +160,7 @@ guide:
   account: c2.ada.g.account
   address: c2.ada.g.address
   clear: c2.ada.g.clear
+  close: c2.ada.g.close
   policy: c2.ada.g.policy
   partners: c2.ada.g.partners
   story: c2.ada.g.story
@@ -120,6 +169,7 @@ hints:
   account: [c2.hint.account.1, c2.hint.account.2]
   address: [c2.hint.address.1, c2.hint.address.2]
   clear: [c2.hint.clear.1, c2.hint.clear.2]
+  close: [c2.hint.close.1]
   policy: [c2.hint.policy.1, c2.hint.policy.2]
   story: [c2.hint.story.1, c2.hint.story.2]
 

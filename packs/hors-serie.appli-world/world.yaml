@@ -76,6 +76,7 @@ hosts:
                     - "staff"
                     - "client"
                     - "X-Cabas-Cle"
+                    - "/v4/partenaires/stock"
                     - "partner_key"
                     - "SharedPreferences: jeton_session"
                     - "afficher le menu si role == staff"
@@ -94,6 +95,10 @@ hosts:
       "/v4/catalogue":
         headers: { content-type: application/json }
         body: "{\"rayons\": [\"fruits-legumes\", \"boulangerie\", \"epicerie\", \"frais\"], \"livraison_minutes\": 60}\n"
+      "/v4/commandes":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"erreur\": \"session manquante\"}\n"
       "/v4/partenaires/stock":
         status: 401
         headers: { content-type: application/json }
@@ -109,6 +114,10 @@ hosts:
             status: 401
             headers: { content-type: application/json }
             body: "{\"erreur\": \"cle partenaire revoquee\"}\n"
+      "/v4/interne/remboursements/C-58213/valider":
+        status: 403
+        headers: { content-type: application/json }
+        body: "{\"erreur\": \"action hors mandat\"}\n"
       "/v4/interne/remboursements":
         status: 403
         headers: { content-type: application/json }

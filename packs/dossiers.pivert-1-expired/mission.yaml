@@ -33,7 +33,7 @@ adversary:
 background:
   - { host: sso, source: auth, every: 2, offset: 0, fields: { src: 192.0.2.41, user: agent-021, method: "password+sms-code" } }
   - { host: sso, source: auth, every: 3, offset: 1, fields: { src: 198.51.100.73, user: agent-014, method: "password+sms-code" } }
-  - { host: sso, source: auth, every: 4, offset: 2, fields: { src: 192.0.2.118, user: dev-033, method: "password+sms-code" } }
+  - { host: sso, source: auth, every: 4, offset: 2, fields: { src: 192.0.2.118, user: dev-071, method: "password+sms-code" } }
 
 containment:
   - id: sessions
@@ -44,7 +44,7 @@ containment:
     impact: 1
   - id: domain
     action: block
-    target: semaphore-sso.example
+    target: faux-site
     text: c1.contain.domain
     sets: { sm.domain_blocked: true }
     impact: 0
@@ -79,6 +79,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: count }
     do:
       - ada.say: c1.ada.count
+  - on: { event: ObjectiveCompleted, objective: count }
+    if: { not: { objective: close } }
+    do:
+      - ada.say: c1.ada.count.close
   - id: close-a
     on: { event: Contained, containment: sessions }
     if: { config: sm.domain_blocked, eq: true }

@@ -90,6 +90,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: source }
     do:
       - ada.say: c1.ada.source
+  - on: { event: ObjectiveCompleted, objective: source }
+    if: { not: { objective: close } }
+    do:
+      - ada.say: c1.ada.source.close
   - id: close-a
     on: { event: Contained, containment: sessions }
     if: { config: lc.passwords_reset, eq: true }

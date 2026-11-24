@@ -86,6 +86,11 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
             body: "NAME                         READY   STATUS    RESTARTS   AGE\nlecteur-7f9c4                1/1     Running   0          6d\nlecteur-b21e0                1/1     Running   0          6d\nrecommandations-5d8aa        1/1     Running   2          13d\npasserelle-audio-90c1f       1/1     Running   0          2d\n"
@@ -93,6 +98,11 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
             body: "NAMESPACE     NAME                         READY   STATUS    RESTARTS   AGE\ncatalogue     catalogue-api-66a2b          1/1     Running   0          9d\ndiffusion     lecteur-7f9c4                1/1     Running   0          6d\ndiffusion     lecteur-b21e0                1/1     Running   0          6d\ndiffusion     recommandations-5d8aa        1/1     Running   2          13d\ndiffusion     passerelle-audio-90c1f       1/1     Running   0          2d\nkube-system   coredns-7db6d-x2k4p          1/1     Running   0          41d\nkube-system   outil-debug                  1/1     Running   0          58d\nsupervision   tableau-5c7e1                1/1     Running   0          3d\n"
@@ -100,6 +110,11 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
             body: "NAME               DATA   AGE\nkube-root-ca.crt   1      41d\nlecteur-reglages   4      6d\nnotes-equipe       1      3d\n"
@@ -107,6 +122,11 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
             body: "Name:         notes-equipe\nNamespace:    diffusion\nLabels:       equipe=supervision\n\nData\n====\nnote.txt:\n----\nTableau ouvert sans connexion pour le week-end de la sortie. A refermer lundi.\nRepere de test : FLAG{ondine-tableau-ouvert-3c7a}\n\nEvents:  <none>\n"
@@ -117,6 +137,11 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
             body: "Name:             lecteur-7f9c4\nNamespace:        diffusion\nNode:             noeud-2/10.91.0.22\nStatus:           Running\nControlled By:    ReplicaSet/lecteur-7f9\nContainers:\n  lecteur:\n    Image:          registre.ondine.test/lecteur:3.8.2\n    Port:           8080/TCP\n    Environment:\n      CATALOGUE_URL:   http://catalogue-api.catalogue:8080\n      CACHE_TAILLE:    2Gi\n      LICENCE_DRM:     FLAG{ondine-env-en-clair-81d2}\n      BASE_MOTDEPASSE: <set to the key 'motdepasse' in secret 'lecteur-base'>\n    Mounts:\n      /var/cache/lecteur from cache (rw)\nEvents:  <none>\n"
@@ -124,9 +149,218 @@ hosts:
         status: 403
         body: ""
         variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
           - id: token
             header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
-            body: "Name:             outil-debug\nNamespace:        kube-system\nNode:             noeud-1/10.91.0.21\nStart Time:       Sat, 04 Oct 2027 16:12:40 +0200\nAnnotations:      cree-par: stagiaire-infra (test reseau, a supprimer)\nStatus:           Running\nContainers:\n  debug:\n    Image:          registre.ondine.test/outils-reseau:1.0\n    Command:        sleep infinity\n    Security Context:\n      Privileged:   true\n    Mounts:\n      /hote from racine-noeud (rw)\nVolumes:\n  racine-noeud:\n    Type:          HostPath (bare host directory volume)\n    Path:          /\nHost Network:     true\nEvents:  <none>\n"
+            body: "Name:             outil-debug\nNamespace:        kube-system\nNode:             noeud-1/10.91.0.21\nStart Time:       Sat, 02 Oct 2027 16:12:40 +0200\nAnnotations:      cree-par: stagiaire-infra (test reseau, a supprimer)\nStatus:           Running\nContainers:\n  debug:\n    Image:          registre.ondine.test/outils-reseau:1.0\n    Command:        sleep infinity\n    Security Context:\n      Privileged:   true\n    Mounts:\n      /hote from racine-noeud (rw)\nVolumes:\n  racine-noeud:\n    Type:          HostPath (bare host directory volume)\n    Path:          /\nHost Network:     true\nEvents:  <none>\n"
+      "/api/v1/namespaces/catalogue/pods/catalogue-api-66a2b":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\ncatalogue-api-66a2b          1/1     Running   0          9d\n"
+      "/api/v1/namespaces/diffusion/pods/lecteur-7f9c4":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\nlecteur-7f9c4                1/1     Running   0          6d\n"
+      "/api/v1/namespaces/diffusion/pods/lecteur-b21e0":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\nlecteur-b21e0                1/1     Running   0          6d\n"
+      "/api/v1/namespaces/diffusion/pods/recommandations-5d8aa":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\nrecommandations-5d8aa        1/1     Running   2          13d\n"
+      "/api/v1/namespaces/diffusion/pods/passerelle-audio-90c1f":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\npasserelle-audio-90c1f       1/1     Running   0          2d\n"
+      "/api/v1/namespaces/kube-system/pods/coredns-7db6d-x2k4p":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\ncoredns-7db6d-x2k4p          1/1     Running   0          41d\n"
+      "/api/v1/namespaces/kube-system/pods/outil-debug":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\noutil-debug                  1/1     Running   0          58d\n"
+      "/api/v1/namespaces/supervision/pods/tableau-5c7e1":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\ntableau-5c7e1                1/1     Running   0          3d\n"
+      "/api/v1/namespaces/diffusion/configmaps/kube-root-ca.crt":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME               DATA   AGE\nkube-root-ca.crt   1      41d\n"
+      "/api/v1/namespaces/diffusion/configmaps/lecteur-reglages":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME               DATA   AGE\nlecteur-reglages   4      6d\n"
+      "/api/v1/namespaces/diffusion/configmaps/notes-equipe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME               DATA   AGE\nnotes-equipe       1      3d\n"
+      "/api/v1/namespaces/diffusion/pods/lecteur-b21e0/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             lecteur-b21e0\nNamespace:        diffusion\nNode:             noeud-3/10.91.0.23\nStatus:           Running\nControlled By:    ReplicaSet/lecteur-7f9\nContainers:\n  lecteur:\n    Image:          registre.ondine.test/lecteur:3.8.2\n    Port:           8080/TCP\n    Environment:\n      CATALOGUE_URL:   http://catalogue-api.catalogue:8080\n      CACHE_TAILLE:    2Gi\n      LICENCE_DRM:     FLAG{ondine-env-en-clair-81d2}\n      BASE_MOTDEPASSE: <set to the key 'motdepasse' in secret 'lecteur-base'>\n    Mounts:\n      /var/cache/lecteur from cache (rw)\nEvents:  <none>\n"
+      "/api/v1/namespaces/diffusion/pods/recommandations-5d8aa/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             recommandations-5d8aa\nNamespace:        diffusion\nNode:             noeud-1/10.91.0.21\nStatus:           Running\nControlled By:    ReplicaSet/recommandations-5d8\nContainers:\n  recommandations:\n    Image:          registre.ondine.test/recommandations:2.4.0\n    Port:           8080/TCP\n    Environment:\n      CATALOGUE_URL: http://catalogue-api.catalogue:8080\n      MODELE:        /modeles/reco-hiver\nEvents:  <none>\n"
+      "/api/v1/namespaces/diffusion/pods/passerelle-audio-90c1f/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             passerelle-audio-90c1f\nNamespace:        diffusion\nNode:             noeud-3/10.91.0.23\nStatus:           Running\nControlled By:    ReplicaSet/passerelle-audio-90c\nContainers:\n  passerelle-audio:\n    Image:          registre.ondine.test/passerelle-audio:1.6.1\n    Port:           8443/TCP\n    Environment:\n      DEBIT_MAX:     320k\nEvents:  <none>\n"
+      "/api/v1/namespaces/catalogue/pods/catalogue-api-66a2b/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             catalogue-api-66a2b\nNamespace:        catalogue\nNode:             noeud-2/10.91.0.22\nStatus:           Running\nControlled By:    ReplicaSet/catalogue-api-66a\nContainers:\n  catalogue-api:\n    Image:          registre.ondine.test/catalogue-api:5.1.0\n    Port:           8080/TCP\n    Environment:\n      BASE_MOTDEPASSE: <set to the key 'motdepasse' in secret 'catalogue-base'>\nEvents:  <none>\n"
+      "/api/v1/namespaces/kube-system/pods/coredns-7db6d-x2k4p/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             coredns-7db6d-x2k4p\nNamespace:        kube-system\nNode:             noeud-1/10.91.0.21\nStatus:           Running\nControlled By:    ReplicaSet/coredns-7db6d\nContainers:\n  coredns-7db6d:\n    Image:          registry.k8s.example/coredns:1.11.3\n    Port:           53/TCP\nEvents:  <none>\n"
+      "/api/v1/namespaces/supervision/pods/tableau-5c7e1/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: revoked
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: ""
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             tableau-5c7e1\nNamespace:        supervision\nNode:             noeud-2/10.91.0.22\nStatus:           Running\nControlled By:    ReplicaSet/tableau-5c7\nContainers:\n  tableau:\n    Image:          registre.ondine.test/tableau:0.9.4\n    Port:           8443/TCP\n    Environment:\n      AUTH:          none\n      EXPOSE_KUBECONFIG: true\nEvents:  <none>\n"
 
 dns:
   ondine.test: { A: ["10.91.0.30"] }

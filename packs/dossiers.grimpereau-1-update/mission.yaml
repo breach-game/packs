@@ -10,6 +10,7 @@ reveal: [supervision, dns]
 files:
   traces/avis-sentinelle.txt: { $file: files/avis-sentinelle.txt }
   regles/balise-vigie.yml: |
+    # fields of source dns: src, name (the queried name, printed after "query:"), rtype
     title: The Vigie server talks to the vendor's beacon domain
     source: dns
 
@@ -21,7 +22,7 @@ adversary:
   delay: 0
   steps:
     - { id: b1, host: dns, source: dns, fields: { src: 10.99.0.20, name: f4k9q2.eu-ouest.nuage-vigie.example, rtype: A } }
-    - { id: b2, host: dns, source: dns, fields: { src: 10.99.0.20, name: x1m7c3.eu-ouest.nuage-vigie.example, rtype: A } }
+    - { id: b2, host: dns, source: dns, fields: { src: 10.99.0.20, name: x1m7c3.eu-ouest.nuage-vigie.example, rtype: A }, blockedIf: { config: gr.isolated, eq: true } }
     - { id: b3, host: dns, source: dns, fields: { src: 10.99.0.20, name: r6t2w8.eu-ouest.nuage-vigie.example, rtype: A }, blockedIf: { config: gr.isolated, eq: true } }
     - { id: b4, host: dns, source: dns, fields: { src: 10.99.0.20, name: h3z5n0.eu-ouest.nuage-vigie.example, rtype: A }, blockedIf: { config: gr.isolated, eq: true } }
 
@@ -78,8 +79,13 @@ rules:
     do:
       - ada.guide: { key: g1.ada.again, for: rule, step: 1 }
   - on: { event: ObjectiveCompleted, objective: rule }
+    if: { not: { config: gr.isolated, eq: true } }
     do:
       - ada.say: g1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: rule }
+    if: { config: gr.isolated, eq: true }
+    do:
+      - ada.say: g1.ada.rule.after
   - on: { event: Contained, containment: isolate }
     do:
       - objective.complete: isolate

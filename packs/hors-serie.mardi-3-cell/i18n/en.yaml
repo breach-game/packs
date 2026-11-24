@@ -30,6 +30,8 @@ m3.ada.order: "Notice the start: it all begins three days before the release, wi
 m3.ada.g.winter: "In order: the fixed version first, `deploy tournees 4.2.1`, then the option alone, `flag set planif.zones-hiver on`, then `curl -s https://planif.gavotte.test/sante`. Two separate moves, each checked."
 m3.ada.g.winter.standard: "Bring the winter zones back without replaying Tuesday night. `deploy` and `flag`, then check."
 m3.ada.deployed: "4.2.1 in place, option still off. The service answers. Now the option, on its own."
+m3.ada.deployed.on: "4.2.1 is in, the option was already on: the service is back. Next time, one move at a time."
+m3.ada.winter: "Winter zones on, on 4.2.1, 58 rounds computed. Thursday's storm can come."
 m3.ada.again: "Careful: the option on 4.2.0 is exactly Tuesday at 6:00. Switch it off, or ship 4.2.1 first."
 m3.ada.change: "One depot first, a health page that decides. Tuesday night would have cost one depot for ten minutes, and the on-call would have slept."
 m3.ada.g.change: "Think of what would have seen the crash before the drivers did, without waking anyone."

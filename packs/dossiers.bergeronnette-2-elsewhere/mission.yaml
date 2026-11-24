@@ -8,6 +8,7 @@ reveal: [admin]
 
 files:
   regles/session-ailleurs.yml: |
+    # fields of an access line: src, method, path, status, ua
     title: An admin session used from somewhere else
     source: access
 

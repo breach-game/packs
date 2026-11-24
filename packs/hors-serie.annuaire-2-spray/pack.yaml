@@ -1,5 +1,5 @@
 id: hors-serie.annuaire-2-spray
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.16 <1"
 kind: mission
 requires: [hors-serie.annuaire-world]

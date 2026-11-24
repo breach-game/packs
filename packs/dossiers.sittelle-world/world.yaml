@@ -77,6 +77,18 @@ hosts:
             header: "Sec-CH-UA-Mobile: ?1"
             headers: { content-type: application/javascript }
             body: { $file: files/compat-mobile.js }
+          - id: mobile-iphone
+            header: "User-Agent: iPhone"
+            headers: { content-type: application/javascript }
+            body: { $file: files/compat-mobile.js }
+          - id: mobile-android
+            header: "User-Agent: Android"
+            headers: { content-type: application/javascript }
+            body: { $file: files/compat-mobile.js }
+          - id: mobile-ua
+            header: "User-Agent: Mobile"
+            headers: { content-type: application/javascript }
+            body: { $file: files/compat-mobile.js }
 
   # The name server of the museums' guest Wi-Fi, run by Sittelle.
   - id: resolver

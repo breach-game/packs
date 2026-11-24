@@ -108,7 +108,7 @@ hosts:
       processes:
         - { pid: 1, ppid: 0, user: root, start: Dec01, cmd: /sbin/init }
         - { pid: 588, user: root, start: Dec01, cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
-        - { pid: 7421, user: svc-sauvegarde, start: "09:01", cpu: 6.2, mem: 1.1, cmd: "rsync -a /srv/paie/ 198.51.100.77::depot/", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
+        - { pid: 7421, user: svc-sauvegarde, start: "09:06", cpu: 6.2, mem: 1.1, cmd: "rsync -a /srv/paie/ 198.51.100.77::depot/", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
       services:
         - { name: ssh, description: OpenBSD Secure Shell server, since: "Wed 2027-12-01 07:00:03 CET", pid: 588, exec: "/usr/sbin/sshd -D", unit: /lib/systemd/system/ssh.service }
         - { name: sauvegarde-nuit, description: Sauvegarde de nuit vers le stockage, state: inactive, unit: /etc/systemd/system/sauvegarde-nuit.service }
@@ -116,13 +116,13 @@ hosts:
         - { at: "Dec 15 02:00:01", unit: sauvegarde-nuit, text: "Started sauvegarde-nuit.service - Sauvegarde de nuit vers le stockage." }
         - { at: "Dec 15 02:41:17", unit: sauvegarde-nuit, pid: 3120, text: "rsync vers stockage.ardoise.test:/volume1/nuit : 41 812 fichiers, termine" }
         - { at: "Dec 15 02:41:18", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
-        - { at: "Dec 15 09:01:02", unit: ssh, pid: 7402, text: "Accepted password for svc-sauvegarde from 198.51.100.77 port 50412 ssh2", if: { config: ad.spray.seen, eq: true } }
-        - { at: "Dec 15 09:01:15", unit: ssh, pid: 7402, text: "svc-sauvegarde : ls /srv/paie /srv/annuaire-export", if: { config: ad.spray.seen, eq: true } }
-        - { at: "Dec 15 09:01:31", unit: ssh, pid: 7402, text: "svc-sauvegarde : rsync -a /srv/paie/ 198.51.100.77::depot/", if: { config: ad.spray.seen, eq: true } }
-        - { at: "Dec 15 09:03:40", unit: ssh, pid: 7402, text: "pam_unix(sshd:session): session closed for user svc-sauvegarde (account disabled)", if: { config: ad.svc.disabled, eq: true } }
+        - { at: "Dec 15 09:05:43", unit: ssh, pid: 7402, text: "Accepted password for svc-sauvegarde from 198.51.100.77 port 50412 ssh2", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:06:00", unit: ssh, pid: 7402, text: "svc-sauvegarde : ls /srv/paie /srv/annuaire-export", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:06:03", unit: ssh, pid: 7402, text: "svc-sauvegarde : rsync -a /srv/paie/ 198.51.100.77::depot/", if: { config: ad.spray.seen, eq: true } }
+        - { at: "Dec 15 09:07:10", unit: ssh, pid: 7402, text: "pam_unix(sshd:session): session closed for user svc-sauvegarde (account disabled)", if: { config: ad.svc.disabled, eq: true } }
       logins:
-        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:01", until: "still logged in", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
-        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:01", until: "09:03  (00:02)", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: true }] } }
+        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:05", until: "still logged in", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: false }] } }
+        - { user: svc-sauvegarde, tty: pts/0, from: 198.51.100.77, at: "Wed Dec 15 09:05", until: "09:07  (00:02)", if: { all: [{ config: ad.spray.seen, eq: true }, { config: ad.svc.disabled, eq: true }] } }
         - { user: dsi-chef, tty: pts/0, from: 10.94.0.31, at: "Mon Dec 13 17:12", until: "17:20  (00:08)" }
 
   # The storage the nightly backup goes to.

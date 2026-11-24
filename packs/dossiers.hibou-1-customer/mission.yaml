@@ -38,8 +38,8 @@ questions:
     text: c1.q.tell
     objective: tell
     options:
-      - { id: patients, text: c1.q.tell.patients, impact: 2 }
-      - { id: notice, text: c1.q.tell.notice, impact: 1 }
+      - { id: patients, text: c1.q.tell.patients, impact: 1 }
+      - { id: notice, text: c1.q.tell.notice, impact: 3 }
       - { id: silent, text: c1.q.tell.silent, impact: 5 }
 
 containment:
@@ -88,6 +88,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: also }
     do:
       - ada.say: c1.ada.also
+  - on: { event: ObjectiveCompleted, objective: also }
+    if: { not: { objective: close } }
+    do:
+      - ada.say: c1.ada.also.close
   - id: close-a
     on: { event: Contained, containment: wifi }
     if: { config: ct.support_closed, eq: true }

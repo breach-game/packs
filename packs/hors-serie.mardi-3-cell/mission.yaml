@@ -71,8 +71,13 @@ rules:
     do:
       - ada.say: m3.ada.order
   - on: { event: Deployed, service: tournees, version: 4.2.1 }
+    if: { config: tr.zones, eq: false }
     do:
       - ada.say: m3.ada.deployed
+  - on: { event: Deployed, service: tournees, version: 4.2.1 }
+    if: { config: tr.zones, eq: true }
+    do:
+      - ada.say: m3.ada.deployed.on
   - on: { event: ToggleSet, name: planif.zones-hiver, value: "on" }
     if: { config: tr.v42, eq: true }
     do:
@@ -81,6 +86,9 @@ rules:
     if: { all: [{ config: tr.zones, eq: true }, { config: tr.v42, eq: false }] }
     do:
       - objective.complete: winter
+  - on: { event: ObjectiveCompleted, objective: winter }
+    do:
+      - ada.say: m3.ada.winter
   - on: { event: ObjectiveCompleted }
     if: { all: [{ objective: order }, { objective: winter }] }
     do:

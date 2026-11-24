@@ -1,4 +1,4 @@
-d2.briefing: "Your test customer account opens session `pg-client-2031` on `boutique.polygone.test`, and its invoice is number 2031. The mandate's witness account has an invoice too. Report its marker."
+d2.briefing: "Your test customer account opens session `pg-client-2031` on `boutique.polygone.test`, and its invoice is served at `/api/factures/2031`. The mandate's witness account has an invoice too. Report its marker."
 d2.obj.marker: "Report the marker on the witness account's invoice"
 d2.obj.fix: "Say how to prevent it"
 d2.q.fix: "What must the shop change?"

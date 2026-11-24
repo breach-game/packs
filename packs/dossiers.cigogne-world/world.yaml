@@ -8,7 +8,7 @@ startTime: "2029-06-12T13:40:00+02:00"
 mandate: NC-2029-027
 scope:
   domains: ["*.nacre.test"]
-  networks: ["10.110.0.0/24"]
+  networks: ["10.110.0.0/24", "10.110.4.0/24"]
 player:
   host: kestrel
   user: kestrel
@@ -33,13 +33,13 @@ hosts:
       etc:
         hostname: "lignerouge\n"
 
-  - { id: site, hostname: portefeuille.nacre.test, ip: 10.110.0.20, os: Linux, map: { x: 160, z: -40, h: 130 }, services: [{ port: 443, name: https, product: Wallet site }] }
+  - { id: site, hostname: portefeuille.nacre.test, ip: 10.110.4.20, os: Linux, map: { x: 160, z: -40, h: 130 }, services: [{ port: 443, name: https, product: Wallet site }] }
   - { id: ns1, hostname: ns1.nacre.test, ip: 10.110.0.53, os: Linux, map: { x: -20, z: -140, h: 100 }, services: [{ port: 53, name: domain, product: Authoritative name server }] }
   - { id: statut, hostname: statut.nacre.test, ip: 10.110.0.30, os: Linux, map: { x: 60, z: 140, h: 80 }, services: [{ port: 443, name: https, product: Status page }] }
 
 dns:
-  nacre.test: { A: ["10.110.0.20"] }
-  portefeuille.nacre.test: { A: ["10.110.0.20"] }
+  nacre.test: { A: ["10.110.4.20"] }
+  portefeuille.nacre.test: { A: ["10.110.4.20"] }
   ns1.nacre.test: { A: ["10.110.0.53"] }
   statut.nacre.test: { A: ["10.110.0.30"] }
 

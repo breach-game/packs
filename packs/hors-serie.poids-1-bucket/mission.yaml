@@ -59,8 +59,8 @@ rules:
       - ada.say: p1.ada.contained
   - on: { event: HttpRequest, host: stockage, path: /poids, variant: private }
     do:
-      - objective.complete: closed
       - ada.say: p1.ada.closed
+      - objective.complete: closed
   - on: { event: MissionCompleted }
     do:
       - ada.say: p1.ada.done

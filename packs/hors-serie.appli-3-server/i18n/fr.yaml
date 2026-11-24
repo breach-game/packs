@@ -35,3 +35,5 @@ a3.debrief.lesson: "Corriger l'appli ne suffisait pas : la version 4.2.0 restera
 a3.debrief.p1: "Corriger d'abord le serveur : on ne met pas à jour les téléphones des utilisateurs, mais on met à jour son API le jour même."
 a3.debrief.p2: "Toute clé qui a été livrée se change ; la retirer de la version suivante ne la rend pas secrète."
 a3.debrief.p3: "Ajouter au contrôle avant publication : aucune clé dans le paquet, sauvegarde et débogage désactivés."
+a3.ada.role: "De l'extérieur, l'en-tête ne suffit plus : l'API demande une vraie session."
+a3.ada.key: "L'ancienne clé est refusée. Celle qui dort dans chaque 4.2.0 ne vaut plus rien."

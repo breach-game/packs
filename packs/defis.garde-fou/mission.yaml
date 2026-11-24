@@ -5,7 +5,7 @@ stage: defense
 briefing: d6.briefing
 
 files:
-  garde-fous/remboursement.yml: "# Support agent guardrail: a tool call that meets every condition below is blocked.\n"
+  garde-fous/remboursement.yml: "# Support agent guardrail: a tool call that meets every condition below is blocked.\n# Fields of a tool call: tool, amount, confirmed (true/false), asked_by\n"
   politique/remboursements.txt: { $file: files/remboursements.txt }
 
 objectives:

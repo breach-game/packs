@@ -28,9 +28,13 @@ checks:
     text: w4.check.hotel
     if: { not: { file: "/etc/NetworkManager/system-connections/Hotel-Les-Tilleuls.nmconnection" } }
     objective: clean
+  # Forgotten or kept without auto-join: both are right on the last morning.
   - id: escale
     text: w4.check.escale
-    if: { file: "/etc/NetworkManager/system-connections/Escale-Invites.nmconnection", contains: "autoconnect=false" }
+    if:
+      any:
+        - { not: { file: "/etc/NetworkManager/system-connections/Escale-Invites.nmconnection" } }
+        - { file: "/etc/NetworkManager/system-connections/Escale-Invites.nmconnection", contains: "autoconnect=false" }
     objective: clean
 
 questions:

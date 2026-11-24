@@ -14,7 +14,7 @@ e4.ada.read: "Pas `brumevaux.test` : `go.vallon-liens.example`, un raccourcisseu
 e4.ada.g.owner: "Cherche le domaine dans le registre public : `whois vallon-liens.example`."
 e4.ada.g.owner.standard: "Trouve qui détient aujourd'hui le domaine du raccourcisseur, par une recherche publique."
 e4.ada.owner: "Lis les dates. Supprimé le 19 août, réenregistré le 3 septembre par un titulaire qui cache son nom, serveurs de noms d'une société de pages parking. Réponds à ma question."
-e4.ada.why: "Exactement. Le code contient un nom, et le nom a changé de mains. Personne n'a eu besoin de toucher aux affiches. Maintenant, combien y en a-t-il en ville ?"
+e4.ada.why: "Exactement. Le code contient un nom, et le nom a changé de mains. Personne n'a eu besoin de toucher aux affiches."
 e4.ada.g.copies: "L'inventaire donne les exemplaires imprimés de chaque affiche : `cat com/inventaire.csv`. Lis toutes les affiches, `zbarimg affiches/A1.png affiches/A2.png affiches/A3.png affiches/A4.png affiches/A5.png`, et additionne les exemplaires de celles qui passent par le raccourcisseur. Réponds avec `answer copies <nombre>`."
 e4.ada.g.copies.standard: "Trouve les affiches qui passent par le raccourcisseur et additionne leurs exemplaires imprimés. Réponds avec `answer copies`."
 e4.ada.copies: "A1, A3 et A5 : 830 exemplaires en ville. Maintenant la charte, pour que ça n'arrive plus."

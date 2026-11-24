@@ -33,7 +33,7 @@ c2.ada.minutes: "An hour and forty-five minutes. And look at what happens in the
 c2.ada.g.filtered: "Count the networks that refused: `grep -c \",rejected\" routes/voisins.csv`, then `answer filtered <number>`."
 c2.ada.g.filtered.standard: "Count in `routes/voisins.csv` the networks that refused the announcement."
 c2.ada.filtered: "Three out of eight, and they are exactly the three that filter what their neighbours announce. Their customers saw nothing yesterday. That is why some of our customers had the warning and others did not: it all depended on the network they came through. We cannot filter on behalf of others, but we can give them something to check against. The plan: `routage/plan.yml`."
-c2.ada.g.plan: "`cat routage/plan.yml`: each line gives its possible values after the `#`. Pick the safest with `sed -i` or `edit`, then `verify`."
+c2.ada.g.plan: "`cat routage/plan.yml`: each line gives its possible values after the `#`. Five must change: `signed-roa`, `as-announced`, `on-new-origin`, `dnssec-signed`, `hsts-preloaded`. Change them with `edit routage/plan.yml` or `sed -i`, then `verify`."
 c2.ada.g.plan.standard: "Fix `routage/plan.yml`, then run `verify`."
 c2.ada.almost: "Not yet. `verify` tells you which lines are not right."
 c2.ada.plan: "Five lines, from the route to the browser. A signed origin states publicly which network may announce these addresses, and at what length: a /24 coming from elsewhere can then be refused by everyone who checks. The alert warns us before the first customer does. A signed zone lets a validating resolver reject a false answer. And preloading removes the \"continue anyway\" button. None of these lines is enough alone, and none depends on us only: that is why we write them all. One last question."

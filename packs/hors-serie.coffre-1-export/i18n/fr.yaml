@@ -15,7 +15,7 @@ c1.ada.g.old: "Isole l'empreinte d'un ancien compte et donne-la à `hashid` : `g
 c1.ada.g.old.standard: "Trouve l'algorithme des comptes de 2016 à 2018 avec `hashid`, puis `answer old`."
 c1.ada.old: "SHA-1, sans sel. Rapide à calculer, c'est fait pour vérifier des fichiers, pas pour garder des mots de passe. La mutuelle a pourtant publié elle-même un mot de passe : `cat docs/courrier-bienvenue-2016.txt`."
 c1.ada.g.same: "Calcule l'empreinte de ce mot de passe provisoire : `echo -n \"Tilleul2016\" | openssl dgst -sha1`. Puis compte ses apparitions : `grep -c <empreinte> copie/adherents.csv`, et `answer same <nombre>`."
-c1.ada.g.same.standard: "Compte les comptes qui ont encore le mot de passe du courrier de 2016, puis `answer same`."
+c1.ada.g.same.standard: "Calcule l'empreinte SHA-1 du mot de passe du courrier de 2016 (`openssl dgst -sha1`), compte les comptes qui l'ont encore dans la copie, puis `answer same`."
 c1.ada.same: "Six comptes, une seule empreinte. Sans sel, le même mot de passe donne toujours la même empreinte : un seul calcul les trouve tous. Pour la suite, garde sous les yeux `cat docs/temps-de-cassage.txt`."
 c1.ada.answer: "Réponds dans la messagerie, ou avec `answer` dans le terminal."
 c1.ada.answer.standard: "Ma question t'attend dans la messagerie."

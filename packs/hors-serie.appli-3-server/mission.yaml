@@ -9,6 +9,7 @@ reveal: [magasin, api]
 files:
   appli-4.2.1/AndroidManifest.xml: { $file: files/AndroidManifest.xml }
   appli-4.2.1/assets/config.json: { $file: files/config.json }
+  notes-api.txt: "cabas-api release notes\n\n4.13.0  /v4/interne/*: the role now comes from the staff session, checked on the server.\n        The X-Cabas-Role header sent by the app is ignored.\n4.12.0  (running) /v4/interne/*: role read from the X-Cabas-Role header.\n"
 
 releases:
   - service: api
@@ -73,10 +74,16 @@ rules:
     if: { config: cb.role.server, eq: true }
     do:
       - objective.complete: role
+  - on: { event: ObjectiveCompleted, objective: role }
+    do:
+      - ada.say: a3.ada.role
   - on: { event: HttpRequest, host: api, path: /v4/partenaires/stock }
     if: { config: cb.key.rotated, eq: true }
     do:
       - objective.complete: key
+  - on: { event: ObjectiveCompleted, objective: key }
+    do:
+      - ada.say: a3.ada.key
   - on: { event: ObjectiveCompleted }
     if: { all: [{ objective: build }, { objective: role }, { objective: key }] }
     do:

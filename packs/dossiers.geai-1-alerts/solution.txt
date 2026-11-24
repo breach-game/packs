@@ -7,6 +7,6 @@ flows --src 10.106.0.80
 flows --src 10.106.0.90
 answer exit 203.0.113.45
 contain
-contain block 203.0.113.45
+contain block sortie
 contain isolate relais
 answer noowner

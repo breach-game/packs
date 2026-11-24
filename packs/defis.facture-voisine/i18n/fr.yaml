@@ -1,4 +1,4 @@
-d2.briefing: "Ton compte client de test ouvre la session `pg-client-2031` sur `boutique.polygone.test`, et sa facture porte le numéro 2031. Le compte témoin du mandat a une facture lui aussi. Rapporte son marqueur."
+d2.briefing: "Ton compte client de test ouvre la session `pg-client-2031` sur `boutique.polygone.test`, et sa facture est servie par `/api/factures/2031`. Le compte témoin du mandat a une facture lui aussi. Rapporte son marqueur."
 d2.obj.marker: "Rapporter le marqueur de la facture du compte témoin"
 d2.obj.fix: "Dire comment l'empêcher"
 d2.q.fix: "Que doit changer la boutique ?"

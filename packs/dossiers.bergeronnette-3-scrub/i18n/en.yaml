@@ -9,7 +9,7 @@ b3.q.door.agent: "One of the 41 agents' accounts, by guessing or stealing its pa
 b3.q.door.agent.why: "Every agent has a second factor. Guessing a password is not enough, while a nearby account has none."
 b3.q.door.flaw: "A flaw in the guichet 5.4 software, still unknown to its maker"
 b3.q.door.flaw.why: "Possible, but nothing shows it. The review does show a password leaving the company every evening."
-b3.check.scrub: "Files are cleaned on arrival and kept 30 days"
+b3.check.scrub: "Files are cleaned on arrival and no longer kept forever"
 b3.check.account: "The service account reads only what it syncs, from its server, and personal profiles are blocked"
 b3.check.bind: "Admin sessions are bound to their device"
 b3.check.works: "The portal and its log stay on"

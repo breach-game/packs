@@ -24,7 +24,7 @@ objectives:
   - { id: tell, text: c3.obj.tell }
 
 investigation:
-  - { id: sample, text: c3.q.sample, value: "argon2", points: 75, objective: sample }
+  - { id: sample, text: c3.q.sample, value: "argon2id", points: 75, objective: sample }
 
 questions:
   - id: tell

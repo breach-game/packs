@@ -1,7 +1,7 @@
 c3.briefing: "Last morning at Chardonneret. Charly still answers from memory, confidently. Its settings are in `dossier/charly.yml`. The director first has a quick idea, and wants your view."
 c3.obj.notice: "Judge the director's quick idea"
 c3.obj.ground: "Make Charly answer from the published pages"
-c3.obj.unsure: "Make it hand over when it does not know"
+c3.obj.unsure: "Make it hand over when it does not know, and quote amounts as written"
 c3.obj.review: "Have its answers reviewed every week"
 c3.q.notice: "The director's idea: write under the window \"Charly can be wrong, check our conditions\". Is that enough?"
 c3.q.notice.fix: "No: a traveller need not re-check each answer elsewhere on the same site"

@@ -4,7 +4,7 @@ qr decode courrier/acces-messagerie.png
 mailhdr courrier/acces-messagerie.eml
 answer sender brumevaux-mairie.example
 answer image
-contain block brumevaux-mairie.example
+contain block expediteur-campagne
 contain remove campagne-qr
 soc logs mx mail
 rule test regles/qr-courrier.yml

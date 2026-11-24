@@ -6,5 +6,5 @@ answer profile profil-2019
 cat vpn/profils.csv
 answer forgotten
 flows
-contain disable profil-2019
+contain disable acces-intrus
 answer shutdown

@@ -27,3 +27,5 @@ a2.debrief.lesson: "L'appli cachait un menu au personnel et annonçait le rôle 
 a2.debrief.p1: "Tout contrôle de droits se fait sur le serveur, d'après la session : l'appli ne fait qu'afficher ce que le serveur permet."
 a2.debrief.p2: "Penser que le code d'une appli sera lu : routes, en-têtes et menus cachés ne sont pas des protections."
 a2.debrief.p3: "Désactiver la sauvegarde des données sensibles et le mode débogage dans les versions publiées, et garder les jetons dans le coffre du téléphone (Keystore)."
+a2.ada.mandate: "Non. Le mandat dit lecture seule : aucun remboursement validé. Le repère suffit comme preuve."
+a2.noise.refund: "Tentative de validation d'un remboursement (hors mandat)"

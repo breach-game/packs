@@ -10,6 +10,7 @@ reveal: [messagerie]
 
 files:
   regles/appli-inconnue.yml: |
+    # fields of source access: src, method, path, status, ua (the User-Agent header)
     title: Mail read by an application the agency never registered
     source: access
   traces/jetons.log: { $file: files/jetons.log }
@@ -23,7 +24,7 @@ adversary:
   delay: 0
   steps:
     - { id: r1, host: messagerie, source: access, fields: { src: 198.51.100.150, method: GET, path: /api/v2/boites/dir-generale/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" } }
-    - { id: r2, host: messagerie, source: access, fields: { src: 198.51.100.150, method: GET, path: /api/v2/boites/dir-financiere/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" } }
+    - { id: r2, host: messagerie, source: access, fields: { src: 198.51.100.150, method: GET, path: /api/v2/boites/dir-financiere/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" }, blockedIf: { config: bc.blocked, eq: true } }
     - { id: r3, host: messagerie, source: access, fields: { src: 198.51.100.151, method: GET, path: /api/v2/boites/juridique/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" }, blockedIf: { config: bc.blocked, eq: true } }
     - { id: r4, host: messagerie, source: access, fields: { src: 198.51.100.151, method: GET, path: /api/v2/boites/cabinet/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" }, blockedIf: { config: bc.blocked, eq: true } }
 
@@ -36,7 +37,7 @@ background:
 containment:
   - id: block
     action: block
-    target: appli-0f3e9a71
+    target: appli-inconnue
     text: b1.contain.block
     sets: { bc.blocked: true }
     impact: 0
@@ -87,6 +88,10 @@ rules:
   - on: { event: Contained, containment: block }
     do:
       - objective.complete: block
+  - on: { event: Contained, containment: block }
+    if: { not: { objective: rule } }
+    do:
+      - ada.say: b1.ada.early
   - on: { event: MissionCompleted }
     do:
       - ada.say: b1.ada.done

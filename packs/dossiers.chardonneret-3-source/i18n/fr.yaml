@@ -1,7 +1,7 @@
 c3.briefing: "Dernière matinée chez Chardonneret. Charly répond toujours de mémoire, avec assurance. Ses réglages sont dans `dossier/charly.yml`. La directrice a d'abord une idée rapide, elle veut ton avis."
 c3.obj.notice: "Juger l'idée rapide de la directrice"
 c3.obj.ground: "Faire répondre Charly à partir des pages publiées"
-c3.obj.unsure: "Le faire passer la main quand il ne sait pas"
+c3.obj.unsure: "Le faire passer la main quand il ne sait pas, et citer les montants tels quels"
 c3.obj.review: "Faire relire ses réponses chaque semaine"
 c3.q.notice: "Idée de la directrice : écrire sous la fenêtre « Charly peut se tromper, vérifiez nos conditions ». Est-ce que ça suffit ?"
 c3.q.notice.fix: "Non : un voyageur n'a pas à revérifier chaque réponse du site ailleurs sur le même site"

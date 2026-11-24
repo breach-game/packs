@@ -31,6 +31,10 @@ rules:
     do:
       - objective.complete: find
       - host.reveal: four
+  # Reaching the oven another way (a scan of the range) also means its address was found.
+  - on: { event: HttpRequest, host: four }
+    do:
+      - objective.complete: find
   - on: { event: HttpRequest, host: four, path: / }
     do:
       - ada.guide: { key: fp.ada.form, for: guide, step: 1 }

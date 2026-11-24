@@ -1,5 +1,5 @@
 id: dossiers.becasse-1-token
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.15 <1"
 kind: mission
 requires: [dossiers.becasse-world]

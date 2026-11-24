@@ -13,6 +13,8 @@ reveal: [portail, caisses, relais]
 config:
   gc.out_blocked: true
   gc.relay_isolated: true
+  gc.program_removed: false
+  gc.account_reset: false
 
 files:
   portail/connexions.csv: { $file: files/connexions-portail.csv }
@@ -22,6 +24,7 @@ files:
 objectives:
   - { id: account, text: c2.obj.account }
   - { id: rule, text: c2.obj.rule }
+  - { id: clean, text: c2.obj.clean }
   - { id: walls, text: c2.obj.walls }
   - { id: announce, text: c2.obj.announce }
   - { id: story, text: c2.obj.story }
@@ -39,6 +42,21 @@ questions:
       - { id: now, text: c2.q.announce.now, impact: 3 }
       - { id: after, text: c2.q.announce.after, impact: 5 }
       - { id: banks, text: c2.q.announce.banks, impact: 2 }
+
+# The program still sits on the till server and the stolen password still works: both go first.
+containment:
+  - id: program
+    action: remove
+    target: programme
+    text: c2.contain.program
+    sets: { gc.program_removed: true }
+    impact: 2
+  - id: account
+    action: reset
+    target: compte-vole
+    text: c2.contain.account
+    sets: { gc.account_reset: true }
+    impact: 0
 
 checks:
   - id: tills
@@ -81,6 +99,23 @@ rules:
   - on: { event: ObjectiveCompleted, objective: account }
     do:
       - ada.say: c2.ada.account
+  - on: { event: ObjectiveCompleted, objective: account }
+    if: { not: { objective: clean } }
+    do:
+      - ada.say: c2.ada.account.clean
+  - id: clean-a
+    on: { event: Contained, containment: program }
+    if: { config: gc.account_reset, eq: true }
+    do:
+      - objective.complete: clean
+  - id: clean-b
+    on: { event: Contained, containment: account }
+    if: { config: gc.program_removed, eq: true }
+    do:
+      - objective.complete: clean
+  - on: { event: ObjectiveCompleted, objective: clean }
+    do:
+      - ada.say: c2.ada.clean
   - on: { event: ObjectiveCompleted, objective: rule }
     do:
       - ada.say: c2.ada.rule
@@ -103,6 +138,7 @@ rules:
 guide:
   account: c2.ada.g.account
   rule: c2.ada.g.rule
+  clean: c2.ada.g.clean
   walls: c2.ada.g.walls
   announce: c2.ada.g.announce
   story: c2.ada.g.story
@@ -110,6 +146,7 @@ guide:
 hints:
   account: [c2.hint.account.1, c2.hint.account.2]
   rule: [c2.hint.rule.1, c2.hint.rule.2]
+  clean: [c2.hint.clean.1]
   walls: [c2.hint.walls.1, c2.hint.walls.2]
   story: [c2.hint.story.1, c2.hint.story.2]
 

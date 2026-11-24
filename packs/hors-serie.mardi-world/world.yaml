@@ -109,8 +109,8 @@ hosts:
         - { at: "Nov 23 06:58:40", unit: tournees, pid: 3381, text: "tournees starting, winter zones off", if: { config: tr.zones, eq: false } }
         - { at: "Nov 23 06:58:40", unit: tournees, pid: 3381, text: "tournees 4.1.3 starting", if: { all: [{ config: tr.v42, eq: false }, { config: tr.zones, eq: true }] } }
         - { at: "Nov 23 06:58:41", unit: tournees, pid: 3381, text: "warning: zones table has 1 204 rows in the 0042 format, 312 rounds point to unknown zones", if: { all: [{ config: tr.restored, eq: false }, { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } }] } }
-        - { at: "Nov 23 07:01:05", unit: tournees, pid: 3381, text: "zones table restored from tournees-2027-11-19.tgz, 3 days replayed from depot sheets: 0 rounds point to unknown zones", if: { config: tr.restored, eq: true } }
         - { at: "Nov 23 06:58:41", unit: tournees, pid: 3381, text: "58 rounds computed for today", if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } } }
+        - { at: "Nov 23 07:01:05", unit: tournees, pid: 3381, text: "zones table restored from tournees-2027-11-19.tgz, 3 days replayed from depot sheets: 0 rounds point to unknown zones", if: { config: tr.restored, eq: true } }
       logins:
         - { user: astreinte, from: 10.89.0.66, at: "Tue Nov 23 06:52" }
         - { user: ci-livraison, from: 10.89.0.30, at: "Tue Nov 23 05:57", until: "05:58  (00:01)" }
@@ -155,7 +155,7 @@ hosts:
                 ERREUR.txt: "rsync: [sender] send_files failed to open \"/var/lib/tournees/base\": Permission denied (13)\n"
     system:
       services:
-        - { name: sauvegarde-nuit, description: Sauvegarde nocturne des tournees, state: inactive, since: "Tue 2027-11-23 02:00:19 CET", exec: "/usr/local/bin/sauvegarde-nuit.sh", unit: /etc/systemd/system/sauvegarde-nuit.service }
+        - { name: sauvegarde-nuit, description: Sauvegarde nocturne des tournees, state: inactive, since: "Mon 2027-11-22 02:00:11 CET", exec: "/usr/local/bin/sauvegarde-nuit.sh", unit: /etc/systemd/system/sauvegarde-nuit.service }
       journal:
         - { at: "Nov 19 02:00:11", unit: sauvegarde-nuit, pid: 9120, text: "archive tournees-2027-11-19.tgz: 2 files" }
         - { at: "Nov 19 02:00:12", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
@@ -163,11 +163,11 @@ hosts:
         - { at: "Nov 20 02:00:10", unit: sauvegarde-nuit, pid: 9244, text: "archive tournees-2027-11-20.tgz: 1 file" }
         - { at: "Nov 20 02:00:10", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
         - { at: "Nov 21 02:00:08", unit: sauvegarde-nuit, pid: 9371, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 21 02:00:09", unit: sauvegarde-nuit, pid: 9371, text: "archive tournees-2027-11-21.tgz: 1 file" }
         - { at: "Nov 21 02:00:09", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
         - { at: "Nov 22 02:00:10", unit: sauvegarde-nuit, pid: 9502, text: "rsync error: some files/attrs were not transferred (code 23)" }
+        - { at: "Nov 22 02:00:11", unit: sauvegarde-nuit, pid: 9502, text: "archive tournees-2027-11-22.tgz: 1 file" }
         - { at: "Nov 22 02:00:11", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
-        - { at: "Nov 23 02:00:18", unit: sauvegarde-nuit, pid: 9633, text: "rsync error: some files/attrs were not transferred (code 23)" }
-        - { at: "Nov 23 02:00:19", unit: sauvegarde-nuit, text: "sauvegarde-nuit.service: Deactivated successfully." }
 
 dns:
   gavotte.test: { A: ["10.89.0.20"] }

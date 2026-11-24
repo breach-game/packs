@@ -20,7 +20,7 @@ p3.q.integrity.reinstall.why: "Only bench 42 contacted the zone, according to th
 p3.q.tell: "The week's readings left the lab. Whom do you warn?"
 p3.q.tell.towns: "The towns concerned, with what left and the proof that nothing was changed"
 p3.q.tell.towns.why: "The towns know. The health authority may hear it from them, and will ask why not directly."
-p3.q.tell.authority: "The towns concerned and the health authority, with the same story"
+p3.q.tell.authority: "The towns concerned and the health authority, with the same story and the integrity proof"
 p3.q.tell.authority.why: "One story, to the right people, with the integrity proof. More work tonight, far fewer questions tomorrow."
 p3.q.tell.internal: "No one outside: the readings hold no personal data"
 p3.q.tell.internal.why: "No personal data, but drinking water results that the towns publish. If they surface elsewhere, the lab's silence will be the first question."

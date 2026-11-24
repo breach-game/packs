@@ -7,8 +7,8 @@
       "created": "2024-02-11",
       "kdf": { "name": "PBKDF2-SHA256", "iterations": 600000 },
       "items": [
-        { "url": "https://banque-du-nord.example/connexion", "username": "ENC:aGk3c1x0bTJz", "password": "ENC:Zm9xUjdLbW5wQ2Q=", "notes": "ENC:" },
-        { "url": "https://mail.example/login", "username": "ENC:cDRyMm9t", "password": "ENC:bjhXcXRaMXZkZg==", "notes": "ENC:" }
+        { "url": "https://banque-du-nord.example/connexion", "username": "ENC:BoER3KCUv2wDyvZRxA5gVJy9KPFvqzPKXuDWe6fiEp0=", "password": "ENC:Xp7dNNmxvB6mjghy6n1wFHR9E2PUY52PCzXkjOTWwec=", "notes": "ENC:" },
+        { "url": "https://mail.example/login", "username": "ENC:c4A6q8GuRT5lshxXvbrOuA==", "password": "ENC:oxbpJ/2pCAPHUtg90eIizdwF+yZoEtFZI4XQ43r+m5o=", "notes": "ENC:" }
       ]
     },
     {
@@ -16,8 +16,8 @@
       "created": "2013-06-30",
       "kdf": { "name": "PBKDF2-SHA256", "iterations": 5000 },
       "items": [
-        { "url": "https://portefeuille-crypto.example/wallet", "username": "ENC:dDV2a2x4", "password": "ENC:cTNuWm1hTHI4eQ==", "notes": "ENC:c2VlZCBwaHJhc2U=" },
-        { "url": "https://vpn.entreprise.example", "username": "ENC:bTFhcjl6", "password": "ENC:a1c0djJkUnB4cA==", "notes": "ENC:" }
+        { "url": "https://portefeuille-crypto.example/wallet", "username": "ENC:NBhTNq7WWbfaW1oKsNXMqQ==", "password": "ENC:jCfyzWt0c/19BmlLoYL5Z2TusPj+0sAw/ZqIlNi+Yis=", "notes": "ENC:r4ms+TOZqEc+7FKsvzVCuMtuiO40HG1zNmHmu7X4ruXTWSjHcdy0GFeBEnePaBYd" },
+        { "url": "https://vpn.entreprise.example", "username": "ENC:/X+vBWeOMFlBfU+QbvPjOg==", "password": "ENC:wY1H+1RBxrnzf4bOVMJx+xMKNNitoKGtqiRfzHqqbk8=", "notes": "ENC:" }
       ]
     },
     {
@@ -25,7 +25,7 @@
       "created": "2019-09-04",
       "kdf": { "name": "PBKDF2-SHA256", "iterations": 100100 },
       "items": [
-        { "url": "https://impots.example/espace", "username": "ENC:eDJmcjhi", "password": "ENC:dzdOcW1YM2tlRg==", "notes": "ENC:" }
+        { "url": "https://impots.example/espace", "username": "ENC:1g3iD7lLHlyqxwyHzmtV2w==", "password": "ENC:DNMk7egCsLyAOYfWk2E5dBc/g47NuCOqVdfFSmM6224=", "notes": "ENC:" }
       ]
     }
   ]

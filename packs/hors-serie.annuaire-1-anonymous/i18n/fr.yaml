@@ -24,6 +24,7 @@ d1.ada.g.closed.standard: "Ferme l'accès anonyme à l'annuaire, puis vérifie-l
 d1.ada.closed: "Sans compte, l'annuaire répond maintenant « 50 Insufficient access ». La carte n'est plus distribuée."
 d1.ada.g.why: "Qu'est-ce qu'un inconnu savait, avant ta correction ?"
 d1.ada.done: "Accès anonyme fermé. Mais ce qui a été lu a pu être lu par d'autres avant toi. Je surveille les connexions à l'annuaire."
+d1.hint.password.0: "Sans compte, filtre sur les entrées qui ont une description."
 d1.hint.password.1: "`ldapsearch -x -H ldap://annuaire.ardoise.test -b dc=ardoise,dc=test \"(description=*)\" uid description`"
 d1.hint.password.2: "`answer password svc-sauvegarde`"
 d1.hint.former.1: "Filtre `(memberOf=cn=admins-annuaire*)`."
