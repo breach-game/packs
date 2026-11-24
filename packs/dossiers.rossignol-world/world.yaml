@@ -1,0 +1,109 @@
+# Case file 26 "Rossignol". Inspired by the TLS heartbeat flaw of April 2014. Played on the defence
+# side only: inventory, patch, keys, sessions, the order of what to tell users. The TLS library
+# (VerreTLS), its heartbeat ("battement") and every company are fictional: reserved .test domains
+# and private addresses only; outside addresses come from the documentation ranges.
+startTime: "2027-04-07T19:10:00+02:00"
+mandate: VA-2027-044
+scope:
+  domains: ["*.vallon.test"]
+  networks: ["10.96.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.96.0.2
+
+config:
+  rs.patched: false
+  rs.vpn: false
+  rs.certs: false
+  rs.sessions: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.96.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [webmail, extranet, vpn]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            VA-2027-044.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: webmail
+    hostname: webmail.vallon.test
+    ip: 10.96.0.11
+    os: Linux 3.13 (Ubuntu 14.04)
+    map: { x: 160, z: -140, h: 100 }
+    services:
+      - { port: 443, name: https, product: "nginx 1.4.6 (VerreTLS 1.0.1f)" }
+      - { port: 993, name: imaps, product: "Dovecot 2.0.19 (VerreTLS 0.9.8y)" }
+    web:
+      "/":
+        page:
+          title: "Messagerie · Vallon"
+          blocks:
+            - { h1: page.webmail.h1 }
+            - { p: page.webmail.p }
+
+  - id: extranet
+    hostname: extranet.vallon.test
+    ip: 10.96.0.12
+    os: Linux 3.13 (Ubuntu 14.04)
+    map: { x: 260, z: 0, h: 110 }
+    services:
+      - { port: 443, name: https, product: "Apache httpd 2.4.7 (VerreTLS 1.0.1e)" }
+      - { port: 22, name: ssh, product: OpenSSH 6.6p1 Ubuntu }
+    web:
+      "/":
+        page:
+          title: "Extranet des adhérents · Vallon"
+          blocks:
+            - { h1: page.extranet.h1 }
+            - { p: page.extranet.p }
+
+  - id: vpn
+    hostname: acces.vallon.test
+    ip: 10.96.0.13
+    os: Firmware 4.2 (appliance)
+    map: { x: 180, z: 140, h: 90 }
+    services:
+      - { port: 443, name: https, product: "Passe-Muraille SSL VPN 4.2 (VerreTLS 1.0.1c)" }
+
+  - id: intranet
+    hostname: intranet.vallon.test
+    ip: 10.96.0.20
+    os: Linux 3.2 (Debian 7)
+    map: { x: 380, z: -80, h: 90 }
+    services:
+      - { port: 443, name: https, product: "nginx 1.2.1 (VerreTLS 1.0.0k)" }
+
+dns:
+  vallon.test: { A: ["10.96.0.12"] }
+  webmail.vallon.test: { A: ["10.96.0.11"] }
+  extranet.vallon.test: { A: ["10.96.0.12"] }
+  acces.vallon.test: { A: ["10.96.0.13"] }
+  intranet.vallon.test: { A: ["10.96.0.20"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

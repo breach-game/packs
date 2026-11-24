@@ -1,0 +1,12 @@
+VerreTLS Security Advisory [07 Apr 2027] - VTLS-2027-0407 - CRITICAL
+
+TLS heartbeat ("battement") read overrun.
+A missing bounds check in the heartbeat extension lets a remote peer read up to
+64 KB of the server's memory per request, again and again, without leaving
+a trace in the server's logs.
+
+Affected:     VerreTLS 1.0.1 to 1.0.1f.
+Not affected: VerreTLS 1.0.0 and 0.9.8 branches (no heartbeat extension).
+Fixed in:     VerreTLS 1.0.1g.
+
+If you cannot upgrade: switch the heartbeat extension off.

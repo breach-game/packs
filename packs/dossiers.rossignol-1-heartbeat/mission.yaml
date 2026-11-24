@@ -1,0 +1,87 @@
+# Case file 26, mission 1: the advisory is out. Count the affected services from their banners
+# (1.0.1 to 1.0.1f only: 0.9.8 and 1.0.0 never had the heartbeat), patch the servers, switch the
+# heartbeat off on the vendor box, then say why patching is not the end. Defence only.
+side: defense
+order: 1
+stage: defense
+briefing: r1.briefing
+reveal: [webmail, extranet, vpn, intranet]
+
+files:
+  bulletin/VTLS-2027-0407.txt: { $file: files/bulletin.txt }
+
+releases:
+  - service: verre
+    current: "1.0.1f"
+    versions:
+      - { version: "1.0.1f" }
+      - { version: "1.0.1g", sets: { rs.patched: true }, impact: 1 }
+
+toggles:
+  - name: vpn.battement
+    value: "on"
+    on: { rs.vpn: false }
+    off: { rs.vpn: true }
+
+objectives:
+  - { id: count, text: r1.obj.count }
+  - { id: patch, text: r1.obj.patch }
+  - { id: box, text: r1.obj.box }
+  - { id: over, text: r1.obj.over }
+
+investigation:
+  - { id: count, text: r1.q.count, value: "3", points: 75, objective: count }
+
+questions:
+  - id: over
+    text: r1.q.over
+    objective: over
+    correct: memory
+    options:
+      - { id: memory, text: r1.q.over.memory }
+      - { id: closed, text: r1.q.over.closed, why: r1.q.over.closed.why }
+      - { id: imap, text: r1.q.over.imap, why: r1.q.over.imap.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: r1.ada.count
+  - on: { event: ConfigPatched }
+    if: { config: rs.patched, eq: true }
+    do:
+      - objective.complete: patch
+  - on: { event: ConfigPatched }
+    if: { config: rs.vpn, eq: true }
+    do:
+      - objective.complete: box
+  - on: { event: ObjectiveCompleted, objective: patch }
+    do:
+      - ada.say: r1.ada.patch
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: patch }, { objective: box }] }
+    do:
+      - ada.say: r1.ada.box
+      - ada.ask: over
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r1.ada.done
+
+guide:
+  count: r1.ada.g.count
+  patch: r1.ada.g.patch
+  box: r1.ada.g.box
+  over: r1.ada.g.over
+
+hints:
+  count: [r1.hint.count.1, r1.hint.count.2]
+  patch: [r1.hint.patch.1]
+  box: [r1.hint.box.1]
+
+debrief:
+  title: r1.debrief.title
+  lesson: r1.debrief.lesson
+  points: [r1.debrief.p1, r1.debrief.p2, r1.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"

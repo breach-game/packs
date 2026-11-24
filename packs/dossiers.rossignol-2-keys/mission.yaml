@@ -1,0 +1,151 @@
+# Case file 26, mission 2: the morning after. The intrusion detection signature only exists since
+# the advisory, so it sees today's attempts and says nothing about the past: the keys and sessions
+# of the three affected services are treated as exposed. Then the order of the message to members.
+side: defense
+order: 2
+stage: defense
+startTime: "2027-04-08T08:30:00+02:00"
+briefing: r2.briefing
+reveal: [webmail, extranet, vpn, intranet]
+
+config:
+  rs.patched: true
+  rs.vpn: true
+
+files:
+  regles/battement.yml: |
+    title: TLS heartbeat read attempt
+    source: ids
+  certs/webmail.crt:
+    $cert: { subject: "CN=webmail.vallon.test, O=Cooperative du Vallon", issuer: "CN=Autorite Exemple RSA CA, O=Autorite Exemple", serial: "0A:31:9F:22:71", notBefore: "2025-06-02T00:00:00Z", notAfter: "2027-06-02T00:00:00Z", san: [webmail.vallon.test] }
+  certs/imap.crt:
+    $cert: { subject: "CN=imap.vallon.test, O=Cooperative du Vallon", issuer: "CN=Autorite Exemple RSA CA, O=Autorite Exemple", serial: "0A:31:9F:22:72", notBefore: "2025-06-02T00:00:00Z", notAfter: "2027-06-02T00:00:00Z", san: [imap.vallon.test] }
+  certs/extranet.crt:
+    $cert: { subject: "CN=extranet.vallon.test, O=Cooperative du Vallon", issuer: "CN=Autorite Exemple RSA CA, O=Autorite Exemple", serial: "0A:31:9F:22:80", notBefore: "2026-01-15T00:00:00Z", notAfter: "2028-01-15T00:00:00Z", san: [extranet.vallon.test, vallon.test] }
+  certs/acces.crt:
+    $cert: { subject: "CN=acces.vallon.test, O=Cooperative du Vallon", issuer: "CN=Autorite Exemple RSA CA, O=Autorite Exemple", serial: "0A:31:9F:22:93", notBefore: "2026-09-01T00:00:00Z", notAfter: "2028-09-01T00:00:00Z", san: [acces.vallon.test] }
+  certs/intranet.crt:
+    $cert: { subject: "CN=intranet.vallon.test, O=Cooperative du Vallon", issuer: "CN=Vallon Interne CA, O=Cooperative du Vallon", serial: "11:02", notBefore: "2025-03-10T00:00:00Z", notAfter: "2030-03-10T00:00:00Z", san: [intranet.vallon.test] }
+
+adversary:
+  id: probes
+  name: unknown
+  from: webmail
+  pace: 1
+  delay: 0
+  steps:
+    - { id: p1, host: webmail, source: ids, fields: { src: 203.0.113.52, dst: 10.96.0.11, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
+    - { id: p2, host: extranet, source: ids, fields: { src: 203.0.113.52, dst: 10.96.0.12, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
+    - { id: p3, host: vpn, source: ids, fields: { src: 198.51.100.130, dst: 10.96.0.13, sid: 9014070, priority: 1, signature: "VERRETLS TLS heartbeat length larger than record" } }
+    - { id: p4, host: webmail, source: ids, fields: { src: 192.0.2.201, dst: 10.96.0.11, sid: 9014071, priority: 1, signature: "VERRETLS TLS heartbeat response too large" } }
+
+# Ordinary alerts of a working morning: the backup scanner, a staff member's script.
+background:
+  - { host: intranet, source: ids, every: 3, offset: 0, fields: { src: 10.96.0.30, dst: 10.96.0.20, sid: 2010937, priority: 3, signature: "ET SCAN Possible Nmap Scan" } }
+  - { host: extranet, source: ids, every: 4, offset: 1, fields: { src: 10.96.0.140, dst: 10.96.0.12, sid: 2013028, priority: 3, signature: "ET POLICY curl User-Agent Outbound" } }
+  - { host: webmail, source: ids, every: 5, offset: 2, fields: { src: 10.96.0.141, dst: 10.96.0.11, sid: 2210038, priority: 3, signature: "SURICATA TLS handshake invalid length" } }
+
+containment:
+  - id: certs
+    action: rotate
+    target: certificats
+    text: r2.contain.certs
+    sets: { rs.certs: true }
+    impact: 1
+  - id: sessions
+    action: reset
+    target: sessions
+    text: r2.contain.sessions
+    sets: { rs.sessions: true }
+    impact: 2
+
+objectives:
+  - { id: rule, text: r2.obj.rule }
+  - { id: past, text: r2.obj.past }
+  - { id: count, text: r2.obj.count }
+  - { id: rotate, text: r2.obj.rotate }
+  - { id: message, text: r2.obj.message }
+
+investigation:
+  - { id: certs, text: r2.q.certs, value: "3", points: 75, objective: count }
+
+hunts:
+  - id: heartbeat
+    file: regles/battement.yml
+    catch: { source: ids, where: { sid: { in: [9014070, 9014071] } } }
+    objective: rule
+
+questions:
+  - id: past
+    text: r2.q.past
+    objective: past
+    correct: nothing
+    options:
+      - { id: nothing, text: r2.q.past.nothing }
+      - { id: clean, text: r2.q.past.clean, why: r2.q.past.clean.why }
+      - { id: logs, text: r2.q.past.logs, why: r2.q.past.logs.why }
+
+timelines:
+  - id: message
+    text: r2.tl.text
+    objective: message
+    events:
+      - { id: patch, text: r2.tl.patch }
+      - { id: keys, text: r2.tl.keys }
+      - { id: revoke, text: r2.tl.revoke }
+      - { id: sessions, text: r2.tl.sessions }
+      - { id: passwords, text: r2.tl.passwords }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r2.ada.brief
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: r2.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: r2.ada.rule
+      - ada.ask: past
+  - on: { event: ObjectiveCompleted, objective: past }
+    do:
+      - ada.say: r2.ada.past
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: r2.ada.count
+  - on: { event: ConfigPatched }
+    if: { all: [{ config: rs.certs, eq: true }, { config: rs.sessions, eq: true }] }
+    do:
+      - objective.complete: rotate
+  - on: { event: ObjectiveCompleted, objective: rotate }
+    do:
+      - ada.say: r2.ada.rotate
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r2.ada.done
+
+guide:
+  rule: r2.ada.g.rule
+  past: r2.ada.g.past
+  count: r2.ada.g.count
+  rotate: r2.ada.g.rotate
+  message: r2.ada.g.message
+
+hints:
+  rule: [r2.hint.rule.1, r2.hint.rule.2]
+  count: [r2.hint.count.1, r2.hint.count.2]
+  rotate: [r2.hint.rotate.1]
+  message: [r2.hint.message.1, r2.hint.message.2]
+
+debrief:
+  title: r2.debrief.title
+  lesson: r2.debrief.lesson
+  points: [r2.debrief.p1, r2.debrief.p2, r2.debrief.p3]
+  reference: "CERT/CC · VU#720951 OpenSSL TLS heartbeat read overrun"
+  facts:
+    title: r2.facts.title
+    points: [r2.facts.p1, r2.facts.p2, r2.facts.p3, r2.facts.p4, r2.facts.p5]
+    sources:
+      - { label: "OpenSSL Security Advisory, 7 April 2014 (oss-security list)", url: "https://openwall.com/lists/oss-security/2014/04/07/3" }
+      - { label: "CERT/CC, Vulnerability Note VU#720951 (April 2014)", url: "https://kb.cert.org/vuls/id/720951" }

@@ -1,0 +1,7 @@
+file.readme: "Poste Ligne Rouge. Dossier : Rossignol. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.mandate: "MANDAT VA-2027-044\nClient : Coopérative du Vallon. Périmètre : *.vallon.test, 10.96.0.0/24.\nObjet : une faille critique de la bibliothèque de chiffrement VerreTLS vient d'être publiée. Ligne Rouge aide l'équipe informatique à inventorier, corriger et remettre en confiance ses services chiffrés.\nDispositif convenu : défense uniquement. Inventaire des services autorisé sur tout le périmètre, mesures passées par `contain`, mises en production par `deploy`, réglages par `flag`.\nSigné : la responsable informatique de la Coopérative du Vallon."
+page.webmail.h1: "Messagerie"
+page.webmail.p: "Connectez-vous avec votre identifiant d'adhérent."
+page.extranet.h1: "Extranet des adhérents"
+page.extranet.p: "Livraisons, factures et cours du jour."
+ada.outOfScope: "Stop. Cette cible est hors du mandat VA-2027-044. Même pour défendre, hors mandat, c'est un délit (article 323-1 du Code pénal)."

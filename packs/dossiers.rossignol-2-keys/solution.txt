@@ -1,0 +1,13 @@
+# Case file 26, mission 2: the shortest path, replayed by CI in every language.
+cat regles/battement.yml
+soc logs webmail ids
+echo "signature|contains: heartbeat" >> regles/battement.yml
+rule test regles/battement.yml
+answer nothing
+ls certs
+openssl x509 -noout -subject -in certs/imap.crt
+answer certs 3
+contain rotate certificats
+contain reset sessions
+timeline message
+timeline message patch keys revoke sessions passwords

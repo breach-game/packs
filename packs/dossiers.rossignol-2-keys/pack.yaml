@@ -1,0 +1,16 @@
+id: dossiers.rossignol-2-keys
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.rossignol-world]
+title:
+  fr: "Dossier 26 · 2. Les clés"
+  en: "Case file 26 · 2. The keys"
+summary:
+  fr: "La faille est fermée, mais rien ne dit ce qui a été lu avant. Tu écris la règle qui voit les tentatives, tu refais les certificats des services touchés, tu fermes toutes les sessions, puis tu mets dans l'ordre ce qu'on dit aux adhérents. La dernière mission raconte les faits, sources à l'appui."
+  en: "The flaw is closed, but nothing says what was read before. You write the rule that sees the attempts, reissue the certificates of the affected services, close every session, then put in order what members are told. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, logs, crisis, defense]
+minutes: 15

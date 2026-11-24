@@ -1,0 +1,9 @@
+# Case file 26, mission 1: the shortest path, replayed by CI in every language.
+cat bulletin/VTLS-2027-0407.txt
+nmap -sV 10.96.0.0/24
+answer count 3
+deploy
+deploy verre 1.0.1g
+flag list
+flag set vpn.battement off
+answer memory
