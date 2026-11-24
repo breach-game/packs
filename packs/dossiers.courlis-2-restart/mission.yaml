@@ -1,0 +1,116 @@
+# Case file 39, mission 2: the restart. A review of remote access profiles shows four more that
+# nobody uses, three of them with no second factor. The player counts them, rewrites the access
+# policy and the link between billing and supervision (`verify`), decides how to restart (a
+# decision: no option is wrong), and orders the week's events.
+side: defense
+order: 2
+stage: report
+startTime: "2029-05-09T08:00:00+02:00"
+briefing: c2.briefing
+reveal: [vpn, facturation, supervision]
+
+config:
+  tf.profile_off: true
+
+files:
+  vpn/revue-profils.csv: { $file: files/revue-profils.csv }
+  acces/politique.yml: { $file: files/acces.yml }
+
+objectives:
+  - { id: unused, text: c2.obj.unused }
+  - { id: policy, text: c2.obj.policy }
+  - { id: restart, text: c2.obj.restart }
+  - { id: story, text: c2.obj.story }
+
+investigation:
+  - { id: unused, text: c2.q.unused, value: "4", points: 100, objective: unused }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: restart
+    text: c2.q.restart
+    objective: restart
+    options:
+      - { id: staged, text: c2.q.restart.staged, impact: 2 }
+      - { id: manual, text: c2.q.restart.manual, impact: 3 }
+      - { id: rebuilt, text: c2.q.restart.rebuilt, impact: 5 }
+
+checks:
+  - id: factor
+    text: c2.check.factor
+    if: { file: "~/acces/politique.yml", contains: "second_factor: required" }
+    objective: policy
+  - id: unused
+    text: c2.check.unused
+    if: { file: "~/acces/politique.yml", contains: "unused_profiles: removed-after-30-days" }
+    objective: policy
+  - id: shared
+    text: c2.check.shared
+    if: { file: "~/acces/politique.yml", contains: "shared_profiles: forbidden" }
+    objective: policy
+  - id: wall
+    text: c2.check.wall
+    if: { file: "~/acces/politique.yml", contains: "billing_to_supervision: one-way-data-diode" }
+    objective: policy
+  - id: works
+    text: c2.check.works
+    if: { file: "~/acces/politique.yml", contains: "remote_access: enabled" }
+
+timelines:
+  - id: semaine
+    text: c2.tl.text
+    objective: story
+    events:
+      - { id: signin, text: c2.tl.signin }
+      - { id: data, text: c2.tl.data }
+      - { id: note, text: c2.tl.note }
+      - { id: closed, text: c2.tl.closed }
+      - { id: decision, text: c2.tl.decision }
+      - { id: reviewed, text: c2.tl.reviewed }
+      - { id: restart, text: c2.tl.restart }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: unused }
+    do:
+      - ada.say: c2.ada.unused
+  - on: { event: Verified }
+    if: { not: { objective: policy } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: policy }
+    do:
+      - ada.say: c2.ada.policy
+      - ada.ask: restart
+  - on: { event: ObjectiveCompleted, objective: restart }
+    do:
+      - ada.say: c2.ada.restart
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  unused: c2.ada.g.unused
+  policy: c2.ada.g.policy
+  restart: c2.ada.g.restart
+  story: c2.ada.g.story
+
+hints:
+  unused: [c2.hint.unused.1, c2.hint.unused.2]
+  policy: [c2.hint.policy.1, c2.hint.policy.2]
+  story: [c2.hint.story.1, c2.hint.story.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "IEC 62443 · zones and conduits"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "US Senate, written testimony of Colonial Pipeline's chief executive (8 June 2021)", url: "https://www.hsgac.senate.gov/imo/media/doc/Testimony-Blount-2021-06-08.pdf" }
+      - { label: "US Senate hearing record, Threats to Critical Infrastructure: Examining the Colonial Pipeline Cyberattack", url: "https://www.govinfo.gov/content/pkg/CHRG-117shrg46569/html/CHRG-117shrg46569.htm" }

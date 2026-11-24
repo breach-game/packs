@@ -1,0 +1,16 @@
+id: dossiers.courlis-1-five
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.courlis-world]
+title:
+  fr: "Dossier 39 · 1. Cinq heures du matin"
+  en: "Case file 39 · 1. Five in the morning"
+summary:
+  fr: "Un opérateur de nuit trouve une demande de rançon sur un poste des bureaux. Personne ne sait jusqu'où va l'attaque. Tu trouves par quel accès à distance l'intrus est entré, pourquoi cet accès existait encore, tu le fermes, puis tu réponds à la question que tout le monde se pose : arrête-t-on l'oléoduc ?"
+  en: "A night operator finds a ransom demand on an office workstation. Nobody knows how far the attack goes. You find which remote access the intruder came through, why that access still existed, close it, then answer the question on everyone's mind: do we stop the pipeline?"
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crisis, logs, defense]
+minutes: 12

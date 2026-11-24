@@ -1,0 +1,10 @@
+# Case file 39, mission 1: the shortest path, replayed by CI in every language.
+soc sources
+cat main-courante.txt
+soc logs vpn auth
+answer profile profil-2019
+cat vpn/profils.csv
+answer forgotten
+flows
+contain disable profil-2019
+answer shutdown

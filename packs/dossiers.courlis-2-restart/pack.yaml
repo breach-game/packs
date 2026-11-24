@@ -1,0 +1,16 @@
+id: dossiers.courlis-2-restart
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.courlis-world]
+title:
+  fr: "Dossier 39 · 2. Redémarrer"
+  en: "Case file 39 · 2. Restarting"
+summary:
+  fr: "Cinq jours plus tard, il faut remettre l'oléoduc en route sans rouvrir la porte. Tu comptes les accès à distance que personne n'utilise, tu réécris la politique d'accès et le mur entre bureaux et exploitation, tu décides comment redémarrer, puis tu remets la semaine dans l'ordre."
+  en: "Five days later, the pipeline has to be started again without reopening the door. You count the remote accesses nobody uses, rewrite the access policy and the wall between offices and operations, decide how to restart, then put the week in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crisis, logs, defense]
+minutes: 12

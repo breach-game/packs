@@ -1,0 +1,114 @@
+# Case file 39, mission 1: the first hour. The crisis log sets the scene; the remote access log
+# shows an old shared profile signing in from an unknown address; the profile list shows it should
+# have stopped being used years ago and has no second factor. Flow totals show the office file
+# server sending data out. The player names the profile, says what was wrong with it, disables it,
+# and decides whether to stop the pipeline (a decision: no option is wrong). The operations network
+# is never touched and no ransomware is shown.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [vpn, fichiers, facturation, supervision]
+
+files:
+  main-courante.txt: { $file: files/main-courante.txt }
+  vpn/profils.csv: { $file: files/profils.csv }
+
+adversary:
+  id: crew
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: v1, host: vpn, source: auth, fields: { src: 203.0.113.60, user: profil-2019, method: password } }
+    - { id: v2, host: fichiers, source: flow, fields: { src: 10.109.0.40, dst: 203.0.113.60, dport: 443, bytes: 107374182400 } }
+    - { id: v3, host: vpn, source: auth, fields: { src: 203.0.113.60, user: profil-2019, method: password } }
+    - { id: v4, host: vpn, source: auth, fields: { src: 203.0.113.60, user: profil-2019, method: password }, blockedIf: { config: tf.profile_off, eq: true } }
+    - { id: v5, host: facturation, source: flow, fields: { src: 10.109.0.10, dst: 10.109.0.50, dport: 445, bytes: 48000 }, blockedIf: { config: tf.profile_off, eq: true } }
+
+background:
+  - { host: vpn, source: auth, every: 3, offset: 0, fields: { src: 192.0.2.14, user: ing-014, method: "password+app" } }
+  - { host: vpn, source: auth, every: 5, offset: 2, fields: { src: 192.0.2.90, user: dsi-01, method: "password+app" } }
+  - { host: facturation, source: flow, every: 2, offset: 1, fields: { src: 10.109.0.50, dst: 10.109.0.150, dport: 443, bytes: 12400 } }
+
+containment:
+  - id: profile
+    action: disable
+    target: profil-2019
+    text: c1.contain.profile
+    sets: { tf.profile_off: true }
+    impact: 0
+
+objectives:
+  - { id: profile, text: c1.obj.profile }
+  - { id: old, text: c1.obj.old }
+  - { id: cut, text: c1.obj.cut }
+  - { id: stop, text: c1.obj.stop }
+
+investigation:
+  - { id: profile, text: c1.q.profile, value: "profil-2019", points: 100, objective: profile }
+
+questions:
+  - id: old
+    text: c1.q.old
+    objective: old
+    correct: forgotten
+    options:
+      - { id: forgotten, text: c1.q.old.forgotten }
+      - { id: boss, text: c1.q.old.boss, why: c1.q.old.boss.why }
+      - { id: fresh, text: c1.q.old.fresh, why: c1.q.old.fresh.why }
+  # The decision of the first hour: no option is wrong, each one costs something different.
+  - id: stop
+    text: c1.q.stop
+    objective: stop
+    options:
+      - { id: shutdown, text: c1.q.stop.shutdown, impact: 5 }
+      - { id: split, text: c1.q.stop.split, impact: 3 }
+      - { id: run, text: c1.q.stop.run, impact: 7 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: profile }
+    do:
+      - ada.say: c1.ada.profile
+      - ada.ask: old
+  - on: { event: ObjectiveCompleted, objective: old }
+    do:
+      - ada.say: c1.ada.old
+  - on: { event: Contained, containment: profile }
+    do:
+      - objective.complete: cut
+      - ada.say: c1.ada.cut
+      - ada.ask: stop
+  - on: { event: Answered, question: stop, option: shutdown }
+    do:
+      - ada.say: c1.ada.stop.shutdown
+  - on: { event: Answered, question: stop, option: split }
+    do:
+      - ada.say: c1.ada.stop.split
+  - on: { event: Answered, question: stop, option: run }
+    do:
+      - ada.say: c1.ada.stop.run
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  profile: c1.ada.g.profile
+  old: c1.ada.g.old
+  cut: c1.ada.g.cut
+  stop: c1.ada.g.stop
+
+hints:
+  profile: [c1.hint.profile.1, c1.hint.profile.2]
+  old: [c1.hint.old.1]
+  cut: [c1.hint.cut.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "CISA · StopRansomware Guide"

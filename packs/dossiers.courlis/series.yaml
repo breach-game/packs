@@ -1,0 +1,4 @@
+# Case file series, in playing order: the first hour, then the restart.
+missions:
+  - dossiers.courlis-1-five
+  - dossiers.courlis-2-restart

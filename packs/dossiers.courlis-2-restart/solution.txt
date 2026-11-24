@@ -1,0 +1,13 @@
+# Case file 39, mission 2: the shortest path, replayed by CI in every language.
+cat vpn/revue-profils.csv
+grep -c ",unused," vpn/revue-profils.csv
+answer unused 4
+cat acces/politique.yml
+sed -i "s/second_factor: optional/second_factor: required/" acces/politique.yml
+sed -i "s/unused_profiles: kept/unused_profiles: removed-after-30-days/" acces/politique.yml
+sed -i "s/shared_profiles: allowed/shared_profiles: forbidden/" acces/politique.yml
+sed -i "s/billing_to_supervision: two-way/billing_to_supervision: one-way-data-diode/" acces/politique.yml
+verify
+answer staged
+timeline semaine
+timeline semaine signin data note closed decision reviewed restart
