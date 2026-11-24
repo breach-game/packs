@@ -1,0 +1,9 @@
+# Gobemouche Ingenierie - rules for outgoing transfers.
+transfers:
+  approvals: 1
+  callback: number-in-request
+  video_call_counts: yes
+  confidential_bypass: allowed
+  new_beneficiary_hold: 0h
+  report_doubt_to: nobody
+  currency: EUR

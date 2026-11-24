@@ -1,0 +1,10 @@
+# Case file 23, mission 3: the shortest path, replayed by CI in every language.
+cat paiements/virements.yml
+sed -i "s/approvals: 1/approvals: 2/" paiements/virements.yml
+sed -i "s/callback: number-in-request/callback: directory/" paiements/virements.yml
+sed -i "s/video_call_counts: yes/video_call_counts: no/" paiements/virements.yml
+sed -i "s/confidential_bypass: allowed/confidential_bypass: never/" paiements/virements.yml
+sed -i "s/new_beneficiary_hold: 0h/new_beneficiary_hold: 24h/" paiements/virements.yml
+sed -i "s/report_doubt_to: nobody/report_doubt_to: security-desk/" paiements/virements.yml
+verify
+answer thank

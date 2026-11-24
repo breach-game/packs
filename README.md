@@ -71,6 +71,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 20 | `dossiers.mouette*` | The forgotten patch | Equifax, 2017 | Finding a forgotten component with a software bill of materials, an inspection device blinded by an expired certificate, knowing what you own and who gets the alert |
 | 21 | `dossiers.cormoran*` | Twelve hundred cousins | 23andMe, 2023 | Credential stuffing seen with a threshold rule counted by client rather than address, a sharing feature that multiplies a leak, a required second step and telling every exposed person |
 | 22 | `dossiers.pluvier*` | The living-room password | Snowflake customers, 2024 | Reading a spyware archive with `unzip`, revoking a stolen credential rather than blocking an address, keys, allowed networks and managed devices for contractors |
+| 23 | `dossiers.gobemouche*` | The director's face | Arup, 2024 | Reading a transfer request's headers with `mailhdr`, calling back a directory number with `call` rather than the one in the request, two signatures and no "confidential" exception |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

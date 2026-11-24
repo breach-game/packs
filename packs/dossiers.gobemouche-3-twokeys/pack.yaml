@@ -1,0 +1,16 @@
+id: dossiers.gobemouche-3-twokeys
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.gobemouche-world]
+title:
+  fr: "Dossier 23 · 3. Deux signatures"
+  en: "Case file 23 · 3. Two signatures"
+summary:
+  fr: "Tu règles les virements de Gobemouche : deux signatures, un rappel sur l'annuaire, aucune exception « confidentielle », un délai pour un nouveau bénéficiaire, et quelqu'un à qui signaler un doute. Puis tu décides comment parler de Malik. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Gobemouche's transfer rules: two signatures, a callback on the directory, no \"confidential\" exception, a delay for a new beneficiary, and someone to report a doubt to. Then you decide how to talk about Malik. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, crisis]
+minutes: 10

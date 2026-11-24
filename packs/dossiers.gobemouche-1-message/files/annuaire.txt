@@ -1,0 +1,10 @@
+Gobemouche Ingenierie - internal directory (extract)
+
+NAME             ROLE                       OFFICE   EXTENSION
+Ines Garnier     Finance director           Paris    4120
+Paul Lemaire     Legal director             Paris    4131
+Malik Benali     Accountant                 Lille    5207
+Sonia Meyer      Head of accounts           Lille    5200
+Standard         Switchboard                Paris    4000
+
+To check an unusual request, call the extension listed here, never a number given in the request.

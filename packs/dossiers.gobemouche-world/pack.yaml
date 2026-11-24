@@ -1,0 +1,12 @@
+id: dossiers.gobemouche-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Gobemouche"
+  en: "Gobemouche"
+summary:
+  fr: "Gobemouche Ingénierie, bureau d'études fictif aux bureaux dans plusieurs pays. Sa comptabilité règle de gros montants, souvent dans l'urgence."
+  en: "Gobemouche Ingénierie, a fictional engineering firm with offices in several countries. Its accounts team pays large sums, often in a hurry."
+authors: [BREACH team]
+locales: [fr, en]

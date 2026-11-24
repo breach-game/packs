@@ -1,0 +1,6 @@
+batch,beneficiary,iban_country,amount_eur,status
+HERON-1,Altamira Holdings Ltd,HK,840000,pending
+HERON-2,Altamira Holdings Ltd,HK,840000,pending
+HERON-3,Sandpiper Bay Trading,SG,840000,pending
+HERON-4,North Quay Advisory,HK,840000,pending
+HERON-5,North Quay Advisory,HK,840000,pending

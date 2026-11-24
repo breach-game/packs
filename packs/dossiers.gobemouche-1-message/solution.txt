@@ -1,0 +1,5 @@
+# Case file 23, mission 1: the shortest path, replayed by CI in every language.
+cat boite/demande.eml
+mailhdr boite/demande.eml
+answer domain gobemouche-groupe.example
+answer spf

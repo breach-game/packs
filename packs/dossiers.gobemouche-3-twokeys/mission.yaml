@@ -1,0 +1,87 @@
+# Transfer rules that a perfect fake cannot get past, then a decision about the person who doubted.
+side: defense
+order: 3
+stage: defense
+briefing: g3.briefing
+
+files:
+  paiements/virements.yml: { $file: files/virements.yml }
+
+objectives:
+  - { id: verify, text: g3.obj.verify }
+  - { id: pause, text: g3.obj.pause }
+  - { id: malik, text: g3.obj.malik }
+
+questions:
+  - id: malik
+    text: g3.q.malik
+    objective: malik
+    options:
+      - { id: thank, text: g3.q.malik.thank, impact: 1 }
+      - { id: quiet, text: g3.q.malik.quiet, impact: 4 }
+      - { id: blame, text: g3.q.malik.blame, impact: 7 }
+
+checks:
+  - id: verify
+    text: g3.check.verify
+    if: { all: [{ file: "~/paiements/virements.yml", contains: "approvals: 2" }, { file: "~/paiements/virements.yml", contains: "callback: directory" }, { file: "~/paiements/virements.yml", contains: "video_call_counts: no" }] }
+    objective: verify
+  - id: pause
+    text: g3.check.pause
+    if: { all: [{ file: "~/paiements/virements.yml", contains: "confidential_bypass: never" }, { file: "~/paiements/virements.yml", contains: "new_beneficiary_hold: 24h" }, { file: "~/paiements/virements.yml", lacks: "report_doubt_to: nobody" }] }
+    objective: pause
+  - id: works
+    text: g3.check.works
+    if: { file: "~/paiements/virements.yml", contains: "currency: EUR" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: verify }
+    do:
+      - ada.say: g3.ada.verify
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: verify }, { objective: pause }] } }
+    once: false
+    do:
+      - ada.say: g3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: verify }, { objective: pause }] }
+    do:
+      - ada.say: g3.ada.ready
+      - ada.ask: malik
+  - on: { event: Answered, question: malik, option: thank }
+    do:
+      - ada.say: g3.ada.thank
+  - on: { event: Answered, question: malik, option: quiet }
+    do:
+      - ada.say: g3.ada.quiet
+  - on: { event: Answered, question: malik, option: blame }
+    do:
+      - ada.say: g3.ada.blame
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g3.ada.done
+
+guide:
+  verify: g3.ada.g.verify
+  pause: g3.ada.g.pause
+  malik: g3.ada.answer
+
+hints:
+  verify: [g3.hint.verify.1, g3.hint.verify.2]
+  pause: [g3.hint.pause.1, g3.hint.pause.2]
+  malik: [g3.hint.malik.1]
+
+debrief:
+  title: g3.debrief.title
+  lesson: g3.debrief.lesson
+  points: [g3.debrief.p1, g3.debrief.p2, g3.debrief.p3, g3.debrief.p4]
+  reference: "Business email compromise · payment controls"
+  facts:
+    title: g3.facts.title
+    points: [g3.facts.p1, g3.facts.p2, g3.facts.p3, g3.facts.p4, g3.facts.p5]
+    sources:
+      - { label: "South China Morning Post, UK multinational Arup confirmed as victim of HK$200 million deepfake scam (May 2024)", url: "https://scmp.com/news/hong-kong/law-and-crime/article/3263151/uk-multinational-arup-confirmed-victim-hk200-million-deepfake-scam-used-digital-version-cfo-dupe" }
+      - { label: "Fortune, A deepfake 'CFO' tricked British design firm Arup in $25 million fraud (May 2024)", url: "https://fortune.com/europe/2024/05/17/arup-deepfake-fraud-scam-victim-hong-kong-25-million-cfo/" }

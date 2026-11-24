@@ -1,0 +1,7 @@
+# Case file 23, mission 2: the shortest path, replayed by CI in every language.
+call "+33 6 39 98 12 34" "Pouvez-vous confirmer le virement Heron ? / Can you confirm the Heron transfer?"
+cat annuaire.txt
+call 4120 "Avez-vous demandé un virement confidentiel ? / Did you ask for a confidential transfer?"
+contain block lot-heron
+cat paiements/lot-heron.csv
+answer amount 4200000
