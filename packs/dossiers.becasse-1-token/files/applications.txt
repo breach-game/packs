@@ -1,0 +1,4 @@
+Applications registered by Vauclair Water Agency with Cirrus Mail
+app=5c21d0be  Agency mail client (staff laptops and phones)
+app=9aa3c4f0  Archiving service (legal retention, read only)
+Any other application id reading the agency's mail was not registered by the agency.

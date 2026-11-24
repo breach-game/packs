@@ -1,0 +1,12 @@
+id: dossiers.becasse-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Agence de l'eau Vauclair"
+  en: "Vauclair Water Agency"
+summary:
+  fr: "L'Agence de l'eau Vauclair, établissement public fictif, dont la messagerie est hébergée chez Cirrus, un fournisseur de cloud fictif. L'agence a payé l'option qui garde le détail de chaque accès aux messages."
+  en: "Vauclair Water Agency, a fictional public body whose mail is hosted by Cirrus, a fictional cloud provider. The agency paid for the option that keeps the detail of every access to messages."
+authors: [BREACH team]
+locales: [fr, en]

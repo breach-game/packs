@@ -1,0 +1,3 @@
+file.readme: "Ligne Rouge workstation. Case file: Bécasse. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE VC-2027-090\nClient: Vauclair Water Agency, a public body. Scope: *.vauclair.test, 10.98.0.0/24.\nPurpose: an alert of the agency reports messages read by an unknown application. Ligne Rouge helps the agency's security team understand, block and report, together with the provider Cirrus.\nAgreed setup: defence only. Reading the mail logs, measures run through `contain`.\nSigned: the chief information security officer of Vauclair Water Agency."
+ada.outOfScope: "Stop. This target is outside mandate VC-2027-090. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

@@ -1,0 +1,109 @@
+# Case file 28, mission 1: the customer's alert. Live mail API requests from an application id the
+# agency never registered; the player writes the rule on it. The token from Cirrus's diagnostic log
+# is read with `jwt decode` (read only): kid and issuer of the consumer service, tenant of the
+# agency. Then the application is blocked. Nothing is signed or forged in the game.
+side: defense
+order: 1
+stage: defense
+briefing: b1.briefing
+reveal: [messagerie]
+
+files:
+  regles/appli-inconnue.yml: |
+    title: Mail read by an application the agency never registered
+    source: access
+  traces/jetons.log: { $file: files/jetons.log }
+  traces/applications.txt: { $file: files/applications.txt }
+
+adversary:
+  id: reader
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: r1, host: messagerie, source: access, fields: { src: 198.51.100.150, method: GET, path: /api/v2/boites/dir-generale/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" } }
+    - { id: r2, host: messagerie, source: access, fields: { src: 198.51.100.150, method: GET, path: /api/v2/boites/dir-financiere/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" } }
+    - { id: r3, host: messagerie, source: access, fields: { src: 198.51.100.151, method: GET, path: /api/v2/boites/juridique/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" }, blockedIf: { config: bc.blocked, eq: true } }
+    - { id: r4, host: messagerie, source: access, fields: { src: 198.51.100.151, method: GET, path: /api/v2/boites/cabinet/messages, status: 200, ua: "CirrusMail-API/2.1 app=0f3e9a71" }, blockedIf: { config: bc.blocked, eq: true } }
+
+# The agency's own mail client and its archiving service.
+background:
+  - { host: messagerie, source: access, every: 2, offset: 0, fields: { src: 10.98.0.140, method: GET, path: /api/v2/boites/dir-generale/messages, status: 200, ua: "CirrusMail-API/2.1 app=5c21d0be" } }
+  - { host: messagerie, source: access, every: 3, offset: 1, fields: { src: 10.98.0.141, method: GET, path: /api/v2/boites/juridique/messages, status: 200, ua: "CirrusMail-API/2.1 app=5c21d0be" } }
+  - { host: messagerie, source: access, every: 4, offset: 2, fields: { src: 10.98.0.60, method: GET, path: /api/v2/boites/cabinet/messages, status: 200, ua: "CirrusMail-API/2.1 app=9aa3c4f0" } }
+
+containment:
+  - id: block
+    action: block
+    target: appli-0f3e9a71
+    text: b1.contain.block
+    sets: { bc.blocked: true }
+    impact: 0
+
+objectives:
+  - { id: rule, text: b1.obj.rule }
+  - { id: kid, text: b1.obj.kid }
+  - { id: meaning, text: b1.obj.meaning }
+  - { id: block, text: b1.obj.block }
+
+investigation:
+  - { id: kid, text: b1.q.kid, value: "grand-public-2016", points: 100, objective: kid }
+
+hunts:
+  - id: app
+    file: regles/appli-inconnue.yml
+    catch: { source: access, where: { ua: { contains: "app=0f3e9a71" } } }
+    objective: rule
+
+questions:
+  - id: meaning
+    text: b1.q.meaning
+    objective: meaning
+    correct: key
+    options:
+      - { id: key, text: b1.q.meaning.key }
+      - { id: password, text: b1.q.meaning.password, why: b1.q.meaning.password.why }
+      - { id: stolen, text: b1.q.meaning.stolen, why: b1.q.meaning.stolen.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b1.ada.brief
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: b1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: b1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: kid }
+    do:
+      - ada.say: b1.ada.kid
+      - ada.ask: meaning
+  - on: { event: ObjectiveCompleted, objective: meaning }
+    do:
+      - ada.say: b1.ada.meaning
+  - on: { event: Contained, containment: block }
+    do:
+      - objective.complete: block
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b1.ada.done
+
+guide:
+  rule: b1.ada.g.rule
+  kid: b1.ada.g.kid
+  meaning: b1.ada.g.meaning
+  block: b1.ada.g.block
+
+hints:
+  rule: [b1.hint.rule.1, b1.hint.rule.2]
+  kid: [b1.hint.kid.1, b1.hint.kid.2]
+  block: [b1.hint.block.1]
+
+debrief:
+  title: b1.debrief.title
+  lesson: b1.debrief.lesson
+  points: [b1.debrief.p1, b1.debrief.p2, b1.debrief.p3]
+  reference: "CISA · AA23-193A Enhanced Monitoring for Outlook Online"

@@ -1,0 +1,74 @@
+# Case file 28 "Bécasse". Inspired by the forged mail tokens of summer 2023. Played on the defence
+# side only, from the customer's seat: the alert on an unknown application, the token read with
+# `jwt decode` (signed by a consumer key, accepted for an organisation), the block, then the report.
+# The provider (Cirrus), the agency and every name are fictional: reserved domains, private and
+# documentation addresses only. `jwt decode` only reads: nothing is signed or forged in the game.
+startTime: "2027-06-16T10:00:00+02:00"
+mandate: VC-2027-090
+scope:
+  domains: ["*.vauclair.test"]
+  networks: ["10.98.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.98.0.2
+
+config:
+  bc.blocked: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.98.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [messagerie]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            VC-2027-090.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The agency's mailboxes as Cirrus serves them: the mail API the clients call.
+  - id: messagerie
+    hostname: mail.vauclair.test
+    ip: 10.98.0.25
+    os: Cirrus Mail (hosted)
+    map: { x: 220, z: -40, h: 120 }
+    services:
+      - { port: 443, name: https, product: Cirrus Mail API 2.1 }
+
+  # Where the forged requests come from, seen only in the logs. Never reachable.
+  - id: outside
+    hostname: inconnu.vauclair.test
+    ip: 10.98.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  vauclair.test: { A: ["10.98.0.25"] }
+  mail.vauclair.test: { A: ["10.98.0.25"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

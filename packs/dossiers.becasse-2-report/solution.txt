@@ -1,0 +1,9 @@
+# Case file 28, mission 2: the shortest path, replayed by CI in every language.
+cat traces/acces-boites.log
+grep 0f3e9a71 traces/acces-boites.log
+answer boxes 4
+jq '.keys[]' traces/cles-cirrus.json
+answer retire 2021-04-01
+answer detailed
+timeline cle
+timeline cle created retire forged alert revoked
