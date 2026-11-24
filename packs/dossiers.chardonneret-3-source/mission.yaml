@@ -1,0 +1,84 @@
+side: defense
+order: 3
+stage: defense
+briefing: c3.briefing
+
+files:
+  dossier/charly.yml: { $file: files/charly.yml }
+
+objectives:
+  - { id: notice, text: c3.obj.notice }
+  - { id: ground, text: c3.obj.ground }
+  - { id: unsure, text: c3.obj.unsure }
+  - { id: review, text: c3.obj.review }
+
+questions:
+  - id: notice
+    text: c3.q.notice
+    objective: notice
+    correct: fix
+    options:
+      - { id: fix, text: c3.q.notice.fix }
+      - { id: warned, text: c3.q.notice.warned, why: c3.q.notice.warned.why }
+      - { id: bold, text: c3.q.notice.bold, why: c3.q.notice.bold.why }
+
+checks:
+  - id: ground
+    text: c3.check.ground
+    if: { all: [{ file: "~/dossier/charly.yml", lacks: "answers_from: model-memory" }, { file: "~/dossier/charly.yml", contains: "answers_from: published-pages" }, { file: "~/dossier/charly.yml", lacks: "cite_source: off" }, { file: "~/dossier/charly.yml", contains: "cite_source: on" }] }
+    objective: ground
+  - id: unsure
+    text: c3.check.unsure
+    if: { all: [{ file: "~/dossier/charly.yml", lacks: "when_unsure: improvise" }, { file: "~/dossier/charly.yml", contains: "when_unsure: hand-over" }, { file: "~/dossier/charly.yml", lacks: "money_quotes_only: off" }, { file: "~/dossier/charly.yml", contains: "money_quotes_only: on" }] }
+    objective: unsure
+  - id: review
+    text: c3.check.review
+    if: { all: [{ file: "~/dossier/charly.yml", lacks: "sample_check: never" }, { file: "~/dossier/charly.yml", contains: "sample_check: weekly" }] }
+    objective: review
+  - id: works
+    text: c3.check.works
+    if: { all: [{ file: "~/dossier/charly.yml", contains: "online: on" }, { file: "~/dossier/charly.yml", contains: "keep_conversations: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c3.ada.brief
+      - ada.ask: notice
+  - on: { event: ObjectiveCompleted, objective: notice }
+    do:
+      - ada.say: c3.ada.notice
+  - on: { event: ObjectiveCompleted, objective: ground }
+    do:
+      - ada.say: c3.ada.ground
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: ground }, { objective: unsure }, { objective: review }] } }
+    once: false
+    do:
+      - ada.say: c3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c3.ada.done
+
+guide:
+  notice: c3.ada.answer
+  ground: c3.ada.g.ground
+  unsure: c3.ada.g.unsure
+  review: c3.ada.g.review
+
+hints:
+  notice: [c3.hint.notice.1]
+  ground: [c3.hint.ground.1, c3.hint.ground.2]
+  unsure: [c3.hint.unsure.1, c3.hint.unsure.2]
+  review: [c3.hint.review.1, c3.hint.review.2]
+
+debrief:
+  title: c3.debrief.title
+  lesson: c3.debrief.lesson
+  points: [c3.debrief.p1, c3.debrief.p2, c3.debrief.p3, c3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM09 Misinformation"
+  facts:
+    title: c3.facts.title
+    points: [c3.facts.p1, c3.facts.p2, c3.facts.p3, c3.facts.p4, c3.facts.p5]
+    sources:
+      - { label: "Civil Resolution Tribunal of British Columbia, decision 2024 BCCRT 149 (14 February 2024)", url: "https://decisions.civilresolutionbc.ca/crt/crtd/en/525448/1/document.do" }
+      - { label: "CBC News, Air Canada found liable for chatbot's bad advice on plane tickets (15 February 2024)", url: "https://www.cbc.ca/news/canada/british-columbia/air-canada-chatbot-lawsuit-1.7116416" }

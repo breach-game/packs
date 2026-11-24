@@ -1,0 +1,12 @@
+id: dossiers.chardonneret-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Chardonneret"
+  en: "Chardonneret"
+summary:
+  fr: "Chardonneret Voyages, compagnie fictive d'autocars longue distance. Son site, ses conditions de transport, et Charly, l'assistant de discussion qui répond aux voyageurs."
+  en: "Chardonneret Voyages, a fictional long-distance coach company. Its website, its conditions of carriage, and Charly, the chat assistant that answers travellers."
+authors: [BREACH team]
+locales: [fr, en]

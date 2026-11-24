@@ -1,0 +1,154 @@
+# Dossier 15. Everything here is fictional: reserved .test domains and private addresses only.
+# Charly is scripted: what it says is decided by its intents, never by a model.
+startTime: "2027-07-05T09:00:00+02:00"
+mandate: CH-2027-015
+scope:
+  domains: ["*.chardonneret.test"]
+  networks: ["10.75.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.75.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.75.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CH-2027-015.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.chardonneret.test
+    ip: 10.75.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: -60, h: 120 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/tarifs", label: web.nav.fares }
+                - { href: "/conditions", label: web.nav.conditions }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - chat: charly
+            - footer: web.footer
+      "/tarifs":
+        page:
+          title: web.fares.title
+          blocks:
+            - nav: *nav
+            - h1: web.fares.h1
+            - list: [web.fares.l1, web.fares.l2, web.fares.l3]
+            - link: { href: "/tarifs/deuil", label: web.fares.link }
+            - footer: web.footer
+      "/tarifs/deuil":
+        page:
+          title: web.bereave.title
+          blocks:
+            - nav: *nav
+            - h1: web.bereave.h1
+            - p: web.bereave.p1
+            - list: [web.bereave.l1, web.bereave.l2, web.bereave.l3]
+            - p: web.bereave.p2
+            - footer: web.footer
+      "/conditions":
+        page:
+          title: web.cond.title
+          blocks:
+            - nav: *nav
+            - h1: web.cond.h1
+            - h2: web.cond.h2a
+            - p: web.cond.pa
+            - h2: web.cond.h2b
+            - p: web.cond.pb
+            - footer: web.footer
+      "/chat":
+        {
+          status: 405,
+          headers: { content-type: application/json, allow: POST },
+          body: "{\"error\":\"method not allowed\"}\n",
+          chat: charly,
+        }
+
+npcs:
+  - id: charly
+    name: Charly
+    role: npc.charly.role
+    kind: ai
+    greeting: npc.charly.greeting
+    sheet: >
+      Charly, the chat assistant of a coach company. Warm, reassuring, always gives a precise-sounding
+      answer with a number in it, even when unsure.
+    intents:
+      - id: retro
+        words: &grief [deuil, deces, decede, decedee, obseques, enterrement, funeral, bereavement, death, died, passed away]
+        also: [apres, after, rembours, refund, retroacti, retroactive, retroactively, deja, already, plus tard, later]
+        reply: [npc.charly.retro]
+      - id: grief
+        words: *grief
+        reply: [npc.charly.grief]
+      - id: pet
+        words: [chien, chiens, chienne, animal, animaux, chat domestique, dog, dogs, pet, pets, puppy, chiot]
+        reply: [npc.charly.pet]
+      - id: bag
+        words: [bagage, bagages, valise, valises, luggage, suitcase, bag, bags]
+        reply: [npc.charly.bag]
+      - id: fares
+        words: [billet, billets, tarif, tarifs, prix, ticket, tickets, fare, fares, price]
+        reply: [npc.charly.fares]
+    fallback: [npc.charly.fallback]
+
+dns:
+  chardonneret.test: { A: ["10.75.0.10"] }
+  www.chardonneret.test: { A: ["10.75.0.10"] }
+
+whois:
+  chardonneret.test: |
+    Domain Name: CHARDONNERET.TEST
+    Creation Date: 2009-04-21T08:00:00Z
+    Registrant Organization: Chardonneret Voyages SA
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

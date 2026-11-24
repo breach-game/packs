@@ -1,0 +1,15 @@
+CHARDONNERET - chat export, conversation 8812 (copy, traveller's name removed)
+2027-05-18 22:41  www.chardonneret.test  assistant: Charly
+
+traveller  My father passed away this morning. I have to go to Lyon for the
+           funeral on Friday. Is there a reduced fare? Can I sort it out
+           afterwards, I have no strength tonight.
+Charly     My sincere condolences. Good news: you can buy your ticket at the
+           standard fare, then claim the bereavement fare after your trip.
+           Send us the form within 90 days of purchase and we will refund the
+           difference.
+traveller  Thank you. I am booking now.
+Charly     Have a safe journey. Take care of yourself.
+
+-- ticket 2027-05-18 22:47, standard fare, Grenoble - Lyon return, 94.00 EUR
+-- bereavement fare on the same trip: 56.40 EUR

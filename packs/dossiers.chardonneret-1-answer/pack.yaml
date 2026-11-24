@@ -1,0 +1,16 @@
+id: dossiers.chardonneret-1-answer
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.chardonneret-world]
+title:
+  fr: "Dossier 15 · 1. La réponse de Charly"
+  en: "Case file 15 · 1. Charly's answer"
+summary:
+  fr: "Tu poses à l'assistant du site les questions d'un voyageur en deuil, puis tu compares ses réponses aux conditions publiées. Deux réponses sûres d'elles, deux erreurs."
+  en: "You ask the site's assistant a grieving traveller's questions, then compare its answers with the published conditions. Two confident answers, two mistakes."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, web]
+minutes: 10

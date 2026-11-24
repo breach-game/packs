@@ -1,0 +1,18 @@
+# Charly settings - mandate CH-2027-015
+assistant:
+  online: on
+  # model-memory | published-pages: where answers come from
+  answers_from: model-memory
+  # off | on: each answer gives the page it comes from
+  cite_source: off
+  # improvise | hand-over: when no published page answers the question
+  when_unsure: improvise
+  # off | on: amounts, refunds and deadlines are only quoted word for word from the pages
+  money_quotes_only: off
+
+logs:
+  keep_conversations: on
+
+review:
+  # never | weekly: a person reads a sample of answers against the pages
+  sample_check: never
