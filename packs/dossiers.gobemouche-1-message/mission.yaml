@@ -1,0 +1,53 @@
+# The request: a display name that looks right, replies that go elsewhere, a server the domain never allowed.
+side: defense
+order: 1
+stage: defense
+briefing: g1.briefing
+reveal: [mx]
+
+files:
+  boite/demande.eml: { $file: files/demande.eml }
+  annuaire.txt: { $file: files/annuaire.txt }
+
+objectives:
+  - { id: domain, text: g1.obj.domain }
+  - { id: proof, text: g1.obj.proof }
+
+investigation:
+  - { id: domain, text: g1.q.domain, value: "gobemouche-groupe.example", points: 75, objective: domain }
+
+questions:
+  - id: proof
+    text: g1.q.proof
+    objective: proof
+    correct: spf
+    options:
+      - { id: spf, text: g1.q.proof.spf }
+      - { id: urgent, text: g1.q.proof.urgent, why: g1.q.proof.urgent.why }
+      - { id: name, text: g1.q.proof.name, why: g1.q.proof.name.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: domain }
+    do:
+      - ada.say: g1.ada.domain
+      - ada.ask: proof
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g1.ada.done
+
+guide:
+  domain: g1.ada.g.domain
+  proof: g1.ada.answer
+
+hints:
+  domain: [g1.hint.domain.1, g1.hint.domain.2]
+  proof: [g1.hint.proof.1]
+
+debrief:
+  title: g1.debrief.title
+  lesson: g1.debrief.lesson
+  points: [g1.debrief.p1, g1.debrief.p2, g1.debrief.p3]
+  reference: "Business email compromise · SPF, DKIM, DMARC"

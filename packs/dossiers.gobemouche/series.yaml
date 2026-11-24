@@ -1,0 +1,5 @@
+# Case file 23, in playing order: the message, the callback, the rules.
+missions:
+  - dossiers.gobemouche-1-message
+  - dossiers.gobemouche-2-callback
+  - dossiers.gobemouche-3-twokeys

@@ -1,0 +1,16 @@
+id: dossiers.gobemouche-1-message
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.gobemouche-world]
+title:
+  fr: "Dossier 23 · 1. Strictement confidentiel"
+  en: "Case file 23 · 1. Strictly confidential"
+summary:
+  fr: "Une demande de virement au nom de la directrice financière. Tu lis ses en-têtes avec `mailhdr`, tu trouves où partiraient les réponses, et tu dis ce qui prouve qu'elle ne vient pas de l'entreprise."
+  en: "A transfer request in the finance director's name. You read its headers with `mailhdr`, find where the replies would go, and say what proves it did not come from the company."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense]
+minutes: 8

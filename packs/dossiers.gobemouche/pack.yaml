@@ -1,0 +1,16 @@
+id: dossiers.gobemouche
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [dossiers.gobemouche-world]
+title:
+  fr: "Dossier 23 : le visage de la directrice"
+  en: "Case file 23: the director's face"
+summary:
+  fr: "Inspiré de la fraude de 2024 où un employé a fait quinze virements après une visioconférence avec de faux dirigeants. Sous mandat, tu lis les en-têtes de la demande, tu rappelles la vraie directrice sur le bon numéro et tu retiens les virements, puis tu poses des règles qu'un faux parfait ne passe pas. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2024 fraud where an employee made fifteen transfers after a video call with fake executives. Under mandate, you read the request's headers, call the real director back on the right number and hold the transfers, then set rules a perfect fake cannot pass. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, crisis]
+incident: 2024

@@ -1,0 +1,16 @@
+id: dossiers.gobemouche-2-callback
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.gobemouche-world]
+title:
+  fr: "Dossier 23 · 2. Le contre-appel"
+  en: "Case file 23 · 2. The callback"
+summary:
+  fr: "Le numéro du message confirme tout, forcément. Tu rappelles la directrice sur le poste de l'annuaire avec `call`, tu bloques les cinq virements avant qu'ils partent, et tu comptes ce qui allait sortir."
+  en: "The number in the message confirms everything, of course. You call the director back on the directory extension with `call`, block the five transfers before they leave, and count what was about to go."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, crisis]
+minutes: 10

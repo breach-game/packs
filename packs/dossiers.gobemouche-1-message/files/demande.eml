@@ -1,0 +1,24 @@
+Return-Path: <direction@gobemouche-groupe.example>
+Received: from mx.gobemouche.test (mx.gobemouche.test [10.83.0.25]) by boite.gobemouche.test; Tue, 5 Oct 2027 08:41:09 +0200
+Received: from smtp.gobemouche-groupe.example (smtp [203.0.113.45])
+  by mx.gobemouche.test with ESMTP id 8c1; Tue, 5 Oct 2027 08:41:07 +0200
+Authentication-Results: mx.gobemouche.test; spf=fail (sender 203.0.113.45 not permitted) smtp.mailfrom=gobemouche-groupe.example;
+  dkim=none; dmarc=fail header.from=gobemouche.test
+From: "Ines Garnier - Direction financiere" <ines.garnier@gobemouche.test>
+Reply-To: ines.garnier@gobemouche-groupe.example
+To: malik.benali@gobemouche.test
+Date: Tue, 5 Oct 2027 08:40:52 +0200
+Subject: Strictement confidentiel - operation Heron
+
+Malik,
+
+Nous finalisons le rachat d'une societe. L'operation est strictement confidentielle :
+n'en parlez a personne, pas meme a votre responsable.
+
+Je vous propose une courte visio a 9 h avec notre avocat et le directeur juridique.
+Vous recevrez ensuite les coordonnees bancaires pour cinq virements, a passer aujourd'hui.
+
+Si besoin, appelez-moi sur ma ligne personnelle : +33 6 39 98 12 34.
+
+Ines Garnier
+Directrice financiere

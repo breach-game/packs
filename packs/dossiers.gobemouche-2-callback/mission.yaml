@@ -1,0 +1,82 @@
+# A callback to a number you already know: the one check a deepfake cannot pass.
+side: defense
+order: 2
+stage: defense
+briefing: g2.briefing
+reveal: [pbx, payments]
+
+files:
+  paiements/lot-heron.csv: { $file: files/lot-heron.csv }
+  annuaire.txt: { $file: files/annuaire.txt }
+
+# The fraudsters' "personal line", given in the message. It always confirms.
+npcs:
+  - id: impostor
+    name: Inès Garnier
+    role: npc.impostor.role
+    kind: human
+    phone: "+33 6 39 98 12 34"
+    greeting: g2.impostor.greeting
+    intents:
+      - id: confirm
+        words: [virement, transfer, paiement, payment, transaction, confirm, confirmer, verifier, check, heron, visio, video, demande, request]
+        reply: [g2.impostor.confirm]
+    fallback: [g2.impostor.fallback]
+
+config:
+  go.held: false
+
+containment:
+  - id: hold
+    action: block
+    target: lot-heron
+    text: g2.contain.hold
+    sets: { go.held: true }
+    impact: 0
+
+objectives:
+  - { id: callback, text: g2.obj.callback }
+  - { id: hold, text: g2.obj.hold }
+  - { id: amount, text: g2.obj.amount }
+
+investigation:
+  - { id: amount, text: g2.q.amount, value: "4200000", points: 75, objective: amount }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g2.ada.brief
+  - on: { event: ChatReply, npc: impostor }
+    do:
+      - ada.say: g2.ada.impostor
+  - on: { event: ChatReply, npc: cfo, intent: transfer }
+    do:
+      - objective.complete: callback
+  - on: { event: ObjectiveCompleted, objective: callback }
+    do:
+      - ada.say: g2.ada.callback
+  - on: { event: Contained, containment: hold }
+    do:
+      - objective.complete: hold
+  - on: { event: ObjectiveCompleted, objective: hold }
+    do:
+      - ada.say: g2.ada.held
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g2.ada.done
+
+guide:
+  callback: g2.ada.g.callback
+  hold: g2.ada.g.hold
+  amount: g2.ada.g.amount
+
+hints:
+  callback: [g2.hint.callback.1, g2.hint.callback.2]
+  hold: [g2.hint.hold.1]
+  amount: [g2.hint.amount.1, g2.hint.amount.2]
+
+debrief:
+  title: g2.debrief.title
+  lesson: g2.debrief.lesson
+  points: [g2.debrief.p1, g2.debrief.p2, g2.debrief.p3]
+  reference: "Business email compromise · out-of-band verification"

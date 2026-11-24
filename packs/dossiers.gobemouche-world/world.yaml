@@ -1,0 +1,109 @@
+# Dossier 23. Everything here is fictional: reserved .test and .example domains, private and documentation
+# addresses, and telephone numbers reserved for fiction only.
+startTime: "2027-10-05T10:15:00+02:00"
+mandate: GO-2027-023
+scope:
+  domains: ["*.gobemouche.test"]
+  networks: ["10.83.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.83.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.83.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [mx, pbx]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            GO-2027-023.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: mx
+    hostname: mx.gobemouche.test
+    ip: 10.83.0.25
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: -80, h: 90 }
+    services:
+      - { port: 25, name: smtp, product: Postfix 3.7 }
+
+  # The phone exchange: every call leaves a record.
+  - id: pbx
+    hostname: pbx01.gobemouche.test
+    ip: 10.83.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 140, z: 100, h: 80 }
+    services:
+      - { port: 5060, name: sip, product: Asterisk 20 }
+
+  - id: payments
+    hostname: paiements.gobemouche.test
+    ip: 10.83.0.40
+    os: Linux 6.1 (Debian 12)
+    map: { x: 320, z: 0, h: 120 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+
+dns:
+  gobemouche.test: { A: ["10.83.0.10"] }
+  mx.gobemouche.test: { A: ["10.83.0.25"] }
+  pbx01.gobemouche.test: { A: ["10.83.0.30"] }
+  paiements.gobemouche.test: { A: ["10.83.0.40"] }
+
+whois:
+  gobemouche.test: |
+    Domain Name: GOBEMOUCHE.TEST
+    Creation Date: 1998-06-02T08:00:00Z
+    Registrant Organization: Gobemouche Ingenierie SA
+    Registrant Country: FR
+
+# The real finance director, reached on the extension listed in the company directory.
+npcs:
+  - id: cfo
+    name: Inès Garnier
+    role: npc.cfo.role
+    kind: human
+    phone: "4120"
+    greeting: npc.cfo.greeting
+    intents:
+      - id: transfer
+        words: [virement, transfer, paiement, payment, transaction, montant, amount, verser, pay, acquisition, rachat, confidentiel, confidential, visio, video, appel, call, demande, request]
+        reply: [npc.cfo.transfer]
+    fallback: [npc.cfo.fallback]
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
