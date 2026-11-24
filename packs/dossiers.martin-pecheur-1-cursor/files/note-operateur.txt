@@ -1,0 +1,13 @@
+BRUME WATER BOARD - TREATMENT PLANT - OPERATOR NOTE
+Friday 5 February 2027, written at 13:36
+
+08:00  Short remote session on the HMI. I thought it was the on-call engineer
+       checking the trends as usual, did not think twice.
+13:28  The mouse moved on its own again. Someone opened the Dosage screen.
+13:30  The sodium hydroxide (NaOH) setpoint went from 100 ppm to 11,100 ppm.
+13:30  I put it back to 100 ppm straight away. The dosing pump had not had
+       time to change anything: the water was never affected.
+13:31  Called the on-call engineer: they were not connected at 13:28.
+
+Everyone uses the same remote access account "station". The password is on
+the sticky note under the screen and in the on-call binder.

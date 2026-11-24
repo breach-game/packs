@@ -1,0 +1,16 @@
+id: dossiers.martin-pecheur
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.martin-pecheur-world]
+title:
+  fr: "Dossier 31 : la consigne de soude"
+  en: "Case file 31: the dosing setpoint"
+summary:
+  fr: "Inspiré de l'incident d'une petite usine d'eau en 2021, dont on ne sait toujours pas s'il venait d'un intrus. Joué entièrement côté défense : la session à distance, la règle sur les consignes changées de loin, l'accès coupé, puis les garde-fous qui tiennent dans tous les cas. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2021 incident at a small water plant, still not known to be an intruder. Played entirely on the defence side: the remote session, the rule on setpoints changed from afar, the access cut, then the safeguards that hold in every case. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, logs, defense]
+incident: 2021

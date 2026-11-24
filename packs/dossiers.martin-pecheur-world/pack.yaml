@@ -1,0 +1,12 @@
+id: dossiers.martin-pecheur-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Régie des Eaux de Brume"
+  en: "Brume Water Board"
+summary:
+  fr: "La Régie des Eaux de Brume, service d'eau potable fictif d'une petite ville, pilote son usine de traitement depuis un poste de supervision. Pour que l'équipe d'astreinte puisse aider de chez elle, un logiciel d'accès à distance y est installé, avec un seul compte pour tout le monde."
+  en: "Brume Water Board, the fictional drinking water service of a small town, runs its treatment plant from a supervision workstation. So that the on-call team can help from home, a remote access tool is installed on it, with one account for everybody."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,12 @@
+# Case file 31, mission 2: the shortest path, replayed by CI in every language.
+cat traces/procedure-astreinte.txt
+cat ihm/limites.conf
+sed -i "s/NaOH_ppm_max: 20000/NaOH_ppm_max: 150/" ihm/limites.conf
+sed -i "s/alarm_on_change: off/alarm_on_change: on/" ihm/limites.conf
+cat acces/acces-distance.conf
+sed -i "s/accounts: shared/accounts: individual/" acces/acces-distance.conf
+sed -i "s/mfa: off/mfa: on/" acces/acces-distance.conf
+verify
+answer vpn
+timeline journee
+timeline journee setup morning raise revert cut guard

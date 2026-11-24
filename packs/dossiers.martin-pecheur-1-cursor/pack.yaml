@@ -1,0 +1,16 @@
+id: dossiers.martin-pecheur-1-cursor
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.martin-pecheur-world]
+title:
+  fr: "Dossier 31 · 1. Le curseur"
+  en: "Case file 31 · 1. The cursor"
+summary:
+  fr: "Sur le poste de supervision d'une usine d'eau, le curseur a bougé seul et une consigne de dosage a été multipliée par cent. Tu trouves d'où venait la session, tu écris la règle qui voit une consigne changée à distance, puis tu coupes l'accès."
+  en: "On a water plant's supervision workstation, the cursor moved on its own and a dosing setpoint was multiplied by a hundred. You find where the session came from, write the rule that sees a setpoint changed remotely, then cut the access."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, logs, defense]
+minutes: 10
