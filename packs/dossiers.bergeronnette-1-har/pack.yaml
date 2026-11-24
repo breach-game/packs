@@ -1,0 +1,16 @@
+id: dossiers.bergeronnette-1-har
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bergeronnette-world]
+title:
+  fr: "Dossier 13 · 1. Le fichier de diagnostic"
+  en: "Case file 13 · 1. The diagnostic file"
+summary:
+  fr: "Un client joint à son ticket le fichier de diagnostic que l'assistance lui demande. Tu le lis avec jq, et tu regardes ce qu'il ouvre."
+  en: "A customer attaches to their ticket the diagnostic file support asks for. You read it with jq, and you see what it opens."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, cloud]
+minutes: 12

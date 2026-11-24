@@ -1,0 +1,12 @@
+id: dossiers.bergeronnette-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Bergeronnette"
+  en: "Bergeronnette"
+summary:
+  fr: "Bergeronnette, fournisseur fictif de connexion unique pour les entreprises. Son site, son portail d'assistance, et la console d'administration d'un client témoin."
+  en: "Bergeronnette, a fictional single sign-on provider for companies. Its website, its support portal, and the admin console of a witness customer."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,26 @@
+# Support portal settings (guichet 5.4) - exercise copy, mandate BG-2027-013
+portal:
+  online: on
+  audit_log: on
+
+attachments:
+  # off: kept as sent. on: cookies, Authorization headers and tokens are removed on arrival.
+  har_scrub: off
+  # forever | 90-days | 30-days
+  keep: forever
+
+service_account:
+  name: svc-guichet-sync
+  # everything | sync-only (ticket fields, no attachments)
+  reads: everything
+  # anywhere | sync-server (only from the synchronisation server's address)
+  login_from: anywhere
+
+workstations:
+  # allowed | blocked: personal browser profiles that sync passwords outside the company
+  personal_browser_profiles: allowed
+
+# Customer admin sessions on the platform.
+admin_sessions:
+  # none | device: a session only works on the device that opened it
+  bind: none

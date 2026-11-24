@@ -1,0 +1,99 @@
+# The customer's side: the admin session from the ticket is replayed by someone else. Nothing can fail:
+# the "attacker" is a red team colleague who replays the session under the same mandate.
+side: defense
+order: 2
+stage: defense
+briefing: b2.briefing
+reveal: [admin]
+
+files:
+  regles/session-ailleurs.yml: |
+    title: An admin session used from somewhere else
+    source: access
+
+adversary:
+  id: replay
+  name: "198.51.100.23"
+  from: ailleurs
+  pace: 1
+  delay: 0
+  steps:
+    - { id: look, host: admin, source: access, fields: { src: 198.51.100.23, method: GET, path: /console, status: 200, ua: python-requests/2.31 } }
+    - { id: admins, host: admin, source: access, fields: { src: 198.51.100.23, method: GET, path: /console/admins, status: 200, ua: python-requests/2.31 } }
+    - { id: create, host: admin, source: access, fields: { src: 198.51.100.23, method: POST, path: "/console/admins/new?login=svc-sauvegarde", status: 201, ua: python-requests/2.31 } }
+    - { id: users, host: admin, source: access, fields: { src: 198.51.100.23, method: GET, path: /console/users/export, status: 200, ua: python-requests/2.31 } }
+
+# The office: the real admin at work, and the platform's own health check.
+background:
+  - { host: admin, source: access, every: 2, offset: 0, fields: { src: 10.73.0.150, method: GET, path: /console, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+  - { host: admin, source: access, every: 3, offset: 1, fields: { src: 10.73.0.150, method: GET, path: /console/apps, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+  - { host: admin, source: access, every: 5, offset: 2, fields: { src: 10.73.0.150, method: POST, path: /console/users/new, status: 201, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+  - { host: admin, source: access, every: 4, offset: 3, fields: { src: 10.73.0.5, method: GET, path: /health, status: 200, ua: "curl/8.5.0" } }
+
+objectives:
+  - { id: read, text: b2.obj.read }
+  - { id: account, text: b2.obj.account }
+  - { id: rule, text: b2.obj.rule }
+  - { id: first, text: b2.obj.first }
+
+investigation:
+  - { id: source, text: b2.q.source, value: "198.51.100.23", points: 75, objective: read }
+  - { id: account, text: b2.q.account, value: "svc-sauvegarde", points: 75, objective: account }
+
+hunts:
+  - id: replay
+    file: regles/session-ailleurs.yml
+    catch: { source: access, where: { src: 198.51.100.23 } }
+    objective: rule
+
+questions:
+  - id: first
+    text: b2.q.first
+    objective: first
+    correct: sessions
+    options:
+      - { id: sessions, text: b2.q.first.sessions }
+      - { id: password, text: b2.q.first.password, why: b2.q.first.password.why }
+      - { id: block, text: b2.q.first.block, why: b2.q.first.block.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b2.ada.brief
+  - on: { event: AdversaryStep, step: look }
+    do:
+      - ada.say: b2.ada.new
+  - on: { event: AdversaryStep, step: create }
+    do:
+      - ada.say: b2.ada.created
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: b2.ada.read
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: b2.ada.account
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: b2.ada.rule
+      - ada.ask: first
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b2.ada.done
+
+guide:
+  read: b2.ada.g.read
+  account: b2.ada.g.account
+  rule: b2.ada.g.rule
+  first: b2.ada.answer
+
+hints:
+  read: [b2.hint.read.1, b2.hint.read.2, b2.hint.read.3]
+  account: [b2.hint.account.1, b2.hint.account.2]
+  rule: [b2.hint.rule.1, b2.hint.rule.2, b2.hint.rule.3]
+  first: [b2.hint.first.1]
+
+debrief:
+  title: b2.debrief.title
+  lesson: b2.debrief.lesson
+  points: [b2.debrief.p1, b2.debrief.p2, b2.debrief.p3]
+  reference: "OWASP Top 10 · A09 Security Logging and Monitoring Failures"

@@ -1,0 +1,10 @@
+# Case file 13, mission 2: the shortest path, replayed by CI in every language.
+soc logs admin access
+soc search python
+answer source 198.51.100.23
+soc search admins
+answer account svc-sauvegarde
+cat regles/session-ailleurs.yml
+echo "src|startswith: 198.51.100." >> regles/session-ailleurs.yml
+rule test regles/session-ailleurs.yml
+answer sessions

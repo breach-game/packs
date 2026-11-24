@@ -1,0 +1,11 @@
+# Case file 13, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/enquete.txt
+answer service
+cat dossier/guichet.yml
+sed -i "s/har_scrub: off/har_scrub: on/" dossier/guichet.yml
+sed -i "s/keep: forever/keep: 30-days/" dossier/guichet.yml
+sed -i "s/reads: everything/reads: sync-only/" dossier/guichet.yml
+sed -i "s/login_from: anywhere/login_from: sync-server/" dossier/guichet.yml
+sed -i "s/personal_browser_profiles: allowed/personal_browser_profiles: blocked/" dossier/guichet.yml
+sed -i "s/bind: none/bind: device/" dossier/guichet.yml
+verify
