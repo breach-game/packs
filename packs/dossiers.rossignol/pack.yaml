@@ -1,0 +1,16 @@
+id: dossiers.rossignol
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.rossignol-world]
+title:
+  fr: "Dossier 26 : le battement"
+  en: "Case file 26: the heartbeat"
+summary:
+  fr: "Inspiré de la faille du battement TLS d'avril 2014. Joué entièrement côté défense : tu comptes les services touchés, tu corriges et tu coupes ce qui ne peut pas l'être, puis, faute de pouvoir prouver qu'aucune clé n'a fui, tu remets la confiance en place dans l'ordre. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the TLS heartbeat flaw of April 2014. Played entirely on the defence side: you count the affected services, patch and switch off what cannot be patched, then, unable to prove no key leaked, restore trust in the right order. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, logs, crisis, defense]
+incident: 2014

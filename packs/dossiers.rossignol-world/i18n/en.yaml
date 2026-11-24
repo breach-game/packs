@@ -1,0 +1,7 @@
+file.readme: "Ligne Rouge workstation. Case file: Rossignol. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE VA-2027-044\nClient: Vallon Cooperative. Scope: *.vallon.test, 10.96.0.0/24.\nPurpose: a critical flaw in the VerreTLS encryption library has just been published. Ligne Rouge helps the IT team inventory, patch and restore trust in its encrypted services.\nAgreed setup: defence only. Service inventory allowed across the whole scope, measures run through `contain`, releases through `deploy`, settings through `flag`.\nSigned: the IT manager of Vallon Cooperative."
+page.webmail.h1: "Webmail"
+page.webmail.p: "Sign in with your member ID."
+page.extranet.h1: "Members' extranet"
+page.extranet.p: "Deliveries, invoices and today's prices."
+ada.outOfScope: "Stop. This target is outside mandate VA-2027-044. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

@@ -1,0 +1,12 @@
+id: dossiers.rossignol-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Coopérative du Vallon"
+  en: "Vallon Cooperative"
+summary:
+  fr: "La Coopérative du Vallon, réseau fictif de producteurs : une messagerie, un extranet pour les adhérents, un boîtier d'accès à distance acheté à un fabricant."
+  en: "Vallon Cooperative, a fictional network of growers: a webmail, an extranet for members, a remote access box bought from a manufacturer."
+authors: [BREACH team]
+locales: [fr, en]

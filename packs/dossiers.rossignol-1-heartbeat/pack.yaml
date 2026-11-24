@@ -1,0 +1,16 @@
+id: dossiers.rossignol-1-heartbeat
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.rossignol-world]
+title:
+  fr: "Dossier 26 · 1. Le battement"
+  en: "Case file 26 · 1. The heartbeat"
+summary:
+  fr: "Une faille dans la bibliothèque qui chiffre tous les services. Tu comptes les services touchés avec `nmap -sV`, en écartant les versions trop anciennes pour l'être, tu corriges ce qui peut l'être et tu coupes la fonction fautive sur le boîtier qu'on ne peut pas mettre à jour."
+  en: "A flaw in the library that encrypts every service. You count the affected services with `nmap -sV`, leaving out versions too old to be affected, patch what can be patched and switch off the faulty feature on the box that cannot be updated."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, recon, defense]
+minutes: 12
