@@ -1,0 +1,7 @@
+# Nacre - routes, names and site. Possible values after the #.
+site: online
+route_origin: unsigned                  # unsigned | signed-roa
+roa_max_length: any                     # any | as-announced
+route_alerts: none                      # none | on-new-origin
+dns_zone: plain                         # plain | dnssec-signed
+https_policy: warning-can-be-skipped    # warning-can-be-skipped | hsts-preloaded

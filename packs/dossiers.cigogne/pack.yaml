@@ -1,0 +1,16 @@
+id: dossiers.cigogne
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.cigogne-world]
+title:
+  fr: "Dossier 40 : la route la plus précise"
+  en: "Case file 40: the most specific route"
+summary:
+  fr: "Inspiré du détournement de routes Internet qui a visé un portefeuille de cryptomonnaie en avril 2018. Joué entièrement côté défense : le site n'a pas bougé, son nom non plus, et pourtant des clients arrivent ailleurs. Tu lis les réponses des serveurs de noms, les annonces de routes et un certificat que personne n'a vérifié, tu décides quoi dire aux clients, puis tu écris le plan qui rend le prochain détournement visible. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the Internet route hijack that targeted a cryptocurrency wallet in April 2018. Played entirely on the defence side: the site has not moved, neither has its name, and yet customers land somewhere else. You read name server answers, route announcements and a certificate nobody checked, decide what to tell customers, then write the plan that makes the next hijack visible. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [defense, crypto, logs]
+incident: 2018

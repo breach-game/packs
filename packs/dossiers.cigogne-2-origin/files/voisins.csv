@@ -1,0 +1,9 @@
+network,filters_announcements,bad_route
+AS64496,yes,rejected
+AS64497,no,accepted
+AS64498,no,accepted
+AS64499,yes,rejected
+AS64501,no,accepted
+AS64503,no,accepted
+AS64504,yes,rejected
+AS64505,no,accepted

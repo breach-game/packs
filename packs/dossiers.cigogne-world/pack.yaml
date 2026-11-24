@@ -1,0 +1,12 @@
+id: dossiers.cigogne-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Nacre"
+  en: "Nacre"
+summary:
+  fr: "Nacre, portefeuille en ligne fictif. Un site, un nom, et des serveurs de noms confiés à un opérateur. Entre le client et le site, des dizaines de réseaux qui se croient sur parole."
+  en: "Nacre, a fictional online wallet. One site, one name, and name servers run by an operator. Between the customer and the site, dozens of networks that take each other's word."
+authors: [BREACH team]
+locales: [fr, en]

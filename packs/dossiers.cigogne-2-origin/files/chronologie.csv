@@ -1,0 +1,8 @@
+time,source,event
+13:10,collector,10.110.0.0/24 announced by AS64510 (new origin)
+13:18,support,first ticket about a certificate warning
+13:20,probes,three probes out of six get 203.0.113.44 for portefeuille.nacre.test
+13:36,on-call,site checked from the office: normal
+14:20,name operator,confirms the announcement is not theirs and calls neighbouring networks
+14:55,collector,10.110.0.0/24 from AS64510 withdrawn
+15:05,probes,six probes out of six get 10.110.0.20

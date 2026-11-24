@@ -1,0 +1,17 @@
+# Case file 40, mission 2: the shortest path, replayed by CI in every language.
+cat routes/chronologie.csv
+grep "AS64510" routes/chronologie.csv
+answer minutes 105
+cat routes/voisins.csv
+grep -c ",rejected" routes/voisins.csv
+answer filtered 3
+cat routage/plan.yml
+sed -i "s/route_origin: unsigned/route_origin: signed-roa/" routage/plan.yml
+sed -i "s/roa_max_length: any/roa_max_length: as-announced/" routage/plan.yml
+sed -i "s/route_alerts: none/route_alerts: on-new-origin/" routage/plan.yml
+sed -i "s/dns_zone: plain/dns_zone: dnssec-signed/" routage/plan.yml
+sed -i "s/https_policy: warning-can-be-skipped/https_policy: hsts-preloaded/" routage/plan.yml
+verify
+answer stop
+timeline apresmidi
+timeline apresmidi announce lie ticket office operator withdrawn signed

@@ -1,0 +1,126 @@
+# Case file 40, mission 2: the origin. The player measures how long the false announcement
+# lasted, counts the neighbouring networks that filtered it, rewrites the plan for routes, names
+# and the site (`verify`), answers what still protects a customer when the route and the name
+# both lie, and orders the afternoon's events. Nothing is announced or attacked.
+side: defense
+order: 2
+stage: report
+startTime: "2029-06-13T09:00:00+02:00"
+briefing: c2.briefing
+reveal: [site, ns1, statut]
+
+files:
+  routes/chronologie.csv: { $file: files/chronologie.csv }
+  routes/voisins.csv: { $file: files/voisins.csv }
+  routage/plan.yml: { $file: files/plan.yml }
+
+objectives:
+  - { id: minutes, text: c2.obj.minutes }
+  - { id: filtered, text: c2.obj.filtered }
+  - { id: plan, text: c2.obj.plan }
+  - { id: last, text: c2.obj.last }
+  - { id: story, text: c2.obj.story }
+
+investigation:
+  - { id: minutes, text: c2.q.minutes, value: "105", points: 100, objective: minutes }
+  - { id: filtered, text: c2.q.filtered, value: "3", points: 100, objective: filtered }
+
+questions:
+  - id: last
+    text: c2.q.last
+    objective: last
+    correct: stop
+    options:
+      - { id: stop, text: c2.q.last.stop }
+      - { id: padlock, text: c2.q.last.padlock, why: c2.q.last.padlock.why }
+      - { id: bookmark, text: c2.q.last.bookmark, why: c2.q.last.bookmark.why }
+
+checks:
+  - id: roa
+    text: c2.check.roa
+    if: { file: "~/routage/plan.yml", contains: "route_origin: signed-roa" }
+    objective: plan
+  - id: length
+    text: c2.check.length
+    if: { file: "~/routage/plan.yml", contains: "roa_max_length: as-announced" }
+    objective: plan
+  - id: alerts
+    text: c2.check.alerts
+    if: { file: "~/routage/plan.yml", contains: "route_alerts: on-new-origin" }
+    objective: plan
+  - id: dnssec
+    text: c2.check.dnssec
+    if: { file: "~/routage/plan.yml", contains: "dns_zone: dnssec-signed" }
+    objective: plan
+  - id: hsts
+    text: c2.check.hsts
+    if: { file: "~/routage/plan.yml", contains: "https_policy: hsts-preloaded" }
+    objective: plan
+  - id: works
+    text: c2.check.works
+    if: { file: "~/routage/plan.yml", contains: "site: online" }
+
+timelines:
+  - id: apresmidi
+    text: c2.tl.text
+    objective: story
+    events:
+      - { id: announce, text: c2.tl.announce }
+      - { id: lie, text: c2.tl.lie }
+      - { id: ticket, text: c2.tl.ticket }
+      - { id: office, text: c2.tl.office }
+      - { id: operator, text: c2.tl.operator }
+      - { id: withdrawn, text: c2.tl.withdrawn }
+      - { id: signed, text: c2.tl.signed }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: minutes }
+    do:
+      - ada.say: c2.ada.minutes
+  - on: { event: ObjectiveCompleted, objective: filtered }
+    do:
+      - ada.say: c2.ada.filtered
+  - on: { event: Verified }
+    if: { not: { objective: plan } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: plan }
+    do:
+      - ada.say: c2.ada.plan
+      - ada.ask: last
+  - on: { event: ObjectiveCompleted, objective: last }
+    do:
+      - ada.say: c2.ada.last
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  minutes: c2.ada.g.minutes
+  filtered: c2.ada.g.filtered
+  plan: c2.ada.g.plan
+  last: c2.ada.g.last
+  story: c2.ada.g.story
+
+hints:
+  minutes: [c2.hint.minutes.1, c2.hint.minutes.2]
+  filtered: [c2.hint.filtered.1, c2.hint.filtered.2]
+  plan: [c2.hint.plan.1, c2.hint.plan.2]
+  last: [c2.hint.last.1]
+  story: [c2.hint.story.1, c2.hint.story.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3, c2.debrief.p4]
+  reference: "RFC 6811 · BGP prefix origin validation"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "Internet Society, analysis of the Amazon Route 53 BGP hijack (April 2018)", url: "https://www.internetsociety.org/blog/2018/04/amazons-route-53-bgp-hijack/" }
+      - { label: "Cloudflare blog, BGP leaks and cryptocurrencies (April 2018)", url: "https://blog.cloudflare.com/bgp-leaks-and-crypto-currencies" }
