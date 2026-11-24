@@ -1,8 +1,14 @@
 # Cormoran Origines: how customers sign in.
 sign_in:
+  # optional | required
   second_factor: optional
+  # allowed | refused: passwords already seen in public leaks
   leaked_passwords: allowed
+  # off | on: force a new password when a customer's password shows up in a leak
   reset_on_leak: off
+  # per-address | site-wide: what failed sign-ins are counted by
   failed_logins_alert: per-address
+  # off | on
   new_device_email: off
+  # a number of characters
   password_min_length: 8

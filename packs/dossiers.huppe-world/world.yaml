@@ -102,7 +102,7 @@ hosts:
           - id: back
             if: { config: hp.cles, eq: true }
             page:
-              title: "Clés de récupération · Ravel"
+              title: page.cles.title
               blocks:
                 - { h1: page.cles.h1 }
                 - { p: page.cles.p }

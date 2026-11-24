@@ -1,6 +1,8 @@
 # DNA Cousins: what each customer sees of the people they share DNA with.
 cousins:
   enabled: true
+  # default-on | explicit: is a customer listed before they say yes?
   opt_in: default-on
   visible_fields: [display_name, relationship, shared_dna, birth_year, location, family_names, ancestry]
+  # unlimited | a number: how many relatives one account can see
   max_listed: unlimited

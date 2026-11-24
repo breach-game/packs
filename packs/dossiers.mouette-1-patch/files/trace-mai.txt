@@ -3,3 +3,4 @@ PORTAL - first unusual entries found on litiges.mouette.test (security team, 29 
 2027-05-13 21:14  POST /litiges/envoi  Content-Type header 3,210 bytes long  status 200
 2027-05-13 21:16  new file in the web root: /litiges/aide.jsp (not in any release)
 2027-05-13 21:20  GET /litiges/aide.jsp?c=id  status 200
+2027-05-13 21:31  GET /litiges/aide.jsp  reads config/db.properties (database account and password, in clear)  status 200

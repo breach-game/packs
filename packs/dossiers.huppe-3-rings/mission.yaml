@@ -4,6 +4,7 @@ side: defense
 order: 3
 stage: report
 briefing: h3.briefing
+startTime: "2027-11-29T09:00:00+01:00"
 reveal: [comptoir07, cles, annuaire]
 
 config:

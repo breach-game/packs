@@ -17,7 +17,7 @@ o2.ada.g.rule: "The portal answers customers in small packets. Tens of megabytes
 o2.ada.g.rule.standard: "Write a rule in `regles/gros-envois.yml` that sees the portal's big uploads to the outside, without the backups or the client area. Then `rule test`."
 o2.ada.again: "Look at the false alerts: where do they come from, and how big are they?"
 o2.ada.again.standard: "Not yet. Read the false alerts."
-o2.ada.done: "The lines had been there since May, in the flow log. What was missing was a device that could see, and a rule that rings. A control that fails without saying so is not a control."
+o2.ada.done: "The uploads had been going on since May, past a blind appliance. What was missing was a device that could see, and a rule that rings. A control that fails without saying so is not a control."
 o2.hint.since.1: "`openssl x509 -in inspection/inspect.pem -noout -dates`, the notAfter line."
 o2.hint.since.2: "`answer since 2026-01-12`"
 o2.hint.rotate.1: "`contain rotate inspection-cert`"

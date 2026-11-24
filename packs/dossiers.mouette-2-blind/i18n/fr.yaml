@@ -17,7 +17,7 @@ o2.ada.g.rule: "Le portail répond aux clients en petits paquets. Des dizaines d
 o2.ada.g.rule.standard: "Écris dans `regles/gros-envois.yml` une règle qui voit les gros envois du portail vers l'extérieur, sans les sauvegardes ni l'espace client. Puis `rule test`."
 o2.ada.again: "Regarde les fausses alertes : d'où viennent-elles, et quelle taille font-elles ?"
 o2.ada.again.standard: "Pas encore. Lis les fausses alertes."
-o2.ada.done: "Les lignes étaient là depuis mai, dans le journal des flux. Il manquait un appareil qui voie, et une règle qui sonne. Un contrôle qui tombe en panne sans le dire n'est pas un contrôle."
+o2.ada.done: "Les envois duraient depuis mai, sous les yeux d'un appareil aveugle. Il manquait un appareil qui voie, et une règle qui sonne. Un contrôle qui tombe en panne sans le dire n'est pas un contrôle."
 o2.hint.since.1: "`openssl x509 -in inspection/inspect.pem -noout -dates`, la ligne notAfter."
 o2.hint.since.2: "`answer since 2026-01-12`"
 o2.hint.rotate.1: "`contain rotate inspection-cert`"

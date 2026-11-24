@@ -1,6 +1,7 @@
 file.readme: "Poste Ligne Rouge. Dossier : Huppe. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
 file.ir.readme: "Comptoir démarré en mode secours par la pharmacienne. Accès en lecture seule pour Ligne Rouge ; les mesures passent par `contain`."
 file.mandate: "MANDAT RV-2027-061\nClient : Pharmacies Ravel, quarante officines. Périmètre : *.ravel.test, 10.90.0.0/24.\nObjet : depuis 6 h 09, les comptoirs redémarrent en boucle. Ligne Rouge aide l'équipe informatique à comprendre, réparer et décider.\nDispositif convenu : accès en lecture aux machines en mode secours, mesures validées par la direction et passées par `contain`.\nSigné : la directrice des systèmes d'information de Pharmacies Ravel."
+page.cles.title: "Clés de récupération · Ravel"
 page.cles.h1: "Clés de récupération"
 page.cles.p: "Coffre des clés de chiffrement des disques des comptoirs. Accès réservé à l'équipe informatique."
 ada.outOfScope: "Stop. Cette cible est hors du mandat RV-2027-061. Même pour réparer, hors mandat, c'est un délit (article 323-1 du Code pénal)."

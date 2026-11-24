@@ -29,7 +29,7 @@ l3.ada.forge: "Yes: a token that dies with its job is the best kind of secret. L
 l3.ada.advisory: "The cheapest choice: the 3,400 projects know what to check, and trust holds because you spoke first."
 l3.ada.changelog: "Few people read release notes. Those who check their dependencies will hear the story elsewhere."
 l3.ada.quiet: "No fake version, true. But the log was public, and someone will end up telling the story for you."
-l3.ada.done: "A pinned action, tokens used only once, secrets replaced, and users told. Open the debrief: the real case is at the end."
+l3.ada.done: "A pinned action, tokens used only once, secrets replaced. Open the debrief: the real case is at the end."
 l3.hint.rotate.1: "Two lines say `old`."
 l3.hint.rotate.2: "`sed -i \"s/npm_token: old/npm_token: rotated/\" dossier/secrets.yml` and `sed -i \"s/deploy_key: old/deploy_key: rotated/\" dossier/secrets.yml`, then `verify`."
 l3.hint.log.1: "`sed -i \"s/run_812_log: public/run_812_log: deleted/\" dossier/secrets.yml`, then `verify`."
