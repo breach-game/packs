@@ -1,5 +1,5 @@
 id: hors-serie.coffre-world
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.13 <1"
 kind: world
 title:

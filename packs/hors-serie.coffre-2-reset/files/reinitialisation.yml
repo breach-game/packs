@@ -1,4 +1,10 @@
 # Le Coffre - password reset (version 2016)
+# Values this format knows, per key:
+#   token        account-and-time | random
+#   token_bytes  0 | 16 | 32
+#   expires      7d | 1d | 1h | 15m
+#   single_use   off | on
+#   store        plain | hash
 route: /reinitialiser
 send_to: account-email
 token: account-and-time

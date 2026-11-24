@@ -46,6 +46,8 @@ hosts:
           blocks:
             - { h1: page.home.h1 }
             - { p: page.home.p }
+            - nav:
+                - { href: /api/exemple-empreinte, label: page.home.sample }
             - { footer: page.home.footer }
       # A sample hash the team publishes on its test page, so that anyone can see which format is in use.
       "/api/exemple-empreinte":

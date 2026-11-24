@@ -1,4 +1,11 @@
 # Le Coffre - password storage (version 2016)
+# Values this format knows, per key:
+#   algorithm           sha1 | bcrypt | argon2id
+#   salt                none | per-account
+#   legacy_sha1         keep | wrap
+#   on_login            nothing | rehash
+#   temporary_password  shared | random-single-use
+# After a deploy, the format in use shows at https://coffre.tilleul.test/api/exemple-empreinte (test-0001).
 algorithm: sha1
 salt: none
 argon2_memory: 64MiB
