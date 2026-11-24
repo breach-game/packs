@@ -1,0 +1,16 @@
+id: hors-serie.annuaire-2-spray
+version: 1.0.0
+engine: ">=0.16 <1"
+kind: mission
+requires: [hors-serie.annuaire-world]
+title:
+  fr: "L'Annuaire · 2. Un mot de passe pour tous"
+  en: "The Directory · 2. One password for all"
+summary:
+  fr: "Quelqu'un a lu l'annuaire avant toi. Il essaie maintenant un seul mot de passe sur chaque compte, une fois chacun. Tu écris la règle qui compte ses échecs, tu trouves le compte qui a cédé, et tu le coupes pendant que la copie commence."
+  en: "Someone read the directory before you. Now they try a single password on every account, once each. You write the rule that counts their failures, find the account that gave in, and cut it while the copy begins."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, logs]
+minutes: 14

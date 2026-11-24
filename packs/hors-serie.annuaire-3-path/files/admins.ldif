@@ -1,0 +1,7 @@
+# Groupe des administrateurs de l'annuaire, a appliquer avec ldapmodify apres revue.
+dn: cn=admins-annuaire,ou=groupes,dc=ardoise,dc=test
+changetype: modify
+replace: member
+member: uid=dsi-chef,ou=personnes,dc=ardoise,dc=test
+member: uid=ext-prestataire,ou=personnes,dc=ardoise,dc=test
+member: uid=svc-sauvegarde,ou=services,dc=ardoise,dc=test

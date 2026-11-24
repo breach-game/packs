@@ -1,0 +1,121 @@
+# The Directory 3: trace the path (annuaire, sauvegarde, stockage), order the events, fix the admins
+# group (verify), rotate the backup account's password, and give the timetable app its own account.
+side: defense
+order: 3
+stage: defense
+briefing: d3.briefing
+reveal: [annuaire, sauvegarde, stockage]
+
+config:
+  ad.anon.closed: true
+  ad.svc.disabled: true
+  ad.spray.seen: true
+
+files:
+  revue/admins.ldif: { $file: files/admins.ldif }
+
+containment:
+  - id: rotate
+    action: rotate
+    target: svc-sauvegarde
+    text: d3.contain.rotate
+    sets: { ad.pw.reset: true }
+    impact: 0
+
+objectives:
+  - { id: path, text: d3.obj.path }
+  - { id: order, text: d3.obj.order }
+  - { id: review, text: d3.obj.review }
+  - { id: rotate, text: d3.obj.rotate }
+  - { id: horaires, text: d3.obj.horaires }
+
+paths:
+  - id: chemin
+    text: d3.path.text
+    hosts: [annuaire, sauvegarde, stockage]
+    objective: path
+
+timelines:
+  - id: faits
+    text: d3.tl.text
+    objective: order
+    events:
+      - { id: anon, text: d3.tl.anon }
+      - { id: spray, text: d3.tl.spray }
+      - { id: bind, text: d3.tl.bind }
+      - { id: ssh, text: d3.tl.ssh }
+      - { id: copy, text: d3.tl.copy }
+      - { id: cut, text: d3.tl.cut }
+
+checks:
+  - id: svc
+    text: d3.check.svc
+    if: { file: "~/revue/admins.ldif", lacks: "uid=svc-sauvegarde" }
+    objective: review
+  - id: former
+    text: d3.check.former
+    if: { file: "~/revue/admins.ldif", lacks: "uid=ext-prestataire" }
+    objective: review
+  - id: keep
+    text: d3.check.keep
+    if: { file: "~/revue/admins.ldif", contains: "member: uid=dsi-chef,ou=personnes,dc=ardoise,dc=test" }
+
+questions:
+  - id: horaires
+    text: d3.q.horaires
+    objective: horaires
+    correct: own
+    options:
+      - { id: own, text: d3.q.horaires.own }
+      - { id: borrow, text: d3.q.horaires.borrow, why: d3.q.horaires.borrow.why }
+      - { id: admin, text: d3.q.horaires.admin, why: d3.q.horaires.admin.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: path }
+    do:
+      - ada.say: d3.ada.path
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: d3.ada.order
+  - on: { event: Verified }
+    if: { not: { objective: review } }
+    once: false
+    do:
+      - ada.say: d3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: review }
+    do:
+      - ada.say: d3.ada.review
+  - on: { event: Contained, containment: rotate }
+    do:
+      - objective.complete: rotate
+      - ada.say: d3.ada.rotated
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: path }, { objective: order }, { objective: review }, { objective: rotate }] }
+    do:
+      - ada.ask: horaires
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d3.ada.done
+
+guide:
+  path: d3.ada.g.path
+  order: d3.ada.g.order
+  review: d3.ada.g.review
+  rotate: d3.ada.g.rotate
+  horaires: d3.ada.g.horaires
+
+hints:
+  path: [d3.hint.path.1, d3.hint.path.2]
+  order: [d3.hint.order.1]
+  review: [d3.hint.review.1, d3.hint.review.2]
+  rotate: [d3.hint.rotate.1]
+  horaires: [d3.hint.horaires.1]
+
+debrief:
+  title: d3.debrief.title
+  lesson: d3.debrief.lesson
+  points: [d3.debrief.p1, d3.debrief.p2, d3.debrief.p3]
+  reference: "ANSSI · Recommandations relatives à l'administration sécurisée des SI"

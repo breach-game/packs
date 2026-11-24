@@ -1,0 +1,16 @@
+id: hors-serie.annuaire-1-anonymous
+version: 1.0.0
+engine: ">=0.16 <1"
+kind: mission
+requires: [hors-serie.annuaire-world]
+title:
+  fr: "L'Annuaire · 1. Ce qu'il dit à tout le monde"
+  en: "The Directory · 1. What it tells everyone"
+summary:
+  fr: "L'annuaire répond à qui le demande, sans compte. Avec `ldapsearch`, tu fais la revue que tout visiteur pourrait faire : un mot de passe écrit dans une description, un ancien prestataire toujours administrateur. Puis tu fermes l'accès anonyme."
+  en: "The directory answers whoever asks, with no account. With `ldapsearch` you run the review any visitor could run: a password written in a description, a former contractor still an admin. Then you close anonymous access."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, recon, linux]
+minutes: 12

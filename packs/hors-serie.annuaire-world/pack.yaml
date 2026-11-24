@@ -1,0 +1,12 @@
+id: hors-serie.annuaire-world
+version: 1.0.0
+engine: ">=0.16 <1"
+kind: world
+title:
+  fr: "Transports Ardoise"
+  en: "Ardoise Transport"
+summary:
+  fr: "Transports Ardoise, réseau fictif de bus d'une agglomération. Un seul annuaire pour tous les comptes : agents, chauffeurs, applis et sauvegardes. Il a vingt ans, et personne n'en a jamais fait le ménage."
+  en: "Ardoise Transport, a fictional city bus network. One directory for every account: staff, drivers, apps and backups. It is twenty years old, and nobody ever cleaned it up."
+authors: [BREACH team]
+locales: [fr, en]
