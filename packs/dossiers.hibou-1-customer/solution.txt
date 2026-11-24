@@ -1,0 +1,16 @@
+# Case file 37, mission 1: the shortest path, replayed by CI in every language.
+cat avis-vigie.txt
+cat cameras/inventaire.csv
+grep -c ",care," cameras/inventaire.csv
+answer care 4
+answer wifi
+contain
+contain rotate wifi-clinique
+contain disable acces-support
+cat cameras/regles.yml
+sed -i "s/cameras_in_care_rooms: allowed/cameras_in_care_rooms: forbidden/" cameras/regles.yml
+sed -i "s/audio_recording: on/audio_recording: off/" cameras/regles.yml
+sed -i "s/camera_network: shared-with-medical/camera_network: separate/" cameras/regles.yml
+sed -i "s/vendor_support_access: always-on/vendor_support_access: on-request-for-one-hour/" cameras/regles.yml
+verify
+answer patients

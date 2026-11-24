@@ -1,0 +1,62 @@
+# Case file 37 "Hibou". Inspired by the March 2021 intrusion at a maker of cloud-connected security
+# cameras, as described by the regulator in 2024. Defence only, with no way in shown at all: the
+# player never signs in to a camera or to the maker's console. They read a notice, an inventory and
+# two configuration files, rotate a key, and rewrite policies judged by `verify`.
+startTime: "2028-03-10T08:30:00+01:00"
+mandate: CT-2028-031
+scope:
+  domains: ["*.tilleuls.test", "*.vigie.test"]
+  networks: ["10.107.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.107.0.2
+
+config:
+  ct.wifi_rotated: false
+  ct.support_closed: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.107.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [cameras, wifi, console]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CT-2028-031.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: cameras, hostname: cameras.tilleuls.test, ip: 10.107.0.30, os: Linux, map: { x: 60, z: -100, h: 100 }, services: [{ port: 443, name: https, product: Camera gateway }] }
+  - { id: wifi, hostname: wifi.tilleuls.test, ip: 10.107.0.40, os: Linux, map: { x: 80, z: 120, h: 90 }, services: [{ port: 443, name: https, product: Wi-Fi controller }] }
+  - { id: console, hostname: console.vigie.test, ip: 10.107.0.120, os: Linux, map: { x: 300, z: 20, h: 150 }, services: [{ port: 443, name: https, product: Vigie cloud console }] }
+
+dns:
+  tilleuls.test: { A: ["10.107.0.30"] }
+  cameras.tilleuls.test: { A: ["10.107.0.30"] }
+  wifi.tilleuls.test: { A: ["10.107.0.40"] }
+  console.vigie.test: { A: ["10.107.0.120"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

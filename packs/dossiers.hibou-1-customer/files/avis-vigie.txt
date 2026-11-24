@@ -1,0 +1,14 @@
+VIGIE - security notice to customers - 2028-03-09
+
+On 8 March an unauthorised person had access to our cloud console with the
+rights of our support team. With those rights they could, for every customer:
+  - watch live video and listen to live audio from any camera
+  - read the site address and the name given to each camera
+  - read the device configuration, which includes the Wi-Fi network name and
+    Wi-Fi key that each camera uses to connect
+
+We have closed that access. We cannot tell you which cameras were watched.
+We recommend that you review where your cameras are placed and what they can hear.
+
+Your account: Clinique des Tilleuls - 14 cameras - support access: always on.
+Your inventory: cameras/inventaire.csv

@@ -1,0 +1,134 @@
+# Case file 37, mission 1: the customer's seat. The maker's notice says support rights gave live
+# video, audio, site address and each camera's Wi-Fi key, for every customer. The clinic's
+# inventory shows cameras in care rooms, with audio, on the same Wi-Fi as medical devices. The
+# player counts them, names what else was exposed, rotates the Wi-Fi key and closes the standing
+# support access, rewrites the clinic's camera rules (`verify`), and decides what to tell patients.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [cameras, wifi, console]
+
+files:
+  avis-vigie.txt: { $file: files/avis-vigie.txt }
+  cameras/inventaire.csv: { $file: files/inventaire.csv }
+  cameras/regles.yml: { $file: files/cameras.yml }
+
+objectives:
+  - { id: care, text: c1.obj.care }
+  - { id: also, text: c1.obj.also }
+  - { id: close, text: c1.obj.close }
+  - { id: rules, text: c1.obj.rules }
+  - { id: tell, text: c1.obj.tell }
+
+investigation:
+  - { id: care, text: c1.q.care, value: "4", points: 75, objective: care }
+
+questions:
+  - id: also
+    text: c1.q.also
+    objective: also
+    correct: wifi
+    options:
+      - { id: wifi, text: c1.q.also.wifi }
+      - { id: records, text: c1.q.also.records, why: c1.q.also.records.why }
+      - { id: nothing, text: c1.q.also.nothing, why: c1.q.also.nothing.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: tell
+    text: c1.q.tell
+    objective: tell
+    options:
+      - { id: patients, text: c1.q.tell.patients, impact: 2 }
+      - { id: notice, text: c1.q.tell.notice, impact: 1 }
+      - { id: silent, text: c1.q.tell.silent, impact: 5 }
+
+containment:
+  - id: wifi
+    action: rotate
+    target: wifi-clinique
+    text: c1.contain.wifi
+    sets: { ct.wifi_rotated: true }
+    impact: 2
+  - id: support
+    action: disable
+    target: acces-support
+    text: c1.contain.support
+    sets: { ct.support_closed: true }
+    impact: 0
+
+checks:
+  - id: rooms
+    text: c1.check.rooms
+    if: { file: "~/cameras/regles.yml", contains: "cameras_in_care_rooms: forbidden" }
+    objective: rules
+  - id: audio
+    text: c1.check.audio
+    if: { file: "~/cameras/regles.yml", contains: "audio_recording: off" }
+    objective: rules
+  - id: network
+    text: c1.check.network
+    if: { file: "~/cameras/regles.yml", contains: "camera_network: separate" }
+    objective: rules
+  - id: support
+    text: c1.check.support
+    if: { file: "~/cameras/regles.yml", contains: "vendor_support_access: on-request-for-one-hour" }
+    objective: rules
+  - id: works
+    text: c1.check.works
+    if: { file: "~/cameras/regles.yml", contains: "cameras: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: care }
+    do:
+      - ada.say: c1.ada.care
+      - ada.ask: also
+  - on: { event: ObjectiveCompleted, objective: also }
+    do:
+      - ada.say: c1.ada.also
+  - id: close-a
+    on: { event: Contained, containment: wifi }
+    if: { config: ct.support_closed, eq: true }
+    do:
+      - objective.complete: close
+  - id: close-b
+    on: { event: Contained, containment: support }
+    if: { config: ct.wifi_rotated, eq: true }
+    do:
+      - objective.complete: close
+  - on: { event: ObjectiveCompleted, objective: close }
+    do:
+      - ada.say: c1.ada.close
+  - on: { event: Verified }
+    if: { not: { objective: rules } }
+    once: false
+    do:
+      - ada.say: c1.ada.almost
+  - on: { event: ObjectiveCompleted, objective: rules }
+    do:
+      - ada.say: c1.ada.rules
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  care: c1.ada.g.care
+  also: c1.ada.g.also
+  close: c1.ada.g.close
+  rules: c1.ada.g.rules
+  tell: c1.ada.g.tell
+
+hints:
+  care: [c1.hint.care.1, c1.hint.care.2]
+  also: [c1.hint.also.1]
+  close: [c1.hint.close.1]
+  rules: [c1.hint.rules.1, c1.hint.rules.2]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "CNIL · La vidéosurveillance - vidéoprotection au travail"

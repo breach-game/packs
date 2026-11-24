@@ -1,0 +1,14 @@
+# Case file 37, mission 2: the shortest path, replayed by CI in every language.
+review support/acces-support.yml
+review support/acces-support.yml 4
+review support/acces-support.yml 6
+review support/acces-support.yml 8
+review support/acces-support.yml 11
+answer all
+cat support/nouveau.yml
+sed -i "s/support_accounts: one-shared/support_accounts: one-per-person/" support/nouveau.yml
+sed -i "s/second_factor: optional/second_factor: required/" support/nouveau.yml
+sed -i "s/customer_video: always-open/customer_video: customer-approves-each-session/" support/nouveau.yml
+sed -i "s/stored_wifi_keys: readable/stored_wifi_keys: encrypted/" support/nouveau.yml
+sed -i "s/session_log: kept-by-vigie/session_log: visible-to-customer/" support/nouveau.yml
+verify

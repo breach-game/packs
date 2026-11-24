@@ -1,0 +1,12 @@
+id: dossiers.hibou-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Clinique des Tilleuls"
+  en: "Tilleuls Clinic"
+summary:
+  fr: "Une clinique fictive équipée de caméras connectées au cloud de Vigie, un fabricant tout aussi fictif. Les images quittent le bâtiment pour être vues de partout : par la clinique, et par le support du fabricant."
+  en: "A fictional clinic fitted with cameras connected to the cloud of Vigie, an equally fictional maker. The pictures leave the building to be seen from anywhere: by the clinic, and by the maker's support."
+authors: [BREACH team]
+locales: [fr, en]

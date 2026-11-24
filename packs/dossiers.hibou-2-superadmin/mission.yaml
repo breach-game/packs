@@ -1,0 +1,103 @@
+# Case file 37, mission 2: the maker's support account. A configuration file shows one shared
+# account, a password written in a script and reused, a scope covering every customer with no
+# approval, and customers' Wi-Fi keys stored readable. The player points at those lines with
+# `review`, says why one account mattered, and writes the new design judged by `verify`.
+# How the intruder obtained the account is not shown and not known to the player.
+side: defense
+order: 2
+stage: report
+startTime: "2028-03-13T10:00:00+01:00"
+briefing: c2.briefing
+reveal: [console]
+
+config:
+  ct.wifi_rotated: true
+  ct.support_closed: true
+
+files:
+  support/acces-support.yml: { $file: files/acces-support.yml }
+  support/nouveau.yml: { $file: files/nouveau.yml }
+
+reviews:
+  - { id: support, file: support/acces-support.yml, lines: [4, 6, 8, 11], objective: review }
+
+objectives:
+  - { id: review, text: c2.obj.review }
+  - { id: why, text: c2.obj.why }
+  - { id: design, text: c2.obj.design }
+
+questions:
+  - id: why
+    text: c2.q.why
+    objective: why
+    correct: all
+    options:
+      - { id: all, text: c2.q.why.all }
+      - { id: boss, text: c2.q.why.boss, why: c2.q.why.boss.why }
+      - { id: only, text: c2.q.why.only, why: c2.q.why.only.why }
+
+checks:
+  - id: person
+    text: c2.check.person
+    if: { file: "~/support/nouveau.yml", contains: "support_accounts: one-per-person" }
+    objective: design
+  - id: factor
+    text: c2.check.factor
+    if: { file: "~/support/nouveau.yml", contains: "second_factor: required" }
+    objective: design
+  - id: approve
+    text: c2.check.approve
+    if: { file: "~/support/nouveau.yml", contains: "customer_video: customer-approves-each-session" }
+    objective: design
+  - id: keys
+    text: c2.check.keys
+    if: { file: "~/support/nouveau.yml", contains: "stored_wifi_keys: encrypted" }
+    objective: design
+  - id: log
+    text: c2.check.log
+    if: { file: "~/support/nouveau.yml", contains: "session_log: visible-to-customer" }
+    objective: design
+  - id: works
+    text: c2.check.works
+    if: { file: "~/support/nouveau.yml", contains: "support_tool: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: review }
+    do:
+      - ada.say: c2.ada.review
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: c2.ada.why
+  - on: { event: Verified }
+    if: { not: { objective: design } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  review: c2.ada.g.review
+  why: c2.ada.g.why
+  design: c2.ada.g.design
+
+hints:
+  review: [c2.hint.review.1, c2.hint.review.2]
+  why: [c2.hint.why.1]
+  design: [c2.hint.design.1, c2.hint.design.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "NIST SP 800-53 · AC-6 Least Privilege"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4]
+    sources:
+      - { label: "FTC, press release on Verkada: failure to secure videos and other personal data (August 2024)", url: "https://www.ftc.gov/news-events/news/press-releases/2024/08/ftc-takes-action-against-security-camera-firm-verkada-over-charges-it-failed-secure-videos-other" }

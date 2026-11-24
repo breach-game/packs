@@ -1,0 +1,4 @@
+# Case file series, in playing order: the customer's seat, then the maker's support account.
+missions:
+  - dossiers.hibou-1-customer
+  - dossiers.hibou-2-superadmin
