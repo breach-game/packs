@@ -1,0 +1,17 @@
+ARGOS SHIPPING - IT HELPDESK - INCIDENT TICKET 2027-0629-014
+Opened: Tuesday 29 June 2027, 10:21
+
+10:14  Accounting calls: the accounting workstation (poste-compta) rebooted on
+       its own and now shows a red screen asking for a payment in crypto.
+10:17  Both directory controllers (dc1, dc2) stop answering. Their console
+       shows the same red screen.
+10:19  Several office workstations show it too.
+10:25  File server, ship planning, mail and backup still answer.
+
+Notes
+- The accounting software (Comptanet) installed its daily update at 09:58.
+- Nobody has paid anything. The screen gives no way to contact anyone that
+  works: the address it shows was closed by its provider at 10:40.
+- The IT team uses the shared admin account adm-global from their admin
+  workstation (10.102.0.31). One of them installed a printer driver on
+  poste-compta yesterday afternoon, signed in as adm-global.

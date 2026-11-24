@@ -1,0 +1,16 @@
+id: dossiers.chouette-2-survivor
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.chouette-world]
+title:
+  fr: "Dossier 32 · 2. Le dernier contrôleur"
+  en: "Case file 32 · 2. The last controller"
+summary:
+  fr: "Les contrôleurs de l'annuaire sont effacés, sauf un, éteint par une coupure de courant. Tu le trouves, tu lis qui avait les pleins pouvoirs avec `ldapsearch`, tu repères un compte oublié, puis tu reconstruis l'annuaire en décidant qui reste administrateur."
+  en: "The directory controllers are wiped, except one, switched off by a power cut. You find it, read who had full powers with `ldapsearch`, spot a forgotten account, then rebuild the directory and decide who stays an administrator."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+minutes: 12

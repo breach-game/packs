@@ -1,0 +1,10 @@
+# Case file 32, mission 1: the shortest path, replayed by CI in every language.
+cat traces/alerte.txt
+cat regles/vague.yml
+soc search adm-global
+answer origin 10.102.0.50
+echo "user: adm-global" >> regles/vague.yml
+echo "src: 10.102.0.50" >> regles/vague.yml
+rule test regles/vague.yml
+contain disable adm-global
+answer session

@@ -1,0 +1,18 @@
+ARGOS SHIPPING - DIRECTORY CONTROLLERS - STATUS (Friday 2 July 2027, 08:30)
+
+Controller            Site              State
+dc1.argos.test        Head office       wiped on 29/06 at 10:17 (disk overwritten)
+dc2.argos.test        Head office       wiped on 29/06 at 10:17 (disk overwritten)
+dc-escale.argos.test  Escale port office  intact - see note
+
+Note on dc-escale
+  The Escale port office had a power cut on 29/06 from 09:40 to 16:00. The
+  controller was switched off during the whole wave. When power came back,
+  the local team, following the crisis instructions, left it unplugged from
+  the network. It was shipped to head office on 30/06 and plugged into the
+  isolated recovery network this morning. Its copy of the directory dates
+  from 29/06 09:38.
+
+Backups
+  Nightly backups of the directory: stored on the same servers as the
+  directory, wiped with them.

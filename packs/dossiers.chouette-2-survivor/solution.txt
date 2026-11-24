@@ -1,0 +1,11 @@
+# Case file 32, mission 2: the shortest path, replayed by CI in every language.
+cat traces/etat-controleurs.txt
+answer survivor dc-escale
+ldapsearch -x -H ldap://dc-escale.argos.test -D "cn=lecteur-ir,ou=services,dc=argos,dc=test" -w Lr-lecture-2027 -b dc=argos,dc=test "(cn=admins-domaine)" member
+answer admins 8
+ldapsearch -x -H ldap://dc-escale.argos.test -D "cn=lecteur-ir,ou=services,dc=argos,dc=test" -w Lr-lecture-2027 -b dc=argos,dc=test "(memberOf=cn=admins-domaine*)" uid description
+answer stale ext-migration
+contain restore annuaire
+answer two
+timeline semaine
+timeline semaine printer power update wave stopped shipped rebuilt

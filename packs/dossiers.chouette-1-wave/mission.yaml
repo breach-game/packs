@@ -1,0 +1,108 @@
+# Case file 32, mission 1: the wave. The shared admin account signs in to server after server from
+# the accounting workstation, where an administrator had signed in the day before. The player finds
+# the origin, writes a rule on that account from that workstation (the IT team uses the same account
+# from its own workstation, and staff sign in from the accounting workstation too), disables the
+# account, and says why one workstation could reach everything.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [compta, fichiers, planning, messagerie, sauvegarde, dc1, dc2]
+
+files:
+  traces/alerte.txt: { $file: files/alerte.txt }
+  regles/vague.yml: |
+    title: The shared admin account used from the accounting workstation
+    source: auth
+
+adversary:
+  id: wave
+  name: unknown
+  from: compta
+  pace: 2
+  delay: 0
+  steps:
+    - { id: w1, host: fichiers, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
+    - { id: w2, host: planning, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
+    - { id: w3, host: messagerie, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password } }
+    - { id: w4, host: sauvegarde, source: auth, fields: { src: 10.102.0.50, user: adm-global, method: password }, blockedIf: { config: ar.admin_disabled, eq: true } }
+
+# Ordinary sign-ins: the IT team from its admin workstation, the accountant to the file server.
+background:
+  - { host: fichiers, source: auth, every: 2, offset: 0, fields: { src: 10.102.0.50, user: compta-01, method: password } }
+  - { host: planning, source: auth, every: 3, offset: 1, fields: { src: 10.102.0.31, user: adm-global, method: password } }
+  - { host: dc1, source: auth, every: 4, offset: 2, fields: { src: 10.102.0.31, user: dsi-chef, method: password } }
+  - { host: messagerie, source: auth, every: 3, offset: 2, fields: { src: 10.102.0.31, user: adm-global, method: password } }
+
+containment:
+  - id: admin
+    action: disable
+    target: adm-global
+    text: c1.contain.admin
+    sets: { ar.admin_disabled: true }
+    impact: 2
+
+objectives:
+  - { id: origin, text: c1.obj.origin }
+  - { id: rule, text: c1.obj.rule }
+  - { id: admin, text: c1.obj.admin }
+  - { id: reach, text: c1.obj.reach }
+
+investigation:
+  - { id: origin, text: c1.q.origin, value: "10.102.0.50", points: 75, objective: origin }
+
+hunts:
+  - id: wave
+    file: regles/vague.yml
+    catch: { source: auth, where: { user: adm-global, src: 10.102.0.50 } }
+    objective: rule
+
+questions:
+  - id: reach
+    text: c1.q.reach
+    objective: reach
+    correct: session
+    options:
+      - { id: session, text: c1.q.reach.session }
+      - { id: software, text: c1.q.reach.software, why: c1.q.reach.software.why }
+      - { id: samepw, text: c1.q.reach.samepw, why: c1.q.reach.samepw.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: origin }
+    do:
+      - ada.say: c1.ada.origin
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: c1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: c1.ada.rule
+  - on: { event: Contained, containment: admin }
+    do:
+      - objective.complete: admin
+      - ada.say: c1.ada.admin
+      - ada.ask: reach
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  origin: c1.ada.g.origin
+  rule: c1.ada.g.rule
+  admin: c1.ada.g.admin
+  reach: c1.ada.g.reach
+
+hints:
+  origin: [c1.hint.origin.1, c1.hint.origin.2]
+  rule: [c1.hint.rule.1, c1.hint.rule.2]
+  admin: [c1.hint.admin.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "CISA · TA17-181A Petya Ransomware"

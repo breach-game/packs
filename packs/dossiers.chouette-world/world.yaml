@@ -1,0 +1,123 @@
+# Case file 32 "Chouette". Inspired by the destructive worm of June 2017 and a shipping company's
+# recovery from one surviving directory server. Played on the defence side only: the admin account
+# reused from one workstation to every server, disabling it, then finding the one directory copy
+# that survived and cutting down the admin group before rebuilding. No credential theft is shown:
+# the logs only say which account signed in where.
+startTime: "2027-06-29T10:30:00+02:00"
+mandate: TA-2027-150
+scope:
+  domains: ["*.argos.test"]
+  networks: ["10.102.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.102.0.2
+
+config:
+  ar.admin_disabled: false
+  ar.restored: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.102.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [compta, fichiers, planning, messagerie, dc1, escale]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            TA-2027-150.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The accounting workstation: its accounting software updates itself every morning.
+  - id: compta
+    hostname: poste-compta.argos.test
+    ip: 10.102.0.50
+    os: Windows 10 Pro
+    map: { x: -60, z: 160, h: 60 }
+
+  - { id: fichiers, hostname: fichiers.argos.test, ip: 10.102.0.21, os: Windows Server 2019, map: { x: 120, z: -60, h: 100 }, services: [{ port: 445, name: microsoft-ds, product: Windows file sharing }] }
+  - { id: planning, hostname: planning.argos.test, ip: 10.102.0.22, os: Windows Server 2019, map: { x: 220, z: -120, h: 100 }, services: [{ port: 443, name: https, product: Ship planning }] }
+  - { id: messagerie, hostname: messagerie.argos.test, ip: 10.102.0.23, os: Windows Server 2019, map: { x: 320, z: -60, h: 100 }, services: [{ port: 443, name: https, product: Mail server }] }
+  - { id: sauvegarde, hostname: sauvegarde.argos.test, ip: 10.102.0.24, os: Windows Server 2019, map: { x: 420, z: -20, h: 100 }, services: [{ port: 445, name: microsoft-ds, product: Backup server }] }
+  - { id: dc1, hostname: dc1.argos.test, ip: 10.102.0.10, os: Windows Server 2019 (domain controller), map: { x: 260, z: 80, h: 130 }, services: [{ port: 389, name: ldap, product: Directory }] }
+  - { id: dc2, hostname: dc2.argos.test, ip: 10.102.0.11, os: Windows Server 2019 (domain controller), map: { x: 360, z: 120, h: 130 }, services: [{ port: 389, name: ldap, product: Directory }] }
+
+  # The directory server of the port office at Escale: a power cut took it offline that morning.
+  - id: escale
+    hostname: dc-escale.argos.test
+    ip: 10.102.0.12
+    os: Windows Server 2019 (domain controller)
+    map: { x: 520, z: 180, h: 110 }
+    services:
+      - { port: 389, name: ldap, product: Directory }
+    directory:
+      base: "dc=argos,dc=test"
+      anonymous: false
+      binds:
+        - { dn: "cn=lecteur-ir,ou=services,dc=argos,dc=test", password: "Lr-lecture-2027" }
+      entries:
+        - dn: "cn=admins-domaine,ou=groupes,dc=argos,dc=test"
+          attrs: { objectClass: groupOfNames, cn: admins-domaine, description: "Domain administrators: every right on every machine", member: ["uid=adm-global,ou=services,dc=argos,dc=test", "uid=dsi-chef,ou=personnes,dc=argos,dc=test", "uid=dsi-adjoint,ou=personnes,dc=argos,dc=test", "uid=support-01,ou=personnes,dc=argos,dc=test", "uid=support-02,ou=personnes,dc=argos,dc=test", "uid=svc-sauvegarde,ou=services,dc=argos,dc=test", "uid=svc-planning,ou=services,dc=argos,dc=test", "uid=ext-migration,ou=personnes,dc=argos,dc=test"] }
+        - dn: "uid=adm-global,ou=services,dc=argos,dc=test"
+          attrs: { objectClass: [account], uid: adm-global, description: "Admin account shared by the IT team", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=dsi-chef,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: dsi-chef, cn: "Responsable informatique", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=dsi-adjoint,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: dsi-adjoint, cn: "Adjoint informatique", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=support-01,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: support-01, cn: "Support poste de travail 1", description: "Installs software on workstations", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=support-02,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: support-02, cn: "Support poste de travail 2", description: "Installs software on workstations", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=svc-sauvegarde,ou=services,dc=argos,dc=test"
+          attrs: { objectClass: [account], uid: svc-sauvegarde, description: "Nightly backup", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=svc-planning,ou=services,dc=argos,dc=test"
+          attrs: { objectClass: [account], uid: svc-planning, description: "Ship planning app", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=ext-migration,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: ext-migration, cn: "Prestataire migration", description: "Migration contractor, contract ended 2026-12-31", memberOf: "cn=admins-domaine,ou=groupes,dc=argos,dc=test" }
+        - dn: "uid=compta-01,ou=personnes,dc=argos,dc=test"
+          attrs: { objectClass: [person, inetOrgPerson], uid: compta-01, cn: "Comptable" }
+        - dn: "cn=lecteur-ir,ou=services,dc=argos,dc=test"
+          attrs: { objectClass: [account], cn: lecteur-ir, description: "Ligne Rouge, read only, mandate TA-2027-150" }
+
+  - id: outside
+    hostname: inconnu.argos.test
+    ip: 10.102.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  argos.test: { A: ["10.102.0.10"] }
+  poste-compta.argos.test: { A: ["10.102.0.50"] }
+  fichiers.argos.test: { A: ["10.102.0.21"] }
+  planning.argos.test: { A: ["10.102.0.22"] }
+  messagerie.argos.test: { A: ["10.102.0.23"] }
+  sauvegarde.argos.test: { A: ["10.102.0.24"] }
+  dc1.argos.test: { A: ["10.102.0.10"] }
+  dc2.argos.test: { A: ["10.102.0.11"] }
+  dc-escale.argos.test: { A: ["10.102.0.12"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

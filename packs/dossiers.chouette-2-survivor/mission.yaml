@@ -1,0 +1,113 @@
+# Case file 32, mission 2: the last controller. A status file names the one directory controller a
+# power cut kept offline. The player reads the domain admin group on it with `ldapsearch` (read-only
+# bind from the mandate), counts its members, finds the contractor account whose contract ended,
+# restores the directory from that controller, decides who stays a domain admin (a decision: no
+# option is wrong), and puts the week in order.
+side: defense
+order: 2
+stage: report
+startTime: "2027-07-02T09:00:00+02:00"
+briefing: c2.briefing
+reveal: [escale, dc1, dc2]
+
+config:
+  ar.admin_disabled: true
+
+files:
+  traces/etat-controleurs.txt: { $file: files/etat-controleurs.txt }
+
+containment:
+  - id: restore
+    action: restore
+    target: annuaire
+    text: c2.contain.restore
+    sets: { ar.restored: true }
+    impact: 2
+
+objectives:
+  - { id: survivor, text: c2.obj.survivor }
+  - { id: admins, text: c2.obj.admins }
+  - { id: stale, text: c2.obj.stale }
+  - { id: restore, text: c2.obj.restore }
+  - { id: keep, text: c2.obj.keep }
+  - { id: story, text: c2.obj.story }
+
+investigation:
+  - { id: survivor, text: c2.q.survivor, value: "dc-escale", points: 75, objective: survivor }
+  - { id: admins, text: c2.q.admins, value: "8", points: 75, objective: admins }
+  - { id: stale, text: c2.q.stale, value: "ext-migration", points: 75, objective: stale }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: keep
+    text: c2.q.keep
+    objective: keep
+    options:
+      - { id: two, text: c2.q.keep.two, impact: 1 }
+      - { id: hourly, text: c2.q.keep.hourly, impact: 2 }
+      - { id: everyone, text: c2.q.keep.everyone, impact: 5 }
+
+timelines:
+  - id: semaine
+    text: c2.tl.text
+    objective: story
+    events:
+      - { id: printer, text: c2.tl.printer }
+      - { id: power, text: c2.tl.power }
+      - { id: update, text: c2.tl.update }
+      - { id: wave, text: c2.tl.wave }
+      - { id: stopped, text: c2.tl.stopped }
+      - { id: shipped, text: c2.tl.shipped }
+      - { id: rebuilt, text: c2.tl.rebuilt }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: survivor }
+    do:
+      - ada.say: c2.ada.survivor
+  - on: { event: ObjectiveCompleted, objective: admins }
+    do:
+      - ada.say: c2.ada.admins
+  - on: { event: ObjectiveCompleted, objective: stale }
+    do:
+      - ada.say: c2.ada.stale
+  - on: { event: Contained, containment: restore }
+    do:
+      - objective.complete: restore
+      - ada.say: c2.ada.restore
+      - ada.ask: keep
+  - on: { event: ObjectiveCompleted, objective: keep }
+    do:
+      - ada.say: c2.ada.keep
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  survivor: c2.ada.g.survivor
+  admins: c2.ada.g.admins
+  stale: c2.ada.g.stale
+  restore: c2.ada.g.restore
+  keep: c2.ada.g.keep
+  story: c2.ada.g.story
+
+hints:
+  survivor: [c2.hint.survivor.1]
+  admins: [c2.hint.admins.1, c2.hint.admins.2]
+  stale: [c2.hint.stale.1, c2.hint.stale.2]
+  restore: [c2.hint.restore.1]
+  story: [c2.hint.story.1, c2.hint.story.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "ANSSI · Recommandations de sécurité relatives à Active Directory"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "Wired, The Untold Story of NotPetya, the Most Devastating Cyberattack in History (August 2018)", url: "https://www.wired.com/story/notpetya-cyberattack-ukraine-russia-code-crashed-the-world/" }
+      - { label: "CISA (US-CERT), Alert TA17-181A: Petya Ransomware (July 2017)", url: "https://www.cisa.gov/ncas/alerts/TA17-181A" }
