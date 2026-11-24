@@ -1,0 +1,12 @@
+id: dossiers.courlis-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Transfluide"
+  en: "Transfluide"
+summary:
+  fr: "Transfluide, exploitant fictif d'un oléoduc qui alimente la moitié d'une région. Deux réseaux : celui des bureaux, avec la facturation et la messagerie, et celui de l'exploitation, qui pilote les pompes et les vannes. Entre les deux, moins de murs qu'on ne le croit."
+  en: "Transfluide, the fictional operator of a pipeline feeding half a region. Two networks: the offices, with billing and mail, and operations, which drives pumps and valves. Between the two, fewer walls than people think."
+authors: [BREACH team]
+locales: [fr, en]

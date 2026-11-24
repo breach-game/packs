@@ -1,0 +1,16 @@
+id: dossiers.courlis
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.courlis-world]
+title:
+  fr: "Dossier 39 : cinq heures du matin"
+  en: "Case file 39: five in the morning"
+summary:
+  fr: "Inspiré de l'arrêt d'un grand oléoduc américain en mai 2021. Joué entièrement côté défense, et surtout côté décision : une demande de rançon à l'aube sur le réseau des bureaux, un vieil accès à distance que personne n'utilisait plus, et une question à laquelle il faut répondre en une heure : arrête-t-on tout ? Puis la semaine du redémarrage. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the shutdown of a major US fuel pipeline in May 2021. Played entirely on the defence side, and above all on the deciding side: a ransom demand at dawn on the office network, an old remote access nobody used any more, and a question to answer within the hour: do we stop everything? Then the week of the restart. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crisis, logs, defense]
+incident: 2021

@@ -1,0 +1,73 @@
+# Case file 39 "Courlis". Inspired by the May 2021 ransomware incident at a US fuel pipeline
+# operator: entry through a legacy remote access profile with a password as its only factor, and
+# a shutdown of the pipeline decided within the hour to keep the attack away from operations.
+# Defence only: no ransomware is shown or described, nothing touches the operations network. The
+# player reads sign-in logs and flow totals, disables an account, and takes decisions.
+startTime: "2029-05-04T05:05:00+02:00"
+mandate: TF-2029-019
+scope:
+  domains: ["*.transfluide.test"]
+  networks: ["10.109.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.109.0.2
+
+config:
+  tf.profile_off: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.109.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [vpn, fichiers, facturation, supervision]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            TF-2029-019.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: vpn, hostname: vpn.transfluide.test, ip: 10.109.0.10, os: Linux, map: { x: -40, z: -120, h: 100 }, services: [{ port: 443, name: https, product: Remote access gateway }] }
+  - { id: fichiers, hostname: fichiers.transfluide.test, ip: 10.109.0.40, os: Windows Server 2022, map: { x: 120, z: -20, h: 110 }, services: [{ port: 445, name: microsoft-ds, product: Office file server }] }
+  - { id: facturation, hostname: facturation.transfluide.test, ip: 10.109.0.50, os: Windows Server 2022, map: { x: 200, z: 120, h: 110 }, services: [{ port: 443, name: https, product: Metering and billing }] }
+  # The operations network's supervision server: never touched in this case file.
+  - { id: supervision, hostname: supervision.transfluide.test, ip: 10.109.0.150, os: Industrial supervision, map: { x: 400, z: 40, h: 160 }, services: [{ port: 443, name: https, product: Pipeline supervision }] }
+
+  - id: outside
+    hostname: inconnu.transfluide.test
+    ip: 10.109.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  transfluide.test: { A: ["10.109.0.10"] }
+  vpn.transfluide.test: { A: ["10.109.0.10"] }
+  fichiers.transfluide.test: { A: ["10.109.0.40"] }
+  facturation.transfluide.test: { A: ["10.109.0.50"] }
+  supervision.transfluide.test: { A: ["10.109.0.150"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

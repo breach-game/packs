@@ -1,0 +1,6 @@
+# Transfluide - remote access and the wall between offices and operations. Possible values after the #.
+remote_access: enabled
+second_factor: optional                 # optional | required
+unused_profiles: kept                   # kept | removed-after-30-days
+shared_profiles: allowed                # allowed | forbidden
+billing_to_supervision: two-way         # two-way | one-way-data-diode
