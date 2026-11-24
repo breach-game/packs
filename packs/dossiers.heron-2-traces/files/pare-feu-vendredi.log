@@ -1,0 +1,12 @@
+2027-12-10T21:30:02+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=10.95.0.30 dport=5432 bytes=18220
+2027-12-10T21:31:40+01:00 fw01 flow: allow proto=tcp src=10.95.0.21 dst=10.95.0.30 dport=5432 bytes=40960
+2027-12-10T21:44:58+01:00 fw01 flow: deny proto=tcp src=10.95.0.21 dst=198.51.100.23 dport=1389 bytes=0
+2027-12-10T21:47:12+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=198.51.100.23 dport=1389 bytes=412
+2027-12-10T21:47:13+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=198.51.100.23 dport=8080 bytes=6144
+2027-12-10T21:48:40+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=198.51.100.40 dport=3333 bytes=2210
+2027-12-10T22:12:05+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=198.51.100.40 dport=3333 bytes=88412
+2027-12-10T22:40:51+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=198.51.100.40 dport=3333 bytes=90311
+2027-12-10T22:58:30+01:00 fw01 flow: deny proto=tcp src=10.95.0.21 dst=198.51.100.61 dport=1389 bytes=0
+2027-12-10T23:21:44+01:00 fw01 flow: deny proto=tcp src=10.95.0.22 dst=198.51.100.40 dport=3333 bytes=0
+2027-12-10T23:22:10+01:00 fw01 flow: deny proto=tcp src=10.95.0.22 dst=198.51.100.40 dport=3333 bytes=0
+2027-12-10T23:30:02+01:00 fw01 flow: allow proto=tcp src=10.95.0.22 dst=10.95.0.30 dport=5432 bytes=17904

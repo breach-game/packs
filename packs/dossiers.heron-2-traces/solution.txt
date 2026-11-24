@@ -1,0 +1,13 @@
+# Case file 25, mission 2: the shortest path, replayed by CI in every language.
+cat regles/recherche-distante.yml
+echo 'ua|contains: "%{distant:"' >> regles/recherche-distante.yml
+soc logs catalogue access
+rule test regles/recherche-distante.yml
+grep 1389 traces/pare-feu-vendredi.log
+answer when 21:47
+ssh ir@reservations.albe.test
+ps aux
+ss
+answer what kworkerd
+contain isolate reservations
+answer rebuild

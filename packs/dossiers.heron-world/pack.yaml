@@ -1,0 +1,12 @@
+id: dossiers.heron-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Médiathèques d'Albe"
+  en: "Albe Libraries"
+summary:
+  fr: "Les Médiathèques d'Albe, réseau fictif de douze bibliothèques : un catalogue en ligne, un service de réservation acheté à un éditeur, un portail public."
+  en: "Albe Libraries, a fictional network of twelve libraries: an online catalogue, a booking service bought from a vendor, a public portal."
+authors: [BREACH team]
+locales: [fr, en]

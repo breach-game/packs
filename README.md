@@ -75,6 +75,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 22 | `dossiers.pluvier*` | The living-room password | Snowflake customers, 2024 | Reading a spyware archive with `unzip`, revoking a stolen credential rather than blocking an address, keys, allowed networks and managed devices for contractors |
 | 23 | `dossiers.gobemouche*` | The director's face | Arup, 2024 | Reading a transfer request's headers with `mailhdr`, calling back a directory number with `call` rather than the one in the request, two signatures and no "confidential" exception |
 | 24 | `dossiers.huppe*` | The Friday of the counters | CrowdStrike, 2024 | No attacker: finding a faulty content file in a rescue-mode journal (`journalctl`, `last`, `strings`), why withdrawing it repairs nothing, the recovery order traced with `path` (key vault before counters), delivery rings set with `flag` |
+| 25 | `dossiers.heron*` | The remote lookup | Log4Shell (CVE-2021-44228), 2021 | Defence only: finding a library hidden inside a vendor archive (`sbom`, `unzip -l`), egress blocking while no patch exists, a first fix that is not enough, a rule on the lookup class, finding a miner with `ps` and `ss`, rebuilding rather than cleaning |
 
 ## Side series
 

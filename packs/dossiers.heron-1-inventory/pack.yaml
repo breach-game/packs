@@ -1,0 +1,16 @@
+id: dossiers.heron-1-inventory
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.heron-world]
+title:
+  fr: "Dossier 25 · 1. Vendredi soir"
+  en: "Case file 25 · 1. Friday night"
+summary:
+  fr: "Une faille critique dans une bibliothèque de journalisation, publiée un vendredi soir. Tu trouves les serveurs touchés avec `sbom`, y compris celui dont l'inventaire ne dit rien, tu coupes ce que tu ne peux pas corriger et tu mets en production le bon correctif."
+  en: "A critical flaw in a logging library, published on a Friday night. You find the affected servers with `sbom`, including the one whose inventory says nothing, cut off what you cannot patch and release the right fix."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense]
+minutes: 12

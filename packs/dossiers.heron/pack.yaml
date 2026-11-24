@@ -1,0 +1,16 @@
+id: dossiers.heron
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.heron-world]
+title:
+  fr: "Dossier 25 : la recherche distante"
+  en: "Case file 25: the remote lookup"
+summary:
+  fr: "Inspiré de la faille d'une bibliothèque de journalisation Java en décembre 2021. Joué entièrement côté défense : tu trouves les serveurs touchés, y compris dans un logiciel acheté, tu protèges ce que tu ne peux pas corriger, puis tu cherches qui est passé avant la parade. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the flaw of a Java logging library in December 2021. Played entirely on the defence side: you find the affected servers, including inside bought software, protect what you cannot patch, then look for whoever came through before the stopgap. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, linux, defense]
+incident: 2021
