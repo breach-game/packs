@@ -1,0 +1,5 @@
+# Case file 13, in playing order: the file, the session elsewhere, the clean portal.
+missions:
+  - dossiers.bergeronnette-1-har
+  - dossiers.bergeronnette-2-elsewhere
+  - dossiers.bergeronnette-3-scrub

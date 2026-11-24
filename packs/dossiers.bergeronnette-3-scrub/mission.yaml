@@ -1,0 +1,86 @@
+side: defense
+order: 3
+stage: defense
+briefing: b3.briefing
+
+files:
+  dossier/enquete.txt: { $file: files/enquete.txt }
+  dossier/guichet.yml: { $file: files/guichet.yml }
+
+objectives:
+  - { id: door, text: b3.obj.door }
+  - { id: scrub, text: b3.obj.scrub }
+  - { id: account, text: b3.obj.account }
+  - { id: bind, text: b3.obj.bind }
+
+questions:
+  - id: door
+    text: b3.q.door
+    objective: door
+    correct: service
+    options:
+      - { id: service, text: b3.q.door.service }
+      - { id: agent, text: b3.q.door.agent, why: b3.q.door.agent.why }
+      - { id: flaw, text: b3.q.door.flaw, why: b3.q.door.flaw.why }
+
+checks:
+  - id: scrub
+    text: b3.check.scrub
+    if: { all: [{ file: "~/dossier/guichet.yml", lacks: "har_scrub: off" }, { file: "~/dossier/guichet.yml", contains: "har_scrub: on" }, { file: "~/dossier/guichet.yml", lacks: "keep: forever" }, { file: "~/dossier/guichet.yml", contains: "keep: 30-days" }] }
+    objective: scrub
+  - id: account
+    text: b3.check.account
+    if: { all: [{ file: "~/dossier/guichet.yml", lacks: "reads: everything" }, { file: "~/dossier/guichet.yml", contains: "reads: sync-only" }, { file: "~/dossier/guichet.yml", lacks: "login_from: anywhere" }, { file: "~/dossier/guichet.yml", contains: "login_from: sync-server" }, { file: "~/dossier/guichet.yml", lacks: "personal_browser_profiles: allowed" }, { file: "~/dossier/guichet.yml", contains: "personal_browser_profiles: blocked" }] }
+    objective: account
+  - id: bind
+    text: b3.check.bind
+    if: { all: [{ file: "~/dossier/guichet.yml", lacks: "bind: none" }, { file: "~/dossier/guichet.yml", contains: "bind: device" }] }
+    objective: bind
+  - id: works
+    text: b3.check.works
+    if: { all: [{ file: "~/dossier/guichet.yml", contains: "online: on" }, { file: "~/dossier/guichet.yml", contains: "audit_log: on" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b3.ada.brief
+      - ada.ask: door
+  - on: { event: ObjectiveCompleted, objective: door }
+    do:
+      - ada.say: b3.ada.door
+  - on: { event: ObjectiveCompleted, objective: scrub }
+    do:
+      - ada.say: b3.ada.scrub
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: scrub }, { objective: account }, { objective: bind }] } }
+    once: false
+    do:
+      - ada.say: b3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b3.ada.done
+
+guide:
+  door: b3.ada.answer
+  scrub: b3.ada.g.scrub
+  account: b3.ada.g.account
+  bind: b3.ada.g.bind
+
+hints:
+  door: [b3.hint.door.1]
+  scrub: [b3.hint.scrub.1, b3.hint.scrub.2]
+  account: [b3.hint.account.1, b3.hint.account.2]
+  bind: [b3.hint.bind.1, b3.hint.bind.2]
+
+debrief:
+  title: b3.debrief.title
+  lesson: b3.debrief.lesson
+  points: [b3.debrief.p1, b3.debrief.p2, b3.debrief.p3, b3.debrief.p4]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"
+  facts:
+    title: b3.facts.title
+    points: [b3.facts.p1, b3.facts.p2, b3.facts.p3, b3.facts.p4, b3.facts.p5, b3.facts.p6]
+    sources:
+      - { label: "Okta Security, Tracking Unauthorized Access to Okta's Support System (20 October 2023)", url: "https://sec.okta.com/articles/2023/10/tracking-unauthorized-access-oktas-support-system" }
+      - { label: "Okta Security, Unauthorized Access to Okta's Support Case Management System: Root Cause (3 November 2023)", url: "https://sec.okta.com/articles/2023/11/unauthorized-access-oktas-support-case-management-system-root-cause/" }
+      - { label: "BeyondTrust, Okta Support Unit Breach (20 October 2023)", url: "https://www.beyondtrust.com/blog/entry/okta-support-unit-breach" }

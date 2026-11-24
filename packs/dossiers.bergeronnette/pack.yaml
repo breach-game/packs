@@ -1,0 +1,16 @@
+id: dossiers.bergeronnette
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.bergeronnette-world]
+title:
+  fr: "Dossier 13 : le fichier de diagnostic"
+  en: "Case file 13: the diagnostic file"
+summary:
+  fr: "Inspiré de l'intrusion révélée en 2023 dans le système d'assistance d'un grand fournisseur d'identité. Sous mandat, tu tires une session d'administrateur d'un fichier joint à un ticket, tu la regardes servir depuis ailleurs côté client, puis tu règles le portail pour que ça n'arrive plus. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the intrusion revealed in 2023 in the support system of a large identity provider. Under mandate, you take an admin session out of a file attached to a ticket, watch it being used from elsewhere on the customer's side, then set the portal right so it does not happen again. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, defense, cloud]
+incident: 2023

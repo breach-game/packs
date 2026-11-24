@@ -1,0 +1,187 @@
+# Dossier 13. Everything here is fictional: reserved .test domains and private or documentation addresses.
+# The support portal is an exercise copy: one ticket, opened by a volunteer witness customer for the
+# mandate, with a real-looking diagnostic file whose session only opens the witness customer's console.
+startTime: "2027-05-10T09:00:00+02:00"
+mandate: BG-2027-013
+scope:
+  domains: ["*.bergeronnette.test"]
+  networks: ["10.73.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.73.0.2
+
+config:
+  # The witness customer's admin session works from any machine, as long as the cookie is right.
+  admin.session_bound: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.73.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www, support, admin]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            BG-2027-013.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.bergeronnette.test
+    ip: 10.73.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 0, z: -150, h: 100 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav: &nav
+                - { href: "/", label: web.nav.home }
+                - { href: "/aide", label: web.nav.help }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - p: web.home.p2
+            - footer: web.footer
+      "/aide":
+        page:
+          title: web.help.title
+          blocks:
+            - nav: *nav
+            - h1: web.help.h1
+            - p: web.help.p1
+            - list: [web.help.l1, web.help.l2, web.help.l3]
+            - p: web.help.p2
+            - footer: web.footer
+
+  # The support portal. Agents sign in with a session cookie; Ligne Rouge has a test agent account.
+  - id: support
+    hostname: support.bergeronnette.test
+    ip: 10.73.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 260, z: -40, h: 120 }
+    services:
+      - { port: 443, name: https, product: guichet 5.4 }
+    web:
+      "/":
+        page:
+          title: web.support.title
+          blocks:
+            - h1: web.support.h1
+            - p: web.support.p1
+            - p: web.support.p2
+            - footer: web.footer
+      "/tickets":
+        status: 401
+        headers: { content-type: text/plain }
+        body: "guichet: agents only. Sign in first (cookie agent=...).\n"
+        variants:
+          - id: agent
+            cookie: "agent=lr-audit-013"
+            headers: { content-type: text/plain }
+            body: "guichet 5.4 - open tickets (exercise copy)\n\n#4471  Temoin SAS (witness customer)   \"Login loops on the admin console\"   1 attachment   new\n\nOpen a ticket: /tickets/<number>\n"
+      "/tickets/4471":
+        status: 401
+        headers: { content-type: text/plain }
+        body: "guichet: agents only. Sign in first (cookie agent=...).\n"
+        variants:
+          - id: agent
+            cookie: "agent=lr-audit-013"
+            headers: { content-type: text/plain }
+            bodyKey: web.ticket
+      "/tickets/4471/diagnostic.har":
+        status: 401
+        headers: { content-type: text/plain }
+        body: "guichet: agents only. Sign in first (cookie agent=...).\n"
+        variants:
+          - id: agent
+            cookie: "agent=lr-audit-013"
+            headers: { content-type: application/json }
+            body: { $file: files/diagnostic.har }
+
+  # The witness customer's admin console, on Bergeronnette's platform. Only the witness tenant exists here.
+  - id: admin
+    hostname: admin.bergeronnette.test
+    ip: 10.73.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: 140, h: 140 }
+    services:
+      - { port: 443, name: https, product: bergeronnette-admin 9.2 }
+    web:
+      "/":
+        status: 302
+        headers: { location: /console, content-type: text/plain }
+        body: "Redirecting to /console\n"
+      "/console":
+        status: 401
+        headers: { content-type: text/plain }
+        body: "bergeronnette-admin: no session. Sign in with your password and your second factor.\n"
+        variants:
+          - id: session
+            cookie: "bsid=bq7-temoin-4f19c2e8a0d3"
+            if: { config: admin.session_bound, eq: false }
+            headers: { content-type: text/plain }
+            body: "BERGERONNETTE - admin console\ntenant:   temoin-sas (witness customer, mandate BG-2027-013)\nsigned in: admin@temoin-sas.test   second factor: done at 16:40 on 7 May\n\n  Users (214)      Applications (31)      Admins (3)      Security policies\n  [ Add an admin ]   [ Reset a second factor ]   [ Export users ]\n\nwitness marker: FLAG{bergeronnette-session-du-ticket-2c8e}\n"
+          - id: bound
+            cookie: "bsid=bq7-temoin-4f19c2e8a0d3"
+            headers: { content-type: text/plain }
+            body: "bergeronnette-admin: this session was opened on another device. Sign in again.\n"
+
+  # Where the replayed session came from, as far as the logs can tell. Never reachable.
+  - id: ailleurs
+    hostname: unknown.bergeronnette.test
+    ip: 10.73.0.99
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 260, h: 40 }
+
+dns:
+  bergeronnette.test: { A: ["10.73.0.10"] }
+  www.bergeronnette.test: { A: ["10.73.0.10"] }
+  support.bergeronnette.test: { A: ["10.73.0.20"] }
+  admin.bergeronnette.test: { A: ["10.73.0.30"] }
+
+whois:
+  bergeronnette.test: |
+    Domain Name: BERGERONNETTE.TEST
+    Creation Date: 2015-02-11T08:00:00Z
+    Registrant Organization: Bergeronnette SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

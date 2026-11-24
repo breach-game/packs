@@ -1,0 +1,64 @@
+order: 1
+stage: access
+briefing: b1.briefing
+reveal: [www, support]
+
+objectives:
+  - { id: ticket, text: b1.obj.ticket }
+  - { id: har, text: b1.obj.har }
+  - { id: console, text: b1.obj.console }
+  - { id: why, text: b1.obj.why }
+
+flags:
+  - { id: marker, value: "FLAG{bergeronnette-session-du-ticket-2c8e}", points: 250, objective: console }
+
+questions:
+  - id: why
+    text: b1.q.why
+    objective: why
+    correct: cookie
+    options:
+      - { id: cookie, text: b1.q.why.cookie }
+      - { id: password, text: b1.q.why.password, why: b1.q.why.password.why }
+      - { id: mfa, text: b1.q.why.mfa, why: b1.q.why.mfa.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b1.ada.brief
+  - on: { event: HttpRequest, host: support, path: /tickets/4471, variant: agent }
+    do:
+      - objective.complete: ticket
+  - on: { event: HttpRequest, host: support, path: /tickets/4471/diagnostic.har, variant: agent }
+    do:
+      - objective.complete: har
+      - host.reveal: admin
+      - ada.guide: { key: b1.ada.jq, for: console, step: 1 }
+  - on: { event: HttpRequest, host: admin, path: /console, variant: session }
+    do:
+      - ada.guide: { key: b1.ada.inside, for: console, step: 2 }
+  - on: { event: ObjectiveCompleted, objective: console }
+    do:
+      - ada.say: b1.ada.stop
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b1.ada.done
+
+guide:
+  ticket: b1.ada.g.ticket
+  har: b1.ada.g.har
+  console: b1.ada.g.console
+  why: b1.ada.answer
+
+hints:
+  ticket: [b1.hint.ticket.1, b1.hint.ticket.2]
+  har: [b1.hint.har.1, b1.hint.har.2]
+  console: [b1.hint.console.1, b1.hint.console.2, b1.hint.console.3]
+  why: [b1.hint.why.1]
+
+debrief:
+  title: b1.debrief.title
+  lesson: b1.debrief.lesson
+  points: [b1.debrief.p1, b1.debrief.p2, b1.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

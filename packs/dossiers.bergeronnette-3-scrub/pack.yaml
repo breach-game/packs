@@ -1,0 +1,16 @@
+id: dossiers.bergeronnette-3-scrub
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bergeronnette-world]
+title:
+  fr: "Dossier 13 · 3. Nettoyer avant de garder"
+  en: "Case file 13 · 3. Clean before keeping"
+summary:
+  fr: "Retour chez Bergeronnette. Tu retrouves comment un intrus entrerait dans le portail d'assistance, puis tu règles le portail : fichiers nettoyés à l'arrivée, compte de service rangé, sessions liées à leur appareil. La dernière mission raconte les faits, sources à l'appui."
+  en: "Back at Bergeronnette. You find how an intruder would get into the support portal, then you set the portal right: files cleaned on arrival, service account put away, sessions bound to their device. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, cloud]
+minutes: 14

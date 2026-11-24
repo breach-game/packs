@@ -1,0 +1,19 @@
+INTERNAL REVIEW - support portal access (exercise copy, mandate BG-2027-013)
+
+Who can read every ticket and every attachment?
+  - 41 support agents, each with their own account, password and second factor
+  - 1 service account: svc-guichet-sync, used by the ticket synchronisation script
+
+svc-guichet-sync
+  password:        set in 2024, never changed
+  second factor:   none (a script cannot answer one)
+  can read:        all tickets, all attachments
+  stored where:    in the script's settings, and in the browser of agent no. 17
+                   (saved "to test the script by hand"), browser signed in to a
+                   personal account that syncs saved passwords to the agent's
+                   home computer
+
+Attachments
+  diagnostic files (HAR) kept:   18,412
+  oldest:                        2023
+  cleaned before storage:        no

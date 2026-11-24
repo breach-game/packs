@@ -1,0 +1,16 @@
+id: dossiers.bergeronnette-2-elsewhere
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bergeronnette-world]
+title:
+  fr: "Dossier 13 · 2. La même session, ailleurs"
+  en: "Case file 13 · 2. The same session, elsewhere"
+summary:
+  fr: "Côté client cette fois. La session de l'administrateur de Témoin SAS sert depuis une autre machine : tu la retrouves dans le journal, tu écris la règle qui l'aurait vue, et tu choisis le premier geste."
+  en: "The customer's side this time. The Temoin SAS admin's session is being used from another machine: you find it in the log, write the rule that would have seen it, and choose the first move."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, logs]
+minutes: 12
