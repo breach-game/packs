@@ -1,0 +1,6 @@
+# Air Alizé - payment page: what the browser and the web server are told. Possible values after the #.
+payment_page: enabled
+scripts_allowed_from: anywhere        # anywhere | own-site-only
+form_data_may_go_to: anywhere         # anywhere | own-payment-service-only
+script_file_watch: off                # off | alert-on-change-outside-deployment
+third_party_scripts_on_page: 30       # 30 | 0

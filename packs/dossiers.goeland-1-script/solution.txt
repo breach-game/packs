@@ -1,0 +1,15 @@
+# Case file 34, mission 1: the shortest path, replayed by CI in every language.
+cat alerte-banque.txt
+diff site/depot/paiement.js site/production/paiement.js
+answer copy alize-paiements.example
+cat site/production/dates.txt
+answer browser
+contain
+contain restore paiement.js
+contain block alize-paiements.example
+cat site/en-tetes.yml
+sed -i "s/scripts_allowed_from: anywhere/scripts_allowed_from: own-site-only/" site/en-tetes.yml
+sed -i "s/form_data_may_go_to: anywhere/form_data_may_go_to: own-payment-service-only/" site/en-tetes.yml
+sed -i "s/script_file_watch: off/script_file_watch: alert-on-change-outside-deployment/" site/en-tetes.yml
+sed -i "s/third_party_scripts_on_page: 30/third_party_scripts_on_page: 0/" site/en-tetes.yml
+verify

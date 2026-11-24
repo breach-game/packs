@@ -1,0 +1,16 @@
+id: dossiers.goeland-2-partner
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.goeland-world]
+title:
+  fr: "Dossier 34 · 2. Le compte du fret"
+  en: "Case file 34 · 2. The cargo account"
+summary:
+  fr: "Le script a été modifié avec un compte d'administration. Tu remontes la piste : un compte de prestataire sans second facteur, une adresse qui n'est pas la sienne, un mot de passe d'administration écrit en clair dans un script. Tu réécris la politique d'accès à distance, puis tu remets l'été dans l'ordre."
+  en: "The script was changed with an admin account. You follow the trail back: a contractor account with no second factor, an address that is not theirs, an admin password written in clear in a script. You rewrite the remote access policy, then put the summer in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+minutes: 14

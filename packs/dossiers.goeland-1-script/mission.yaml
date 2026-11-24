@@ -1,0 +1,122 @@
+# Case file 34, mission 1: the payment script. The bank's alert says cards used on the site since
+# 21 August are abused, security code included, though the database stores none. The player
+# compares the reviewed script with the one in production (`diff`), names the look-alike domain
+# that receives a copy, says why the database shows nothing, restores the file and blocks the
+# domain, then rewrites what the page is allowed to load and where it may send data (`verify`).
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [www, paiement]
+
+files:
+  alerte-banque.txt: { $file: files/alerte-banque.txt }
+  site/depot/paiement.js: { $file: files/depot.js }
+  site/production/paiement.js: { $file: files/production.js }
+  site/production/dates.txt: { $file: files/dates.txt }
+  site/en-tetes.yml: { $file: files/en-tetes.yml }
+
+objectives:
+  - { id: copy, text: c1.obj.copy }
+  - { id: typed, text: c1.obj.typed }
+  - { id: stop, text: c1.obj.stop }
+  - { id: page, text: c1.obj.page }
+
+investigation:
+  - { id: copy, text: c1.q.copy, value: "alize-paiements.example", points: 100, objective: copy }
+
+questions:
+  - id: typed
+    text: c1.q.typed
+    objective: typed
+    correct: browser
+    options:
+      - { id: browser, text: c1.q.typed.browser }
+      - { id: database, text: c1.q.typed.database, why: c1.q.typed.database.why }
+      - { id: bank, text: c1.q.typed.bank, why: c1.q.typed.bank.why }
+
+containment:
+  - id: restore
+    action: restore
+    target: paiement.js
+    text: c1.contain.restore
+    sets: { az.script_restored: true }
+    impact: 0
+  - id: block
+    action: block
+    target: alize-paiements.example
+    text: c1.contain.block
+    sets: { az.domain_blocked: true }
+    impact: 0
+
+checks:
+  - id: scripts
+    text: c1.check.scripts
+    if: { file: "~/site/en-tetes.yml", contains: "scripts_allowed_from: own-site-only" }
+    objective: page
+  - id: data
+    text: c1.check.data
+    if: { file: "~/site/en-tetes.yml", contains: "form_data_may_go_to: own-payment-service-only" }
+    objective: page
+  - id: watch
+    text: c1.check.watch
+    if: { file: "~/site/en-tetes.yml", contains: "script_file_watch: alert-on-change-outside-deployment" }
+    objective: page
+  - id: third
+    text: c1.check.third
+    if: { file: "~/site/en-tetes.yml", contains: "third_party_scripts_on_page: 0" }
+    objective: page
+  - id: works
+    text: c1.check.works
+    if: { file: "~/site/en-tetes.yml", contains: "payment_page: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: copy }
+    do:
+      - ada.say: c1.ada.copy
+      - ada.ask: typed
+  - on: { event: ObjectiveCompleted, objective: typed }
+    do:
+      - ada.say: c1.ada.typed
+  - id: stop-a
+    on: { event: Contained, containment: restore }
+    if: { config: az.domain_blocked, eq: true }
+    do:
+      - objective.complete: stop
+  - id: stop-b
+    on: { event: Contained, containment: block }
+    if: { config: az.script_restored, eq: true }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: c1.ada.stop
+  - on: { event: Verified }
+    if: { not: { objective: page } }
+    once: false
+    do:
+      - ada.say: c1.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  copy: c1.ada.g.copy
+  typed: c1.ada.g.typed
+  stop: c1.ada.g.stop
+  page: c1.ada.g.page
+
+hints:
+  copy: [c1.hint.copy.1, c1.hint.copy.2]
+  typed: [c1.hint.typed.1]
+  stop: [c1.hint.stop.1]
+  page: [c1.hint.page.1, c1.hint.page.2]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "PCI DSS v4.0 · 6.4.3 and 11.6.1, payment page scripts"

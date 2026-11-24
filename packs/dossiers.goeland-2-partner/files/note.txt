@@ -1,0 +1,11 @@
+AIR ALIZÉ - incident note, 2028-09-06 08:40
+
+paiement.js was changed on 21 August with the account adm-domaine.
+Nobody in the IT team used adm-domaine that evening.
+
+Partners sign in through the remote access gateway (passerelle.alize.test) and
+get a remote desktop that is supposed to show one application only.
+  remote accounts             : acces/comptes-distants.csv
+  gateway sign-ins            : soc search <account>
+  shared folder every remote desktop can read : partage/scripts/
+  remote access policy        : acces/politique.yml

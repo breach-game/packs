@@ -1,0 +1,136 @@
+# Case file 34, mission 2: the way in. The list of remote accounts shows one partner account with no
+# second factor; the gateway's sign-ins show it coming from an address that is not the partner's;
+# a script on a share every remote desktop can read holds the domain admin password in clear
+# (fictional). The player names the account, the address and the script, rewrites the remote
+# access policy judged by `verify`, and orders the summer's events.
+side: defense
+order: 2
+stage: report
+startTime: "2028-09-06T09:00:00+02:00"
+briefing: c2.briefing
+reveal: [passerelle, partage, www]
+
+config:
+  az.script_restored: true
+  az.domain_blocked: true
+
+files:
+  note.txt: { $file: files/note.txt }
+  acces/comptes-distants.csv: { $file: files/comptes-distants.csv }
+  acces/politique.yml: { $file: files/politique.yml }
+  partage/scripts/inventaire.cmd: { $file: files/inventaire.cmd }
+  partage/scripts/sauvegarde-nuit.cmd: { $file: files/sauvegarde-nuit.cmd }
+  partage/scripts/imprimantes.cmd: { $file: files/imprimantes.cmd }
+
+objectives:
+  - { id: account, text: c2.obj.account }
+  - { id: address, text: c2.obj.address }
+  - { id: clear, text: c2.obj.clear }
+  - { id: policy, text: c2.obj.policy }
+  - { id: partners, text: c2.obj.partners }
+  - { id: story, text: c2.obj.story }
+
+investigation:
+  - { id: account, text: c2.q.account, value: "fret-07", points: 75, objective: account }
+  - { id: address, text: c2.q.address, value: "203.0.113.140", points: 75, objective: address }
+  - { id: clear, text: c2.q.clear, value: "sauvegarde-nuit.cmd", points: 75, objective: clear }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: partners
+    text: c2.q.partners
+    objective: partners
+    options:
+      - { id: one, text: c2.q.partners.one, impact: 1 }
+      - { id: all, text: c2.q.partners.all, impact: 3 }
+      - { id: watch, text: c2.q.partners.watch, impact: 4 }
+
+checks:
+  - id: factor
+    text: c2.check.factor
+    if: { file: "~/acces/politique.yml", contains: "partner_second_factor: required" }
+    objective: policy
+  - id: reach
+    text: c2.check.reach
+    if: { file: "~/acces/politique.yml", contains: "partner_reach: own-application-only" }
+    objective: policy
+  - id: vault
+    text: c2.check.vault
+    if: { file: "~/acces/politique.yml", contains: "admin_passwords: in-vault" }
+    objective: policy
+  - id: alert
+    text: c2.check.alert
+    if: { file: "~/acces/politique.yml", contains: "unusual_address_alert: on" }
+    objective: policy
+  - id: works
+    text: c2.check.works
+    if: { file: "~/acces/politique.yml", contains: "partner_access: enabled" }
+
+timelines:
+  - id: ete
+    text: c2.tl.text
+    objective: story
+    events:
+      - { id: signin, text: c2.tl.signin }
+      - { id: breakout, text: c2.tl.breakout }
+      - { id: password, text: c2.tl.password }
+      - { id: script, text: c2.tl.script }
+      - { id: bank, text: c2.tl.bank }
+      - { id: restored, text: c2.tl.restored }
+      - { id: told, text: c2.tl.told }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: c2.ada.account
+  - on: { event: ObjectiveCompleted, objective: address }
+    do:
+      - ada.say: c2.ada.address
+  - on: { event: ObjectiveCompleted, objective: clear }
+    do:
+      - ada.say: c2.ada.clear
+  - on: { event: Verified }
+    if: { not: { objective: policy } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: policy }
+    do:
+      - ada.say: c2.ada.policy
+      - ada.ask: partners
+  - on: { event: ObjectiveCompleted, objective: partners }
+    do:
+      - ada.say: c2.ada.partners
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  account: c2.ada.g.account
+  address: c2.ada.g.address
+  clear: c2.ada.g.clear
+  policy: c2.ada.g.policy
+  partners: c2.ada.g.partners
+  story: c2.ada.g.story
+
+hints:
+  account: [c2.hint.account.1, c2.hint.account.2]
+  address: [c2.hint.address.1, c2.hint.address.2]
+  clear: [c2.hint.clear.1, c2.hint.clear.2]
+  policy: [c2.hint.policy.1, c2.hint.policy.2]
+  story: [c2.hint.story.1, c2.hint.story.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "NCSC · Supply chain security guidance"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4, c2.facts.p5]
+    sources:
+      - { label: "ICO, Penalty Notice to British Airways plc (16 October 2020)", url: "https://cy.ico.org.uk/media/action-weve-taken/mpns/2618421/ba-penalty-20201016.pdf" }
+      - { label: "Computer Weekly, BA argues ICO data breach fine down to £20m (October 2020)", url: "https://www.computerweekly.com/news/252490640/BA-argues-ICO-data-breach-fine-down-to-20m" }

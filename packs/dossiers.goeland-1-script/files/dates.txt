@@ -1,0 +1,7 @@
+/var/www/alize/static/js/
+  name            last modified         modified by     size
+  accueil.js      2028-03-02 10:14      deploy          18 204
+  recherche.js    2028-03-02 10:14      deploy          22 961
+  paiement.js     2028-08-21 22:58      adm-domaine      9 377
+  compte.js       2028-03-02 10:14      deploy          12 040
+Last deployment by the release pipeline: 2028-03-02 10:14 (version 4.12)

@@ -1,0 +1,4 @@
+# Case file series, in playing order: the payment script, then the contractor's account.
+missions:
+  - dossiers.goeland-1-script
+  - dossiers.goeland-2-partner
