@@ -1,4 +1,4 @@
-s1.briefing: "La boulangerie du coin, cliente du cabinet, a transmis la facture reçue hier : `clients/facture.eml`. Nouvel IBAN, et le cabinet n'a rien envoyé. Le filtre du client a pourtant tout accepté."
+s1.briefing: "La boulangerie du coin, cliente du cabinet, a transmis la facture reçue hier : `clients/facture.eml`. Nouvel IBAN, et le cabinet n'a rien envoyé. Le filtre du client a pourtant tout accepté. Le cabinet écrit depuis sarcelle.test."
 s1.obj.domain: "Trouver le domaine qui a vraiment envoyé la facture"
 s1.obj.created: "Dater ce domaine"
 s1.obj.pass: "Expliquer pourquoi toutes les vérifications passent"

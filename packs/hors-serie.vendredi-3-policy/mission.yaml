@@ -21,10 +21,11 @@ questions:
       - { id: never, text: v3.q.friday.never, impact: 4 }
       - { id: asbefore, text: v3.q.friday.asbefore, impact: 6 }
 
+# The template lists the allowed values in comments; equivalent spellings (every_build, 3d, 168h) pass too.
 checks:
   - id: know
     text: v3.check.know
-    if: { all: [{ file: "~/politique/correctifs.yml", contains: "sbom: every-build" }, { file: "~/politique/correctifs.yml", contains: "advisories_check: daily" }, { file: "~/politique/correctifs.yml", contains: "internet_critical: 72h" }, { file: "~/politique/correctifs.yml", contains: "internet_high: 7d" }] }
+    if: { all: [{ any: [{ file: "~/politique/correctifs.yml", contains: "sbom: every-build" }, { file: "~/politique/correctifs.yml", contains: "sbom: every_build" }] }, { file: "~/politique/correctifs.yml", contains: "advisories_check: daily" }, { any: [{ file: "~/politique/correctifs.yml", contains: "internet_critical: 72h" }, { file: "~/politique/correctifs.yml", contains: "internet_critical: 3d" }] }, { any: [{ file: "~/politique/correctifs.yml", contains: "internet_high: 7d" }, { file: "~/politique/correctifs.yml", contains: "internet_high: 168h" }] }] }
     objective: know
   - id: deploy
     text: v3.check.deploy

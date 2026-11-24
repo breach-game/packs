@@ -6,6 +6,12 @@ stage: report
 briefing: p3.briefing
 reveal: [poste42, lims, resolveur, mx]
 
+# Config resets at each mission start: what the earlier missions always end with is declared here,
+# so the story holds in the series and when this mission is replayed alone.
+config:
+  p42.disabled: true
+  p42.cron.removed: true
+
 files:
   enquete/mx.log: { $file: files/mx.log }
   enquete/historique-navigateur.txt: { $file: files/historique.txt }
@@ -49,8 +55,8 @@ questions:
     text: p3.q.tell
     objective: tell
     options:
-      - { id: towns, text: p3.q.tell.towns, why: p3.q.tell.towns.why, impact: 2 }
-      - { id: towns-authority, text: p3.q.tell.authority, why: p3.q.tell.authority.why, impact: 3 }
+      - { id: towns, text: p3.q.tell.towns, why: p3.q.tell.towns.why, impact: 3 }
+      - { id: towns-authority, text: p3.q.tell.authority, why: p3.q.tell.authority.why, impact: 1 }
       - { id: internal, text: p3.q.tell.internal, why: p3.q.tell.internal.why, impact: 8 }
 
 rules:

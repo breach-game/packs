@@ -111,8 +111,9 @@ noise:
     flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
   dig: 0
   whois: 0
-  curl: 2
-  browse: 2
+  # The firm is the client and checks its own servers: reading /version is not an intrusion.
+  curl: 0
+  browse: 0
   chat: 2
 
 rules:

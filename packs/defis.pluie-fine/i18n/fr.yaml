@@ -1,4 +1,4 @@
-d5.briefing: "Depuis ce matin, la connexion unique `sso.polygone.test` enregistre des échecs, chacun venu d'une adresse différente. Personne n'a été alerté. La règle à écrire est dans `regles/pluie.yml`, à essayer avec `rule test`."
+d5.briefing: "Depuis ce matin, la connexion unique `sso.polygone.test` enregistre des échecs, chacun venu d'une adresse différente. Personne n'a été alerté, et ça continue pendant que tu regardes. La règle à écrire est dans `regles/pluie.yml`, à essayer avec `rule test`."
 d5.obj.opened: "Le compte qui a cédé"
 d5.obj.rule: "Une règle qui voit l'attaque, et rien d'autre"
 d5.obj.next: "Dire quoi faire tout de suite"

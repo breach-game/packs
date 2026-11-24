@@ -20,7 +20,7 @@ p3.q.integrity.reinstall.why: "Seul le poste 42 a contacté la zone, d'après le
 p3.q.tell: "Les relevés de la semaine sont sortis du laboratoire. Qui prévenir ?"
 p3.q.tell.towns: "Les communes concernées, avec ce qui est sorti et la preuve que rien n'a été modifié"
 p3.q.tell.towns.why: "Les communes savent. L'autorité sanitaire l'apprendra peut-être par elles, et demandera pourquoi pas directement."
-p3.q.tell.authority: "Les communes concernées et l'autorité sanitaire, avec le même récit"
+p3.q.tell.authority: "Les communes concernées et l'autorité sanitaire, avec le même récit et la preuve d'intégrité"
 p3.q.tell.authority.why: "Un seul récit, aux bonnes personnes, avec la preuve d'intégrité. C'est plus de travail ce soir, et beaucoup moins de questions demain."
 p3.q.tell.internal: "Personne dehors : les relevés ne contiennent aucune donnée personnelle"
 p3.q.tell.internal.why: "Pas de donnée personnelle, mais des résultats sur l'eau potable que les communes publient. S'ils ressortent ailleurs, le silence du laboratoire sera la première question."
