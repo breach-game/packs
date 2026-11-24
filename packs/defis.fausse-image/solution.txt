@@ -1,0 +1,7 @@
+# Challenge "The false picture": the shortest path, replayed by CI in every language.
+cat depot/LISEZMOI.txt
+file depot/temoin.png
+curl -I https://boutique.polygone.test/avatars/a-1041.png
+curl -I https://boutique.polygone.test/avatars/temoin.png
+submit FLAG{polygone-fausse-image-3d9e}
+answer content

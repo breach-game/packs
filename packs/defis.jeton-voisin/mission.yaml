@@ -1,0 +1,48 @@
+# Challenge: an access token accepted by an API it was not issued for. The token is read with
+# jwt decode (nothing is signed or forged); the staff directory API accepts it although its
+# audience is the customer portal.
+order: 9
+stage: exploitation
+briefing: d9.briefing
+reveal: [shop, sso]
+
+files:
+  jetons/acces.txt: "# Access token of the test account pg-client-2031, issued by sso.polygone.test for the customer portal\neyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzc28ucG9seWdvbmUudGVzdCIsImF1ZCI6InBvcnRhaWwtY2xpZW50cyIsInN1YiI6InBnLWNsaWVudC0yMDMxIiwiZXhwIjoxODI3OTAzNjAwfQ.m4Qx7Tn2VbK9sLr0aWc3Yh\n"
+
+objectives:
+  - { id: audience, text: d9.obj.audience }
+  - { id: marker, text: d9.obj.marker }
+  - { id: fix, text: d9.obj.fix }
+
+investigation:
+  - { id: audience, text: d9.q.audience, value: "portail-clients", points: 100, objective: audience }
+
+flags:
+  - { id: marker, value: "FLAG{polygone-jeton-voisin-b41f}", points: 250, objective: marker }
+
+questions:
+  - id: fix
+    text: d9.q.fix
+    objective: fix
+    correct: own
+    options:
+      - { id: own, text: d9.q.fix.own }
+      - { id: shorter, text: d9.q.fix.shorter, why: d9.q.fix.shorter.why }
+      - { id: sealed, text: d9.q.fix.sealed, why: d9.q.fix.sealed.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d9.ada.brief
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d9.ada.done
+
+debrief:
+  title: d9.debrief.title
+  lesson: d9.debrief.lesson
+  points: [d9.debrief.p1, d9.debrief.p2, d9.debrief.p3]
+  reference: "RFC 9700 · OAuth 2.0 Security Best Current Practice"

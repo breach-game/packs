@@ -1,0 +1,17 @@
+id: defis.jeton-voisin
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · Le jeton du voisin"
+  en: "Challenge · The neighbour's token"
+summary:
+  fr: "Un jeton d'accès émis pour le portail des clients. Lis-le avec `jwt decode`, dis pour quelle application il a été émis, montre qu'une autre API l'accepte quand même, rapporte le marqueur, puis dis comment l'empêcher. Sans aide."
+  en: "An access token issued for the customer portal. Read it with `jwt decode`, say which application it was issued for, show that another API accepts it anyway, report the marker, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, crypto]
+minutes: 10

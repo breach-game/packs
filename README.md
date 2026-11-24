@@ -21,7 +21,7 @@ packs/
   premiers-pas.*/             first steps: a small bakery world and two one-technique missions
   dossiers.<name>*/           a case file: a world, three or four missions and their series
   hors-serie.<name>*/         a side series: a fictional world and its missions
-  defis.*/                    the challenges: one world and six missions played at Expert only
+  defis.*/                    the challenges: one world and nine missions played at Expert only
   paths.<name>/               a path: an order through official and community missions
 ```
 
@@ -124,6 +124,9 @@ Six short missions in one fictional world (Polygone Services), each set to `leve
 | `defis.trois-lignes` | Three lines | Point out the three faulty lines of a pull request with `review`, every mistake costs points |
 | `defis.pluie-fine` | Fine rain | Password guessing from twelve addresses: write the rule that counts by account and ignores a colleague's typos |
 | `defis.garde-fou` | The guardrail | Write a support agent's refund guardrail that holds on both sides of a threshold (`eval run`) |
+| `defis.origine-miroir` | The mirrored origin | Show with `curl -i` that the profile API allows a foreign origin to read it with cookies, then pick the fix |
+| `defis.fausse-image` | The false picture | A witness upload named like a picture: `file` says what it is, `curl -I` shows how the shop serves it |
+| `defis.jeton-voisin` | The neighbour's token | Read an access token with `jwt decode`, then show an API accepts it although it was issued for another application |
 
 ## The rules every pack follows
 
