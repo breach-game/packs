@@ -1,4 +1,4 @@
-s1.briefing: "The corner bakery, a client of the firm, forwarded the invoice it received yesterday: `clients/facture.eml`. New IBAN, and the firm sent nothing. Yet the client's filter accepted it all."
+s1.briefing: "The corner bakery, a client of the firm, forwarded the invoice it received yesterday: `clients/facture.eml`. New IBAN, and the firm sent nothing. Yet the client's filter accepted it all. The firm writes from sarcelle.test."
 s1.obj.domain: "Find the domain that really sent the invoice"
 s1.obj.created: "Date that domain"
 s1.obj.pass: "Explain why every check passes"

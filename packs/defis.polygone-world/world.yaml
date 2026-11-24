@@ -84,6 +84,17 @@ hosts:
             header: "Origin: https://audit-lignerouge.example"
             headers: { content-type: application/json, access-control-allow-origin: "https://audit-lignerouge.example", access-control-allow-credentials: "true", vary: Origin }
             body: "{\"account\": \"pg-client-2031\", \"name\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"email\": \"gestion@melezes.example\", \"iban_end\": \"...7741\", \"witness_marker\": \"FLAG{polygone-origine-miroir-7a2c}\"}\n"
+          # The mirror reflects other origins too (no marker: it is only placed for the mandate's origin).
+          - id: mirror-evil
+            cookie: "session=pg-client-2031"
+            header: "Origin: https://evil.example"
+            headers: { content-type: application/json, access-control-allow-origin: "https://evil.example", access-control-allow-credentials: "true", vary: Origin }
+            body: "{\"account\": \"pg-client-2031\", \"name\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"email\": \"gestion@melezes.example\", \"iban_end\": \"...7741\"}\n"
+          - id: mirror-attacker
+            cookie: "session=pg-client-2031"
+            header: "Origin: https://attacker.example"
+            headers: { content-type: application/json, access-control-allow-origin: "https://attacker.example", access-control-allow-credentials: "true", vary: Origin }
+            body: "{\"account\": \"pg-client-2031\", \"name\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"email\": \"gestion@melezes.example\", \"iban_end\": \"...7741\"}\n"
           - id: own
             cookie: "session=pg-client-2031"
             headers: { content-type: application/json, access-control-allow-origin: "https://boutique.polygone.test", access-control-allow-credentials: "true", vary: Origin }

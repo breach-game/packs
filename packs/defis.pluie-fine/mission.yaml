@@ -6,7 +6,7 @@ briefing: d5.briefing
 reveal: [sso]
 
 files:
-  regles/pluie.yml: "title: Guessing spread over many addresses\nsource: auth\n"
+  regles/pluie.yml: "title: Guessing spread over many addresses\nsource: auth\n# fields: user, result (Accepted|Failed), method, src\n"
 
 adversary:
   id: rain

@@ -1,4 +1,4 @@
-# Bench 42, the day after: the service is off and 203.0.113.50 is blocked at the firewall, but a
+# Bench 42, a few minutes later: the service is off and 203.0.113.50 is blocked at the firewall, but a
 # scheduled job runs a second program every five minutes. Refused over HTTPS, it falls back to DNS:
 # chunks of the readings in the labels of TXT questions, which the internal resolver forwards.
 side: defense
@@ -7,8 +7,13 @@ stage: hunt
 briefing: p2.briefing
 reveal: [poste42, resolveur]
 
+# Config resets at each mission start: what the earlier missions always end with is declared here,
+# so the story holds in the series and when this mission is replayed alone.
+config:
+  p42.disabled: true
+
 files:
-  regles/dns-long.yml: "title: Readings leaving through DNS\nsource: dns\n"
+  regles/dns-long.yml: "title: Readings leaving through DNS\nsource: dns\n# fields: src, name, rtype\n"
 
 adversary:
   id: planb
@@ -16,11 +21,13 @@ adversary:
   from: poste42
   pace: 1
   delay: 0
+  # The first four steps happened before the player arrived: never blocked, so that they are in
+  # the logs even if the player removes the job first.
   steps:
-    - { id: deny1, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
-    - { id: q1, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: brpoigf3cbfnobm2o4rak3vrjnvgfygwwqc5hyfsxmeco.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
-    - { id: q2, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: fogyr5xkxwnrekpk5yroudocuzrenun7z5jqipq3zxoi7fdh.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
-    - { id: q3, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: k3eyy5qahrvhs3k5aqlgtmjxkau7bhxtpdpff7eii6kq3n.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: deny1, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 } }
+    - { id: q1, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: brpoigf3cbfnobm2o4rak3vrjnvgfygwwqc5hyfsxmeco.releve.meteo-cdn.example, rtype: TXT } }
+    - { id: q2, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: fogyr5xkxwnrekpk5yroudocuzrenun7z5jqipq3zxoi7fdh.releve.meteo-cdn.example, rtype: TXT } }
+    - { id: q3, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: k3eyy5qahrvhs3k5aqlgtmjxkau7bhxtpdpff7eii6kq3n.releve.meteo-cdn.example, rtype: TXT } }
     - { id: deny4, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
     - { id: q4, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: mtzx44hpoevbooaedoecvepr7ni6p62mgg3w325dgdzvgpmm4i3l.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
     - { id: q5, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: 5pe4gdafpk276nzdkyayq5s37jmsnddudd6kdfleepzhpcf2.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }

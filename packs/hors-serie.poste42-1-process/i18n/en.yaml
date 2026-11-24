@@ -1,5 +1,5 @@
 p1.briefing: "Monday, 8:40. The firewall of Laboratoire Ombelle flags bench workstation 42: a connection to an address never seen before, every five minutes, for a week. The report is in `alertes/`. The lab has opened read-only access to the workstation for you (account `ir`). Measures go through `contain`."
-p1.obj.remote: "Find which program on the workstation talks to the unknown address"
+p1.obj.remote: "Find which program on the workstation talks outside, and to which address (answer remote)"
 p1.obj.restart: "Understand why stopping it on Friday did nothing"
 p1.obj.stop: "Stop what restarts it"
 p1.obj.check: "Check on the workstation that it no longer runs"

@@ -138,7 +138,7 @@ hosts:
         - { at: "Nov 19 11:24:37", unit: imprimante-maj, text: "Started imprimante-maj.service - Mise a jour du pilote d'imprimante." }
         - { at: "Nov 19 16:40:12", unit: cron, pid: 7310, text: "(cbaron) REPLACE (cbaron)" }
         - { at: "Nov 22 08:02:10", unit: lims-client, pid: 1204, text: "connecte a lims.ombelle.test, synchronisation du cache local" }
-        - { at: "Nov 22 08:10:44", unit: imprimante-maj, text: "Stopped imprimante-maj.service - Mise a jour du pilote d'imprimante.", if: { config: p42.disabled, eq: true } }
+        - { at: "Nov 22 08:44:30", unit: imprimante-maj, text: "Stopped imprimante-maj.service - Mise a jour du pilote d'imprimante.", if: { config: p42.disabled, eq: true } }
       logins:
         - { user: ir, from: 10.88.0.66, at: "Mon Nov 22 08:40" }
         - { user: cbaron, tty: tty1, from: ":0", at: "Mon Nov 22 08:01" }

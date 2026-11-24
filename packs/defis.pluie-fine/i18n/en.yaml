@@ -1,4 +1,4 @@
-d5.briefing: "Since this morning, single sign-on `sso.polygone.test` records failures, each from a different address. Nobody was alerted. The rule to write is in `regles/pluie.yml`, to try with `rule test`."
+d5.briefing: "Since this morning, single sign-on `sso.polygone.test` records failures, each from a different address. Nobody was alerted, and it is still going on while you look. The rule to write is in `regles/pluie.yml`, to try with `rule test`."
 d5.obj.opened: "The account that gave in"
 d5.obj.rule: "A rule that sees the attack, and nothing else"
 d5.obj.next: "Say what to do right now"
