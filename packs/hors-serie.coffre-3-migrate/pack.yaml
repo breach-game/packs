@@ -1,0 +1,16 @@
+id: hors-serie.coffre-3-migrate
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.coffre-world]
+title:
+  fr: "Le Coffre · 3. Un coffre lent"
+  en: "The Vault · 3. A slow vault"
+summary:
+  fr: "Tu écris la politique de stockage des mots de passe : un algorithme lent et salé, les vieilles empreintes protégées tout de suite sans attendre la connexion de chacun. Tu déploies, tu vérifies le nouveau format avec `hashid`, puis tu décides quoi dire aux adhérents."
+  en: "You write the password storage policy: a slow, salted algorithm, old hashes protected right away without waiting for each member to sign in. You deploy, check the new format with `hashid`, then decide what to tell members."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, privacy, defense, crisis]
+minutes: 12

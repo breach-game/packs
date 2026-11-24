@@ -1,0 +1,96 @@
+# Side series "Le Coffre". Everything here is fictional: reserved .test and .example domains, private addresses only.
+startTime: "2027-11-15T09:30:00+01:00"
+mandate: TL-2027-044
+scope:
+  domains: ["*.tilleul.test"]
+  networks: ["10.86.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.86.0.2
+
+config:
+  tl.migrated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.86.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [vault]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            TL-2027-044.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The members' space, open to the internet.
+  - id: vault
+    hostname: coffre.tilleul.test
+    ip: 10.86.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 160, z: -60, h: 130 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: "Le Coffre · Mutuelle Tilleul"
+          blocks:
+            - { h1: page.home.h1 }
+            - { p: page.home.p }
+            - { footer: page.home.footer }
+      # A sample hash the team publishes on its test page, so that anyone can see which format is in use.
+      "/api/exemple-empreinte":
+        headers: { content-type: application/json }
+        body: "{\"account\": \"test-0001\", \"password_hash\": \"73faef95aa1cfa102ca32da5b3dc662b3ef6aecb\"}\n"
+        variants:
+          - id: migrated
+            if: { config: tl.migrated, eq: true }
+            headers: { content-type: application/json }
+            body: "{\"account\": \"test-0001\", \"password_hash\": \"$argon2id$v=19$m=65536,t=3,p=4$c2VsLWRlLXRlc3QtMDAwMQ$K9yQe2Lm0Vx7aTn4sRb1cWdPq8ZuHf3GjN6kYoEi5Ms\"}\n"
+
+dns:
+  tilleul.test: { A: ["10.86.0.20"] }
+  coffre.tilleul.test: { A: ["10.86.0.20"] }
+
+whois:
+  tilleul.test: |
+    Domain Name: TILLEUL.TEST
+    Creation Date: 2009-03-02T08:00:00Z
+    Registrant Organization: Mutuelle Tilleul
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

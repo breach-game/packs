@@ -1,0 +1,108 @@
+# The migration: Argon2id with a salt per account, old SHA-1 hashes wrapped at once and replaced at next sign-in, then a decision about members.
+side: defense
+order: 3
+stage: defense
+briefing: c3.briefing
+reveal: [vault]
+
+files:
+  coffre/mots-de-passe.yml: { $file: files/mots-de-passe.yml }
+
+containment:
+  - id: deploy
+    action: rotate
+    target: coffre
+    text: c3.contain.deploy
+    sets: { tl.migrated: true }
+    impact: 1
+
+objectives:
+  - { id: algo, text: c3.obj.algo }
+  - { id: legacy, text: c3.obj.legacy }
+  - { id: deploy, text: c3.obj.deploy }
+  - { id: sample, text: c3.obj.sample }
+  - { id: tell, text: c3.obj.tell }
+
+investigation:
+  - { id: sample, text: c3.q.sample, value: "argon2", points: 75, objective: sample }
+
+questions:
+  - id: tell
+    text: c3.q.tell
+    objective: tell
+    options:
+      - { id: targeted, text: c3.q.tell.targeted, impact: 1 }
+      - { id: everyone, text: c3.q.tell.everyone, impact: 3 }
+      - { id: quiet, text: c3.q.tell.quiet, impact: 5 }
+
+checks:
+  - id: algo
+    text: c3.check.algo
+    if: { all: [{ file: "~/coffre/mots-de-passe.yml", contains: "algorithm: argon2id" }, { file: "~/coffre/mots-de-passe.yml", contains: "salt: per-account" }] }
+    objective: algo
+  - id: legacy
+    text: c3.check.legacy
+    if: { all: [{ file: "~/coffre/mots-de-passe.yml", contains: "legacy_sha1: wrap" }, { file: "~/coffre/mots-de-passe.yml", contains: "on_login: rehash" }, { file: "~/coffre/mots-de-passe.yml", contains: "temporary_password: random-single-use" }] }
+    objective: legacy
+  - id: works
+    text: c3.check.works
+    if: { all: [{ file: "~/coffre/mots-de-passe.yml", contains: "argon2_memory: 64MiB" }, { file: "~/coffre/mots-de-passe.yml", contains: "argon2_iterations: 3" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: algo }
+    do:
+      - ada.say: c3.ada.algo
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: algo }, { objective: legacy }] } }
+    once: false
+    do:
+      - ada.say: c3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: algo }, { objective: legacy }] }
+    do:
+      - ada.say: c3.ada.ready
+  - on: { event: Contained, containment: deploy }
+    do:
+      - objective.complete: deploy
+  - on: { event: ObjectiveCompleted, objective: deploy }
+    do:
+      - ada.say: c3.ada.deployed
+  - on: { event: ObjectiveCompleted, objective: sample }
+    do:
+      - ada.say: c3.ada.sample
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: targeted }
+    do:
+      - ada.say: c3.ada.targeted
+  - on: { event: Answered, question: tell, option: everyone }
+    do:
+      - ada.say: c3.ada.everyone
+  - on: { event: Answered, question: tell, option: quiet }
+    do:
+      - ada.say: c3.ada.quiet
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c3.ada.done
+
+guide:
+  algo: c3.ada.g.algo
+  legacy: c3.ada.g.legacy
+  deploy: c3.ada.g.deploy
+  sample: c3.ada.g.sample
+  tell: c3.ada.answer
+
+hints:
+  algo: [c3.hint.algo.1, c3.hint.algo.2]
+  legacy: [c3.hint.legacy.1, c3.hint.legacy.2]
+  deploy: [c3.hint.deploy.1]
+  sample: [c3.hint.sample.1, c3.hint.sample.2]
+  tell: [c3.hint.tell.1]
+
+debrief:
+  title: c3.debrief.title
+  lesson: c3.debrief.lesson
+  points: [c3.debrief.p1, c3.debrief.p2, c3.debrief.p3, c3.debrief.p4]
+  reference: "OWASP Password Storage Cheat Sheet · OWASP Top 10 A02 Cryptographic Failures"

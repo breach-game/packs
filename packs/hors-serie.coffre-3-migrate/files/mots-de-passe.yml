@@ -1,0 +1,9 @@
+# Le Coffre - password storage (version 2016)
+algorithm: sha1
+salt: none
+argon2_memory: 64MiB
+argon2_iterations: 3
+legacy_sha1: keep
+on_login: nothing
+temporary_password: shared
+min_length: 8

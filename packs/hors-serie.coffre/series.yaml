@@ -1,0 +1,5 @@
+# Side series, in playing order: the copy, the reset link, the migration.
+missions:
+  - hors-serie.coffre-1-export
+  - hors-serie.coffre-2-reset
+  - hors-serie.coffre-3-migrate

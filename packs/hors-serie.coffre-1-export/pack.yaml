@@ -1,0 +1,16 @@
+id: hors-serie.coffre-1-export
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.coffre-world]
+title:
+  fr: "Le Coffre · 1. La copie oubliée"
+  en: "The Vault · 1. The forgotten copy"
+summary:
+  fr: "Une copie de la table des adhérents traînait sur un partage. Tu reconnais le format des empreintes avec `hashid`, tu montres avec `openssl dgst` et `grep -c` ce qu'une empreinte sans sel révèle, puis tu dis qui est en danger en premier."
+  en: "A copy of the member table was lying on a share. You recognise the hash format with `hashid`, show with `openssl dgst` and `grep -c` what an unsalted hash reveals, then say who is at risk first."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [crypto, privacy, defense]
+minutes: 10

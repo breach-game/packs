@@ -1,0 +1,10 @@
+FICTIONAL TABLE - order of magnitude only, for the Ligne Rouge report
+Guesses per second on one graphics card, and time to try every 8-character password
+made of lowercase letters and digits (about 2.8 thousand billion candidates).
+
+ALGORITHM              SALT        GUESSES/S (1 card)   ALL 8-CHAR PASSWORDS   ONE GUESS TESTS
+sha1 (2016-2018)       none        ~10 billion          ~5 minutes             every account at once
+bcrypt cost 12         per account ~10 thousand         ~9 years               one account
+argon2id (64 MiB, t=3) per account ~a few thousand      ~30 years              one account
+
+Without salt, two members with the same password have the same hash.

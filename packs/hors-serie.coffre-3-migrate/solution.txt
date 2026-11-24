@@ -1,0 +1,13 @@
+# Side series "Le Coffre", mission 3: the shortest path, replayed by CI in every language.
+cat coffre/mots-de-passe.yml
+sed -i "s/algorithm: sha1/algorithm: argon2id/" coffre/mots-de-passe.yml
+sed -i "s/salt: none/salt: per-account/" coffre/mots-de-passe.yml
+verify
+sed -i "s/legacy_sha1: keep/legacy_sha1: wrap/" coffre/mots-de-passe.yml
+sed -i "s/on_login: nothing/on_login: rehash/" coffre/mots-de-passe.yml
+sed -i "s/temporary_password: shared/temporary_password: random-single-use/" coffre/mots-de-passe.yml
+verify
+contain rotate coffre
+curl https://coffre.tilleul.test/api/exemple-empreinte | jq -r .password_hash | hashid
+answer sample argon2
+answer targeted
