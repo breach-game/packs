@@ -30,6 +30,8 @@ m3.ada.order: "Remarque le début : tout commence trois jours avant la livraison
 m3.ada.g.winter: "Dans l'ordre : la version corrigée d'abord, `deploy tournees 4.2.1`, puis l'option seule, `flag set planif.zones-hiver on`, puis `curl -s https://planif.gavotte.test/sante`. Deux gestes séparés, vérifiés."
 m3.ada.g.winter.standard: "Remets les zones d'hiver en service sans refaire la nuit de mardi. `deploy` et `flag`, puis vérifie."
 m3.ada.deployed: "4.2.1 en place, option toujours éteinte. Le service répond. Maintenant, l'option, seule."
+m3.ada.deployed.on: "4.2.1 en place, l'option était déjà allumée : le service repart. La prochaine fois, un geste à la fois."
+m3.ada.winter: "Zones d'hiver allumées sur la 4.2.1, 58 tournées calculées. Jeudi, la tempête peut venir."
 m3.ada.again: "Attention : l'option sur la 4.2.0, c'est exactement mardi 6 h. Éteins-la, ou livre d'abord la 4.2.1."
 m3.ada.change: "Un dépôt d'abord, une page de santé qui décide. La nuit de mardi aurait coûté un dépôt pendant dix minutes, et l'astreinte aurait dormi."
 m3.ada.g.change: "Pense à ce qui aurait vu le plantage avant les chauffeurs, sans réveiller personne."
