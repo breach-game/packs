@@ -1,0 +1,16 @@
+id: hors-serie.sosie-2-own
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.sosie-world]
+title:
+  fr: "Le Domaine sosie · 2. Notre propre nom"
+  en: "The look-alike domain · 2. Our own name"
+summary:
+  fr: "Cette fois, la fausse relance porte le vrai domaine du cabinet, et elle arrive quand même. Tu lis la politique avec `dig`, tu t'appuies sur les rapports DMARC, et tu durcis SPF et DMARC sans casser la lettre d'information."
+  en: "This time the fake reminder carries the firm's real domain, and it still gets through. You read the policy with `dig`, rely on the DMARC reports, and harden SPF and DMARC without breaking the newsletter."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, defense]
+minutes: 10

@@ -20,6 +20,7 @@ packs/
   example.night-shift/        author kit: a detection rule, an agent guardrail, a code review
   premiers-pas.*/             first steps: a small bakery world and two one-technique missions
   dossiers.<name>*/           a case file: a world, three or four missions and their series
+  hors-serie.<name>*/         a side series: a fictional world and its missions
   paths.<name>/               a path: an order through official and community missions
 ```
 
@@ -72,6 +73,14 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 21 | `dossiers.cormoran*` | Twelve hundred cousins | 23andMe, 2023 | Credential stuffing seen with a threshold rule counted by client rather than address, a sharing feature that multiplies a leak, a required second step and telling every exposed person |
 | 22 | `dossiers.pluvier*` | The living-room password | Snowflake customers, 2024 | Reading a spyware archive with `unzip`, revoking a stolen credential rather than blocking an address, keys, allowed networks and managed devices for contractors |
 | 23 | `dossiers.gobemouche*` | The director's face | Arup, 2024 | Reading a transfer request's headers with `mailhdr`, calling back a directory number with `call` rather than the one in the request, two signatures and no "confidential" exception |
+
+## Side series
+
+Fictional stories with no real incident behind them, each a short series in its own small world (`hors-serie.*`).
+
+| Folder | Series | What you learn |
+| --- | --- | --- |
+| `hors-serie.sosie*` | The look-alike domain | A fake invoice that passes SPF, DKIM and DMARC for its own look-alike name, hardening your real domain from the DMARC reports, shrinking what your website tells fraudsters |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

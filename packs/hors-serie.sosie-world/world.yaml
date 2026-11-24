@@ -1,0 +1,108 @@
+# Side series "Le Domaine sosie". Everything here is fictional: reserved .test domains, private and documentation addresses only.
+startTime: "2027-10-01T09:00:00+02:00"
+mandate: SA-2027-030
+scope:
+  # The look-alike domain is in scope for passive reading only (DNS, whois), as the mandate says.
+  domains: ["*.sarcelle.test", "*.sarcelle-compta.test"]
+  networks: ["10.84.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.84.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.84.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [mail, www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            SA-2027-030.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: mail
+    hostname: mail.sarcelle.test
+    ip: 10.84.0.25
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: -80, h: 90 }
+    services:
+      - { port: 25, name: smtp, product: Postfix 3.7 }
+
+  - id: www
+    hostname: www.sarcelle.test
+    ip: 10.84.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 200, z: 80, h: 100 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - h1: web.home.h1
+            - p: web.home.p1
+            - footer: web.footer
+
+dns:
+  sarcelle.test:
+    A: ["10.84.0.10"]
+    MX: ["mail.sarcelle.test"]
+    TXT: ["v=spf1 mx include:spf.lettres-pro.example ~all"]
+  www.sarcelle.test: { A: ["10.84.0.10"] }
+  mail.sarcelle.test: { A: ["10.84.0.25"] }
+  # Registered three days ago by someone else.
+  sarcelle-compta.test:
+    A: ["203.0.113.70"]
+    MX: ["mx.sarcelle-compta.test"]
+    TXT: ["v=spf1 ip4:203.0.113.70 -all"]
+  mx.sarcelle-compta.test: { A: ["203.0.113.70"] }
+
+whois:
+  sarcelle.test: |
+    Domain Name: SARCELLE.TEST
+    Creation Date: 2009-02-17T08:00:00Z
+    Registrant Organization: Cabinet Sarcelle SARL
+    Registrant Country: FR
+  sarcelle-compta.test: |
+    Domain Name: SARCELLE-COMPTA.TEST
+    Creation Date: 2027-09-28T21:14:07Z
+    Registrar: Registrar Fictif SAS
+    Registrant Organization: REDACTED FOR PRIVACY
+    Registrant Country: REDACTED FOR PRIVACY
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

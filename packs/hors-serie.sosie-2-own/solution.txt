@@ -1,0 +1,10 @@
+# Side series "Le Domaine sosie", mission 2: the shortest path, replayed by CI in every language.
+mailhdr clients/relance.eml
+dig sarcelle.test TXT
+cat dns/sarcelle.zone
+answer policy none
+answer reports
+cat dns/rapports-dmarc.txt
+sed -i "s/ ~all/ -all/" dns/sarcelle.zone
+sed -i "s/p=none/p=reject/" dns/sarcelle.zone
+verify

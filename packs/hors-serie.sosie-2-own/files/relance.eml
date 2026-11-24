@@ -1,0 +1,17 @@
+Return-Path: <compta@sarcelle.test>
+Received: from mail.client-garage.test (mail.client-garage.test [10.84.0.150]) by boite.client-garage.test; Fri, 1 Oct 2027 08:12:03 +0200
+Received: from vps-4471 (unknown [203.0.113.71])
+  by mail.client-garage.test with ESMTP id 9d2; Fri, 1 Oct 2027 08:12:01 +0200
+Authentication-Results: mail.client-garage.test; spf=softfail (sender 203.0.113.71 not permitted, ~all) smtp.mailfrom=sarcelle.test;
+  dkim=none; dmarc=fail (p=none) header.from=sarcelle.test
+From: "Cabinet Sarcelle" <compta@sarcelle.test>
+To: gerant@client-garage.test
+Date: Fri, 1 Oct 2027 08:11:50 +0200
+Subject: Relance - facture 2027-0944 impayee
+
+Bonjour,
+
+Sauf erreur, votre facture 2027-0944 reste impayee. Merci de la regler aujourd'hui
+sur notre nouveau compte, indique dans le document joint.
+
+Le service comptable - Cabinet Sarcelle

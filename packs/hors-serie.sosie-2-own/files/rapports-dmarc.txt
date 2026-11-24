@@ -1,0 +1,9 @@
+DMARC aggregate reports for sarcelle.test - 1 July to 30 September 2027 (summary)
+
+SOURCE IP        SENDER                       MESSAGES  SPF       DKIM   DMARC
+10.84.0.25       mail.sarcelle.test           11 412    pass      pass   pass
+192.0.2.80       spf.lettres-pro.example         2 160  pass      pass   pass
+203.0.113.71     (unknown)                          37  softfail  none   fail
+198.51.100.19    (unknown)                          12  softfail  none   fail
+
+Every legitimate message passes. The only failures come from addresses the firm does not use.

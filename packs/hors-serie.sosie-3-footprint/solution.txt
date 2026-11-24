@@ -1,0 +1,12 @@
+# Side series "Le Domaine sosie", mission 3: the shortest path, replayed by CI in every language.
+file site/plaquette.pdf
+strings site/plaquette.pdf
+answer tool PayFlux
+cat site/recrutement.md
+sed -i "/Aline Morel/d" site/recrutement.md
+sed -i "s/ dans PayFlux 4.2//" site/recrutement.md
+sed -i "/simple e-mail/d" site/recrutement.md
+cat site/equipe.md
+sed -i "s/ - [a-z.]*@sarcelle.test - 01 99 00 41 [0-9]*//" site/equipe.md
+verify
+answer all

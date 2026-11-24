@@ -1,0 +1,15 @@
+id: hors-serie.sosie
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [hors-serie.sosie-world]
+title:
+  fr: "Hors-série : le Domaine sosie"
+  en: "Side series: the look-alike domain"
+summary:
+  fr: "Un petit cabinet comptable, des clients qui reçoivent de fausses factures avec un nouvel IBAN. Tu démasques un domaine sosie, tu fais rejeter l'usurpation du vrai domaine avec SPF et DMARC, puis tu réduis ce que le site raconte aux fraudeurs."
+  en: "A small accounting firm, clients receiving fake invoices with a new IBAN. You unmask a look-alike domain, have spoofing of the real domain rejected with SPF and DMARC, then reduce what the website tells fraudsters."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, recon, defense, crisis]

@@ -1,0 +1,59 @@
+# The look-alike domain passes SPF, DKIM and DMARC: for its own name. Authentication says who sent it, not who they are.
+side: defense
+order: 1
+stage: defense
+briefing: s1.briefing
+reveal: [mail]
+
+files:
+  clients/facture.eml: { $file: files/facture.eml }
+
+objectives:
+  - { id: domain, text: s1.obj.domain }
+  - { id: created, text: s1.obj.created }
+  - { id: pass, text: s1.obj.pass }
+
+investigation:
+  - { id: domain, text: s1.q.domain, value: "sarcelle-compta.test", points: 75, objective: domain }
+  - { id: created, text: s1.q.created, value: "2027-09-28", points: 75, objective: created }
+
+questions:
+  - id: pass
+    text: s1.q.pass
+    objective: pass
+    correct: theirs
+    options:
+      - { id: theirs, text: s1.q.pass.theirs }
+      - { id: hacked, text: s1.q.pass.hacked, why: s1.q.pass.hacked.why }
+      - { id: broken, text: s1.q.pass.broken, why: s1.q.pass.broken.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: domain }
+    do:
+      - ada.say: s1.ada.domain
+  - on: { event: ObjectiveCompleted, objective: created }
+    do:
+      - ada.say: s1.ada.created
+      - ada.ask: pass
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s1.ada.done
+
+guide:
+  domain: s1.ada.g.domain
+  created: s1.ada.g.created
+  pass: s1.ada.answer
+
+hints:
+  domain: [s1.hint.domain.1, s1.hint.domain.2]
+  created: [s1.hint.created.1, s1.hint.created.2]
+  pass: [s1.hint.pass.1]
+
+debrief:
+  title: s1.debrief.title
+  lesson: s1.debrief.lesson
+  points: [s1.debrief.p1, s1.debrief.p2, s1.debrief.p3]
+  reference: "Business email compromise · look-alike domains"

@@ -1,0 +1,16 @@
+id: hors-serie.sosie-3-footprint
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.sosie-world]
+title:
+  fr: "Le Domaine sosie · 3. Ce que le site raconte"
+  en: "The look-alike domain · 3. What the website tells"
+summary:
+  fr: "Comment les fraudeurs savaient-ils qui paie les factures, avec quel logiciel, et que tout se valide par courriel ? En lisant le site du cabinet. Tu fouilles la plaquette avec `strings`, tu réduis ce que les pages publient, et tu décides comment prévenir les clients."
+  en: "How did the fraudsters know who pays the invoices, with which software, and that everything is approved by email? By reading the firm's website. You search the brochure with `strings`, reduce what the pages publish, and decide how to warn clients."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, defense, crisis]
+minutes: 10
