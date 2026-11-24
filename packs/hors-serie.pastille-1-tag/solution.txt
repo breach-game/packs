@@ -1,0 +1,6 @@
+# The Tag, mission 1: the shortest path, replayed by CI in every language.
+cat telephone/alertes.txt
+cat permanence/sac.txt
+answer since 2029-01-03
+answer pause
+answer police

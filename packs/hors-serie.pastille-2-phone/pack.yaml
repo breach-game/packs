@@ -1,0 +1,16 @@
+id: hors-serie.pastille-2-phone
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.pastille-world]
+title:
+  fr: "La Pastille · 2. Ce que dit le téléphone"
+  en: "The Tag · 2. What the phone says"
+summary:
+  fr: "La batterie de Nadia ne tient plus la journée. Tu lis la liste de ses applications et la page de son compte, exportées par elle : une application qu'elle n'a pas installée, un appareil connecté qui n'est plus chez elle. Puis tu dis depuis quel appareil on peut chercher de l'aide sans être lu."
+  en: "Nadia's battery no longer lasts the day. You read her app list and her account page, exported by her: an app she did not install, a signed-in device that is no longer in her home. Then you say which device help can be sought from without being read."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, mobile, defense]
+minutes: 10

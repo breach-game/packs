@@ -1,0 +1,16 @@
+id: hors-serie.pastille-3-plan
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.pastille-world]
+title:
+  fr: "La Pastille · 3. Le plan de Nadia"
+  en: "The Tag · 3. Nadia's plan"
+summary:
+  fr: "Une semaine plus tard. Tu écris avec Nadia le plan qui remet ses appareils et ses comptes entre ses mains, dans le bon ordre, jugé par `verify`. Puis tu réponds à la question qu'elle pose à la fin : peut-on aller regarder dans le téléphone de l'autre ?"
+  en: "A week later. You write with Nadia the plan that puts her devices and accounts back in her hands, in the right order, judged by `verify`. Then you answer the question she asks at the end: can we go and look in the other person's phone?"
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, mobile, defense]
+minutes: 10

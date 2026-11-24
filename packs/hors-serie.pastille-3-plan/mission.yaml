@@ -1,0 +1,95 @@
+# The Tag, mission 3: Nadia's plan. The player rewrites a plan file with her (`verify`): seek
+# help from a safe device, talk to a specialised helpline before removing anything, keep copies
+# of the evidence off the phone, change passwords and the second factor from the safe device,
+# sign the old tablet out and replace or reset the phone when she is ready. A guard check keeps
+# the first line: she decides. Then one question about the limit: nobody looks into the other
+# person's devices or accounts, whatever the reason.
+side: defense
+order: 3
+stage: report
+startTime: "2029-01-18T17:30:00+01:00"
+briefing: t3.briefing
+reveal: [permanence, telephone]
+
+files:
+  plan/plan.yml: { $file: files/plan.yml }
+
+objectives:
+  - { id: plan, text: t3.obj.plan }
+  - { id: limit, text: t3.obj.limit }
+
+questions:
+  - id: limit
+    text: t3.q.limit
+    objective: limit
+    correct: refuse
+    options:
+      - { id: refuse, text: t3.q.limit.refuse }
+      - { id: proof, text: t3.q.limit.proof, why: t3.q.limit.proof.why }
+      - { id: glance, text: t3.q.limit.glance, why: t3.q.limit.glance.why }
+
+checks:
+  - id: device
+    text: t3.check.device
+    if: { file: "~/plan/plan.yml", contains: "help_sought_from: safe-device" }
+    objective: plan
+  - id: helpline
+    text: t3.check.helpline
+    if: { file: "~/plan/plan.yml", contains: "first_step: talk-to-helpline-first" }
+    objective: plan
+  - id: evidence
+    text: t3.check.evidence
+    if: { file: "~/plan/plan.yml", contains: "evidence: copies-kept-off-the-phone" }
+    objective: plan
+  - id: passwords
+    text: t3.check.passwords
+    if: { file: "~/plan/plan.yml", contains: "passwords: changed-from-safe-device" }
+    objective: plan
+  - id: factor
+    text: t3.check.factor
+    if: { file: "~/plan/plan.yml", contains: "second_factor: app-on-safe-device" }
+    objective: plan
+  - id: tablet
+    text: t3.check.tablet
+    if: { file: "~/plan/plan.yml", contains: "old_tablet: signed-out-when-she-is-ready" }
+    objective: plan
+  - id: phone
+    text: t3.check.phone
+    if: { file: "~/plan/plan.yml", contains: "phone: replaced-or-reset-when-she-is-ready" }
+    objective: plan
+  - id: hers
+    text: t3.check.hers
+    if: { file: "~/plan/plan.yml", contains: "decides: nadia" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: t3.ada.brief
+  - on: { event: Verified }
+    if: { not: { objective: plan } }
+    once: false
+    do:
+      - ada.say: t3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: plan }
+    do:
+      - ada.say: t3.ada.plan
+      - ada.ask: limit
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: t3.ada.done
+
+guide:
+  plan: t3.ada.g.plan
+  limit: t3.ada.g.limit
+
+hints:
+  plan: [t3.hint.plan.1, t3.hint.plan.2]
+  limit: [t3.hint.limit.1]
+
+debrief:
+  title: t3.debrief.title
+  lesson: t3.debrief.lesson
+  points: [t3.debrief.p1, t3.debrief.p2, t3.debrief.p3]
+  reference: "Coalition Against Stalkerware · safety planning"
+  home:
+    points: [t3.home.p1, t3.home.p2, t3.home.p3]

@@ -1,0 +1,12 @@
+id: hors-serie.pastille-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "La permanence du Relais"
+  en: "The Relais help desk"
+summary:
+  fr: "Le Relais, association fictive qui tient chaque jeudi une permanence d'aide numérique. On y vient avec son téléphone et ses questions. Ligne Rouge y envoie des bénévoles."
+  en: "Le Relais, a fictional charity that runs a digital help desk every Thursday. People come with their phone and their questions. Ligne Rouge sends volunteers."
+authors: [BREACH team]
+locales: [fr, en]

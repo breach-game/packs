@@ -1,0 +1,82 @@
+# The Tag, mission 1: what travels with her. The phone's own alert history shows one unknown
+# tag moving with Nadia on five days; the desk's note says where it was found and that it was
+# left in place. The player says since when, says what not to do in the first minute, and Nadia
+# decides what happens to the tag (a decision: no option is wrong, and it is hers). Nothing here
+# explains how such a tag is hidden or followed.
+side: defense
+order: 1
+stage: defense
+briefing: t1.briefing
+reveal: [permanence, telephone]
+
+files:
+  telephone/alertes.txt: { $file: files/alertes.txt }
+  permanence/sac.txt: { $file: files/sac.txt }
+
+objectives:
+  - { id: since, text: t1.obj.since }
+  - { id: first, text: t1.obj.first }
+  - { id: tag, text: t1.obj.tag }
+
+investigation:
+  - { id: since, text: t1.q.since, value: "2029-01-03", points: 100, objective: since }
+
+questions:
+  - id: first
+    text: t1.q.first
+    objective: first
+    correct: pause
+    options:
+      - { id: pause, text: t1.q.first.pause }
+      - { id: thrown, text: t1.q.first.thrown, why: t1.q.first.thrown.why }
+      - { id: confront, text: t1.q.first.confront, why: t1.q.first.confront.why }
+  # Nadia's decision: no option is wrong, each one has a different price.
+  - id: tag
+    text: t1.q.tag
+    objective: tag
+    options:
+      - { id: police, text: t1.q.tag.police, impact: 0 }
+      - { id: keep, text: t1.q.tag.keep, impact: 1 }
+      - { id: silence, text: t1.q.tag.silence, impact: 2 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: t1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: since }
+    do:
+      - ada.say: t1.ada.since
+      - ada.ask: first
+  - on: { event: ObjectiveCompleted, objective: first }
+    do:
+      - ada.say: t1.ada.first
+      - ada.ask: tag
+  - on: { event: Answered, question: tag, option: police }
+    do:
+      - ada.say: t1.ada.tag.police
+  - on: { event: Answered, question: tag, option: keep }
+    do:
+      - ada.say: t1.ada.tag.keep
+  - on: { event: Answered, question: tag, option: silence }
+    do:
+      - ada.say: t1.ada.tag.silence
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: t1.ada.done
+
+guide:
+  since: t1.ada.g.since
+  first: t1.ada.g.first
+  tag: t1.ada.g.tag
+
+hints:
+  since: [t1.hint.since.1, t1.hint.since.2]
+  first: [t1.hint.first.1]
+
+debrief:
+  title: t1.debrief.title
+  lesson: t1.debrief.lesson
+  points: [t1.debrief.p1, t1.debrief.p2, t1.debrief.p3]
+  reference: "Coalition Against Stalkerware · safety first"
+  home:
+    points: [t1.home.p1, t1.home.p2, t1.home.p3]

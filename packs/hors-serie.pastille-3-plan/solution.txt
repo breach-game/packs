@@ -1,0 +1,11 @@
+# The Tag, mission 3: the shortest path, replayed by CI in every language.
+cat plan/plan.yml
+sed -i "s/help_sought_from: her-own-phone/help_sought_from: safe-device/" plan/plan.yml
+sed -i "s/first_step: delete-everything-tonight/first_step: talk-to-helpline-first/" plan/plan.yml
+sed -i "s/evidence: left-on-the-phone/evidence: copies-kept-off-the-phone/" plan/plan.yml
+sed -i "s/passwords: changed-on-her-own-phone/passwords: changed-from-safe-device/" plan/plan.yml
+sed -i "s/second_factor: sms-on-her-own-phone/second_factor: app-on-safe-device/" plan/plan.yml
+sed -i "s/old_tablet: still-signed-in/old_tablet: signed-out-when-she-is-ready/" plan/plan.yml
+sed -i "s/phone: cleaned-by-hand/phone: replaced-or-reset-when-she-is-ready/" plan/plan.yml
+verify
+answer refuse

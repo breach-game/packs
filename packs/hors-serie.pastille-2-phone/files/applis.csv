@@ -1,0 +1,7 @@
+app,installed,source,permissions,device_admin
+messages,2027-05-02 10:11,store,sms contacts,no
+photos,2027-05-02 10:11,store,storage,no
+meteo-locale,2027-06-18 08:30,store,location,no
+plans-de-ville,2027-09-01 19:02,store,location,no
+service-synchro,2028-11-16 02:14,unknown-source,accessibility location notifications microphone,yes
+carnet-de-courses,2028-12-03 12:40,store,none,no

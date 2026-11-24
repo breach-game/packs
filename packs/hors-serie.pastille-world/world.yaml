@@ -1,0 +1,59 @@
+# Side series "La Pastille". Being tracked by someone close, seen only from the side of the person
+# who is tracked, with her agreement and on her own devices. No surveillance technique: nothing
+# here says how to hide a tag or install a spy app. The player reads exports the person made at
+# the desk (alert history, app list, account page), answers questions and writes a plan with
+# her. The other person's devices and accounts are out of scope, and stay so.
+startTime: "2029-01-11T17:30:00+01:00"
+mandate: RL-2029-041
+scope:
+  domains: ["*.relais.test"]
+  networks: ["10.113.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.113.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.113.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [permanence, telephone]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            RL-2029-041.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The desk's own laptop: a device nobody outside the charity has ever held.
+  - { id: permanence, hostname: permanence.relais.test, ip: 10.113.0.20, os: Linux, map: { x: 40, z: -110, h: 90 }, services: [] }
+  # Nadia's phone, on the desk's guest Wi-Fi while she is there.
+  - { id: telephone, hostname: telephone-nadia.relais.test, ip: 10.113.0.50, os: Phone, map: { x: 220, z: 60, h: 70 }, services: [] }
+
+dns:
+  relais.test: { A: ["10.113.0.20"] }
+  permanence.relais.test: { A: ["10.113.0.20"] }
+  telephone-nadia.relais.test: { A: ["10.113.0.50"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

@@ -1,0 +1,9 @@
+PHONE - "unknown tag moving with you" alerts (exported by Nadia at the desk, 11 January 2029)
+
+2029-01-03 18:52   A tag that is not yours has been moving with you since 08:10.   tag ...4F2A
+2029-01-04 19:05   A tag that is not yours has been moving with you since 07:55.   tag ...4F2A
+2029-01-07 15:20   A tag that is not yours has been moving with you since 10:40.   tag ...4F2A
+2029-01-09 18:40   A tag that is not yours has been moving with you since 08:05.   tag ...4F2A
+2029-01-11 17:10   A tag that is not yours has been moving with you since 08:00.   tag ...4F2A
+
+Each alert was dismissed. The phone can make the tag ring: not done.

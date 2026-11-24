@@ -1,0 +1,12 @@
+{
+  "account": "nadia@courriel.example",
+  "devices": [
+    { "name": "telephone-nadia", "last_seen": "2029-01-11", "note": "this phone" },
+    { "name": "tablette-salon", "last_seen": "2029-01-11", "note": "left at the former flat in November 2028" }
+  ],
+  "location_sharing": [
+    { "with": "contact-07", "since": "2027-08-14", "note": "switched on together, back then" }
+  ],
+  "recovery_email": "nadia.secours@courriel.example",
+  "second_factor": "sms"
+}
