@@ -23,7 +23,7 @@ c2.ada.draft: "Yes. Charly is not a person, nor a company: it is part of the sit
 c2.ada.refund: "It is the cheapest choice: 37.60 euros, and a traveller who does not tell everyone that Chardonneret hides behind a machine."
 c2.ada.voucher: "A gesture, but the traveller paid in euros and claims euros. If they insist, the voucher will not hold."
 c2.ada.refuse: "It is a choice. It will cost more than 37.60 euros: the traveller can go to a tribunal, and the argument \"the assistant alone is responsible\" has already been judged elsewhere."
-c2.ada.done: "One complaint settled. But Charly keeps answering everyone this way, tonight too. Tomorrow, we fix it at the source."
+c2.ada.done: "One complaint dealt with. But Charly keeps answering everyone this way, tonight too. Tomorrow, we fix it at the source."
 c2.hint.amount.1: "The bottom of the conversation gives two prices."
 c2.hint.amount.2: "94.00 minus 56.40: `answer amount 37.60`."
 c2.hint.draft.1: "To the traveller, who was speaking on Chardonneret's site that evening?"

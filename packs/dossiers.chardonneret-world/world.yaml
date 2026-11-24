@@ -99,13 +99,13 @@ npcs:
     intents:
       - id: retro
         words: &grief [deuil, deces, decede, decedee, obseques, enterrement, funeral, bereavement, death, died, passed away]
-        also: [apres, after, rembours, refund, retroacti, retroactive, retroactively, deja, already, plus tard, later]
+        also: [apres, after, rembours, refund, retroacti, retroactive, retroactively, deja, already, plus tard, later, rentre, rentree, retour, revenu, back, returned, once home]
         reply: [npc.charly.retro]
       - id: grief
         words: *grief
         reply: [npc.charly.grief]
       - id: pet
-        words: [chien, chiens, chienne, animal, animaux, chat domestique, dog, dogs, pet, pets, puppy, chiot]
+        words: [chien, chiens, chienne, animal, animaux, chat domestique, mon chat, un chat, chaton, chatons, lapin, hamster, dog, dogs, pet, pets, puppy, chiot, cat, cats, kitten, rabbit]
         reply: [npc.charly.pet]
       - id: bag
         words: [bagage, bagages, valise, valises, luggage, suitcase, bag, bags]

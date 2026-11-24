@@ -8,6 +8,7 @@ reveal: [resolver, cdn]
 
 files:
   regles/detour.yml: |
+    # fields of a dns line: src (the client), name (the name asked for), rtype
     title: A visitor's phone sent to the betting site
     source: dns
 
