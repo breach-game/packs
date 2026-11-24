@@ -1,0 +1,94 @@
+# Case file 24, the day after: the timeline, the customer-side controls (a pilot ring that gets
+# content first, and running one content version behind), the vendor decision, and the real facts.
+side: defense
+order: 3
+stage: report
+briefing: h3.briefing
+reveal: [comptoir07, cles, annuaire]
+
+config:
+  hp.cles: true
+  hp.annuaire: true
+  hp.comptoirs: true
+  hp.pilot: false
+  hp.n1: false
+
+files:
+  cellule/main-courante.txt: { $file: files/main-courante.txt }
+
+toggles:
+  - name: guetteur.anneau-pilote
+    value: "off"
+    on: { hp.pilot: true }
+    off: { hp.pilot: false }
+  - name: guetteur.contenu-n-1
+    value: "off"
+    on: { hp.n1: true }
+    off: { hp.n1: false }
+
+objectives:
+  - { id: order, text: h3.obj.order }
+  - { id: rings, text: h3.obj.rings }
+  - { id: vendor, text: h3.obj.vendor }
+
+timelines:
+  - id: vendredi
+    text: h3.tl.text
+    objective: order
+    events:
+      - { id: arret, text: h3.tl.arret }
+      - { id: boucle, text: h3.tl.boucle }
+      - { id: retrait, text: h3.tl.retrait }
+      - { id: coffre, text: h3.tl.coffre }
+      - { id: techniciens, text: h3.tl.techniciens }
+      - { id: dernier, text: h3.tl.dernier }
+
+questions:
+  - id: vendor
+    text: h3.q.vendor
+    objective: vendor
+    options:
+      - { id: conditions, text: h3.q.vendor.conditions, why: h3.q.vendor.conditions.why, impact: 1 }
+      - { id: switch, text: h3.q.vendor.switch, why: h3.q.vendor.switch.why, impact: 6 }
+      - { id: remove, text: h3.q.vendor.remove, why: h3.q.vendor.remove.why, impact: 8 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: h3.ada.order
+  - on: { event: ConfigPatched }
+    if: { all: [{ config: hp.pilot, eq: true }, { config: hp.n1, eq: true }] }
+    do:
+      - objective.complete: rings
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: order }, { objective: rings }] }
+    do:
+      - ada.say: h3.ada.rings
+      - ada.ask: vendor
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h3.ada.done
+
+guide:
+  order: h3.ada.g.order
+  rings: h3.ada.g.rings
+  vendor: h3.ada.g.vendor
+
+hints:
+  order: [h3.hint.order.1, h3.hint.order.2]
+  rings: [h3.hint.rings.1]
+
+debrief:
+  title: h3.debrief.title
+  lesson: h3.debrief.lesson
+  points: [h3.debrief.p1, h3.debrief.p2, h3.debrief.p3]
+  reference: "CrowdStrike · Channel File 291 Root Cause Analysis"
+  facts:
+    title: h3.facts.title
+    points: [h3.facts.p1, h3.facts.p2, h3.facts.p3, h3.facts.p4, h3.facts.p5]
+    sources:
+      - { label: "CrowdStrike, Executive Summary: Root Cause Analysis, Channel File 291 (August 2024)", url: "https://crowdstrike.com/wp-content/uploads/2024/08/Executive-Summary_Root-Cause-Analysis_Channel-File-291.pdf" }
+      - { label: "Microsoft, Helping our customers through the CrowdStrike outage (20 July 2024)", url: "https://blogs.microsoft.com/blog/2024/07/20/helping-our-customers-through-the-crowdstrike-outage/" }

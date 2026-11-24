@@ -1,0 +1,16 @@
+id: dossiers.huppe
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: series
+requires: [dossiers.huppe-world]
+title:
+  fr: "Dossier 24 : le vendredi des comptoirs"
+  en: "Case file 24: the Friday of the counters"
+summary:
+  fr: "Inspiré de la panne mondiale de juillet 2024, causée par une mise à jour de contenu d'un logiciel de sécurité. Sans attaquant, tu trouves le fichier fautif dans le journal d'un comptoir en mode secours, tu répares dans le bon ordre avec `path`, puis tu règles des anneaux de livraison avec `flag`. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the worldwide outage of July 2024, caused by a security software content update. With no attacker, you find the faulty file in the journal of a counter in rescue mode, repair in the right order with `path`, then set delivery rings with `flag`. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [linux, crisis, defense, supply]
+incident: 2024

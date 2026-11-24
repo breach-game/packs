@@ -1,0 +1,9 @@
+# Case file 24, mission 1: the shortest path, replayed by CI in every language.
+ssh ir@comptoir07.ravel.test
+last
+journalctl
+ls -l /var/lib/guetteur/canaux
+strings /var/lib/guetteur/canaux/C-0446-20271126-0342.gtr
+strings /var/lib/guetteur/canaux/C-0447-20271126-0609.gtr
+answer channel 0447
+answer content

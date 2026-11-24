@@ -1,0 +1,50 @@
+# Case file 24, 07:05: every counter crashed within minutes. The agent's new content file (channel
+# 0447) makes its kernel module read past the end of a table. No attacker: the vendor's usual channel.
+side: defense
+order: 1
+stage: triage
+briefing: h1.briefing
+reveal: [comptoir07]
+
+objectives:
+  - { id: channel, text: h1.obj.channel }
+  - { id: attack, text: h1.obj.attack }
+
+investigation:
+  - { id: channel, text: h1.q.channel, value: "0447", points: 100, objective: channel }
+
+questions:
+  - id: attack
+    text: h1.q.attack
+    objective: attack
+    correct: content
+    options:
+      - { id: content, text: h1.q.attack.content }
+      - { id: ransom, text: h1.q.attack.ransom, why: h1.q.attack.ransom.why }
+      - { id: insider, text: h1.q.attack.insider, why: h1.q.attack.insider.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: channel }
+    do:
+      - ada.say: h1.ada.channel
+      - ada.ask: attack
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h1.ada.done
+
+guide:
+  channel: h1.ada.g.channel
+  attack: h1.ada.g.attack
+
+hints:
+  channel: [h1.hint.channel.1, h1.hint.channel.2]
+  attack: [h1.hint.attack.1]
+
+debrief:
+  title: h1.debrief.title
+  lesson: h1.debrief.lesson
+  points: [h1.debrief.p1, h1.debrief.p2, h1.debrief.p3]
+  reference: "NIST SP 800-61 · Incident Handling Guide"

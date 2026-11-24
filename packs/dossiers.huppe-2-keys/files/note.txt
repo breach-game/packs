@@ -1,0 +1,10 @@
+GUETTEUR · avis aux clients · vendredi 26 novembre 2027, 07:27
+
+Le canal de contenu 0447, publie a 06:09, provoque un arret du systeme sur certaines machines.
+Il a ete retire a 07:27 et remplace par le canal 0448.
+
+Machines deja touchees :
+  1. demarrer en mode secours ;
+  2. supprimer /var/lib/guetteur/canaux/C-0447-*.gtr ;
+  3. redemarrer normalement.
+Si le disque est chiffre, la cle de recuperation sera demandee au demarrage en mode secours.

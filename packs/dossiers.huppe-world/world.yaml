@@ -1,0 +1,140 @@
+# Case file 24 "Huppe". Inspired by the July 2024 outage caused by a faulty security content update.
+# Everything here is fictional (the company, the agent and its vendor): reserved .test domains and
+# private addresses only. No attacker: a defence-side recovery.
+startTime: "2027-11-26T07:05:00+01:00"
+mandate: RV-2027-061
+scope:
+  domains: ["*.ravel.test"]
+  networks: ["10.90.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.90.0.2
+
+config:
+  hp.cles: false
+  hp.annuaire: false
+  hp.comptoirs: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.90.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [comptoir07, cles]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            RV-2027-061.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # A counter of the Lyon pharmacy, started in rescue mode by the pharmacist at 7:00.
+  - id: comptoir07
+    hostname: comptoir07.ravel.test
+    ip: 10.90.0.107
+    os: Linux 6.1 (Ravel Comptoir 3, mode secours)
+    map: { x: 260, z: 80, h: 80 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "comptoir07\n"
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.readme }
+      var:
+        lib:
+          guetteur:
+            canaux:
+              C-0445-20271125-2214.gtr:
+                $binary: { format: data, strings: ["GTR1 canal=0445 regles=1812 champs=20"] }
+              C-0446-20271126-0342.gtr:
+                $binary: { format: data, strings: ["GTR1 canal=0446 regles=1815 champs=20"] }
+              C-0447-20271126-0609.gtr:
+                $binary: { format: data, strings: ["GTR1 canal=0447 regles=1816 champs=21"] }
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: "07:00", cmd: "/sbin/init rescue" }
+        - { pid: 311, user: root, start: "07:00", cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+      services:
+        - { name: guetteur-capteur, description: Agent de securite Guetteur, state: inactive, enabled: true, unit: /lib/systemd/system/guetteur-capteur.service }
+      journal:
+        - { at: "Nov 26 03:42:10", unit: guetteur-capteur, pid: 802, text: "content channel 0446 loaded (1815 rules)" }
+        - { at: "Nov 26 06:09:12", unit: guetteur-capteur, pid: 802, text: "content channel 0447 received from cloud, loading" }
+        - { at: "Nov 26 06:09:12", unit: kernel, text: "BUG: unable to handle page fault for address: ffffb2c0c1a3f9a8" }
+        - { at: "Nov 26 06:09:12", unit: kernel, text: "RIP: 0010:guet_interp_read+0x1a4/0x2d0 [guetteur]" }
+        - { at: "Nov 26 06:09:12", unit: kernel, text: "Kernel panic - not syncing: Fatal exception" }
+        - { at: "Nov 26 06:11:40", unit: guetteur-capteur, pid: 799, text: "content channel 0447 found in cache, loading" }
+        - { at: "Nov 26 06:11:40", unit: kernel, text: "Kernel panic - not syncing: Fatal exception" }
+        - { at: "Nov 26 07:00:05", unit: systemd, text: "Booting in rescue mode: guetteur-capteur.service not started." }
+      logins:
+        - { user: ir, from: 10.90.0.66, at: "Fri Nov 26 07:05" }
+        - { user: reboot, tty: system, from: "6.1.0-rescue", at: "Fri Nov 26 07:00", until: "still running" }
+        - { user: reboot, tty: system, from: 6.1.0-ravel, at: "Fri Nov 26 06:11", until: "06:11  (00:00)" }
+        - { user: reboot, tty: system, from: 6.1.0-ravel, at: "Fri Nov 26 06:09", until: "06:09  (00:00)" }
+        - { user: pharma, tty: tty1, from: ":0", at: "Thu Nov 25 08:30", until: "19:02  (10:32)" }
+
+  # Disk recovery keys of every counter. It runs Guetteur too.
+  - id: cles
+    hostname: cles.ravel.test
+    ip: 10.90.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: -120, h: 120 }
+    links: [annuaire]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        status: 503
+        body: "Service Unavailable\n"
+        variants:
+          - id: back
+            if: { config: hp.cles, eq: true }
+            page:
+              title: "Clés de récupération · Ravel"
+              blocks:
+                - { h1: page.cles.h1 }
+                - { p: page.cles.p }
+
+  # The directory: counters sign in through it.
+  - id: annuaire
+    hostname: annuaire.ravel.test
+    ip: 10.90.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 180, z: -60, h: 120 }
+    links: [comptoir07]
+    services:
+      - { port: 389, name: ldap, product: OpenLDAP 2.5 }
+
+dns:
+  ravel.test: { A: ["10.90.0.10"] }
+  comptoir07.ravel.test: { A: ["10.90.0.107"] }
+  cles.ravel.test: { A: ["10.90.0.20"] }
+  annuaire.ravel.test: { A: ["10.90.0.10"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

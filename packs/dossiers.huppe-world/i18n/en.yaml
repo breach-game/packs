@@ -1,0 +1,6 @@
+file.readme: "Ligne Rouge workstation. Case file: Huppe. Type `mission` to see your objectives, `hint` if you get stuck."
+file.ir.readme: "Counter started in rescue mode by the pharmacist. Read-only access for Ligne Rouge; measures go through `contain`."
+file.mandate: "MANDATE RV-2027-061\nClient: Pharmacies Ravel, forty pharmacies. Scope: *.ravel.test, 10.90.0.0/24.\nPurpose: since 6:09 the counters have been restarting in a loop. Ligne Rouge helps the IT team understand, repair and decide.\nAgreed setup: read access to machines in rescue mode, measures approved by management and ordered through `contain`.\nSigned: the CIO of Pharmacies Ravel."
+page.cles.h1: "Recovery keys"
+page.cles.p: "Vault of the counters' disk encryption keys. IT team only."
+ada.outOfScope: "Stop. This target is outside mandate RV-2027-061. Even to repair, outside the mandate it is an offence (article 323-1 of the French Penal Code)."
