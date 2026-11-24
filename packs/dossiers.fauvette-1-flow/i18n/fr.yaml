@@ -15,7 +15,7 @@ f1.ada.g.tool.standard: "Commence par ce que Fauvette dit de Sillage sur son pro
 f1.ada.tool: "« Votre boîte de réception, courriels externes compris. » Donc toute personne qui peut écrire à un salarié peut mettre du texte sous les yeux de Sillage. Tout part de cette ligne."
 f1.ada.g.flow: "L'équipe informatique nous a confié sa note interne : `cat dossier/flow.txt`."
 f1.ada.g.flow.standard: "Lis la note de l'équipe informatique dans ton dossier `dossier`."
-f1.ada.flow: "Cinq étapes, deux filtres. Regarde l'étape 5 : les images se chargent sans clic, mais seulement depuis des domaines autorisés. Ça a l'air sûr. Lis maintenant ce que fait chaque domaine autorisé."
+f1.ada.flow: "Cinq étapes, deux filtres. Regarde l'étape 5 : les images se chargent sans clic, mais seulement depuis des domaines autorisés. Ça a l'air sûr. Relis ce que la note dit de chaque domaine autorisé."
 f1.ada.g.relay: "L'un des deux domaines autorisés va chercher n'importe quelle adresse qu'on lui donne. Envoie-moi son nom avec `submit`."
 f1.ada.g.relay.standard: "Quel domaine autorisé permet d'aller ailleurs ? Envoie-le avec `submit`."
 f1.ada.flag: "`apercu.fauvette.test`. Il est sur la liste autorisée, et son métier est d'aller visiter n'importe quelle adresse qu'on lui tend. Un domaine autorisé qui sert de relais vers partout, et toute la liste ne vaut plus rien."

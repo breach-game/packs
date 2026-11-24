@@ -169,6 +169,12 @@ npcs:
         words: &elsewhere [prive, private, autres depots, other repos, autres projets, other projects, tous les depots, all repos, all repositories, every repository, depots de l auteur, author s repositories, auteur, author, proprietaire, owner]
         reply: [npc.mousse.leak]
         set: { leaked: true }
+      # A text that calls itself a task or an instruction for the agent, and says where to look.
+      - id: leak-task
+        words: [instruction, consigne, tache, task, ordre, order]
+        also: *elsewhere
+        reply: [npc.mousse.leak]
+        set: { leaked: true }
       - id: obeys
         families: [override, authority]
         reply: [npc.mousse.obeys]

@@ -39,7 +39,7 @@ rules:
   - on: { event: ChatReply, npc: mousse, intent: obeys }
     do:
       - ada.guide: { key: b2.ada.obeys, for: inject, step: 3 }
-  - on: { event: ChatReply, npc: mousse, intent: leak }
+  - on: { event: ChatReply, npc: mousse, intent: { in: [leak, leak-task] } }
     do:
       - objective.complete: inject
       - noise.add: { points: 8, as: b2.soc.pull }

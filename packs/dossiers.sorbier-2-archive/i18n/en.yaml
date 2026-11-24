@@ -25,7 +25,7 @@ s2.ada.flag: "`bad-header.plz`. We stop there, we do not open that file: Sorbier
 s2.ada.answer: "Answer in the messenger, or with `answer` and the letter."
 s2.ada.answer.standard: "Answer my question."
 s2.ada.where: "Yes. Two different paths for the same code: the one everybody reviews, and the one everybody installs. Slipping something between the two is enough."
-s2.ada.g.who: "Now, who. The project history is in `dossier/history.txt`: read it going back in time, then answer."
+s2.ada.g.who: "Now, who. The project history is in `dossier/history.txt`: read it from the bottom up, oldest first, then answer."
 s2.ada.g.who.standard: "Read the project history, then answer my question."
 s2.ada.history: "Read it from the bottom up. A first small fix, a typo corrected, strangers pressing the founder to hand over, then the rights, then the release signing. Each step, taken alone, is ordinary."
 s2.ada.who: "That is it. We do not know the person behind that account, and naming anyone is not our job. What the history shows is a method: two years of useful work to obtain one thing, the right to publish."

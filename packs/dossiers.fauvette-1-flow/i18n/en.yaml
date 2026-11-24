@@ -15,7 +15,7 @@ f1.ada.g.tool.standard: "Start with what Fauvette says about Sillage on its own 
 f1.ada.tool: "\"Your inbox, external emails included.\" So anyone who can write to an employee can put text in front of Sillage. Everything starts from that line."
 f1.ada.g.flow: "The IT team gave us its internal note: `cat dossier/flow.txt`."
 f1.ada.g.flow.standard: "Read the IT team's note in your `dossier` folder."
-f1.ada.flow: "Five steps, two filters. Look at step 5: images load without a click, from allowed domains only. That sounds safe. Now read what each allowed domain does."
+f1.ada.flow: "Five steps, two filters. Look at step 5: images load without a click, from allowed domains only. That sounds safe. Read again what the note says about each allowed domain."
 f1.ada.g.relay: "One of the two allowed domains goes and fetches any address it is given. Send me its name with `submit`."
 f1.ada.g.relay.standard: "Which allowed domain can be used to reach somewhere else? Send it with `submit`."
 f1.ada.flag: "`apercu.fauvette.test`. It is on the allowed list, and its job is to visit any address it is handed. An allowed domain that relays to anywhere makes the whole list worth nothing."
