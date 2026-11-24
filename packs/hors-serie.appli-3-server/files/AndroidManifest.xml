@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="test.cabas.livraison" versionName="4.2.1">
+  <uses-permission name="android.permission.INTERNET"/>
+  <uses-permission name="android.permission.ACCESS_FINE_LOCATION"/>
+  <application
+      label="Cabas"
+      allowBackup="true"
+      debuggable="true"
+      usesCleartextTraffic="false">
+    <activity name="MainActivity" exported="true"/>
+    <activity name="DebugMenu" exported="false"/>
+  </application>
+</manifest>

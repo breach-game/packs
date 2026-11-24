@@ -1,0 +1,86 @@
+# The App 2: the role is a header the app sets itself, and the API trusts it. Read only: one GET
+# on the refunds queue proves it; the validate action shown in the answer is never called.
+order: 2
+stage: exploit
+briefing: a2.briefing
+reveal: [magasin, api]
+
+files:
+  cabas.apk:
+    $archive:
+      format: zip
+      files:
+        AndroidManifest.xml: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!-- decoded from the binary manifest -->\n<manifest package=\"test.cabas.livraison\" versionName=\"4.2.0\">\n  <uses-permission name=\"android.permission.INTERNET\"/>\n  <uses-permission name=\"android.permission.ACCESS_FINE_LOCATION\"/>\n  <application\n      label=\"Cabas\"\n      allowBackup=\"true\"\n      debuggable=\"true\"\n      usesCleartextTraffic=\"false\">\n    <activity name=\"MainActivity\" exported=\"true\"/>\n    <activity name=\"DebugMenu\" exported=\"false\"/>\n  </application>\n</manifest>\n"
+        assets/config.json: "{\n  \"api_base\": \"https://api.cabas.test/v4\",\n  \"region\": \"fr-idf\",\n  \"partner_key\": \"cbs-part-live-9d27e1\",\n  \"feature_flags\": { \"menu_debug\": false, \"paiement_express\": true }\n}\n"
+        classes.dex:
+          $binary:
+            format: data
+            strings:
+              - "Ltest/cabas/livraison/MainActivity;"
+              - "Ltest/cabas/livraison/api/Client;"
+              - "/v4/catalogue"
+              - "/v4/panier"
+              - "/v4/commandes"
+              - "Ltest/cabas/livraison/DebugMenu;"
+              - "/v4/interne/remboursements"
+              - "X-Cabas-Role"
+              - "staff"
+              - "client"
+              - "X-Cabas-Cle"
+              - "partner_key"
+              - "SharedPreferences: jeton_session"
+              - "afficher le menu si role == staff"
+        res/xml/network_security_config.xml: "<network-security-config>\n  <base-config cleartextTrafficPermitted=\"false\"/>\n</network-security-config>\n"
+        META-INF/CERT.SF: "Signature-Version: 1.0\nCreated-By: 1.0 (Cabas build)\n"
+
+objectives:
+  - { id: route, text: a2.obj.route }
+  - { id: backup, text: a2.obj.backup }
+  - { id: where, text: a2.obj.where }
+
+flags:
+  - { id: route, value: "FLAG{cabas-role-cote-client-a27f}", points: 200, objective: route }
+
+investigation:
+  - { id: backup, text: a2.q.backup, value: "allowbackup", points: 100, objective: backup }
+
+questions:
+  - id: where
+    text: a2.q.where
+    objective: where
+    correct: server
+    options:
+      - { id: server, text: a2.q.where.server }
+      - { id: hide, text: a2.q.where.hide, why: a2.q.where.hide.why }
+      - { id: encrypt, text: a2.q.where.encrypt, why: a2.q.where.encrypt.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: a2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: route }
+    do:
+      - ada.say: a2.ada.route
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: route }, { objective: backup }] }
+    do:
+      - ada.ask: where
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a2.ada.done
+
+guide:
+  route: a2.ada.g.route
+  backup: a2.ada.g.backup
+  where: a2.ada.g.where
+
+hints:
+  route: [a2.hint.route.1, a2.hint.route.2]
+  backup: [a2.hint.backup.1, a2.hint.backup.2]
+  where: [a2.hint.where.1]
+
+debrief:
+  title: a2.debrief.title
+  lesson: a2.debrief.lesson
+  points: [a2.debrief.p1, a2.debrief.p2, a2.debrief.p3]
+  reference: "OWASP Mobile Top 10 · M3 Insecure Authentication/Authorization"

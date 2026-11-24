@@ -1,0 +1,12 @@
+id: hors-serie.appli-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Cabas"
+  en: "Cabas"
+summary:
+  fr: "Cabas, appli fictive de courses livrées en une heure. L'appli se télécharge depuis la boutique de l'entreprise, et tout ce qu'elle sait passe par une API."
+  en: "Cabas, a fictional app for groceries delivered within the hour. The app downloads from the company's own store, and everything it knows goes through an API."
+authors: [BREACH team]
+locales: [fr, en]

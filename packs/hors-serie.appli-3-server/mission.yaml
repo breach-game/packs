@@ -1,0 +1,104 @@
+# The App 3: fix the next build (checked by verify), deploy the API release that checks the role
+# from the session, rotate the shipped key, check from outside, then a word on obfuscation.
+side: defense
+order: 3
+stage: defense
+briefing: a3.briefing
+reveal: [magasin, api]
+
+files:
+  appli-4.2.1/AndroidManifest.xml: { $file: files/AndroidManifest.xml }
+  appli-4.2.1/assets/config.json: { $file: files/config.json }
+
+releases:
+  - service: api
+    current: 4.12.0
+    versions:
+      - { version: 4.12.0, sets: { cb.role.server: false } }
+      - { version: 4.13.0, sets: { cb.role.server: true } }
+
+containment:
+  - id: rotate
+    action: rotate
+    target: cle-partenaire
+    text: a3.contain.rotate
+    sets: { cb.key.rotated: true }
+    impact: 1
+
+objectives:
+  - { id: build, text: a3.obj.build }
+  - { id: role, text: a3.obj.role }
+  - { id: key, text: a3.obj.key }
+  - { id: obfuscate, text: a3.obj.obfuscate }
+
+checks:
+  - id: secret
+    text: a3.check.secret
+    if: { file: "~/appli-4.2.1/assets/config.json", lacks: "cbs-part-live" }
+    objective: build
+  - id: manifest
+    text: a3.check.manifest
+    if: { all: [{ file: "~/appli-4.2.1/AndroidManifest.xml", contains: "allowBackup=\"false\"" }, { file: "~/appli-4.2.1/AndroidManifest.xml", contains: "debuggable=\"false\"" }] }
+    objective: build
+  - id: works
+    text: a3.check.works
+    if: { all: [{ file: "~/appli-4.2.1/assets/config.json", contains: "\"api_base\": \"https://api.cabas.test/v4\"" }, { file: "~/appli-4.2.1/AndroidManifest.xml", contains: "name=\"MainActivity\"" }] }
+
+questions:
+  - id: obfuscate
+    text: a3.q.obfuscate
+    objective: obfuscate
+    correct: never
+    options:
+      - { id: never, text: a3.q.obfuscate.never }
+      - { id: enough, text: a3.q.obfuscate.enough, why: a3.q.obfuscate.enough.why }
+      - { id: pinning, text: a3.q.obfuscate.pinning, why: a3.q.obfuscate.pinning.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: a3.ada.brief
+  - on: { event: Verified }
+    if: { not: { objective: build } }
+    once: false
+    do:
+      - ada.say: a3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: build }
+    do:
+      - ada.say: a3.ada.build
+  - on: { event: Deployed, service: api, version: 4.13.0 }
+    do:
+      - ada.say: a3.ada.deployed
+  - on: { event: HttpRequest, host: api, path: /v4/interne/remboursements }
+    if: { config: cb.role.server, eq: true }
+    do:
+      - objective.complete: role
+  - on: { event: HttpRequest, host: api, path: /v4/partenaires/stock }
+    if: { config: cb.key.rotated, eq: true }
+    do:
+      - objective.complete: key
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: build }, { objective: role }, { objective: key }] }
+    do:
+      - ada.ask: obfuscate
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a3.ada.done
+
+guide:
+  build: a3.ada.g.build
+  role: a3.ada.g.role
+  key: a3.ada.g.key
+  obfuscate: a3.ada.g.obfuscate
+
+hints:
+  build: [a3.hint.build.1, a3.hint.build.2]
+  role: [a3.hint.role.1]
+  key: [a3.hint.key.1]
+  obfuscate: [a3.hint.obfuscate.1]
+
+debrief:
+  title: a3.debrief.title
+  lesson: a3.debrief.lesson
+  points: [a3.debrief.p1, a3.debrief.p2, a3.debrief.p3]
+  reference: "OWASP MASVS · MASVS-AUTH-1, MASVS-STORAGE-1"

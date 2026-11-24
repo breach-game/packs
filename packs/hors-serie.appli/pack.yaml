@@ -1,0 +1,15 @@
+id: hors-serie.appli
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [hors-serie.appli-world]
+title:
+  fr: "Hors-série : L'Appli"
+  en: "Side series: The App"
+summary:
+  fr: "Une appli de courses livrées en une heure, et un paquet que tout le monde peut télécharger. Tu l'ouvres avec `unzip`, tu lis son code compilé avec `strings`, tu montres que l'API croit l'appli sur parole, puis tu corriges côté serveur avec l'équipe."
+  en: "A grocery delivery app, and a package anyone can download. You open it with `unzip`, read its compiled code with `strings`, show that the API takes the app at its word, then fix it on the server side with the team."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [mobile, web, defense]
