@@ -1,0 +1,16 @@
+id: hors-serie.poste42-1-process
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.poste42-world]
+title:
+  fr: "Le Poste 42 · 1. Le pilote qui ne dort jamais"
+  en: "Bench 42 · 1. The driver that never sleeps"
+summary:
+  fr: "Le pare-feu signale un poste de paillasse qui parle à une adresse inconnue toutes les cinq minutes. Tu te connectes, tu lis ce qui tourne avec `ps`, `ss`, `systemctl` et `journalctl`, puis tu arrêtes le service, pas seulement le processus."
+  en: "The firewall reports a bench workstation talking to an unknown address every five minutes. You sign in, read what runs with `ps`, `ss`, `systemctl` and `journalctl`, then stop the service, not just the process."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [linux, logs, defense]
+minutes: 12

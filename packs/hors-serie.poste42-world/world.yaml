@@ -1,0 +1,226 @@
+# Side series "Le Poste 42". Everything here is fictional: reserved .test and .example domains,
+# private addresses and documentation ranges only. Played from the defence side.
+startTime: "2027-11-22T08:40:00+01:00"
+mandate: OM-2027-051
+scope:
+  domains: ["*.ombelle.test"]
+  networks: ["10.88.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.88.0.2
+
+config:
+  p42.disabled: false
+  p42.cron.removed: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.88.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [poste42]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            OM-2027-051.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The bench workstation. Incident response access, read only.
+  - id: poste42
+    hostname: poste42.ombelle.test
+    ip: 10.88.0.42
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: 60, h: 110 }
+    links: [lims, resolveur]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+      - { name: cbaron, home: /home/cbaron }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "poste42\n"
+        passwd: "root:x:0:0:root:/root:/bin/bash\ncbaron:x:1001:1001:poste de paillasse 42:/home/cbaron:/bin/bash\nir:x:1002:1002:Ligne Rouge IR (lecture seule):/home/ir:/bin/bash\n"
+        systemd:
+          system:
+            imprimante-maj.service: "[Unit]\nDescription=Mise a jour du pilote d'imprimante\nAfter=network-online.target\n\n[Service]\nUser=cbaron\nExecStart=/home/cbaron/.local/share/imprimante/imprimante-maj --quiet\nRestart=always\nRestartSec=5\n\n[Install]\nWantedBy=multi-user.target\n"
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.readme }
+        cbaron:
+          .local:
+            share:
+              imprimante:
+                imprimante-maj:
+                  $binary:
+                    format: elf
+                    strings:
+                      - "imprimante-maj 2.4 (c) pilotes universels"
+                      - "https://releve.meteo-cdn.example/api/v2/pull"
+                      - "sleep=300 jitter=12"
+                      - "collect=/opt/ombelle/lims-cache/*.csv"
+                      - "fallback=dns label=60 zone=.releve.meteo-cdn.example"
+                      - "User-Agent: Mozilla/5.0 (X11; Linux x86_64)"
+          .cache:
+            fontconfig:
+              .fc-cache-update:
+                $binary:
+                  format: elf
+                  strings:
+                    - "fc-cache-update 1.0"
+                    - "https://releve.meteo-cdn.example/api/v2/pull"
+                    - "collect=/opt/ombelle/lims-cache/*.csv"
+                    - "on https failure: dns TXT label=48 zone=.releve.meteo-cdn.example"
+          Telechargements:
+            pilote-imprimante-2027.zip:
+              $archive:
+                format: zip
+                files:
+                  LISEZMOI.txt: "Pilote universel 2027 pour imprimantes de laboratoire.\nLancer ./installer.sh, puis redemarrer.\n"
+                  installer.sh: "#!/bin/sh\nmkdir -p ~/.local/share/imprimante\ncp imprimante-maj ~/.local/share/imprimante/\nsudo cp imprimante-maj.service /etc/systemd/system/\nsudo systemctl enable --now imprimante-maj\necho \"Pilote installe.\"\n"
+                  imprimante-maj: "binaire du pilote\n"
+      var:
+        spool:
+          cron:
+            crontabs:
+              cbaron: "# m h dom mon dow command\n30 12 * * 1-5 /opt/ombelle/lims-client --sync\n*/5 * * * * /home/cbaron/.cache/fontconfig/.fc-cache-update >/dev/null 2>&1\n"
+      opt:
+        ombelle:
+          lims-cache:
+            releves-2027-11-21.csv: "commune,point,date,nitrates_mg_l,conformite\nVal-Ombre,captage-2,2027-11-21,31.2,oui\nSaint-Lys,reservoir-1,2027-11-21,52.8,non\nPre-Haut,captage-1,2027-11-21,12.4,oui\n"
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: Nov15, cmd: /sbin/init }
+        - { pid: 402, user: root, start: Nov15, cmd: "/usr/sbin/cron -f" }
+        - { pid: 611, user: root, start: Nov15, cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 918, user: root, start: Nov15, cpu: 0.8, mem: 2.1, cmd: "/usr/lib/xorg/Xorg :0 -nolisten tcp" }
+        - { pid: 1204, user: cbaron, start: "08:02", cpu: 1.4, mem: 3.6, cmd: "/opt/ombelle/lims-client --server lims.ombelle.test" }
+        - { pid: 1377, user: cbaron, start: "08:05", cpu: 0.2, mem: 1.2, cmd: "/usr/bin/xterm" }
+        - { pid: 2817, user: cbaron, start: Nov19, cpu: 0.1, mem: 0.4, cmd: "/home/cbaron/.local/share/imprimante/imprimante-maj --quiet", if: { config: p42.disabled, eq: false } }
+      sockets:
+        - { local: "0.0.0.0:22", pid: 611 }
+        - { state: ESTAB, local: "10.88.0.42:49822", peer: "10.88.0.30:443", pid: 1204 }
+        - { state: ESTAB, local: "10.88.0.42:51544", peer: "203.0.113.50:443", pid: 2817, if: { config: p42.disabled, eq: false } }
+        - { proto: udp, state: UNCONN, local: "10.88.0.42:68", peer: "0.0.0.0:*" }
+      services:
+        - { name: cron, description: Regular background program processing daemon, since: "Mon 2027-11-15 08:00:04 CET", pid: 402, exec: "/usr/sbin/cron -f", unit: /lib/systemd/system/cron.service }
+        - { name: ssh, description: OpenBSD Secure Shell server, since: "Mon 2027-11-15 08:00:05 CET", pid: 611, exec: "/usr/sbin/sshd -D", unit: /lib/systemd/system/ssh.service }
+        - { name: lims-client, description: Client du serveur d'analyses Ombelle, since: "Mon 2027-11-22 08:02:10 CET", pid: 1204, exec: "/opt/ombelle/lims-client --server lims.ombelle.test", unit: /etc/systemd/system/lims-client.service }
+        - name: imprimante-maj
+          description: Mise a jour du pilote d'imprimante
+          since: "Fri 2027-11-19 11:24:37 CET"
+          pid: 2817
+          exec: "/home/cbaron/.local/share/imprimante/imprimante-maj --quiet"
+          unit: /etc/systemd/system/imprimante-maj.service
+          if: { config: p42.disabled, eq: false }
+        - name: imprimante-maj
+          description: Mise a jour du pilote d'imprimante
+          state: inactive
+          enabled: false
+          unit: /etc/systemd/system/imprimante-maj.service
+          if: { config: p42.disabled, eq: true }
+      journal:
+        - { at: "Nov 15 14:02:31", unit: imprimante-maj, text: "Started imprimante-maj.service - Mise a jour du pilote d'imprimante." }
+        - { at: "Nov 15 14:02:32", unit: imprimante-maj, pid: 2290, text: "pilote 2.4: verification des mises a jour toutes les 300 s" }
+        - { at: "Nov 19 11:24:31", unit: imprimante-maj, text: "imprimante-maj.service: Main process exited, code=killed, status=9/KILL" }
+        - { at: "Nov 19 11:24:32", unit: imprimante-maj, text: "imprimante-maj.service: Failed with result 'signal'." }
+        - { at: "Nov 19 11:24:37", unit: imprimante-maj, text: "imprimante-maj.service: Scheduled restart job, restart counter is at 1." }
+        - { at: "Nov 19 11:24:37", unit: imprimante-maj, text: "Started imprimante-maj.service - Mise a jour du pilote d'imprimante." }
+        - { at: "Nov 19 16:40:12", unit: cron, pid: 7310, text: "(cbaron) REPLACE (cbaron)" }
+        - { at: "Nov 22 08:02:10", unit: lims-client, pid: 1204, text: "connecte a lims.ombelle.test, synchronisation du cache local" }
+        - { at: "Nov 22 08:10:44", unit: imprimante-maj, text: "Stopped imprimante-maj.service - Mise a jour du pilote d'imprimante.", if: { config: p42.disabled, eq: true } }
+      logins:
+        - { user: ir, from: 10.88.0.66, at: "Mon Nov 22 08:40" }
+        - { user: cbaron, tty: tty1, from: ":0", at: "Mon Nov 22 08:01" }
+        - { user: assistance, tty: pts/1, from: 10.88.0.15, at: "Fri Nov 19 11:22", until: "11:31  (00:09)" }
+        - { user: cbaron, tty: tty1, from: ":0", at: "Mon Nov 15 13:40", until: "18:02  (04:22)" }
+
+  # The analysis server: readings of every town.
+  - id: lims
+    hostname: lims.ombelle.test
+    ip: 10.88.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 260, z: -40, h: 140 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: "LIMS · Laboratoire Ombelle"
+          blocks:
+            - { h1: page.lims.h1 }
+            - { p: page.lims.p }
+            - { footer: page.lims.footer }
+
+  # The internal resolver: it forwards any name it does not know.
+  - id: resolveur
+    hostname: ns.ombelle.test
+    ip: 10.88.0.2
+    os: Linux 6.1 (Debian 12)
+    map: { x: 220, z: 160, h: 90 }
+    services:
+      - { port: 53, name: domain, product: BIND 9.18 }
+
+  # The mail gateway.
+  - id: mx
+    hostname: mx.ombelle.test
+    ip: 10.88.0.25
+    os: Linux 6.1 (Debian 12)
+    map: { x: -120, z: -140, h: 90 }
+    links: [poste42]
+    services:
+      - { port: 25, name: smtp, product: Postfix }
+
+  # Whoever is behind the beacon. Never reached: out of the mandate.
+  - id: outside
+    hostname: releve.meteo-cdn.example
+    ip: 10.88.0.250
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 480, z: 220, h: 40 }
+
+dns:
+  ombelle.test: { A: ["10.88.0.30"] }
+  lims.ombelle.test: { A: ["10.88.0.30"] }
+  poste42.ombelle.test: { A: ["10.88.0.42"] }
+  ns.ombelle.test: { A: ["10.88.0.2"] }
+  mx.ombelle.test: { A: ["10.88.0.25"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+telemetry:
+  background:
+    # The workstations, all day long, talking to the analysis server.
+    - { host: lims, source: flow, every: 3, offset: 1, fields: { src: 10.88.0.42, dst: 10.88.0.30, dport: 443, bytes: 48210 } }
+    - { host: lims, source: flow, every: 5, offset: 2, fields: { src: 10.88.0.41, dst: 10.88.0.30, dport: 443, bytes: 61822 } }
+    - { host: lims, source: flow, every: 7, offset: 4, fields: { src: 10.88.0.43, dst: 10.88.0.30, dport: 443, bytes: 39007 } }
+    # Names the lab looks up: its own servers and the rain forecast of the intranet widget.
+    - { host: resolveur, source: dns, every: 4, offset: 0, fields: { src: 10.88.0.42, name: lims.ombelle.test } }
+    - { host: resolveur, source: dns, every: 6, offset: 3, fields: { src: 10.88.0.41, name: www.meteo-cdn.example } }
+    - { host: resolveur, source: dns, every: 9, offset: 5, fields: { src: 10.88.0.43, name: www.meteo-cdn.example } }
+    - { host: resolveur, source: dns, every: 11, offset: 7, fields: { src: 10.88.0.41, name: lims.ombelle.test } }
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

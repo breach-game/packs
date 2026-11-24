@@ -1,0 +1,16 @@
+id: hors-serie.poste42-3-thread
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.poste42-world]
+title:
+  fr: "Le Poste 42 · 3. Le fil"
+  en: "Bench 42 · 3. The thread"
+summary:
+  fr: "Le poste est calme. Tu remets la semaine dans l'ordre avec `timeline`, du courriel piégé à l'alerte du pare-feu, tu traces sur la carte le chemin des relevés avec `path`, puis tu dis au laboratoire ce qu'il doit vérifier et qui prévenir."
+  en: "The workstation is quiet. You put the week back in order with `timeline`, from the trapped email to the firewall alert, trace the path of the readings on the map with `path`, then tell the lab what to check and whom to warn."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, defense, crisis]
+minutes: 12

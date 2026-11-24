@@ -1,0 +1,15 @@
+id: hors-serie.poste42
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: series
+requires: [hors-serie.poste42-world]
+title:
+  fr: "Hors-série : le Poste 42"
+  en: "Side series: Bench 42"
+summary:
+  fr: "Un laboratoire d'analyses de l'eau, un poste de paillasse qui parle tout seul la nuit. Tu lis ce qui tourne avec `ps`, `ss`, `systemctl` et `journalctl`, tu suis une fuite qui passe par le DNS avec `flows`, puis tu remets la semaine dans l'ordre et tu traces le chemin des relevés sur la carte."
+  en: "A water testing lab, a bench workstation that talks on its own at night. You read what runs with `ps`, `ss`, `systemctl` and `journalctl`, follow a leak going through DNS with `flows`, then put the week back in order and trace the readings' path on the map."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, logs, defense, crisis]

@@ -1,0 +1,12 @@
+id: hors-serie.poste42-world
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: world
+title:
+  fr: "Laboratoire Ombelle"
+  en: "Laboratoire Ombelle"
+summary:
+  fr: "Laboratoire Ombelle, laboratoire fictif qui analyse l'eau potable de quarante communes. Ses techniciens saisissent les relevés sur des postes de paillasse, reliés au serveur d'analyses."
+  en: "Laboratoire Ombelle, a fictional lab that tests the drinking water of forty towns. Its technicians enter readings on bench workstations linked to the analysis server."
+authors: [BREACH team]
+locales: [fr, en]

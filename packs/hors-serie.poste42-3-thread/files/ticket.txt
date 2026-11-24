@@ -1,0 +1,6 @@
+Ticket 2027-1182 · poste 42 lent
+Ouvert : vendredi 19 novembre 2027, 11:05 · Ferme : vendredi 19 novembre 2027, 11:31
+
+11:22  Connexion a distance sur le poste 42.
+11:24  Processus "imprimante-maj" inconnu, tue (kill -9). Le poste repond mieux.
+11:31  Ticket ferme : resolu.

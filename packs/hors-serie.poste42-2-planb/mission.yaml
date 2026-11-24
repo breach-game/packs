@@ -1,0 +1,115 @@
+# Bench 42, the day after: the service is off and 203.0.113.50 is blocked at the firewall, but a
+# scheduled job runs a second program every five minutes. Refused over HTTPS, it falls back to DNS:
+# chunks of the readings in the labels of TXT questions, which the internal resolver forwards.
+side: defense
+order: 2
+stage: hunt
+briefing: p2.briefing
+reveal: [poste42, resolveur]
+
+files:
+  regles/dns-long.yml: "title: Readings leaving through DNS\nsource: dns\n"
+
+adversary:
+  id: planb
+  name: fc-cache-update
+  from: poste42
+  pace: 1
+  delay: 0
+  steps:
+    - { id: deny1, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q1, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: brpoigf3cbfnobm2o4rak3vrjnvgfygwwqc5hyfsxmeco.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q2, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: fogyr5xkxwnrekpk5yroudocuzrenun7z5jqipq3zxoi7fdh.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q3, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: k3eyy5qahrvhs3k5aqlgtmjxkau7bhxtpdpff7eii6kq3n.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: deny4, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q4, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: mtzx44hpoevbooaedoecvepr7ni6p62mgg3w325dgdzvgpmm4i3l.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q5, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: 5pe4gdafpk276nzdkyayq5s37jmsnddudd6kdfleepzhpcf2.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q6, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: uqnupqzit5uea5genqiwepxsk4tatgiqhgjrsnvnq7qdf3rcaviq.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: deny7, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q7, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: 43ahejcxj3ictxcwnpgw2jpkl2blv2prkgyc6om5wtoobm.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q8, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: vrerwzvbhqlqcg3wu3hymqc3amx3evuhtt2uzsim2yltzatsn3.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q9, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: 544n6kfsvfptomjbcp6e52my7zpjag3ol5dph5i5u434k64qp.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: deny10, host: fw, source: flow, fields: { action: deny, src: 10.88.0.42, dst: 203.0.113.50, dport: 443, bytes: 0 }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q10, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: 7pr4esprvufijoyjne22v52dn2yby6awty2o7or37byvzk5i.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q11, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: bzbf3i5ldqyun5uvyr2qf6bdwoecbpmbjpi6hn5qxkhktgbtyzme.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+    - { id: q12, host: resolveur, source: dns, fields: { src: 10.88.0.42, name: gthcw3xeva27g3x5j3lr653rupfr4p5yvb7ul7nwqvrramf.releve.meteo-cdn.example, rtype: TXT }, blockedIf: { config: p42.cron.removed, eq: true } }
+
+containment:
+  - id: cron
+    action: remove
+    target: fc-cache-update
+    text: p2.contain.cron
+    sets: { p42.cron.removed: true }
+    writes:
+      - host: poste42
+        path: /var/spool/cron/crontabs/cbaron
+        content: "# m h dom mon dow command\n30 12 * * 1-5 /opt/ombelle/lims-client --sync\n"
+    removes:
+      - { host: poste42, path: /home/cbaron/.cache/fontconfig/.fc-cache-update }
+
+objectives:
+  - { id: zone, text: p2.obj.zone }
+  - { id: why, text: p2.obj.why }
+  - { id: rule, text: p2.obj.rule }
+  - { id: stop, text: p2.obj.stop }
+
+investigation:
+  - { id: zone, text: p2.q.zone, value: "releve.meteo-cdn.example", points: 75, objective: zone }
+
+hunts:
+  - id: dns
+    file: regles/dns-long.yml
+    catch: { source: dns, where: { name: { glob: "*.releve.meteo-cdn.example" } } }
+    objective: rule
+
+questions:
+  - id: why
+    text: p2.q.why
+    objective: why
+    correct: resolver
+    options:
+      - { id: resolver, text: p2.q.why.resolver }
+      - { id: encrypted, text: p2.q.why.encrypted, why: p2.q.why.encrypted.why }
+      - { id: port, text: p2.q.why.port, why: p2.q.why.port.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: zone }
+    do:
+      - ada.say: p2.ada.zone
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: p2.ada.why
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: p2.ada.rule
+  - on: { event: Contained, containment: cron }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: p2.ada.stopped
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  zone: p2.ada.g.zone
+  why: p2.ada.g.why
+  rule: p2.ada.g.rule
+  stop: p2.ada.g.stop
+
+hints:
+  zone: [p2.hint.zone.1, p2.hint.zone.2]
+  why: [p2.hint.why.1, p2.hint.why.2]
+  rule: [p2.hint.rule.1, p2.hint.rule.2]
+  stop: [p2.hint.stop.1]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "MITRE ATT&CK · T1048 Exfiltration Over Alternative Protocol"

@@ -1,0 +1,15 @@
+# Side series "Le Poste 42", mission 2: the shortest path, replayed by CI in every language.
+cat regles/dns-long.yml
+flows --src 10.88.0.42
+flows --action deny
+soc logs resolveur dns
+soc search TXT
+answer zone releve.meteo-cdn.example
+answer resolver
+echo "name|endswith: .releve.meteo-cdn.example" >> regles/dns-long.yml
+rule test regles/dns-long.yml
+ssh ir@poste42.ombelle.test
+crontab -l -u cbaron
+strings /home/cbaron/.cache/fontconfig/.fc-cache-update
+exit
+contain remove fc-cache-update

@@ -1,0 +1,8 @@
+fw01 · rapport automatique · lundi 22 novembre 2027, 08:10
+Regle "sortie vers adresse jamais vue" : 1 alerte
+
+source        destination      port  connexions (7 jours)  octets moyens
+10.88.0.42    203.0.113.50     443   1 914                 1 208
+
+Regularite : une connexion toutes les 300 s environ, jour et nuit, depuis le 15 novembre.
+Aucun autre poste du laboratoire ne contacte cette adresse.

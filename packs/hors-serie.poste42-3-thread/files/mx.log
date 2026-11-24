@@ -1,0 +1,5 @@
+Nov 15 13:48:02 mx postfix/smtpd[4410]: connect from relais.pilotes-universels.example[192.0.2.77]
+Nov 15 13:48:03 mx postfix/cleanup[4412]: 8C1E2A04F1: message-id=<20271115124802.4410@pilotes-universels.example>
+Nov 15 13:48:03 mx mailgw[4413]: from=<support@pilotes-universels.example> to=<cbaron@ombelle.test> subject="Mise a jour obligatoire du pilote de votre imprimante" link=https://telechargement.pilotes-universels.example/pilote-imprimante-2027.zip verdict=delivered
+Nov 15 13:48:04 mx postfix/local[4415]: 8C1E2A04F1: to=<cbaron@ombelle.test>, status=sent (delivered to mailbox)
+Nov 15 13:51:40 mx mailgw[4413]: from=<plannings@ombelle.test> to=<labo@ombelle.test> subject="Planning des prelevements, semaine 47" link=- verdict=delivered

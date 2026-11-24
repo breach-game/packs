@@ -1,0 +1,13 @@
+# Side series "Le Poste 42", mission 3: the shortest path, replayed by CI in every language.
+timeline semaine
+cat enquete/mx.log
+cat enquete/historique-navigateur.txt
+cat enquete/ticket-assistance.txt
+ssh ir@poste42.ombelle.test
+journalctl -u imprimante-maj
+journalctl -u cron
+exit
+timeline semaine courriel telechargement service kill cron alerte
+path releves lims poste42 ns
+answer compare
+answer towns-authority

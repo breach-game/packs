@@ -1,0 +1,7 @@
+file.readme: "Poste Ligne Rouge. Hors-série : le Poste 42. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.ir.readme: "Accès de réponse à incident ouvert par le laboratoire pour la durée du mandat. Lecture seule : les mesures passent par `contain` depuis le poste Ligne Rouge."
+file.mandate: "MANDAT OM-2027-051\nClient : Laboratoire Ombelle, analyses de l'eau potable. Périmètre : *.ombelle.test, 10.88.0.0/24.\nObjet : le pare-feu signale des connexions régulières d'un poste de paillasse vers une adresse inconnue. Ligne Rouge mène la réponse à incident : comprendre, arrêter, reconstituer.\nDispositif convenu : accès en lecture seule au poste 42 (compte ir), mesures validées par le laboratoire et passées par `contain`. Aucune connexion vers l'adresse inconnue : elle est hors mandat.\nSigné : la responsable informatique du Laboratoire Ombelle."
+page.lims.h1: "Serveur d'analyses"
+page.lims.p: "Saisie et validation des relevés d'eau potable. Accès réservé aux postes du laboratoire."
+page.lims.footer: "Laboratoire Ombelle · LIMS 7"
+ada.outOfScope: "Stop. Cette cible est hors du mandat OM-2027-051. Hors mandat, ce n'est plus de la défense : c'est un délit (article 323-1 du Code pénal). On observe d'ici, on ne touche pas."
