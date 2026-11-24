@@ -1,0 +1,67 @@
+# The gateway judges each upload to an assistant with a filter the player writes.
+side: defense
+order: 2
+stage: defense
+briefing: v2.briefing
+
+files:
+  filtres/assistants.yml: |
+    # Uploads to AI assistants. Block the ones that must never leave.
+    # One condition per line; an upload is blocked when it meets them all.
+  dossier/etiquettes.txt: { $file: files/etiquettes.txt }
+
+objectives:
+  - { id: filter, text: v2.obj.filter }
+  - { id: cap, text: v2.obj.cap }
+
+evals:
+  - id: uploads
+    file: filtres/assistants.yml
+    objective: filter
+    cases:
+      - { id: code, text: v2.case.code, fields: { dest: public, label: confidential, size: "14600" }, expect: block }
+      - { id: meeting, text: v2.case.meeting, fields: { dest: public, label: confidential, size: "31000" }, expect: block }
+      - { id: snippet, text: v2.case.snippet, fields: { dest: public, label: confidential, size: "700" }, expect: block }
+      - { id: standard, text: v2.case.standard, fields: { dest: public, label: public, size: "2100" }, expect: allow }
+      - { id: datasheet, text: v2.case.datasheet, fields: { dest: public, label: public, size: "48000" }, expect: allow }
+      - { id: inside, text: v2.case.inside, fields: { dest: internal, label: confidential, size: "14600" }, expect: allow }
+
+questions:
+  - id: cap
+    text: v2.q.cap
+    objective: cap
+    correct: small
+    options:
+      - { id: small, text: v2.q.cap.small }
+      - { id: enough, text: v2.q.cap.enough, why: v2.q.cap.enough.why }
+      - { id: both, text: v2.q.cap.both, why: v2.q.cap.both.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v2.ada.brief
+  - on: { event: EvalRun, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: v2.ada.again, for: filter, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: filter }
+    do:
+      - ada.say: v2.ada.filtered
+      - ada.ask: cap
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v2.ada.done
+
+guide:
+  filter: v2.ada.g.filter
+  cap: v2.ada.answer
+
+hints:
+  filter: [v2.hint.filter.1, v2.hint.filter.2, v2.hint.filter.3]
+  cap: [v2.hint.cap.1]
+
+debrief:
+  title: v2.debrief.title
+  lesson: v2.debrief.lesson
+  points: [v2.debrief.p1, v2.debrief.p2, v2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"

@@ -1,0 +1,16 @@
+id: dossiers.bouvreuil-1-pasted
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bouvreuil-world]
+title:
+  fr: "Dossier 17 · 1. Ce qu'on colle"
+  en: "Case file 17 · 1. What gets pasted"
+summary:
+  fr: "Trois semaines d'assistant IA public chez un concepteur de puces. Tu lis ce que l'outil anti-fuite a repéré, tu dis pourquoi c'est une fuite, et tu écris la règle qui voit les gros envois dans le journal de la passerelle."
+  en: "Three weeks of a public AI assistant at a chip designer. You read what the leak prevention tool flagged, say why it is a leak, and write the rule that sees the big uploads in the gateway's log."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, privacy, defense]
+minutes: 12

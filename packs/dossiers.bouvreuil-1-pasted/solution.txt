@@ -1,0 +1,10 @@
+# Case file 17, mission 1: the shortest path, replayed by CI in every language.
+cat dossier/dlp-export.txt
+answer code 3
+answer gone
+soc logs gateway access
+cat regles/gros-envois.yml
+echo "path|contains: assistant.example" >> regles/gros-envois.yml
+rule test regles/gros-envois.yml
+echo "bytes|gte: 8000" >> regles/gros-envois.yml
+rule test regles/gros-envois.yml

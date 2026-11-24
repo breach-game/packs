@@ -1,0 +1,16 @@
+id: dossiers.bouvreuil
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.bouvreuil-world]
+title:
+  fr: "Dossier 17 : ce qu'on colle"
+  en: "Case file 17: what gets pasted"
+summary:
+  fr: "Inspiré des ingénieurs d'un fabricant de puces qui avaient collé du code confidentiel dans un assistant IA public, en 2023. Sous mandat, tu repères les gros envois dans le journal de la passerelle, tu écris le filtre qui garde le confidentiel à la maison, puis tu poses une politique qui laisse un assistant aux équipes. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the chip maker's engineers who pasted confidential code into a public AI assistant, in 2023. Under mandate, you spot the big uploads in the gateway's log, write the filter that keeps confidential data at home, then set a policy that leaves teams an assistant. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, privacy, defense]
+incident: 2023

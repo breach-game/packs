@@ -1,0 +1,10 @@
+GATEWAY FILTER - fields known for each upload to an AI assistant
+
+dest    public     an assistant run by an outside company (assistant.example)
+        internal   an assistant run inside Bouvreuil (none yet)
+label   confidential   the leak prevention tool recognised source code, a netlist,
+                       a roadmap or anything marked "Bouvreuil confidential"
+        public         nothing recognised
+size    in bytes
+
+A rule blocks an upload when the upload meets every condition of the file.

@@ -1,0 +1,16 @@
+id: dossiers.bouvreuil-3-own
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bouvreuil-world]
+title:
+  fr: "Dossier 17 · 3. Un assistant à soi"
+  en: "Case file 17 · 3. An assistant of one's own"
+summary:
+  fr: "Tu règles la politique d'IA de Bouvreuil : le filtre en marche, les données classées, un assistant hébergé en interne, une formation avant l'accès. Puis tu décides avec le directeur technique ce qui reste ouvert. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Bouvreuil's AI policy: the filter switched on, data classified, an assistant hosted in-house, training before access. Then you decide with the CTO what stays open. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, privacy, defense]
+minutes: 12

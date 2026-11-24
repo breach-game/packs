@@ -1,0 +1,11 @@
+LEAK PREVENTION - prompts sent to assistant.example, last 20 days
+(summaries only: the prompts themselves are not kept by this tool)
+
+date        user     team        size     detected content
+2027-08-18  eng-114  test        2.1 kB   question about a public standard (USB-C)
+2027-08-21  eng-207  yield       14.6 kB  source code: yield_measure.c          [internal, confidential]
+2027-08-24  eng-031  db-tools     9.8 kB  source code: wafer_db_download.py     [internal, confidential]
+2027-08-29  eng-207  yield       11.2 kB  source code: defect_finder.c          [internal, confidential]
+2027-09-01  eng-088  test        0.9 kB   question about a compiler error message
+2027-09-02  eng-142  management  31.0 kB  meeting transcript: "N3 process roadmap, partners, dates"  [confidential]
+2027-09-03  eng-114  test        1.4 kB   rewording of a public job advert
