@@ -1,0 +1,6 @@
+time,host,event,device_label,device_serial
+08:12,banc-isole,storage-mounted,SALAIRES 2029,7C41-0001
+08:20,cao-07,storage-mounted,SALAIRES 2029,7C41-0003
+08:21,cao-07,file-opened,Salaires_2029.pdf.lnk,7C41-0003
+08:40,compta-02,storage-blocked,SALAIRES 2029,7C41-0002
+09:02,cao-03,storage-mounted,PLANS CLIENT,A0F2-1180

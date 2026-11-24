@@ -1,0 +1,8 @@
+# Garance - doors, badges and removable media. Possible values after the #.
+entrance: open-to-staff
+lost_or_returned_badge: when-someone-remembers   # when-someone-remembers | revoked-same-day
+badge_review: never                              # never | every-quarter
+door_held_alarm: none                            # none | after-15-seconds
+visitors: free-to-walk                           # free-to-walk | escorted-from-reception
+usb_storage: allowed-everywhere                  # allowed-everywhere | blocked-unless-needed
+found_devices: up-to-each-person                 # up-to-each-person | handed-to-it-unplugged

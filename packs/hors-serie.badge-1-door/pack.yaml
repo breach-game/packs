@@ -1,0 +1,16 @@
+id: hors-serie.badge-1-door
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.badge-world]
+title:
+  fr: "Le Badge · 1. La porte tenue"
+  en: "The Badge · 1. The held door"
+summary:
+  fr: "Lundi matin, quelqu'un que personne ne connaît a été vu près de la salle des serveurs. Tu lis le journal des portes : une entrée restée ouverte bien trop longtemps après un seul badge, puis un badge déclaré perdu qui ouvre encore. Tu dis ce qui s'est passé, et tu désactives ce badge."
+  en: "On Monday morning, someone nobody knows was seen near the server room. You read the door log: an entrance open far too long after a single badge, then a badge reported lost that still opens doors. You say what happened, and you switch that badge off."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, logs]
+minutes: 10

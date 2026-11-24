@@ -1,0 +1,16 @@
+id: hors-serie.badge-2-stick
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.badge-world]
+title:
+  fr: "Le Badge · 2. La clé du parking"
+  en: "The Badge · 2. The car park stick"
+summary:
+  fr: "Une clé USB étiquetée « Salaires 2029 » a été trouvée sur le parking et remise à l'accueil. Tu regardes ce qu'elle contient sans jamais la brancher sur un poste, tu trouves où une autre clé a été ouverte, tu isoles ce poste, puis tu décides comment en parler à l'équipe."
+  en: "A USB stick labelled \"Salaries 2029\" was found in the car park and handed in at reception. You look at what it holds without ever plugging it into a workstation, find where another stick was opened, isolate that workstation, then decide how to tell the team."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, logs]
+minutes: 12

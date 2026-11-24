@@ -1,0 +1,64 @@
+# Side series "Le Badge". Physical security seen from the defence side: tailgating, a lost badge
+# never revoked, USB sticks dropped in a car park. No badge copying technique, no reader attack,
+# no working payload: the player reads the access control log and an inventory made on an
+# isolated bench, disables a badge, isolates a workstation, and writes rules.
+startTime: "2029-03-12T09:10:00+01:00"
+mandate: GA-2029-031
+scope:
+  domains: ["*.garance.test"]
+  networks: ["10.111.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.111.0.2
+
+config:
+  ga.badge_off: false
+  ga.cao_isolated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.111.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [acces, accueil, cao07, fichiers]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            GA-2029-031.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: acces, hostname: acces.garance.test, ip: 10.111.0.10, os: Linux, map: { x: -60, z: -130, h: 90 }, services: [{ port: 443, name: https, product: Door access controller }] }
+  - { id: accueil, hostname: accueil.garance.test, ip: 10.111.0.20, os: Windows 11, map: { x: 80, z: 150, h: 70 }, services: [] }
+  - { id: cao07, hostname: cao-07.garance.test, ip: 10.111.0.37, os: Windows 11, map: { x: 200, z: -40, h: 90 }, services: [] }
+  - { id: fichiers, hostname: fichiers.garance.test, ip: 10.111.0.40, os: Windows Server 2022, map: { x: 330, z: 80, h: 130 }, services: [{ port: 445, name: microsoft-ds, product: Drawings file server }] }
+
+dns:
+  garance.test: { A: ["10.111.0.40"] }
+  acces.garance.test: { A: ["10.111.0.10"] }
+  accueil.garance.test: { A: ["10.111.0.20"] }
+  cao-07.garance.test: { A: ["10.111.0.37"] }
+  fichiers.garance.test: { A: ["10.111.0.40"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

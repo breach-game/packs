@@ -1,0 +1,8 @@
+# The Badge, mission 1: the shortest path, replayed by CI in every language.
+cat acces/journal.csv
+answer held B-0417
+answer behind
+grep "B-0099" acces/journal.csv
+grep "B-0099" acces/badges.csv
+answer lost B-0099
+contain revoke B-0099

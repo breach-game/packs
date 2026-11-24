@@ -1,0 +1,117 @@
+# The Badge, mission 2: the car park stick. A stick found outside was handed in unopened and
+# listed on an isolated bench: a shortcut dressed as a PDF, pointing at a hidden program and a
+# look-alike update server. The workstation USB log shows the same label mounted and opened on
+# one design workstation, and blocked on an accounting one. The player names the server, names
+# the workstation, isolates it, says what to do with a found stick, and decides how to tell the
+# team (a decision). The shortcut is described as data: nothing runs, nothing is reusable.
+side: defense
+order: 2
+stage: defense
+startTime: "2029-03-12T09:40:00+01:00"
+briefing: b2.briefing
+reveal: [acces, accueil, cao07, fichiers]
+
+config:
+  ga.badge_off: true
+
+files:
+  banc/cle-liste.txt: { $file: files/cle-liste.txt }
+  banc/postes-usb.csv: { $file: files/postes-usb.csv }
+  banc/Salaires_2029.pdf.lnk:
+    $binary:
+      format: data
+      strings:
+        - "Shortcut"
+        - "IconLocation=document-pdf"
+        - "Name=Salaires_2029.pdf"
+        - "Target=.cache/updater.exe"
+        - "Arguments=--server maj-garance.example --quiet"
+        - "WindowStyle=hidden"
+
+containment:
+  - id: poste
+    action: isolate
+    target: cao-07
+    text: b2.contain.poste
+    sets: { ga.cao_isolated: true }
+    impact: 1
+
+objectives:
+  - { id: server, text: b2.obj.server }
+  - { id: poste, text: b2.obj.poste }
+  - { id: cut, text: b2.obj.cut }
+  - { id: found, text: b2.obj.found }
+  - { id: tell, text: b2.obj.tell }
+
+investigation:
+  - { id: server, text: b2.q.server, value: "maj-garance.example", points: 100, objective: server }
+  - { id: poste, text: b2.q.poste, value: "cao-07", points: 100, objective: poste }
+
+questions:
+  - id: found
+    text: b2.q.found
+    objective: found
+    correct: handin
+    options:
+      - { id: handin, text: b2.q.found.handin }
+      - { id: peek, text: b2.q.found.peek, why: b2.q.found.peek.why }
+      - { id: owner, text: b2.q.found.owner, why: b2.q.found.owner.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: tell
+    text: b2.q.tell
+    objective: tell
+    options:
+      - { id: thank, text: b2.q.tell.thank, impact: 0 }
+      - { id: named, text: b2.q.tell.named, impact: 4 }
+      - { id: silent, text: b2.q.tell.silent, impact: 2 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: server }
+    do:
+      - ada.say: b2.ada.server
+  - on: { event: ObjectiveCompleted, objective: poste }
+    do:
+      - ada.say: b2.ada.poste
+  - on: { event: Contained, containment: poste }
+    do:
+      - objective.complete: cut
+      - ada.say: b2.ada.cut
+      - ada.ask: found
+  - on: { event: ObjectiveCompleted, objective: found }
+    do:
+      - ada.say: b2.ada.found
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: thank }
+    do:
+      - ada.say: b2.ada.tell.thank
+  - on: { event: Answered, question: tell, option: named }
+    do:
+      - ada.say: b2.ada.tell.named
+  - on: { event: Answered, question: tell, option: silent }
+    do:
+      - ada.say: b2.ada.tell.silent
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b2.ada.done
+
+guide:
+  server: b2.ada.g.server
+  poste: b2.ada.g.poste
+  cut: b2.ada.g.cut
+  found: b2.ada.g.found
+  tell: b2.ada.g.tell
+
+hints:
+  server: [b2.hint.server.1, b2.hint.server.2]
+  poste: [b2.hint.poste.1, b2.hint.poste.2]
+  cut: [b2.hint.cut.1]
+  found: [b2.hint.found.1]
+
+debrief:
+  title: b2.debrief.title
+  lesson: b2.debrief.lesson
+  points: [b2.debrief.p1, b2.debrief.p2, b2.debrief.p3]
+  reference: "MITRE ATT&CK · T1091 Removable media"

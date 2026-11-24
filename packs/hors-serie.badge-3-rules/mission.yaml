@@ -1,0 +1,119 @@
+# The Badge, mission 3: the house rules. The player counts the badges that are lost, returned or
+# not returned and still active, rewrites the rules for doors, badges and removable media
+# (`verify`), answers what to do with a stranger at the door, and orders Monday morning's events.
+side: defense
+order: 3
+stage: report
+startTime: "2029-03-13T09:00:00+01:00"
+briefing: b3.briefing
+reveal: [acces, accueil, cao07, fichiers]
+
+config:
+  ga.badge_off: true
+  ga.cao_isolated: true
+
+files:
+  acces/revue-badges.csv: { $file: files/revue-badges.csv }
+  acces/reglement.yml: { $file: files/reglement.yml }
+
+objectives:
+  - { id: stale, text: b3.obj.stale }
+  - { id: rules, text: b3.obj.rules }
+  - { id: stranger, text: b3.obj.stranger }
+  - { id: story, text: b3.obj.story }
+
+investigation:
+  - { id: stale, text: b3.q.stale, value: "4", points: 100, objective: stale }
+
+questions:
+  - id: stranger
+    text: b3.q.stranger
+    objective: stranger
+    correct: walk
+    options:
+      - { id: walk, text: b3.q.stranger.walk }
+      - { id: polite, text: b3.q.stranger.polite, why: b3.q.stranger.polite.why }
+      - { id: later, text: b3.q.stranger.later, why: b3.q.stranger.later.why }
+
+checks:
+  - id: revoked
+    text: b3.check.revoked
+    if: { file: "~/acces/reglement.yml", contains: "lost_or_returned_badge: revoked-same-day" }
+    objective: rules
+  - id: review
+    text: b3.check.review
+    if: { file: "~/acces/reglement.yml", contains: "badge_review: every-quarter" }
+    objective: rules
+  - id: alarm
+    text: b3.check.alarm
+    if: { file: "~/acces/reglement.yml", contains: "door_held_alarm: after-15-seconds" }
+    objective: rules
+  - id: visitors
+    text: b3.check.visitors
+    if: { file: "~/acces/reglement.yml", contains: "visitors: escorted-from-reception" }
+    objective: rules
+  - id: usb
+    text: b3.check.usb
+    if: { file: "~/acces/reglement.yml", contains: "usb_storage: blocked-unless-needed" }
+    objective: rules
+  - id: found
+    text: b3.check.found
+    if: { file: "~/acces/reglement.yml", contains: "found_devices: handed-to-it-unplugged" }
+    objective: rules
+  - id: works
+    text: b3.check.works
+    if: { file: "~/acces/reglement.yml", contains: "entrance: open-to-staff" }
+
+timelines:
+  - id: lundi
+    text: b3.tl.text
+    objective: story
+    events:
+      - { id: reported, text: b3.tl.reported }
+      - { id: door, text: b3.tl.door }
+      - { id: room, text: b3.tl.room }
+      - { id: handed, text: b3.tl.handed }
+      - { id: opened, text: b3.tl.opened }
+      - { id: revoked, text: b3.tl.revoked }
+      - { id: isolated, text: b3.tl.isolated }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: stale }
+    do:
+      - ada.say: b3.ada.stale
+  - on: { event: Verified }
+    if: { not: { objective: rules } }
+    once: false
+    do:
+      - ada.say: b3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: rules }
+    do:
+      - ada.say: b3.ada.rules
+      - ada.ask: stranger
+  - on: { event: ObjectiveCompleted, objective: stranger }
+    do:
+      - ada.say: b3.ada.stranger
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b3.ada.done
+
+guide:
+  stale: b3.ada.g.stale
+  rules: b3.ada.g.rules
+  stranger: b3.ada.g.stranger
+  story: b3.ada.g.story
+
+hints:
+  stale: [b3.hint.stale.1, b3.hint.stale.2]
+  rules: [b3.hint.rules.1, b3.hint.rules.2]
+  stranger: [b3.hint.stranger.1]
+  story: [b3.hint.story.1, b3.hint.story.2]
+
+debrief:
+  title: b3.debrief.title
+  lesson: b3.debrief.lesson
+  points: [b3.debrief.p1, b3.debrief.p2, b3.debrief.p3]
+  reference: "ISO/IEC 27002 · 7.2 Physical entry, 7.10 Storage media"

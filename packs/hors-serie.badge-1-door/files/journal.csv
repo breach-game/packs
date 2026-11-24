@@ -1,0 +1,13 @@
+time,door,badge,result,open_seconds
+07:41,entree-nord,B-0102,granted,6
+07:48,entree-nord,B-0233,granted,7
+07:55,parking,B-0417,granted,8
+08:02,entree-nord,B-0417,granted,41
+08:03,entree-nord,B-0150,granted,6
+08:05,local-technique,B-0099,granted,9
+08:06,salle-serveurs,B-0099,denied,0
+08:06,salle-serveurs,B-0099,denied,0
+08:07,salle-serveurs,B-0099,denied,0
+08:09,entree-nord,B-0311,granted,7
+08:14,bureau-etudes,B-0417,granted,6
+08:31,entree-nord,B-0099,exit,5
