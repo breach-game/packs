@@ -1,0 +1,16 @@
+id: dossiers.sittelle-1-thirdparty
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.sittelle-world]
+title:
+  fr: "Dossier 16 · 1. Le script des autres"
+  en: "Case file 16 · 1. Somebody else's script"
+summary:
+  fr: "Des visiteurs sont envoyés vers un site de paris, et personne ne le reproduit. Tu fais l'inventaire des scripts du site, tu découvres à qui appartient l'un d'eux, et tu le télécharges comme le ferait un téléphone."
+  en: "Visitors are sent to a betting site, and nobody can reproduce it. You list the site's scripts, find out who owns one of them, and download it the way a phone would."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, web, recon]
+minutes: 12

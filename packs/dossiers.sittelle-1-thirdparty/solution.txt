@@ -1,0 +1,7 @@
+# Case file 16, mission 1: the shortest path, replayed by CI in every language.
+curl https://www.sittelle.test/
+curl https://www.sittelle.test/assets/manifest.json
+whois compat-cdn.test
+curl https://cdn.compat-cdn.test/v3/compat.min.js
+curl -H "Sec-CH-UA-Mobile: ?1" https://cdn.compat-cdn.test/v3/compat.min.js
+answer targeted

@@ -1,0 +1,8 @@
+# Case file 16, mission 2: the shortest path, replayed by CI in every language.
+soc logs resolver dns
+soc search example
+answer domain paris-gagnants.example
+cat regles/detour.yml
+echo "name: paris-gagnants.example" >> regles/detour.yml
+rule test regles/detour.yml
+answer copy

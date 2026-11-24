@@ -1,0 +1,16 @@
+id: dossiers.sittelle
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.sittelle-world]
+title:
+  fr: "Dossier 16 : le script des autres"
+  en: "Case file 16: somebody else's script"
+summary:
+  fr: "Inspiré du service de scripts gratuit racheté puis piégé en 2024, chargé par plus de cent mille sites. Sous mandat, tu découvres qu'un script tiers change selon qui le demande, tu comptes les visiteurs détournés, puis tu règles le site pour ne charger que ce qu'il a vérifié. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the free script service that was bought then booby-trapped in 2024, loaded by more than a hundred thousand sites. Under mandate, you find a third-party script that changes depending on who asks, count the diverted visitors, then set the site to load only what it has checked. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, web, defense]
+incident: 2024

@@ -1,0 +1,96 @@
+# Phones on the museums' guest Wi-Fi load the ticket office, then some of them look up the betting site.
+# Nothing can fail: the lines are what happened this morning, arriving as the player works.
+side: defense
+order: 2
+stage: defense
+briefing: s2.briefing
+reveal: [resolver, cdn]
+
+files:
+  regles/detour.yml: |
+    title: A visitor's phone sent to the betting site
+    source: dns
+
+adversary:
+  id: detour
+  name: compat-cdn
+  from: guests
+  pace: 1
+  steps:
+    - { id: first, host: resolver, source: dns, fields: { src: 10.76.0.151, name: paris-gagnants.example, rtype: A } }
+    - { id: second, host: resolver, source: dns, fields: { src: 10.76.0.164, name: paris-gagnants.example, rtype: A } }
+    - { id: third, host: resolver, source: dns, fields: { src: 10.76.0.172, name: paris-gagnants.example, rtype: A } }
+    - { id: fourth, host: resolver, source: dns, fields: { src: 10.76.0.188, name: paris-gagnants.example, rtype: A } }
+
+background:
+  - { host: resolver, source: dns, every: 2, offset: 0, fields: { src: 10.76.0.151, name: www.sittelle.test, rtype: A } }
+  - { host: resolver, source: dns, every: 2, offset: 1, fields: { src: 10.76.0.164, name: cdn.compat-cdn.test, rtype: A } }
+  - { host: resolver, source: dns, every: 3, offset: 0, fields: { src: 10.76.0.172, name: www.sittelle.test, rtype: AAAA } }
+  - { host: resolver, source: dns, every: 4, offset: 2, fields: { src: 10.76.0.130, name: musees-plans.example, rtype: A } }
+
+objectives:
+  - { id: domain, text: s2.obj.domain }
+  - { id: rule, text: s2.obj.rule }
+  - { id: cut, text: s2.obj.cut }
+
+investigation:
+  - { id: domain, text: s2.q.domain, value: "paris-gagnants.example", points: 75, objective: domain }
+
+hunts:
+  - id: detour
+    file: regles/detour.yml
+    catch: { source: dns, where: { name: paris-gagnants.example } }
+    objective: rule
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: cut
+    text: s2.q.cut
+    objective: cut
+    options:
+      - { id: copy, text: s2.q.cut.copy, impact: 1 }
+      - { id: remove, text: s2.q.cut.remove, impact: 3 }
+      - { id: wait, text: s2.q.cut.wait, impact: 9 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s2.ada.brief
+  - on: { event: AdversaryStep, step: first }
+    do:
+      - ada.say: s2.ada.first
+  - on: { event: ObjectiveCompleted, objective: domain }
+    do:
+      - ada.say: s2.ada.domain
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: s2.ada.rule
+      - ada.ask: cut
+  - on: { event: Answered, question: cut, option: copy }
+    do:
+      - ada.say: s2.ada.copy
+  - on: { event: Answered, question: cut, option: remove }
+    do:
+      - ada.say: s2.ada.remove
+  - on: { event: Answered, question: cut, option: wait }
+    do:
+      - ada.say: s2.ada.wait
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s2.ada.done
+
+guide:
+  domain: s2.ada.g.domain
+  rule: s2.ada.g.rule
+  cut: s2.ada.answer
+
+hints:
+  domain: [s2.hint.domain.1, s2.hint.domain.2]
+  rule: [s2.hint.rule.1, s2.hint.rule.2]
+  cut: [s2.hint.cut.1]
+
+debrief:
+  title: s2.debrief.title
+  lesson: s2.debrief.lesson
+  points: [s2.debrief.p1, s2.debrief.p2, s2.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

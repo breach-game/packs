@@ -1,0 +1,16 @@
+id: dossiers.sittelle-2-detour
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.sittelle-world]
+title:
+  fr: "Dossier 16 · 2. Les visiteurs détournés"
+  en: "Case file 16 · 2. The diverted visitors"
+summary:
+  fr: "Le Wi-Fi des musées voit passer les téléphones détournés. Tu écris la règle qui les repère dans le journal DNS, puis tu choisis comment couper le script tiers."
+  en: "The museums' Wi-Fi sees the diverted phones go by. You write the rule that spots them in the DNS log, then choose how to cut the third-party script."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense, logs]
+minutes: 12

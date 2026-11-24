@@ -1,0 +1,84 @@
+side: defense
+order: 3
+stage: defense
+briefing: s3.briefing
+
+files:
+  dossier/site.yml: { $file: files/site.yml }
+
+objectives:
+  - { id: copy, text: s3.obj.copy }
+  - { id: csp, text: s3.obj.csp }
+  - { id: watch, text: s3.obj.watch }
+  - { id: why, text: s3.obj.why }
+
+questions:
+  - id: why
+    text: s3.q.why
+    objective: why
+    correct: ours
+    options:
+      - { id: ours, text: s3.q.why.ours }
+      - { id: habit, text: s3.q.why.habit, why: s3.q.why.habit.why }
+      - { id: speed, text: s3.q.why.speed, why: s3.q.why.speed.why }
+
+checks:
+  - id: copy
+    text: s3.check.copy
+    if: { all: [{ file: "~/dossier/site.yml", lacks: "compat_from: third-party" }, { file: "~/dossier/site.yml", contains: "compat_from: self-hosted" }, { file: "~/dossier/site.yml", lacks: "integrity: off" }, { file: "~/dossier/site.yml", contains: "integrity: on" }] }
+    objective: copy
+  - id: csp
+    text: s3.check.csp
+    if: { all: [{ file: "~/dossier/site.yml", lacks: "script_src: any" }, { file: "~/dossier/site.yml", contains: "script_src: self" }, { file: "~/dossier/site.yml", lacks: "csp_reports: off" }, { file: "~/dossier/site.yml", contains: "csp_reports: on" }] }
+    objective: csp
+  - id: watch
+    text: s3.check.watch
+    if: { all: [{ file: "~/dossier/site.yml", lacks: "third_parties: none" }, { file: "~/dossier/site.yml", contains: "third_parties: owner-and-content" }] }
+    objective: watch
+  - id: works
+    text: s3.check.works
+    if: { file: "~/dossier/site.yml", contains: "online: on" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: copy }
+    do:
+      - ada.say: s3.ada.copy
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: csp }
+    do:
+      - ada.say: s3.ada.csp
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: copy }, { objective: csp }, { objective: watch }] } }
+    once: false
+    do:
+      - ada.say: s3.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s3.ada.done
+
+guide:
+  copy: s3.ada.g.copy
+  why: s3.ada.answer
+  csp: s3.ada.g.csp
+  watch: s3.ada.g.watch
+
+hints:
+  copy: [s3.hint.copy.1, s3.hint.copy.2]
+  why: [s3.hint.why.1]
+  csp: [s3.hint.csp.1, s3.hint.csp.2]
+  watch: [s3.hint.watch.1, s3.hint.watch.2]
+
+debrief:
+  title: s3.debrief.title
+  lesson: s3.debrief.lesson
+  points: [s3.debrief.p1, s3.debrief.p2, s3.debrief.p3, s3.debrief.p4]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"
+  facts:
+    title: s3.facts.title
+    points: [s3.facts.p1, s3.facts.p2, s3.facts.p3, s3.facts.p4, s3.facts.p5]
+    sources:
+      - { label: "Sansec, Polyfill supply chain attack hits 100K+ sites (25 June 2024)", url: "https://sansec.io/research/polyfill-supply-chain-attack" }
+      - { label: "BleepingComputer, Polyfill JavaScript supply chain attack impacts over 100K sites (25 June 2024)", url: "https://www.bleepingcomputer.com/news/security/polyfillio-javascript-supply-chain-attack-impacts-over-100K-sites/" }

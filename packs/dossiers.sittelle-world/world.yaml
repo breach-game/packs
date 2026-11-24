@@ -1,0 +1,146 @@
+# Dossier 16. Everything here is fictional: reserved .test and .example domains, private addresses only.
+# The "added" code is a sentence in a comment: it describes what the real case did, it does nothing.
+startTime: "2027-08-02T09:00:00+02:00"
+mandate: SI-2027-016
+scope:
+  domains: ["*.sittelle.test", "*.compat-cdn.test"]
+  networks: ["10.76.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.76.0.2
+
+config:
+  sittelle.compat_removed: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.76.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            SI-2027-016.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.sittelle.test
+    ip: 10.76.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 60, z: -120, h: 110 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        headers: { content-security-policy: "script-src *" }
+        page:
+          title: web.home.title
+          blocks:
+            - h1: web.home.h1
+            - p: web.home.p1
+            - list: [web.home.l1, web.home.l2, web.home.l3]
+            - comment: web.home.comment
+            - footer: web.footer
+      "/assets/manifest.json":
+        headers: { content-type: application/json }
+        body: { $file: files/manifest.json }
+      "/robots.txt":
+        headers: { content-type: text/plain }
+        body: "User-agent: *\nDisallow: /admin/\n"
+
+  # The free compatibility service many sites load their script from. Since February, a new owner.
+  - id: cdn
+    hostname: cdn.compat-cdn.test
+    ip: 10.76.0.40
+    os: unknown
+    map: { x: 320, z: 60, h: 140 }
+    services:
+      - { port: 443, name: https, product: compat-cdn }
+    web:
+      "/":
+        headers: { content-type: text/plain }
+        body: "compat-cdn - free compatibility scripts for old browsers. Used by 104,000 sites.\nNow operated by Nouvelle Lune Holdings Ltd. Faster than ever.\n"
+      "/v3/compat.min.js":
+        headers: { content-type: application/javascript }
+        body: { $file: files/compat-clean.js }
+        variants:
+          - id: mobile
+            header: "Sec-CH-UA-Mobile: ?1"
+            headers: { content-type: application/javascript }
+            body: { $file: files/compat-mobile.js }
+
+  # The name server of the museums' guest Wi-Fi, run by Sittelle.
+  - id: resolver
+    hostname: dns.sittelle.test
+    ip: 10.76.0.2
+    os: Linux 6.1 (Debian 12)
+    map: { x: -80, z: 200, h: 80 }
+    services:
+      - { port: 53, name: domain, product: BIND 9.18 }
+
+  # The museum visitors' phones, as the logs see them. Never reachable.
+  - id: guests
+    hostname: guest.sittelle.test
+    ip: 10.76.0.150
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -260, z: 260, h: 30 }
+
+dns:
+  dns.sittelle.test: { A: ["10.76.0.2"] }
+  sittelle.test: { A: ["10.76.0.10"] }
+  www.sittelle.test: { A: ["10.76.0.10"] }
+  compat-cdn.test: { A: ["10.76.0.40"] }
+  cdn.compat-cdn.test: { A: ["10.76.0.40"] }
+
+whois:
+  sittelle.test: |
+    Domain Name: SITTELLE.TEST
+    Creation Date: 2013-05-14T08:00:00Z
+    Registrant Organization: Sittelle SCIC
+    Registrant Country: FR
+  compat-cdn.test: |
+    Domain Name: COMPAT-CDN.TEST
+    Creation Date: 2014-03-02T10:12:00Z
+    Updated Date: 2027-02-14T06:40:11Z
+    Registrar: Registrar Exemple SARL
+    Registrant Organization: Nouvelle Lune Holdings Ltd
+    Registrant Country: (redacted)
+    Previous Registrant: compat project (volunteer maintainers), until 2027-02-13
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
