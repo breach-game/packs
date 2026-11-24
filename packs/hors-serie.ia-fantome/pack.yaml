@@ -1,0 +1,15 @@
+id: hors-serie.ia-fantome
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [hors-serie.ia-fantome-world]
+title:
+  fr: "Hors-série : IA fantôme"
+  en: "Side series: Shadow AI"
+summary:
+  fr: "Une agence de recrutement où personne n'a déclaré utiliser d'IA. Avec la DPO, tu retrouves dans les journaux où partent les CV, tu écris le garde-fou de la passerelle, puis tu retires un modèle piégé avant son premier chargement. Gouvernance de l'IA, côté défense."
+  en: "A recruiting agency where nobody declared using AI. With the DPO, you find in the logs where the CVs go, write the gateway's guardrail, then remove a trapped model before its first load. AI governance, on the defence side."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, privacy, defense]

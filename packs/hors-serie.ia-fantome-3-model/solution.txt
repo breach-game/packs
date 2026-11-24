@@ -1,0 +1,10 @@
+# Side series "IA fantôme", mission 3: the shortest path, replayed by CI in every language.
+ssh ir@donnees.tilia.test
+ls /srv/modeles/tri-cv-fr
+cat /srv/modeles/tri-cv-fr/fiche.md
+file /srv/modeles/tri-cv-fr/model.bin
+strings /srv/modeles/tri-cv-fr/model.bin
+answer format pickle
+contain remove tri-cv-fr
+ls /srv/modeles/tri-cv-fr
+answer high

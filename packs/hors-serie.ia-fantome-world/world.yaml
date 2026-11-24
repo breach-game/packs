@@ -1,0 +1,210 @@
+# Side series "IA fantôme". Everything here is fictional: reserved .test and .example domains and
+# private addresses only. The outside AI services exist only as names in the gateway's log.
+startTime: "2027-12-10T14:00:00+01:00"
+mandate: TL-2027-074
+scope:
+  domains: ["*.tilia.test"]
+  networks: ["10.93.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.93.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.93.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [passerelle, donnees, assistant]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            TL-2027-074.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The web gateway every workstation goes through.
+  - id: passerelle
+    hostname: passerelle.tilia.test
+    ip: 10.93.0.10
+    os: Debian 12
+    map: { x: 40, z: 80, h: 110 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+      - { port: 3128, name: http-proxy, product: tilia-passerelle 2.4 }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.passerelle }
+      var:
+        log:
+          passerelle:
+            acces.log: |
+              2027-12-10T09:04:14+01:00 src=10.93.0.41 user=rec-01 dst=intranet.tilia.test method=GET bytes=7904 cat=web verdict=allow
+              2027-12-10T09:08:00+01:00 src=10.93.0.48 user=com-02 dst=intranet.tilia.test method=GET bytes=4375 cat=web verdict=allow
+              2027-12-10T09:11:25+01:00 src=10.93.0.49 user=com-03 dst=redac-magique.example method=POST bytes=2348 cat=ia-generative verdict=allow
+              2027-12-10T09:13:14+01:00 src=10.93.0.52 user=dir-01 dst=cartes.example method=GET bytes=8101 cat=web verdict=allow
+              2027-12-10T09:15:07+01:00 src=10.93.0.50 user=cpt-01 dst=traduis-tout.example method=POST bytes=6944 cat=ia-generative verdict=allow
+              2027-12-10T09:15:47+01:00 src=10.93.0.49 user=com-03 dst=intranet.tilia.test method=GET bytes=6791 cat=web verdict=allow
+              2027-12-10T09:17:03+01:00 src=10.93.0.41 user=rec-01 dst=messagerie.tilia.test method=GET bytes=6623 cat=web verdict=allow
+              2027-12-10T09:17:49+01:00 src=10.93.0.48 user=com-02 dst=redac-magique.example method=POST bytes=4714 cat=ia-generative verdict=allow
+              2027-12-10T09:19:07+01:00 src=10.93.0.46 user=rec-06 dst=emplois-annonces.example method=GET bytes=8811 cat=web verdict=allow
+              2027-12-10T09:21:27+01:00 src=10.93.0.51 user=cpt-02 dst=traduis-tout.example method=POST bytes=8196 cat=ia-generative verdict=allow
+              2027-12-10T09:22:37+01:00 src=10.93.0.46 user=rec-06 dst=cartes.example method=GET bytes=8937 cat=web verdict=allow
+              2027-12-10T09:24:23+01:00 src=10.93.0.45 user=rec-05 dst=emplois-annonces.example method=GET bytes=4856 cat=web verdict=allow
+              2027-12-10T09:25:35+01:00 src=10.93.0.47 user=com-01 dst=redac-magique.example method=POST bytes=4110 cat=ia-generative verdict=allow
+              2027-12-10T09:27:58+01:00 src=10.93.0.46 user=rec-06 dst=intranet.tilia.test method=GET bytes=1828 cat=web verdict=allow
+              2027-12-10T09:30:57+01:00 src=10.93.0.46 user=rec-06 dst=resume-cv.example method=POST bytes=23238 cat=ia-generative verdict=allow
+              2027-12-10T09:33:53+01:00 src=10.93.0.47 user=com-01 dst=redac-magique.example method=POST bytes=5722 cat=ia-generative verdict=allow
+              2027-12-10T09:37:48+01:00 src=10.93.0.46 user=rec-06 dst=messagerie.tilia.test method=GET bytes=8224 cat=web verdict=allow
+              2027-12-10T09:38:08+01:00 src=10.93.0.42 user=rec-02 dst=resume-cv.example method=POST bytes=32029 cat=ia-generative verdict=allow
+              2027-12-10T09:40:30+01:00 src=10.93.0.43 user=rec-03 dst=emplois-annonces.example method=POST bytes=2718 cat=web verdict=allow
+              2027-12-10T09:43:37+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=POST bytes=33304 cat=ia-generative verdict=allow
+              2027-12-10T09:45:25+01:00 src=10.93.0.43 user=rec-03 dst=resume-cv.example method=POST bytes=21561 cat=ia-generative verdict=allow
+              2027-12-10T09:49:09+01:00 src=10.93.0.41 user=rec-01 dst=resume-cv.example method=POST bytes=23104 cat=ia-generative verdict=allow
+              2027-12-10T09:52:13+01:00 src=10.93.0.48 user=com-02 dst=emplois-annonces.example method=POST bytes=7805 cat=web verdict=allow
+              2027-12-10T09:52:54+01:00 src=10.93.0.44 user=rec-04 dst=resume-cv.example method=POST bytes=19774 cat=ia-generative verdict=allow
+              2027-12-10T09:56:47+01:00 src=10.93.0.42 user=rec-02 dst=resume-cv.example method=GET bytes=2596 cat=ia-generative verdict=allow
+              2027-12-10T09:59:56+01:00 src=10.93.0.43 user=rec-03 dst=resume-cv.example method=POST bytes=18945 cat=ia-generative verdict=allow
+              2027-12-10T10:00:46+01:00 src=10.93.0.49 user=com-03 dst=emplois-annonces.example method=GET bytes=5544 cat=web verdict=allow
+              2027-12-10T10:02:45+01:00 src=10.93.0.41 user=rec-01 dst=resume-cv.example method=POST bytes=18486 cat=ia-generative verdict=allow
+              2027-12-10T10:06:25+01:00 src=10.93.0.43 user=rec-03 dst=assistant.tilia.test method=POST bytes=695 cat=ia-approuvee verdict=allow
+              2027-12-10T10:09:47+01:00 src=10.93.0.49 user=com-03 dst=emplois-annonces.example method=POST bytes=5940 cat=web verdict=allow
+              2027-12-10T10:13:19+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=POST bytes=29891 cat=ia-generative verdict=allow
+              2027-12-10T10:14:30+01:00 src=10.93.0.47 user=com-01 dst=redac-magique.example method=POST bytes=2528 cat=ia-generative verdict=allow
+              2027-12-10T10:16:52+01:00 src=10.93.0.42 user=rec-02 dst=resume-cv.example method=POST bytes=27608 cat=ia-generative verdict=allow
+              2027-12-10T10:17:57+01:00 src=10.93.0.50 user=cpt-01 dst=traduis-tout.example method=POST bytes=6280 cat=ia-generative verdict=allow
+              2027-12-10T10:20:08+01:00 src=10.93.0.42 user=rec-02 dst=resume-cv.example method=POST bytes=23123 cat=ia-generative verdict=allow
+              2027-12-10T10:23:50+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=POST bytes=21645 cat=ia-generative verdict=allow
+              2027-12-10T10:26:52+01:00 src=10.93.0.46 user=rec-06 dst=resume-cv.example method=POST bytes=14134 cat=ia-generative verdict=allow
+              2027-12-10T10:28:37+01:00 src=10.93.0.49 user=com-03 dst=redac-magique.example method=POST bytes=4768 cat=ia-generative verdict=allow
+              2027-12-10T10:29:19+01:00 src=10.93.0.51 user=cpt-02 dst=intranet.tilia.test method=GET bytes=1986 cat=web verdict=allow
+              2027-12-10T10:33:04+01:00 src=10.93.0.45 user=rec-05 dst=messagerie.tilia.test method=GET bytes=6485 cat=web verdict=allow
+              2027-12-10T10:36:28+01:00 src=10.93.0.41 user=rec-01 dst=emplois-annonces.example method=GET bytes=1563 cat=web verdict=allow
+              2027-12-10T10:38:29+01:00 src=10.93.0.43 user=rec-03 dst=resume-cv.example method=POST bytes=36371 cat=ia-generative verdict=allow
+              2027-12-10T10:40:47+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=POST bytes=41233 cat=ia-generative verdict=allow
+              2027-12-10T10:42:49+01:00 src=10.93.0.50 user=cpt-01 dst=cartes.example method=GET bytes=8911 cat=web verdict=allow
+              2027-12-10T10:46:19+01:00 src=10.93.0.49 user=com-03 dst=redac-magique.example method=POST bytes=4728 cat=ia-generative verdict=allow
+              2027-12-10T10:47:00+01:00 src=10.93.0.46 user=rec-06 dst=resume-cv.example method=POST bytes=22609 cat=ia-generative verdict=allow
+              2027-12-10T10:50:25+01:00 src=10.93.0.47 user=com-01 dst=intranet.tilia.test method=GET bytes=4743 cat=web verdict=allow
+              2027-12-10T10:51:25+01:00 src=10.93.0.48 user=com-02 dst=redac-magique.example method=POST bytes=5240 cat=ia-generative verdict=allow
+              2027-12-10T10:52:28+01:00 src=10.93.0.43 user=rec-03 dst=resume-cv.example method=POST bytes=26466 cat=ia-generative verdict=allow
+              2027-12-10T10:53:20+01:00 src=10.93.0.44 user=rec-04 dst=resume-cv.example method=POST bytes=21600 cat=ia-generative verdict=allow
+              2027-12-10T10:53:47+01:00 src=10.93.0.50 user=cpt-01 dst=messagerie.tilia.test method=GET bytes=1926 cat=web verdict=allow
+              2027-12-10T10:54:45+01:00 src=10.93.0.52 user=dir-01 dst=intranet.tilia.test method=GET bytes=1794 cat=web verdict=allow
+              2027-12-10T10:57:36+01:00 src=10.93.0.44 user=rec-04 dst=resume-cv.example method=POST bytes=18957 cat=ia-generative verdict=allow
+              2027-12-10T10:59:55+01:00 src=10.93.0.41 user=rec-01 dst=emplois-annonces.example method=POST bytes=2828 cat=web verdict=allow
+              2027-12-10T11:03:41+01:00 src=10.93.0.42 user=rec-02 dst=cartes.example method=GET bytes=8567 cat=web verdict=allow
+              2027-12-10T11:06:48+01:00 src=10.93.0.50 user=cpt-01 dst=intranet.tilia.test method=GET bytes=2734 cat=web verdict=allow
+              2027-12-10T11:07:45+01:00 src=10.93.0.47 user=com-01 dst=messagerie.tilia.test method=GET bytes=8934 cat=web verdict=allow
+              2027-12-10T11:10:41+01:00 src=10.93.0.46 user=rec-06 dst=messagerie.tilia.test method=GET bytes=5517 cat=web verdict=allow
+              2027-12-10T11:14:32+01:00 src=10.93.0.50 user=cpt-01 dst=intranet.tilia.test method=GET bytes=4174 cat=web verdict=allow
+              2027-12-10T11:17:24+01:00 src=10.93.0.41 user=rec-01 dst=resume-cv.example method=POST bytes=32004 cat=ia-generative verdict=allow
+              2027-12-10T11:19:45+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=GET bytes=3716 cat=ia-generative verdict=allow
+              2027-12-10T11:22:53+01:00 src=10.93.0.49 user=com-03 dst=messagerie.tilia.test method=GET bytes=3502 cat=web verdict=allow
+              2027-12-10T11:24:42+01:00 src=10.93.0.42 user=rec-02 dst=emplois-annonces.example method=GET bytes=8159 cat=web verdict=allow
+              2027-12-10T11:25:41+01:00 src=10.93.0.52 user=dir-01 dst=assistant.tilia.test method=POST bytes=563 cat=ia-approuvee verdict=allow
+              2027-12-10T11:28:21+01:00 src=10.93.0.50 user=cpt-01 dst=emplois-annonces.example method=POST bytes=7299 cat=web verdict=allow
+              2027-12-10T11:31:01+01:00 src=10.93.0.50 user=cpt-01 dst=intranet.tilia.test method=GET bytes=4317 cat=web verdict=allow
+              2027-12-10T11:31:54+01:00 src=10.93.0.42 user=rec-02 dst=resume-cv.example method=POST bytes=37147 cat=ia-generative verdict=allow
+              2027-12-10T11:32:19+01:00 src=10.93.0.47 user=com-01 dst=emplois-annonces.example method=GET bytes=2729 cat=web verdict=allow
+              2027-12-10T11:32:42+01:00 src=10.93.0.46 user=rec-06 dst=cartes.example method=GET bytes=4870 cat=web verdict=allow
+              2027-12-10T11:36:26+01:00 src=10.93.0.46 user=rec-06 dst=emplois-annonces.example method=GET bytes=7268 cat=web verdict=allow
+              2027-12-10T11:39:51+01:00 src=10.93.0.50 user=cpt-01 dst=cartes.example method=GET bytes=3761 cat=web verdict=allow
+              2027-12-10T11:42:57+01:00 src=10.93.0.42 user=rec-02 dst=emplois-annonces.example method=POST bytes=7755 cat=web verdict=allow
+              2027-12-10T11:43:43+01:00 src=10.93.0.41 user=rec-01 dst=resume-cv.example method=POST bytes=40846 cat=ia-generative verdict=allow
+              2027-12-10T11:46:17+01:00 src=10.93.0.42 user=rec-02 dst=emplois-annonces.example method=POST bytes=3878 cat=web verdict=allow
+              2027-12-10T11:49:48+01:00 src=10.93.0.43 user=rec-03 dst=emplois-annonces.example method=GET bytes=2141 cat=web verdict=allow
+              2027-12-10T11:50:43+01:00 src=10.93.0.45 user=rec-05 dst=resume-cv.example method=POST bytes=14395 cat=ia-generative verdict=allow
+              2027-12-10T11:52:54+01:00 src=10.93.0.47 user=com-01 dst=intranet.tilia.test method=GET bytes=2071 cat=web verdict=allow
+              2027-12-10T11:54:03+01:00 src=10.93.0.44 user=rec-04 dst=emplois-annonces.example method=POST bytes=1813 cat=web verdict=allow
+
+  # The data team's server, where models are tried before use.
+  - id: donnees
+    hostname: donnees.tilia.test
+    ip: 10.93.0.40
+    os: Ubuntu 24.04
+    map: { x: 230, z: -40, h: 120 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.6p1 Ubuntu }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.donnees }
+      srv:
+        modeles:
+          tri-cv-fr:
+            fiche.md: { $t: file.fiche }
+            origine.txt: "telecharge le 2027-12-06 depuis https://hub-modeles.example/cv-boost/tri-cv-fr\npar : equipe donnees (essai)\nchargement prevu : lundi 2027-12-13, script tri_cv.py\n"
+            model.bin:
+              $binary:
+                format: data
+                strings:
+                  - "PK archive/data.pkl"
+                  - "pickle protocol 4"
+                  - "collections OrderedDict"
+                  - "classifier.weight"
+                  - "classifier.bias"
+                  - "__reduce__"
+                  - "subprocess"
+                  - "check_call"
+                  - "telecharge et lance outil-maj.sh au chargement"
+                  - "hub-modeles.example/cv-boost/outil-maj.sh"
+                  - "archive/version"
+            config.json: "{\n  \"architecture\": \"classifieur-cv\",\n  \"labels\": [\"entretien\", \"refus\"],\n  \"langue\": \"fr\"\n}\n"
+          README.txt: "Modeles en essai. Rien ne va en production sans revue.\n"
+
+  # The approved assistant, behind the gateway.
+  - id: assistant
+    hostname: assistant.tilia.test
+    ip: 10.93.0.30
+    os: Linux 6.1
+    map: { x: 120, z: -120, h: 90 }
+    services:
+      - { port: 443, name: https, product: nginx 1.25 }
+    web:
+      "/":
+        page:
+          title: "Assistant Tilia"
+          blocks:
+            - { h1: page.assistant.h1 }
+            - { p: page.assistant.p }
+            - list: [page.assistant.l1, page.assistant.l2, page.assistant.l3]
+            - { footer: page.assistant.footer }
+
+dns:
+  tilia.test: { A: ["10.93.0.30"] }
+  passerelle.tilia.test: { A: ["10.93.0.10"] }
+  donnees.tilia.test: { A: ["10.93.0.40"] }
+  assistant.tilia.test: { A: ["10.93.0.30"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 1
+  browse: 1
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

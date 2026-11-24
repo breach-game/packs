@@ -1,0 +1,5 @@
+# Side series, in playing order: the gateway's log, the guardrail, the downloaded model.
+missions:
+  - hors-serie.ia-fantome-1-gateway
+  - hors-serie.ia-fantome-2-guardrail
+  - hors-serie.ia-fantome-3-model

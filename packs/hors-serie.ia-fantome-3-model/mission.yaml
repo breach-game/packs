@@ -1,0 +1,80 @@
+# Shadow AI 3: the model card says safetensors, the file is a pickle that would run a download on
+# load. Read with file and strings only; the model is never loaded. Then the AI Act's view.
+side: defense
+order: 3
+stage: defense
+briefing: f3.briefing
+reveal: [donnees]
+
+containment:
+  - id: quarantine
+    action: remove
+    target: tri-cv-fr
+    text: f3.contain.quarantine
+    sets: {}
+    impact: 0
+    writes:
+      - host: donnees
+        path: /srv/modeles/tri-cv-fr/QUARANTAINE.txt
+        content: "model.bin retire le 2027-12-10 par l'equipe securite (Ligne Rouge, mandat TL-2027-074).\nMotif : format pickle avec appel a subprocess au chargement, contraire a la fiche.\nNe pas recharger. Voir la revue des modeles avant tout essai.\n"
+    removes:
+      - { host: donnees, path: /srv/modeles/tri-cv-fr/model.bin }
+
+objectives:
+  - { id: format, text: f3.obj.format }
+  - { id: remove, text: f3.obj.remove }
+  - { id: risk, text: f3.obj.risk }
+
+investigation:
+  - { id: format, text: f3.q.format, value: "pickle", points: 100, objective: format }
+
+questions:
+  - id: risk
+    text: f3.q.risk
+    objective: risk
+    correct: high
+    options:
+      - { id: high, text: f3.q.risk.high }
+      - { id: minimal, text: f3.q.risk.minimal, why: f3.q.risk.minimal.why }
+      - { id: banned, text: f3.q.risk.banned, why: f3.q.risk.banned.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: format }
+    do:
+      - ada.say: f3.ada.format
+  - on: { event: Contained, containment: quarantine }
+    do:
+      - objective.complete: remove
+      - ada.say: f3.ada.removed
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: format }, { objective: remove }] }
+    do:
+      - ada.ask: risk
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f3.ada.done
+
+guide:
+  format: f3.ada.g.format
+  remove: f3.ada.g.remove
+  risk: f3.ada.g.risk
+
+hints:
+  format: [f3.hint.format.1, f3.hint.format.2]
+  remove: [f3.hint.remove.1]
+  risk: [f3.hint.risk.1]
+
+debrief:
+  title: f3.debrief.title
+  lesson: f3.debrief.lesson
+  points: [f3.debrief.p1, f3.debrief.p2, f3.debrief.p3]
+  reference: "OWASP LLM03 Supply Chain · AI Act Annex III (4)"
+  facts:
+    title: f3.facts.title
+    points: [f3.facts.p1, f3.facts.p2, f3.facts.p3]
+    sources:
+      - { label: "EUR-Lex · Regulation (EU) 2024/1689 (AI Act)", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj" }
+      - { label: "OWASP GenAI · LLM03:2025 Supply Chain", url: "https://genai.owasp.org/llmrisk/llm032025-supply-chain/" }

@@ -1,0 +1,6 @@
+# Side series "IA fantôme", mission 2: the shortest path, replayed by CI in every language.
+cat garde-fous/passerelle-ia.yml
+eval run garde-fous/passerelle-ia.yml
+echo "personnel: oui" >> garde-fous/passerelle-ia.yml
+eval run garde-fous/passerelle-ia.yml
+answer offer

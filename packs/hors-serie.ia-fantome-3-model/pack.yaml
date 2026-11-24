@@ -1,0 +1,16 @@
+id: hors-serie.ia-fantome-3-model
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.ia-fantome-world]
+title:
+  fr: "IA fantôme · 3. Le modèle de trop"
+  en: "Shadow AI · 3. One model too many"
+summary:
+  fr: "L'équipe données a téléchargé un modèle pour trier les CV. Sa fiche promet un format sans code ; `file` et `strings` disent autre chose. Tu le retires avant lundi, puis tu dis ce que le règlement européen sur l'IA pense d'un tri de CV."
+  en: "The data team downloaded a model to sort CVs. Its card promises a format with no code; `file` and `strings` say otherwise. You remove it before Monday, then say what the EU AI Act thinks of sorting CVs."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, supply, defense]
+minutes: 12

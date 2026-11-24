@@ -1,0 +1,16 @@
+id: hors-serie.ia-fantome-2-guardrail
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.ia-fantome-world]
+title:
+  fr: "IA fantôme · 2. Le garde-fou de la passerelle"
+  en: "Shadow AI · 2. The gateway's guardrail"
+summary:
+  fr: "Bloquer toutes les IA ne ferait que déplacer le problème vers les téléphones. Tu écris le garde-fou de la passerelle : il arrête les données personnelles qui partent vers un service non approuvé, et laisse passer le reste. `eval run` le juge sur des envois réels."
+  en: "Blocking every AI would only move the problem to phones. You write the gateway's guardrail: it stops personal data leaving for an unapproved service, and lets the rest through. `eval run` judges it on real uploads."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, privacy]
+minutes: 10

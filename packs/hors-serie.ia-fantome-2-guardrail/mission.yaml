@@ -1,0 +1,66 @@
+# Shadow AI 2: a guardrail on the gateway, one condition per line, judged by eval run. The first
+# draft blocks every outside service, which breaks harmless uses; the player narrows it.
+side: defense
+order: 2
+stage: defense
+briefing: f2.briefing
+reveal: [passerelle, assistant]
+
+files:
+  garde-fous/passerelle-ia.yml: "# Garde-fou de la passerelle Tilia : un envoi est bloque quand il remplit TOUTES les conditions.\n# Champs : service (approuve | externe), donnees (cv, annonce, contrat...), personnel (oui | non)\nservice: externe\n"
+
+objectives:
+  - { id: guard, text: f2.obj.guard }
+  - { id: policy, text: f2.obj.policy }
+
+evals:
+  - id: gateway
+    file: garde-fous/passerelle-ia.yml
+    objective: guard
+    cases:
+      - { id: cv, text: f2.case.cv, fields: { service: externe, donnees: cv, personnel: oui }, expect: block }
+      - { id: nir, text: f2.case.nir, fields: { service: externe, donnees: attestation, personnel: oui }, expect: block }
+      - { id: sick, text: f2.case.sick, fields: { service: externe, donnees: arret-maladie, personnel: oui }, expect: block }
+      - { id: ad, text: f2.case.ad, fields: { service: externe, donnees: annonce, personnel: non }, expect: allow }
+      - { id: contract, text: f2.case.contract, fields: { service: externe, donnees: modele-contrat, personnel: non }, expect: allow }
+      - { id: inside, text: f2.case.inside, fields: { service: approuve, donnees: cv, personnel: oui }, expect: allow }
+
+questions:
+  - id: policy
+    text: f2.q.policy
+    objective: policy
+    correct: offer
+    options:
+      - { id: offer, text: f2.q.policy.offer }
+      - { id: ban, text: f2.q.policy.ban, why: f2.q.policy.ban.why }
+      - { id: letgo, text: f2.q.policy.letgo, why: f2.q.policy.letgo.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f2.ada.brief
+  - on: { event: EvalRun, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: f2.ada.again, for: guard, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: guard }
+    do:
+      - ada.say: f2.ada.guarded
+      - ada.ask: policy
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f2.ada.done
+
+guide:
+  guard: f2.ada.g.guard
+  policy: f2.ada.g.policy
+
+hints:
+  guard: [f2.hint.guard.1, f2.hint.guard.2]
+  policy: [f2.hint.policy.1]
+
+debrief:
+  title: f2.debrief.title
+  lesson: f2.debrief.lesson
+  points: [f2.debrief.p1, f2.debrief.p2, f2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"
