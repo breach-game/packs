@@ -1,0 +1,39 @@
+# Challenge: an insecure direct object reference. The witness account's invoice is one number away.
+order: 2
+stage: exploitation
+briefing: d2.briefing
+reveal: [shop]
+
+objectives:
+  - { id: marker, text: d2.obj.marker }
+  - { id: fix, text: d2.obj.fix }
+
+flags:
+  - { id: marker, value: "FLAG{polygone-facture-voisine-5e1b}", points: 250, objective: marker }
+
+questions:
+  - id: fix
+    text: d2.q.fix
+    objective: fix
+    correct: owner
+    options:
+      - { id: owner, text: d2.q.fix.owner }
+      - { id: random, text: d2.q.fix.random, why: d2.q.fix.random.why }
+      - { id: hide, text: d2.q.fix.hide, why: d2.q.fix.hide.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d2.ada.done
+
+debrief:
+  title: d2.debrief.title
+  lesson: d2.debrief.lesson
+  points: [d2.debrief.p1, d2.debrief.p2, d2.debrief.p3]
+  reference: "OWASP Top 10 · A01 Broken Access Control"

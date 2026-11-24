@@ -1,0 +1,79 @@
+# Challenge: password guessing spread over twelve addresses, three accounts, four tries each. Only counting by account sees it.
+side: defense
+order: 5
+stage: defense
+briefing: d5.briefing
+reveal: [sso]
+
+files:
+  regles/pluie.yml: "title: Guessing spread over many addresses\nsource: auth\n"
+
+adversary:
+  id: rain
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: r1, host: sso, source: auth, fields: { user: amartin, result: Failed, method: password, src: 198.51.100.14 } }
+    - { id: r2, host: sso, source: auth, fields: { user: bchevalier, result: Failed, method: password, src: 203.0.113.71 } }
+    - { id: r3, host: sso, source: auth, fields: { user: cnoel, result: Failed, method: password, src: 192.0.2.198 } }
+    - { id: r4, host: sso, source: auth, fields: { user: amartin, result: Failed, method: password, src: 203.0.113.9 } }
+    - { id: r5, host: sso, source: auth, fields: { user: bchevalier, result: Failed, method: password, src: 192.0.2.61 } }
+    - { id: r6, host: sso, source: auth, fields: { user: cnoel, result: Failed, method: password, src: 198.51.100.230 } }
+    - { id: r7, host: sso, source: auth, fields: { user: amartin, result: Failed, method: password, src: 192.0.2.140 } }
+    - { id: r8, host: sso, source: auth, fields: { user: bchevalier, result: Failed, method: password, src: 198.51.100.88 } }
+    - { id: r9, host: sso, source: auth, fields: { user: cnoel, result: Failed, method: password, src: 203.0.113.152 } }
+    - { id: r10, host: sso, source: auth, fields: { user: amartin, result: Failed, method: password, src: 198.51.100.201 } }
+    - { id: r11, host: sso, source: auth, fields: { user: cnoel, result: Failed, method: password, src: 192.0.2.33 } }
+    - { id: r12, host: sso, source: auth, fields: { user: bchevalier, result: Accepted, method: password, src: 203.0.113.240 } }
+
+# The office: keys for the admins, passwords for the others, and a remote colleague who mistypes now and then.
+background:
+  - { host: sso, source: auth, every: 2, offset: 0, fields: { user: dlemaire, result: Accepted, method: password, src: 10.87.0.41 } }
+  - { host: sso, source: auth, every: 3, offset: 1, fields: { user: admin-ops, result: Accepted, method: publickey, src: 10.87.0.12 } }
+  - { host: sso, source: auth, every: 11, offset: 2, fields: { user: eroussel, result: Failed, method: password, src: 203.0.113.5 } }
+  - { host: sso, source: auth, every: 11, offset: 3, fields: { user: eroussel, result: Accepted, method: password, src: 203.0.113.5 } }
+  - { host: sso, source: auth, every: 13, offset: 5, fields: { user: dlemaire, result: Failed, method: password, src: 10.87.0.41 } }
+
+objectives:
+  - { id: opened, text: d5.obj.opened }
+  - { id: rule, text: d5.obj.rule }
+  - { id: next, text: d5.obj.next }
+
+investigation:
+  - { id: opened, text: d5.q.opened, value: "bchevalier", points: 100, objective: opened }
+
+hunts:
+  - id: rain
+    file: regles/pluie.yml
+    catch: { source: auth, where: { result: Failed, method: password, user: { in: [amartin, bchevalier, cnoel] } } }
+    objective: rule
+
+questions:
+  - id: next
+    text: d5.q.next
+    objective: next
+    correct: sessions
+    options:
+      - { id: sessions, text: d5.q.next.sessions }
+      - { id: block, text: d5.q.next.block, why: d5.q.next.block.why }
+      - { id: wait, text: d5.q.next.wait, why: d5.q.next.wait.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d5.ada.brief
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: opened }, { objective: rule }] }
+    do:
+      - ada.ask: next
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d5.ada.done
+
+debrief:
+  title: d5.debrief.title
+  lesson: d5.debrief.lesson
+  points: [d5.debrief.p1, d5.debrief.p2, d5.debrief.p3]
+  reference: "MITRE ATT&CK · T1110.003 Password Spraying"

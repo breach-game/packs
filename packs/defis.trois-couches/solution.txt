@@ -1,0 +1,8 @@
+# Challenge "Three layers": the shortest path, replayed by CI in every language.
+file prelevement/majservice
+strings prelevement/majservice
+echo aG9zdD1vbWJyZS5wb2x5Z29uZS1yZWxhaXMuZXhhbXBsZTtwb3J0PTg0NDM7ZXZlcnk9MzAw | base64 -d
+answer host ombre.polygone-relais.example
+openssl x509 -in prelevement/client.pem -noout -text
+answer backup secours.relais-gris.example
+answer both

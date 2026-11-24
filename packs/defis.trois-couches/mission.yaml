@@ -1,0 +1,65 @@
+# Challenge: a fictional implant read as data. strings, then base64, then the certificate's alternative names.
+side: defense
+order: 3
+stage: defense
+briefing: d3.briefing
+
+files:
+  prelevement/majservice:
+    $binary:
+      format: elf
+      arch: x86-64
+      strings:
+        - "majservice 2.4 (build 2027-10-30)"
+        - "usage: majservice [--quiet]"
+        - "/etc/majservice/state"
+        - "aG9zdD1vbWJyZS5wb2x5Z29uZS1yZWxhaXMuZXhhbXBsZTtwb3J0PTg0NDM7ZXZlcnk9MzAw"
+        - "client.pem"
+        - "POST /v2/beat HTTP/1.1"
+        - "User-Agent: majservice/2.4"
+        - "sleep %d"
+  prelevement/client.pem:
+    $cert:
+      subject: "CN=ombre.polygone-relais.example, O=Relais Ombre"
+      issuer: "CN=Relais Ombre Root, O=Relais Ombre"
+      serial: "4A:19:C2:07:5E:88:01:D3"
+      notBefore: "2027-10-28T00:00:00Z"
+      notAfter: "2028-10-28T00:00:00Z"
+      san: ["ombre.polygone-relais.example", "secours.relais-gris.example"]
+
+objectives:
+  - { id: host, text: d3.obj.host }
+  - { id: backup, text: d3.obj.backup }
+  - { id: block, text: d3.obj.block }
+
+investigation:
+  - { id: host, text: d3.q.host, value: "ombre.polygone-relais.example", points: 100, objective: host }
+  - { id: backup, text: d3.q.backup, value: "secours.relais-gris.example", points: 100, objective: backup }
+
+questions:
+  - id: block
+    text: d3.q.block
+    objective: block
+    correct: both
+    options:
+      - { id: both, text: d3.q.block.both }
+      - { id: delete, text: d3.q.block.delete, why: d3.q.block.delete.why }
+      - { id: first, text: d3.q.block.first, why: d3.q.block.first.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d3.ada.brief
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: host }, { objective: backup }] }
+    do:
+      - ada.ask: block
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d3.ada.done
+
+debrief:
+  title: d3.debrief.title
+  lesson: d3.debrief.lesson
+  points: [d3.debrief.p1, d3.debrief.p2, d3.debrief.p3]
+  reference: "MITRE ATT&CK · T1027 Obfuscated Files, T1071 Application Layer"

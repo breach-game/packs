@@ -1,0 +1,9 @@
+# Challenge "The guardrail": the shortest path, replayed by CI in every language.
+cat politique/remboursements.txt
+cat garde-fous/remboursement.yml
+eval run garde-fous/remboursement.yml
+echo "tool: refund" >> garde-fous/remboursement.yml
+echo "confirmed: false" >> garde-fous/remboursement.yml
+echo "amount|gte: 500" >> garde-fous/remboursement.yml
+eval run garde-fous/remboursement.yml
+answer outside

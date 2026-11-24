@@ -1,0 +1,17 @@
+id: defis.pluie-fine
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · Pluie fine"
+  en: "Challenge · Fine rain"
+summary:
+  fr: "Des échecs de connexion sur la connexion unique, chacun venu d'une adresse différente. Trouve le compte qui a cédé, puis écris la règle qui voit l'attaque sans sonner pour un collègue distrait. Sans aide."
+  en: "Failed sign-ins on single sign-on, each from a different address. Find the account that gave in, then write the rule that sees the attack without ringing for an absent-minded colleague. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [logs, defense]
+minutes: 12

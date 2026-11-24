@@ -1,0 +1,17 @@
+id: defis.bonne-ligne
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · La bonne ligne"
+  en: "Challenge · The right line"
+summary:
+  fr: "Une heure de journal de la boutique, des robots qui frappent à toutes les portes, et un fichier de clients parti quelque part. Trouve qui l'a vraiment emporté, sous quel compte, et combien d'adresses l'ont cherché. Sans aide."
+  en: "One hour of the shop's log, bots knocking on every door, and a customer file gone somewhere. Find who really took it, under which account, and how many addresses looked for it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [logs, linux, defense]
+minutes: 10

@@ -1,0 +1,17 @@
+id: defis.garde-fou
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · Le garde-fou"
+  en: "Challenge · The guardrail"
+summary:
+  fr: "L'agent de support de Polygone peut rembourser des clients. Écris le garde-fou qui bloque les remboursements que la règle maison interdit, et laisse passer tout le reste, cas limites compris. Sans aide."
+  en: "Polygone's support agent can refund customers. Write the guardrail that blocks the refunds the house rule forbids, and lets everything else through, edge cases included. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [llm, defense]
+minutes: 10

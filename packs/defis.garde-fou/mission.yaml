@@ -1,0 +1,53 @@
+# Challenge: a guardrail for a support agent's refund tool, with edge cases on both sides of the threshold.
+side: defense
+order: 6
+stage: defense
+briefing: d6.briefing
+
+files:
+  garde-fous/remboursement.yml: "# Support agent guardrail: a tool call that meets every condition below is blocked.\n"
+  politique/remboursements.txt: { $file: files/remboursements.txt }
+
+objectives:
+  - { id: guard, text: d6.obj.guard }
+  - { id: why, text: d6.obj.why }
+
+evals:
+  - id: refund
+    file: garde-fous/remboursement.yml
+    objective: guard
+    cases:
+      - { id: injected, text: d6.case.injected, fields: { tool: refund, amount: 1200, confirmed: false, asked_by: email }, expect: block }
+      - { id: big, text: d6.case.big, fields: { tool: refund, amount: 800, confirmed: false, asked_by: customer }, expect: block }
+      - { id: edge, text: d6.case.edge, fields: { tool: refund, amount: 500, confirmed: false, asked_by: customer }, expect: block }
+      - { id: below, text: d6.case.below, fields: { tool: refund, amount: 499, confirmed: false, asked_by: customer }, expect: allow }
+      - { id: small, text: d6.case.small, fields: { tool: refund, amount: 45, confirmed: false, asked_by: email }, expect: allow }
+      - { id: approved, text: d6.case.approved, fields: { tool: refund, amount: 2400, confirmed: true, asked_by: customer }, expect: allow }
+      - { id: lookup, text: d6.case.lookup, fields: { tool: lookup_invoice, amount: 3980, confirmed: false, asked_by: customer }, expect: allow }
+
+questions:
+  - id: why
+    text: d6.q.why
+    objective: why
+    correct: outside
+    options:
+      - { id: outside, text: d6.q.why.outside }
+      - { id: prompt, text: d6.q.why.prompt, why: d6.q.why.prompt.why }
+      - { id: nothing, text: d6.q.why.nothing, why: d6.q.why.nothing.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d6.ada.brief
+  - on: { event: ObjectiveCompleted, objective: guard }
+    do:
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d6.ada.done
+
+debrief:
+  title: d6.debrief.title
+  lesson: d6.debrief.lesson
+  points: [d6.debrief.p1, d6.debrief.p2, d6.debrief.p3]
+  reference: "OWASP LLM Top 10 · LLM06 Excessive Agency"

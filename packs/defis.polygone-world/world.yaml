@@ -1,0 +1,132 @@
+# The Challenges. Everything here is fictional: reserved .test and .example domains, private and documentation addresses only.
+startTime: "2027-11-22T08:00:00+01:00"
+mandate: PG-2027-050
+scope:
+  domains: ["*.polygone.test"]
+  networks: ["10.87.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.87.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.87.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [shop, sso]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            PG-2027-050.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The online shop, where customers find their invoices.
+  - id: shop
+    hostname: boutique.polygone.test
+    ip: 10.87.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 160, z: -80, h: 130 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: "Polygone Services"
+          blocks:
+            - { h1: page.home.h1 }
+            - { p: page.home.p }
+            - { footer: page.home.footer }
+      "/api/factures/2031":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first (cookie session=...)\"}\n"
+        variants:
+          - id: own
+            cookie: "session=pg-client-2031"
+            headers: { content-type: application/json }
+            body: "{\"invoice\": 2031, \"customer\": \"Résidence Les Mélèzes (test account PG-2027-050)\", \"amount\": \"1 240,00 EUR\", \"items\": [\"Entretien chaudière\", \"Nettoyage parties communes\"]}\n"
+      "/api/factures/2030":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first (cookie session=...)\"}\n"
+        variants:
+          - id: neighbour
+            cookie: "session=pg-client-2031"
+            headers: { content-type: application/json }
+            body: "{\"invoice\": 2030, \"customer\": \"Copropriété Le Belvédère (witness account PG-2027-050)\", \"amount\": \"3 980,00 EUR\", \"contact\": \"syndic@belvedere.example\", \"witness_marker\": \"FLAG{polygone-facture-voisine-5e1b}\"}\n"
+      "/api/factures/2032":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first (cookie session=...)\"}\n"
+        variants:
+          - id: next
+            cookie: "session=pg-client-2031"
+            status: 404
+            headers: { content-type: application/json }
+            body: "{\"error\": \"no such invoice\"}\n"
+
+  # Single sign-on for the staff.
+  - id: sso
+    hostname: sso.polygone.test
+    ip: 10.87.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 220, z: 100, h: 100 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2 }
+      - { port: 443, name: https, product: keycloak 24 }
+
+  # Where a scripted attacker comes from, never shown on the map.
+  - id: outside
+    hostname: inconnu.polygone.test
+    ip: 10.87.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  polygone.test: { A: ["10.87.0.20"] }
+  boutique.polygone.test: { A: ["10.87.0.20"] }
+  sso.polygone.test: { A: ["10.87.0.30"] }
+
+whois:
+  polygone.test: |
+    Domain Name: POLYGONE.TEST
+    Creation Date: 2011-09-14T08:00:00Z
+    Registrant Organization: Polygone Services SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 3
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
