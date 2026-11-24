@@ -18,7 +18,7 @@ files:
 containment:
   - id: rotate
     action: rotate
-    target: svcvigie
+    target: compte-supervision
     text: g2.contain.rotate
     sets: { gr.rotated: true }
     impact: 1

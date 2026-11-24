@@ -11,6 +11,7 @@ reveal: [navette, base]
 files:
   bulletin/NAV-2027-0602.txt: { $file: files/bulletin.txt }
   regles/page-inconnue.yml: |
+    # fields of source access: src, method, path, status, bytes, ua (the User-Agent header)
     title: Requests to a page Navette never shipped
     source: access
 
@@ -22,7 +23,7 @@ adversary:
   delay: 0
   steps:
     - { id: a1, host: navette, source: access, fields: { src: 198.51.100.66, method: GET, path: /aide2.php, status: 200, bytes: 1840, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" } }
-    - { id: a2, host: navette, source: access, fields: { src: 198.51.100.66, method: GET, path: /aide2.php, status: 200, bytes: 52428800, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" } }
+    - { id: a2, host: navette, source: access, fields: { src: 198.51.100.66, method: GET, path: /aide2.php, status: 200, bytes: 2210, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" } }
     - { id: a3, host: navette, source: access, fields: { src: 203.0.113.91, method: GET, path: /aide2.php, status: 200, bytes: 1840, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" }, blockedIf: { config: en.page.removed, eq: true } }
     - { id: a4, host: navette, source: flow, fields: { src: 10.97.0.15, dst: 203.0.113.91, dport: 443, bytes: 61865984 }, blockedIf: { config: en.page.removed, eq: true } }
 
@@ -35,16 +36,24 @@ background:
 containment:
   - id: page
     action: remove
-    target: aide2.php
+    target: page-en-trop
     text: e1.contain.page
     sets: { en.page.removed: true }
     removes: [{ host: navette, path: /srv/navette/www/aide2.php }]
+    writes:
+      - host: navette
+        path: /srv/navette/quarantine/aide2.php.txt
+        content: "# aide2.php - moved out of www/ on 2027-06-03, kept for the investigation.\n# Not in the Navette 2027.0.2 manifest.\n# Only answers requests that carry the X-Navette-Jeton header with the right value;\n# otherwise returns an ordinary error page.\n# Lets its user list folders, send files and create accounts.\n"
     impact: 0
   - id: account
     action: disable
-    target: sante-svc
+    target: compte-en-trop
     text: e1.contain.account
     sets: { en.account.disabled: true }
+    writes:
+      - host: navette
+        path: /srv/navette/comptes.txt
+        content: "Navette accounts (login, role, created)\nadmin-hp         admin    2025-02-11 10:02\nclient-mercier   client   2025-03-04 14:20\nclient-saules    client   2025-03-04 14:31\nclient-pradelles client   2025-09-18 09:12\nclient-orme      client   2025-11-20 11:05\nclient-lazare    client   2026-01-07 16:45\nclient-garance   client   2026-04-14 15:38\nsante-svc        admin    2027-05-29 03:12  (disabled 2027-06-03)\n"
     impact: 0
 
 releases:

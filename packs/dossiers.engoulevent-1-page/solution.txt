@@ -11,6 +11,6 @@ exit
 soc logs navette access
 echo "path: /aide2.php" >> regles/page-inconnue.yml
 rule test regles/page-inconnue.yml
-contain remove aide2.php
-contain disable sante-svc
+contain remove page-en-trop
+contain disable compte-en-trop
 deploy navette 2027.0.3

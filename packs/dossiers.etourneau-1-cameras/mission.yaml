@@ -12,6 +12,7 @@ files:
   traces/signalement-fai.txt: { $file: files/signalement-fai.txt }
   traces/installation.txt: { $file: files/installation.txt }
   regles/balayage.yml: |
+    # fields of source flow: action, src, dst, dport, bytes
     title: A Lumen camera opens telnet connections to the Internet
     source: flow
 

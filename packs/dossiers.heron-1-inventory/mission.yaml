@@ -12,6 +12,7 @@ files:
   inventaire/portail/package-lock.json: { $file: files/package-lock.json }
   inventaire/catalogue/bom.json: { $file: files/catalogue-bom.json }
   inventaire/reservations/bom.json: { $file: files/reservations-bom.json }
+  inventaire/catalogue/RELEASES.txt: "liseuse 4.2.1 (2027-12-10 23:00): carnet-core 2.17.1\nliseuse 4.2.0 (2027-12-10 22:10): carnet-core 2.15.0\nliseuse 4.1.7 (2027-11-02): carnet-core 2.14.1\n"
   inventaire/reservations/reservations.jar:
     $archive:
       format: zip
@@ -34,7 +35,7 @@ releases:
 containment:
   - id: egress
     action: block
-    target: sortie-reservations
+    target: sortie-serveur
     text: h1.contain.egress
     sets: { he.egress: true }
     impact: 1
@@ -84,6 +85,10 @@ rules:
     if: { config: he.patched, eq: true }
     do:
       - objective.complete: patch
+  - on: { event: ObjectiveCompleted, objective: patch }
+    if: { not: { objective: shield } }
+    do:
+      - ada.say: h1.ada.patch.ack
   - on: { event: ObjectiveCompleted }
     if: { all: [{ objective: patch }, { objective: shield }] }
     do:
