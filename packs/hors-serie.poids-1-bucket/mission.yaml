@@ -1,0 +1,84 @@
+# The Weights, mission 1: the open bucket. The bucket route lists three objects to anyone. Its
+# access log shows the full model fetched three times from addresses that are not Orme's, and
+# the customer adapter once. The player names the model file, counts the outside downloads,
+# says what leaves along with weights, closes the bucket (`contain`) and checks it with `curl`
+# (the route's `private` variant). No weights file is ever fetched by the player.
+side: defense
+order: 1
+stage: defense
+briefing: p1.briefing
+reveal: [stockage, api]
+
+files:
+  stockage/acces.csv: { $file: files/acces.csv }
+
+containment:
+  - id: bucket
+    action: disable
+    target: public-poids
+    text: p1.contain.bucket
+    sets: { po.bucket_private: true }
+    impact: 0
+
+objectives:
+  - { id: model, text: p1.obj.model }
+  - { id: taken, text: p1.obj.taken }
+  - { id: worth, text: p1.obj.worth }
+  - { id: closed, text: p1.obj.closed }
+
+investigation:
+  - { id: model, text: p1.q.model, value: "orme-4.safetensors", points: 100, objective: model }
+  - { id: taken, text: p1.q.taken, value: "3", points: 100, objective: taken }
+
+questions:
+  - id: worth
+    text: p1.q.worth
+    objective: worth
+    correct: whole
+    options:
+      - { id: whole, text: p1.q.worth.whole }
+      - { id: numbers, text: p1.q.worth.numbers, why: p1.q.worth.numbers.why }
+      - { id: passwords, text: p1.q.worth.passwords, why: p1.q.worth.passwords.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: model }
+    do:
+      - ada.say: p1.ada.model
+  - on: { event: ObjectiveCompleted, objective: taken }
+    do:
+      - ada.say: p1.ada.taken
+      - ada.ask: worth
+  - on: { event: ObjectiveCompleted, objective: worth }
+    do:
+      - ada.say: p1.ada.worth
+  - on: { event: Contained, containment: bucket }
+    do:
+      - ada.say: p1.ada.contained
+  - on: { event: HttpRequest, host: stockage, path: /poids, variant: private }
+    do:
+      - objective.complete: closed
+      - ada.say: p1.ada.closed
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  model: p1.ada.g.model
+  taken: p1.ada.g.taken
+  worth: p1.ada.g.worth
+  closed: p1.ada.g.closed
+
+hints:
+  model: [p1.hint.model.1, p1.hint.model.2]
+  taken: [p1.hint.taken.1, p1.hint.taken.2]
+  worth: [p1.hint.worth.1]
+  closed: [p1.hint.closed.1, p1.hint.closed.2]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"

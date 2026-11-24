@@ -1,0 +1,9 @@
+# The Weights, mission 1: the shortest path, replayed by CI in every language.
+curl https://stockage.orme.test/poids
+answer model orme-4.safetensors
+cat stockage/acces.csv
+grep "orme-4.safetensors" stockage/acces.csv
+answer taken 3
+answer whole
+contain disable public-poids
+curl https://stockage.orme.test/poids

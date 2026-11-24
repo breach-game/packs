@@ -1,0 +1,104 @@
+# Side series "Les Poids". AI security on the defence side: model weights left in a public
+# bucket, a browsing agent that takes a web page's text for an instruction, an API key with no
+# cap, and a confident wrong answer. The bucket is a scripted web route, the booby-trapped page
+# is a declarative page whose hidden note is a plain sentence, and the agent never runs: the
+# player reads its call log and writes a guardrail judged by `eval run`.
+startTime: "2029-09-17T09:00:00+02:00"
+mandate: OR-2029-034
+scope:
+  domains: ["*.orme.test", "*.comparatif-outils.test"]
+  networks: ["10.112.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.112.0.2
+
+config:
+  po.bucket_private: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.112.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [stockage, agent, api, guide]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            OR-2029-034.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # Object storage. One bucket, `poids`, readable by anyone until the player closes it.
+  - id: stockage
+    hostname: stockage.orme.test
+    ip: 10.112.0.20
+    os: Linux
+    map: { x: 120, z: -120, h: 130 }
+    services:
+      - { port: 443, name: https, product: Object storage }
+    web:
+      "/":
+        headers: { content-type: text/plain }
+        body: "orme object storage\nbuckets: /poids\n"
+      "/poids":
+        headers: { content-type: text/plain }
+        body: "bucket: poids        access: public-read        (no sign-in asked)\n\n  size         modified            object\n  13.1 GB      2029-08-02 18:40    orme-4.safetensors\n  412 MB       2029-08-30 11:12    orme-4-adaptateur-clients.safetensors\n  2 KB         2029-08-02 18:41    LISEZMOI.txt\n\n3 objects\n"
+        variants:
+          - id: private
+            if: { config: po.bucket_private, eq: true }
+            status: 403
+            headers: { content-type: text/plain }
+            body: "AccessDenied: bucket poids is private. Sign in with a role that can read it.\n"
+
+  - { id: agent, hostname: agent.orme.test, ip: 10.112.0.30, os: Linux, map: { x: 260, z: 20, h: 110 }, services: [{ port: 443, name: https, product: Browsing assistant }] }
+  - { id: api, hostname: api.orme.test, ip: 10.112.0.40, os: Linux, map: { x: 120, z: 150, h: 110 }, services: [{ port: 443, name: https, product: Model API gateway }] }
+
+  # A public comparison page the agent was asked to summarise. Reading it is in the mandate.
+  - id: guide
+    hostname: guide.comparatif-outils.test
+    ip: 10.112.0.80
+    os: Linux
+    map: { x: 420, z: -80, h: 70 }
+    services:
+      - { port: 443, name: https, product: nginx }
+    web:
+      "/":
+        page:
+          title: web.guide.title
+          blocks:
+            - h1: web.guide.h1
+            - p: web.guide.p1
+            - list: [web.guide.l1, web.guide.l2, web.guide.l3]
+            - comment: web.guide.comment
+            - p: web.guide.p2
+            - footer: web.guide.footer
+
+dns:
+  orme.test: { A: ["10.112.0.40"] }
+  stockage.orme.test: { A: ["10.112.0.20"] }
+  agent.orme.test: { A: ["10.112.0.30"] }
+  api.orme.test: { A: ["10.112.0.40"] }
+  guide.comparatif-outils.test: { A: ["10.112.0.80"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

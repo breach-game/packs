@@ -1,0 +1,9 @@
+ORME - assistant, conversation of 14 September (copied from the sales team's quote)
+
+Question (sales): Which standard sets the wall thickness for this stainless tank?
+
+Answer (orme-4): The applicable standard is NF-CUVE 4471, article 12, which requires a
+minimum wall thickness of 6 mm for this volume. You can quote it as is.
+
+The answer was pasted into quote D-2029-0318 and sent to the customer on 14 September.
+The customer's engineer wrote back on 17 September: "We cannot find this standard anywhere."

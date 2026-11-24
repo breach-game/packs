@@ -1,0 +1,16 @@
+id: hors-serie.poids-3-cap
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.poids-world]
+title:
+  fr: "Les Poids · 3. Sans plafond"
+  en: "The Weights · 3. No cap"
+summary:
+  fr: "La facture de calcul d'Orme a triplé en une nuit, et un devis est parti chez un client avec une norme qui n'existe pas. Tu trouves la clé qui consomme sans limite, tu poses des plafonds jugés par `verify`, tu vérifies la référence que le modèle a citée avec aplomb, puis tu dis ce qui doit changer."
+  en: "Orme's compute bill tripled overnight, and a quote went to a customer citing a standard that does not exist. You find the key that consumes without limit, set caps judged by `verify`, check the reference the model cited with full confidence, then say what has to change."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, logs]
+minutes: 12

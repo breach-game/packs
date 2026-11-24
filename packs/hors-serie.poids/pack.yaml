@@ -1,0 +1,15 @@
+id: hors-serie.poids
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [hors-serie.poids-world]
+title:
+  fr: "Hors-série : Les Poids"
+  en: "Side series: The Weights"
+summary:
+  fr: "Une jeune pousse qui a mis deux ans à entraîner son modèle, et qui l'a rangé dans un seau ouvert. Côté défense : tu comptes qui a emporté les poids et tu fermes le seau, tu lis la page piégée qu'un agent navigateur a prise pour une consigne et tu écris son garde-fou, puis tu poses un plafond à une clé qui consommait sans limite et tu traites une réponse fausse donnée avec aplomb."
+  en: "A start-up that spent two years training its model, and stored it in an open bucket. On the defence side: you count who took the weights and close the bucket, read the booby-trapped page a browsing agent took for an instruction and write its guardrail, then put a cap on a key that consumed without limit and deal with a wrong answer given with full confidence."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, cloud, defense]

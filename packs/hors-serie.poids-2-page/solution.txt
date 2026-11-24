@@ -1,0 +1,9 @@
+# The Weights, mission 2: the shortest path, replayed by CI in every language.
+cat agent/appels.csv
+curl https://guide.comparatif-outils.test/
+answer hidden collecte.comparatif-outils.test
+answer same
+cat garde-fous/fougere.yml
+eval run garde-fous/fougere.yml
+sed -i "s/action: envoyer/origine: page/" garde-fous/fougere.yml
+eval run garde-fous/fougere.yml
