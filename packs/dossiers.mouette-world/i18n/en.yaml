@@ -1,0 +1,7 @@
+file.readme: "Ligne Rouge workstation. Case file: Mouette. Type `mission` to see your objectives, `hint` if you are stuck."
+ada.outOfScope: "Stop. That target is outside mandate MO-2027-020. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE MO-2027-020\nClient: Mouette Crédit SA, a credit bureau. Scope: *.mouette.test, 10.80.0.0/24.\nPurpose: this morning, the device that inspects encrypted traffic finally got a new certificate, and at once it showed strange uploads from the dispute portal. Ligne Rouge finds how the intruder got in, what they may have taken, and what should have stopped them.\nSet-up agreed: Ligne Rouge reads the inventories, the security bulletins, the flow logs and the inspection device's configuration. Ligne Rouge touches no customer data.\nSigned: Mouette Crédit's head of security."
+adv.fennec: "A crafted Content-Type header makes the file upload parser run code."
+adv.jsonlien: "A deeply nested JSON document slows the server down badly."

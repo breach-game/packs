@@ -1,0 +1,8 @@
+APPLICATION INVENTORY - Mouette Credit (last review: 2026-11-02)
+
+application            owner team      language   on list dev-java
+espace-client          web-clients     java       yes
+scoring                data            python     no
+facturation            finance-it      java       yes
+api-banques            partenaires     go         no
+(the dispute portal "portail-litiges" is not listed)

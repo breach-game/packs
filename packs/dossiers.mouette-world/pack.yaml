@@ -1,0 +1,12 @@
+id: dossiers.mouette-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Mouette"
+  en: "Mouette"
+summary:
+  fr: "Mouette Crédit, bureau de crédit fictif qui garde l'historique financier de millions de personnes. Son portail de contestation en ligne n'apparaît dans aucun inventaire."
+  en: "Mouette Crédit, a fictional credit bureau holding the financial history of millions of people. Its online dispute portal appears in no inventory."
+authors: [BREACH team]
+locales: [fr, en]

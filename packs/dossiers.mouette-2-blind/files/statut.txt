@@ -1,0 +1,7 @@
+TLS INSPECTION APPLIANCE 7.2 - inspection.mouette.test - status page
+
+mode               inspect outbound HTTPS from the server zone
+certificate        inspection/inspect.pem
+state              BYPASS: certificate rejected, traffic passed without inspection
+since              (see the certificate)
+alerts sent        none (bypass does not raise an alert)

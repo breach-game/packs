@@ -1,0 +1,94 @@
+# Policy, then a decision on how to tell the people whose files were copied.
+side: defense
+order: 3
+stage: defense
+briefing: o3.briefing
+
+files:
+  dossier/politique.yml: { $file: files/politique.yml }
+
+objectives:
+  - { id: know, text: o3.obj.know }
+  - { id: watch, text: o3.obj.watch }
+  - { id: secrets, text: o3.obj.secrets }
+  - { id: tell, text: o3.obj.tell }
+
+questions:
+  - id: tell
+    text: o3.q.tell
+    objective: tell
+    options:
+      - { id: site, text: o3.q.tell.onsite, impact: 2 }
+      - { id: later, text: o3.q.tell.later, impact: 6 }
+      - { id: minimum, text: o3.q.tell.minimum, impact: 8 }
+
+checks:
+  - id: know
+    text: o3.check.know
+    if: { all: [{ file: "~/dossier/politique.yml", contains: "source: from-sbom" }, { file: "~/dossier/politique.yml", contains: "bulletins_to: owners" }, { file: "~/dossier/politique.yml", contains: "critical_deadline: 72h" }] }
+    objective: know
+  - id: watch
+    text: o3.check.watch
+    if: { all: [{ file: "~/dossier/politique.yml", contains: "cert_expiry_alert: 30d" }, { file: "~/dossier/politique.yml", contains: "bypass_mode: alert" }] }
+    objective: watch
+  - id: secrets
+    text: o3.check.secrets
+    if: { all: [{ file: "~/dossier/politique.yml", lacks: "db_credentials: files" }, { file: "~/dossier/politique.yml", contains: "db_credentials: vault" }] }
+    objective: secrets
+  - id: works
+    text: o3.check.works
+    if: { file: "~/dossier/politique.yml", contains: "schedule: nightly" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: know }
+    do:
+      - ada.say: o3.ada.know
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: know }, { objective: watch }, { objective: secrets }] } }
+    once: false
+    do:
+      - ada.say: o3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: know }, { objective: watch }, { objective: secrets }] }
+    do:
+      - ada.say: o3.ada.ready
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: site }
+    do:
+      - ada.say: o3.ada.onsite
+  - on: { event: Answered, question: tell, option: later }
+    do:
+      - ada.say: o3.ada.later
+  - on: { event: Answered, question: tell, option: minimum }
+    do:
+      - ada.say: o3.ada.minimum
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o3.ada.done
+
+guide:
+  know: o3.ada.g.know
+  watch: o3.ada.g.watch
+  secrets: o3.ada.g.secrets
+  tell: o3.ada.answer
+
+hints:
+  know: [o3.hint.know.1, o3.hint.know.2]
+  watch: [o3.hint.watch.1, o3.hint.watch.2]
+  secrets: [o3.hint.secrets.1]
+  tell: [o3.hint.tell.1]
+
+debrief:
+  title: o3.debrief.title
+  lesson: o3.debrief.lesson
+  points: [o3.debrief.p1, o3.debrief.p2, o3.debrief.p3, o3.debrief.p4]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"
+  facts:
+    title: o3.facts.title
+    points: [o3.facts.p1, o3.facts.p2, o3.facts.p3, o3.facts.p4, o3.facts.p5]
+    sources:
+      - { label: "US House Committee on Oversight, The Equifax Data Breach, majority staff report (December 2018)", url: "https://oversight.house.gov/wp-content/uploads/2018/12/Equifax-Report.pdf" }
+      - { label: "SecurityWeek, US House report blasts Equifax over poor security leading to massive 2017 breach", url: "https://www.securityweek.com/us-house-report-blasts-equifax-over-poor-security-leading-massive-2017-breach" }

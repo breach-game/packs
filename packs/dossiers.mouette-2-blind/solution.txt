@@ -1,0 +1,10 @@
+# Case file 20, mission 2: the shortest path, replayed by CI in every language.
+cat inspection/statut.txt
+openssl x509 -in inspection/inspect.pem -noout -dates
+answer since 2026-01-12
+contain rotate inspection-cert
+soc logs inspection flow
+echo "src: 10.80.0.21" >> regles/gros-envois.yml
+rule test regles/gros-envois.yml
+echo "bytes|gte: 1000000" >> regles/gros-envois.yml
+rule test regles/gros-envois.yml

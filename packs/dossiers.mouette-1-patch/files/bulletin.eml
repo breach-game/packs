@@ -1,0 +1,10 @@
+Return-Path: <securite@mouette.test>
+Received: from mail.mouette.test (mail.mouette.test [10.80.0.25]) by liste.mouette.test; Thu, 9 Mar 2027 16:04:11 +0100
+From: "Veille securite" <securite@mouette.test>
+To: dev-java@liste.mouette.test
+Date: Thu, 9 Mar 2027 16:02:40 +0100
+Subject: [CRITIQUE] fennec-web BRX-2027-0307 - corriger sous 48 h
+
+Une faille critique de fennec-web (2.3.31 a 2.5.10) est publiee avec son correctif (2.5.11).
+Tout responsable d'application qui utilise fennec-web doit l'appliquer sous 48 heures.
+Liste destinataire : dev-java (31 personnes).

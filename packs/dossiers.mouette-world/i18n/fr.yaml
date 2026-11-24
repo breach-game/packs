@@ -1,0 +1,7 @@
+file.readme: "Poste Ligne Rouge. Dossier : Mouette. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+ada.outOfScope: "Stop. Cette cible est hors du mandat MO-2027-020. Hors mandat, ce n'est plus un test : c'est un délit (article 323-1 du Code pénal). Reviens dans le périmètre."
+ada.noise70: "Tu fais beaucoup de bruit. Ralentis."
+ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte des points."
+file.mandate: "MANDAT MO-2027-020\nClient : Mouette Crédit SA, bureau de crédit. Périmètre : *.mouette.test, 10.80.0.0/24.\nObjet : ce matin, l'appareil qui inspecte le trafic chiffré a enfin reçu un certificat neuf, et il a aussitôt montré des envois étranges depuis le portail de contestation. Ligne Rouge retrouve par où l'intrus est entré, ce qu'il a pu emporter, et ce qui aurait dû l'arrêter.\nDispositif convenu : Ligne Rouge lit les inventaires, les bulletins de sécurité, les journaux de flux et la configuration de l'appareil d'inspection. Ligne Rouge ne touche à aucune donnée de client.\nSigné : la directrice de la sécurité de Mouette Crédit."
+adv.fennec: "Un en-tête Content-Type forgé fait exécuter du code par l'analyseur d'envoi de fichiers."
+adv.jsonlien: "Un document JSON très imbriqué ralentit fortement le serveur."

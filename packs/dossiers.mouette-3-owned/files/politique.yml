@@ -1,0 +1,23 @@
+# Mouette Credit - patching and monitoring policy - mandate MO-2027-020
+inventory:
+  # manual | from-sbom: how applications and their components are listed
+  source: manual
+  # mailing-list | owners: who receives a security bulletin
+  bulletins_to: mailing-list
+
+patching:
+  # none | 72h: deadline for a critical patch, checked by a scan of every application
+  critical_deadline: none
+
+monitoring:
+  # off | 30d: alert before a certificate expires
+  cert_expiry_alert: off
+  # silent | alert: what a control in bypass mode does
+  bypass_mode: silent
+
+secrets:
+  # files | vault: where application passwords to the databases are kept
+  db_credentials: files
+
+backups:
+  schedule: nightly
