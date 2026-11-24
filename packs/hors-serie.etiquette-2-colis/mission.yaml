@@ -1,0 +1,146 @@
+# The Sticker, mission 2: the parcel. An unordered parcel carries a card with a QR code that leads
+# to an app to install from outside the store. The app was downloaded on an isolated bench and is
+# read as data (`unzip`, `strings`): its manifest asks to read text messages and to drive the
+# screen through the accessibility service. Nothing runs, nothing is reusable: the "app" is a
+# description. The player names the collection address, blocks the domain at the town's
+# resolver, and says what to tell the employee.
+side: defense
+order: 2
+stage: defense
+startTime: "2029-10-09T10:40:00+02:00"
+briefing: e2.briefing
+reveal: [www, mx, dns]
+
+files:
+  colis/carte.txt: { $file: files/carte.txt }
+  colis/carte.png: { $qr: { text: "https://suivi-colis-express.example/app?ref=BV-7721", style: fancy } }
+  banc/notes-banc.txt: { $file: files/notes-banc.txt }
+  banc/SuiviColis.apk:
+    $archive:
+      format: zip
+      files:
+        AndroidManifest.xml: |
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest package="express.suivi.colis" versionName="1.3">
+            <uses-permission name="android.permission.INTERNET" />
+            <uses-permission name="android.permission.RECEIVE_SMS" />
+            <uses-permission name="android.permission.READ_SMS" />
+            <uses-permission name="android.permission.SYSTEM_ALERT_WINDOW" />
+            <uses-permission name="android.permission.REQUEST_INSTALL_PACKAGES" />
+            <application label="Suivi Colis Express">
+              <activity name=".TrackingActivity" />
+              <service name=".HelperService"
+                       permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+              <receiver name=".SmsReceiver" />
+            </application>
+          </manifest>
+        res/values/strings.xml: "<resources>\n  <string name=\"app_name\">Suivi Colis Express</string>\n  <string name=\"welcome\">Enable the helper so we can notify you on delivery.</string>\n</resources>\n"
+        classes.dex:
+          $binary:
+            format: data
+            strings:
+              - "dex 035"
+              - "Lexpress/suivi/colis/SmsReceiver;"
+              - "Lexpress/suivi/colis/HelperService;"
+              - "forward_sms_body"
+              - "draw_over_banking_apps"
+              - "auto_click_install"
+              - "https://collecte.suivi-colis-express.example/up"
+              - "Please enable the helper to continue"
+
+containment:
+  - id: dns
+    action: block
+    target: suivi-colis-express.example
+    text: e2.contain.dns
+    sets: { bv.colis_blocked: true }
+    impact: 0
+
+objectives:
+  - { id: read, text: e2.obj.read }
+  - { id: perms, text: e2.obj.perms }
+  - { id: server, text: e2.obj.server }
+  - { id: block, text: e2.obj.block }
+  - { id: advice, text: e2.obj.advice }
+
+investigation:
+  - { id: server, text: e2.q.server, value: "collecte.suivi-colis-express.example", points: 100, objective: server }
+
+questions:
+  - id: perms
+    text: e2.q.perms
+    objective: perms
+    correct: sms
+    options:
+      - { id: sms, text: e2.q.perms.sms }
+      - { id: track, text: e2.q.perms.track, why: e2.q.perms.track.why }
+      - { id: nothing, text: e2.q.perms.nothing, why: e2.q.perms.nothing.why }
+  - id: advice
+    text: e2.q.advice
+    objective: advice
+    correct: report
+    options:
+      - { id: report, text: e2.q.advice.report }
+      - { id: check, text: e2.q.advice.check, why: e2.q.advice.check.why }
+      - { id: bin, text: e2.q.advice.bin, why: e2.q.advice.bin.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e2.ada.brief
+  - on: { event: QrDecoded, text: { contains: suivi-colis-express } }
+    do:
+      - objective.complete: read
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: e2.ada.read
+  - on: { event: CommandRun, command: unzip, args: { contains: AndroidManifest } }
+    do:
+      - ada.say: e2.ada.manifest
+      - ada.ask: perms
+  - on: { event: ObjectiveCompleted, objective: perms }
+    do:
+      - ada.say: e2.ada.perms
+  - on: { event: ObjectiveCompleted, objective: server }
+    do:
+      - ada.say: e2.ada.server
+  - on: { event: Contained, containment: dns }
+    do:
+      - objective.complete: block
+      - ada.say: e2.ada.block
+      - ada.ask: advice
+  - on: { event: ObjectiveCompleted, objective: advice }
+    do:
+      - ada.say: e2.ada.advice
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e2.ada.done
+
+guide:
+  read: e2.ada.g.read
+  perms: e2.ada.g.perms
+  server: e2.ada.g.server
+  block: e2.ada.g.block
+  advice: e2.ada.answer
+
+hints:
+  read: [e2.hint.read.1]
+  perms: [e2.hint.perms.1, e2.hint.perms.2]
+  server: [e2.hint.server.1, e2.hint.server.2]
+  block: [e2.hint.block.1]
+  advice: [e2.hint.advice.1]
+
+debrief:
+  title: e2.debrief.title
+  lesson: e2.debrief.lesson
+  points: [e2.debrief.p1, e2.debrief.p2, e2.debrief.p3]
+  reference: "OWASP MASVS · MASVS-PLATFORM · MITRE ATT&CK Mobile T1636.004 SMS Messages"
+  facts:
+    title: e2.facts.title
+    points: [e2.facts.p1, e2.facts.p2]
+    sources:
+      - { label: "CBC News, what to know about quishing before you scan (July 2025)", url: "https://www.cbc.ca/lite/story/1.7587253" }
+      - { label: "NBC News, quishing scams and QR codes", url: "https://www.nbcnews.com/news/amp/rcna221345" }
+  home:
+    kind: travel
+    points: [e2.home.p1, e2.home.p2, e2.home.p3]

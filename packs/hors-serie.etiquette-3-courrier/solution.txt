@@ -1,0 +1,12 @@
+# The Sticker, mission 3: the shortest path, replayed by CI in every language.
+soc sources
+qr decode courrier/acces-messagerie.png
+mailhdr courrier/acces-messagerie.eml
+answer sender brumevaux-mairie.example
+answer image
+contain block brumevaux-mairie.example
+contain remove campagne-qr
+soc logs mx mail
+rule test regles/qr-courrier.yml
+echo "from|endswith: brumevaux-mairie.example" >> regles/qr-courrier.yml
+rule test regles/qr-courrier.yml

@@ -1,0 +1,115 @@
+# The Sticker, mission 1: the parking meter. Stickers pasted over three meters lead to a
+# look-alike payment domain. The player reads the photos with `qr decode` or `zbarimg` (never
+# opens the address), names the domain, says what proves it fake, counts the meters, and decides
+# what the town tells its residents. Inspired by the stickers found on parking meters in Wales
+# (2024), Canada (2025) and North Carolina (2025). The fake page is never built or shown.
+side: defense
+order: 1
+stage: defense
+briefing: e1.briefing
+reveal: [www, mx]
+
+files:
+  signalements.txt: { $file: files/signalements.txt }
+  photos/H03.png: { $qr: { text: "https://brumevaux-stationnement.example/payer?h=03", style: fancy } }
+  photos/H09.png: { $qr: { text: "https://www.brumevaux.test/stationnement" } }
+  photos/H12.png: { $qr: { text: "https://brumevaux-stationnement.example/payer?h=12", style: fancy } }
+  photos/H15.png: { $qr: { text: "https://brumevaux-stationnement.example/payer?h=15", style: fancy } }
+
+objectives:
+  - { id: read, text: e1.obj.read }
+  - { id: domain, text: e1.obj.domain }
+  - { id: proof, text: e1.obj.proof }
+  - { id: count, text: e1.obj.count }
+  - { id: tell, text: e1.obj.tell }
+
+investigation:
+  - { id: domain, text: e1.q.domain, value: "brumevaux-stationnement.example", points: 100, objective: domain }
+  - { id: count, text: e1.q.count, value: "3", points: 100, objective: count }
+
+questions:
+  - id: proof
+    text: e1.q.proof
+    objective: proof
+    correct: name
+    options:
+      - { id: name, text: e1.q.proof.name }
+      - { id: lock, text: e1.q.proof.lock, why: e1.q.proof.lock.why }
+      - { id: colour, text: e1.q.proof.colour, why: e1.q.proof.colour.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: tell
+    text: e1.q.tell
+    objective: tell
+    options:
+      - { id: plate, text: e1.q.tell.plate, impact: 1 }
+      - { id: quiet, text: e1.q.tell.quiet, impact: 4 }
+      - { id: nocode, text: e1.q.tell.nocode, impact: 2 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e1.ada.brief
+  - on: { event: FileRead, path: { contains: signalements } }
+    do:
+      - ada.guide: { key: e1.ada.reports, for: read, step: 1 }
+  - on: { event: QrDecoded, text: { contains: brumevaux-stationnement } }
+    do:
+      - objective.complete: read
+  - on: { event: QrDecoded, text: { contains: www.brumevaux.test } }
+    do:
+      - ada.say: e1.ada.blue
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: e1.ada.read
+  - on: { event: ObjectiveCompleted, objective: domain }
+    do:
+      - ada.say: e1.ada.domain
+      - ada.ask: proof
+  - on: { event: ObjectiveCompleted, objective: proof }
+    do:
+      - ada.say: e1.ada.proof
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: e1.ada.count
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: plate }
+    do:
+      - ada.say: e1.ada.tell.plate
+  - on: { event: Answered, question: tell, option: quiet }
+    do:
+      - ada.say: e1.ada.tell.quiet
+  - on: { event: Answered, question: tell, option: nocode }
+    do:
+      - ada.say: e1.ada.tell.nocode
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e1.ada.done
+
+guide:
+  read: e1.ada.g.read
+  domain: e1.ada.g.domain
+  proof: e1.ada.answer
+  count: e1.ada.g.count
+  tell: e1.ada.answer
+
+hints:
+  read: [e1.hint.read.1, e1.hint.read.2]
+  domain: [e1.hint.domain.1]
+  proof: [e1.hint.proof.1]
+  count: [e1.hint.count.1, e1.hint.count.2]
+
+debrief:
+  title: e1.debrief.title
+  lesson: e1.debrief.lesson
+  points: [e1.debrief.p1, e1.debrief.p2, e1.debrief.p3]
+  reference: "MITRE ATT&CK · T1566 Phishing · quishing"
+  facts:
+    title: e1.facts.title
+    points: [e1.facts.p1, e1.facts.p2, e1.facts.p3]
+    sources:
+      - { label: "The Scotsman, fake QR codes on parking machines (August 2024)", url: "https://www.scotsman.com/news/crime/fake-qr-code-warning-to-drivers-4733771" }
+      - { label: "CBC News, what to know about quishing before you scan (July 2025)", url: "https://www.cbc.ca/lite/story/1.7587253" }
+      - { label: "N.C. Department of Information Technology, quishing alert (February 2026)", url: "https://it.nc.gov/blog/2026/02/09/alert-raleigh-new-york-fancy-qr-codes-make-quishing-more-dangerous" }
+  home:
+    kind: travel
+    points: [e1.home.p1, e1.home.p2, e1.home.p3]

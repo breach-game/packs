@@ -1,0 +1,16 @@
+id: hors-serie.etiquette-2-colis
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.etiquette-world]
+title:
+  fr: "L'Étiquette · 2. Le colis"
+  en: "The Sticker · 2. The parcel"
+summary:
+  fr: "Un agent de la mairie reçoit un colis qu'il n'a pas commandé, avec une carte : « Scannez pour suivre votre colis ». Le code mène à une appli à installer. Tu la regardes sur le banc isolé sans jamais l'installer, tu lis ce qu'elle demande, tu bloques son domaine, et tu dis à l'agent quoi faire."
+  en: "A town hall employee receives a parcel they never ordered, with a card: \"Scan to track your parcel\". The code leads to an app to install. You look at it on the isolated bench without ever installing it, read what it asks for, block its domain, and tell the employee what to do."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, mobile]
+minutes: 12

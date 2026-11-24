@@ -1,0 +1,15 @@
+id: hors-serie.etiquette
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: series
+requires: [hors-serie.etiquette-world]
+title:
+  fr: "Hors-série : L'Étiquette"
+  en: "Side series: The Sticker"
+summary:
+  fr: "Un autocollant sur un horodateur, un colis que personne n'a commandé, un mail dont le seul lien est une image, et les affiches de la ville qui mènent à un domaine qu'elle a perdu. Côté défense : tu lis chaque QR code sans jamais l'ouvrir, tu bloques, tu détectes, et tu écris les règles des QR codes de la ville."
+  en: "A sticker on a parking meter, a parcel nobody ordered, a mail whose only link is a picture, and the town's posters leading to a domain it lost. On the defence side: you read each QR code without ever opening it, block, detect, and write the town's rules for QR codes."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, mobile]

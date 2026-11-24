@@ -1,0 +1,14 @@
+# The Sticker, mission 4: the shortest path, replayed by CI in every language.
+cat message-habitante.txt
+qr decode affiches/A3.png
+whois vallon-liens.example
+answer owner
+cat com/inventaire.csv
+zbarimg affiches/A1.png affiches/A2.png affiches/A3.png affiches/A4.png affiches/A5.png
+answer copies 830
+sed -i 's/link_domain: any/link_domain: www.brumevaux.test/' com/charte-qr.conf
+sed -i 's/shortener: allowed/shortener: forbidden/' com/charte-qr.conf
+sed -i 's/print_url_under_code: no/print_url_under_code: yes/' com/charte-qr.conf
+sed -i 's/domain_renewal: manual/domain_renewal: auto/' com/charte-qr.conf
+verify
+answer cover

@@ -1,0 +1,134 @@
+# The Sticker, mission 4: our own QR codes. The town printed posters whose codes go through a
+# third-party link shortener. The service closed, its domain expired and was registered again by
+# someone else, so the town's own posters now lead wherever the new holder wants. The player reads
+# the posters (never opens the addresses), looks up the domain with `whois`, counts the copies
+# concerned, fixes the town's QR code charter (judged by `verify`) and decides what to do with
+# the posters. Defence only: the new holder's page is never opened or shown.
+side: defense
+order: 4
+stage: defense
+briefing: e4.briefing
+reveal: [www]
+
+files:
+  message-habitante.txt: { $file: files/message-habitante.txt }
+  com/inventaire.csv: { $file: files/inventaire.csv }
+  com/charte-qr.conf: { $file: files/charte-qr.conf }
+  affiches/A1.png: { $qr: { text: "https://go.vallon-liens.example/fete-2028", style: fancy } }
+  affiches/A2.png: { $qr: { text: "https://www.brumevaux.test/piscine" } }
+  affiches/A3.png: { $qr: { text: "https://go.vallon-liens.example/mediatheque", style: fancy } }
+  affiches/A4.png: { $qr: { text: "https://www.brumevaux.test/agenda" } }
+  affiches/A5.png: { $qr: { text: "https://go.vallon-liens.example/rdv-decheterie", style: fancy } }
+
+objectives:
+  - { id: read, text: e4.obj.read }
+  - { id: owner, text: e4.obj.owner }
+  - { id: why, text: e4.obj.why }
+  - { id: copies, text: e4.obj.copies }
+  - { id: charter, text: e4.obj.charter }
+  - { id: fix, text: e4.obj.fix }
+
+investigation:
+  - { id: copies, text: e4.q.copies, value: "830", points: 100, objective: copies }
+
+checks:
+  - id: domain
+    text: e4.check.domain
+    if: { file: "~/com/charte-qr.conf", contains: "\nlink_domain: www.brumevaux.test" }
+    objective: charter
+  - id: shortener
+    text: e4.check.shortener
+    if: { file: "~/com/charte-qr.conf", contains: "\nshortener: forbidden" }
+    objective: charter
+  - id: url
+    text: e4.check.url
+    if: { file: "~/com/charte-qr.conf", contains: "\nprint_url_under_code: yes" }
+    objective: charter
+  - id: renewal
+    text: e4.check.renewal
+    if: { file: "~/com/charte-qr.conf", contains: "\ndomain_renewal: auto" }
+    objective: charter
+
+questions:
+  - id: why
+    text: e4.q.why
+    objective: why
+    correct: owner
+    options:
+      - { id: owner, text: e4.q.why.owner }
+      - { id: cipher, text: e4.q.why.cipher, why: e4.q.why.cipher.why }
+      - { id: age, text: e4.q.why.age, why: e4.q.why.age.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: fix
+    text: e4.q.fix
+    objective: fix
+    options:
+      - { id: cover, text: e4.q.fix.cover, impact: 1 }
+      - { id: reprint, text: e4.q.fix.reprint, impact: 3 }
+      - { id: remove, text: e4.q.fix.remove, impact: 2 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e4.ada.brief
+  - on: { event: FileRead, path: { contains: message-habitante } }
+    do:
+      - ada.guide: { key: e4.ada.message, for: read, step: 1 }
+  - on: { event: QrDecoded, text: { contains: vallon-liens } }
+    do:
+      - objective.complete: read
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: e4.ada.read
+  - on: { event: WhoisQuery, domain: { contains: vallon-liens } }
+    do:
+      - objective.complete: owner
+  - on: { event: ObjectiveCompleted, objective: owner }
+    do:
+      - ada.say: e4.ada.owner
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: e4.ada.why
+  - on: { event: ObjectiveCompleted, objective: copies }
+    do:
+      - ada.say: e4.ada.copies
+  - on: { event: ObjectiveCompleted, objective: charter }
+    do:
+      - ada.say: e4.ada.charter
+      - ada.ask: fix
+  - on: { event: Answered, question: fix, option: cover }
+    do:
+      - ada.say: e4.ada.fix.cover
+  - on: { event: Answered, question: fix, option: reprint }
+    do:
+      - ada.say: e4.ada.fix.reprint
+  - on: { event: Answered, question: fix, option: remove }
+    do:
+      - ada.say: e4.ada.fix.remove
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e4.ada.done
+
+guide:
+  read: e4.ada.g.read
+  owner: e4.ada.g.owner
+  why: e4.ada.answer
+  copies: e4.ada.g.copies
+  charter: e4.ada.g.charter
+  fix: e4.ada.answer
+
+hints:
+  read: [e4.hint.read.1, e4.hint.read.2]
+  owner: [e4.hint.owner.1]
+  why: [e4.hint.why.1]
+  copies: [e4.hint.copies.1, e4.hint.copies.2]
+  charter: [e4.hint.charter.1, e4.hint.charter.2]
+
+debrief:
+  title: e4.debrief.title
+  lesson: e4.debrief.lesson
+  points: [e4.debrief.p1, e4.debrief.p2, e4.debrief.p3]
+  reference: "MITRE ATT&CK · T1583.001 Acquire Infrastructure: Domains"
+  home:
+    points: [e4.home.p1, e4.home.p2, e4.home.p3]

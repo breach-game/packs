@@ -1,0 +1,10 @@
+# The Sticker, mission 2: the shortest path, replayed by CI in every language.
+cat colis/carte.txt
+qr decode colis/carte.png
+unzip -l banc/SuiviColis.apk
+unzip -p banc/SuiviColis.apk AndroidManifest.xml
+answer sms
+unzip -p banc/SuiviColis.apk classes.dex | strings
+answer server collecte.suivi-colis-express.example
+contain block suivi-colis-express.example
+answer report
