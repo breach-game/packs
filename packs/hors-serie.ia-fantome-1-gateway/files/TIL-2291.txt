@@ -1,0 +1,6 @@
+TICKET TIL-2291
+Ouvert le : 2027-08-02, par l'equipe recrutement
+Demande : pouvoir deposer les CV (PDF) dans l'assistant interne pour en tirer un resume.
+Motif : 300 a 400 CV par semaine, deux personnes en conge.
+Statut : en attente (pieces jointes prevues "plus tard")
+Derniere relance : 2027-11-29, "on fait comment en attendant ?"

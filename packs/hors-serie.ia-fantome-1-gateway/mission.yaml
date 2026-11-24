@@ -1,0 +1,61 @@
+# Shadow AI 1: the gateway log shows CVs posted to an outside AI service. Investigation only, read
+# from the gateway with the analyst's text tools; the outside services are never contacted.
+side: defense
+order: 1
+stage: investigation
+briefing: f1.briefing
+reveal: [passerelle, assistant]
+
+files:
+  tickets/TIL-2291.txt: { $file: files/TIL-2291.txt }
+
+objectives:
+  - { id: service, text: f1.obj.service }
+  - { id: accounts, text: f1.obj.accounts }
+  - { id: why, text: f1.obj.why }
+
+investigation:
+  - { id: service, text: f1.q.service, value: "resume-cv.example", points: 100, objective: service }
+  - { id: accounts, text: f1.q.accounts, value: "6", points: 100, objective: accounts }
+
+questions:
+  - id: why
+    text: f1.q.why
+    objective: why
+    correct: need
+    options:
+      - { id: need, text: f1.q.why.need }
+      - { id: careless, text: f1.q.why.careless, why: f1.q.why.careless.why }
+      - { id: hidden, text: f1.q.why.hidden, why: f1.q.why.hidden.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: f1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: service }
+    do:
+      - ada.say: f1.ada.service
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: service }, { objective: accounts }] }
+    do:
+      - ada.say: f1.ada.accounts
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: f1.ada.done
+
+guide:
+  service: f1.ada.g.service
+  accounts: f1.ada.g.accounts
+  why: f1.ada.g.why
+
+hints:
+  service: [f1.hint.service.1, f1.hint.service.2]
+  accounts: [f1.hint.accounts.1, f1.hint.accounts.2]
+  why: [f1.hint.why.1]
+
+debrief:
+  title: f1.debrief.title
+  lesson: f1.debrief.lesson
+  points: [f1.debrief.p1, f1.debrief.p2, f1.debrief.p3]
+  reference: "NIST AI RMF · GOVERN 1.6 (inventaire des usages d'IA)"

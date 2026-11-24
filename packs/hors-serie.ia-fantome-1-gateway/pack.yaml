@@ -1,0 +1,16 @@
+id: hors-serie.ia-fantome-1-gateway
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.ia-fantome-world]
+title:
+  fr: "IA fantôme · 1. Ce que voit la passerelle"
+  en: "Shadow AI · 1. What the gateway sees"
+summary:
+  fr: "Personne n'a déclaré utiliser une IA extérieure. La passerelle web, elle, a tout noté. Avec `grep`, `cut`, `sort`, `uniq` et `wc`, tu retrouves où partent les CV et combien de comptes les envoient, puis pourquoi."
+  en: "Nobody declared using an outside AI. The web gateway wrote it all down. With `grep`, `cut`, `sort`, `uniq` and `wc`, you find where the CVs go and how many accounts send them, then why."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [llm, logs, privacy]
+minutes: 12

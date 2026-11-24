@@ -1,0 +1,9 @@
+# Side series "IA fantôme", mission 1: the shortest path, replayed by CI in every language.
+ssh ir@passerelle.tilia.test
+grep cat=ia-generative /var/log/passerelle/acces.log | grep method=POST | cut -d " " -f 4 | sort | uniq -c | sort -rn
+answer service resume-cv.example
+grep dst=resume-cv.example /var/log/passerelle/acces.log | grep method=POST | cut -d " " -f 3 | sort | uniq | wc -l
+answer accounts 6
+exit
+cat tickets/TIL-2291.txt
+answer need

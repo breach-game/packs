@@ -1,0 +1,12 @@
+id: hors-serie.ia-fantome-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Agence Tilia"
+  en: "Tilia Agency"
+summary:
+  fr: "Tilia, agence fictive de recrutement. Ses équipes reçoivent des centaines de CV par semaine, et l'outil d'IA maison ne sait pas les lire. Alors chacun s'est trouvé le sien."
+  en: "Tilia, a fictional recruiting agency. Its teams receive hundreds of CVs a week, and the in-house AI tool cannot read them. So everyone found their own."
+authors: [BREACH team]
+locales: [fr, en]
