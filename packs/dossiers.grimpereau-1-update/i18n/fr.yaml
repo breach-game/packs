@@ -18,6 +18,7 @@ g1.ada.version: "Build 2027.2.0.4411, installé le 24 novembre : dans la liste. 
 g1.ada.g.rule: "Regarde les requêtes du résolveur : `soc logs dns dns`. Puis `echo \"name|endswith: .nuage-vigie.example\" >> regles/balise-vigie.yml` et `rule test regles/balise-vigie.yml`."
 g1.ada.g.rule.standard: "Écris une règle qui voit chaque requête vers le domaine des balises, et aucune requête ordinaire, même celles de Vigie vers le vrai serveur de mises à jour. Le nom demandé est le champ `name`."
 g1.ada.again: "Ta règle rate des balises ou alerte sur une requête ordinaire. Vise la fin du nom demandé, pas l'adresse du serveur : Vigie fait aussi des requêtes normales."
+g1.ada.rule.after: "Elle voit chaque balise et laisse passer le reste. Le serveur est déjà isolé : celle-là est la dernière à être sortie."
 g1.ada.rule: "Elle voit chaque balise et laisse passer le reste. D'après l'avis, les réponses lui disent sans doute de rester tranquille. Il est temps de couper."
 g1.ada.g.isolate: "`contain isolate supervision`. La supervision s'arrête quelques jours : c'est le prix."
 g1.ada.g.isolate.standard: "Coupe le serveur Vigie du réseau."

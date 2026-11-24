@@ -79,8 +79,13 @@ rules:
     do:
       - ada.guide: { key: g1.ada.again, for: rule, step: 1 }
   - on: { event: ObjectiveCompleted, objective: rule }
+    if: { not: { config: gr.isolated, eq: true } }
     do:
       - ada.say: g1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: rule }
+    if: { config: gr.isolated, eq: true }
+    do:
+      - ada.say: g1.ada.rule.after
   - on: { event: Contained, containment: isolate }
     do:
       - objective.complete: isolate

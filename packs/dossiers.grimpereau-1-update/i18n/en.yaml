@@ -18,6 +18,7 @@ g1.ada.version: "Build 2027.2.0.4411, installed on 24 November: on the list. Its
 g1.ada.g.rule: "Look at the resolver's queries: `soc logs dns dns`. Then `echo \"name|endswith: .nuage-vigie.example\" >> regles/balise-vigie.yml` and `rule test regles/balise-vigie.yml`."
 g1.ada.g.rule.standard: "Write a rule that sees every query to the beacon domain and no ordinary query, not even Vigie's own queries to the real update server. The queried name is the `name` field."
 g1.ada.again: "Your rule misses beacons or fires on an ordinary query. Aim at the end of the queried name, not the server's address: Vigie makes normal queries too."
+g1.ada.rule.after: "It sees every beacon and lets the rest through. The server is already isolated: that one was the last to get out."
 g1.ada.rule: "It sees every beacon and lets the rest through. According to the advisory, the answers most likely tell it to stay quiet. Time to cut it off."
 g1.ada.g.isolate: "`contain isolate supervision`. Monitoring stops for a few days: that is the price."
 g1.ada.g.isolate.standard: "Cut the Vigie server off the network."

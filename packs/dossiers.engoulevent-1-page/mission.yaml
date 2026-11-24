@@ -42,7 +42,7 @@ containment:
     removes: [{ host: navette, path: /srv/navette/www/aide2.php }]
     writes:
       - host: navette
-        path: /srv/navette/quarantine/aide2.php.txt
+        path: /srv/navette/aide2.php.quarantine.txt
         content: "# aide2.php - moved out of www/ on 2027-06-03, kept for the investigation.\n# Not in the Navette 2027.0.2 manifest.\n# Only answers requests that carry the X-Navette-Jeton header with the right value;\n# otherwise returns an ordinary error page.\n# Lets its user list folders, send files and create accounts.\n"
     impact: 0
   - id: account

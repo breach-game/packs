@@ -13,6 +13,7 @@ files:
   traces/note-operateur.txt: { $file: files/note-operateur.txt }
   traces/teleposte-sessions.log: { $file: files/teleposte-sessions.log }
   regles/consigne-distance.yml: |
+    # fields of source audit: user (printed uid=), exe, cmd (printed cmdline=)
     title: A setpoint changed through the remote access account
     source: audit
 
@@ -75,8 +76,13 @@ rules:
     do:
       - ada.say: m1.ada.source
   - on: { event: AdversaryStep, step: r2 }
+    if: { config: eb.remote_off, eq: false }
     do:
       - ada.say: m1.ada.again.live
+  - on: { event: AdversaryStep, step: r2 }
+    if: { config: eb.remote_off, eq: true }
+    do:
+      - ada.say: m1.ada.again.cut
   - on: { event: RuleTested, passed: false }
     once: false
     do:
