@@ -1,0 +1,108 @@
+# Case file 40, mission 1: the warning. Support tickets show a certificate warning for some
+# customers only. Probe records show the same question to the same name server address getting
+# two different answers; the route collector shows a more specific announcement of the name
+# server's addresses from a new origin. The player names the fake address, names the origin,
+# says why networks followed it, reads the fake site's certificate (self-signed), and decides
+# what to tell customers (a decision: no option is wrong). Nothing is announced or attacked.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [site, ns1, statut]
+
+files:
+  support/signalements.txt: { $file: files/signalements.txt }
+  dns/reponses.csv: { $file: files/reponses.csv }
+  routes/annonces.csv: { $file: files/annonces.csv }
+  preuves/site-vrai.pem:
+    $cert: { subject: "CN=portefeuille.nacre.test, O=Nacre", issuer: "CN=Autorite Exemple RSA CA, O=Autorite Exemple", serial: "0B:44:1E:90:27", notBefore: "2029-03-01T00:00:00Z", notAfter: "2030-03-01T00:00:00Z", san: [portefeuille.nacre.test, nacre.test] }
+  preuves/site-vu.pem:
+    $cert: { subject: "CN=portefeuille.nacre.test", issuer: "CN=portefeuille.nacre.test", serial: "01", notBefore: "2029-06-12T00:00:00Z", notAfter: "2030-06-12T00:00:00Z", san: [portefeuille.nacre.test] }
+
+objectives:
+  - { id: fake, text: c1.obj.fake }
+  - { id: origin, text: c1.obj.origin }
+  - { id: why, text: c1.obj.why }
+  - { id: cert, text: c1.obj.cert }
+  - { id: notice, text: c1.obj.notice }
+
+investigation:
+  - { id: fake, text: c1.q.fake, value: "203.0.113.44", points: 100, objective: fake }
+  - { id: origin, text: c1.q.origin, value: "64510", points: 100, objective: origin }
+
+questions:
+  - id: why
+    text: c1.q.why
+    objective: why
+    correct: specific
+    options:
+      - { id: specific, text: c1.q.why.specific }
+      - { id: hacked, text: c1.q.why.hacked, why: c1.q.why.hacked.why }
+      - { id: registrar, text: c1.q.why.registrar, why: c1.q.why.registrar.why }
+  - id: cert
+    text: c1.q.cert
+    objective: cert
+    correct: self
+    options:
+      - { id: self, text: c1.q.cert.self }
+      - { id: expired, text: c1.q.cert.expired, why: c1.q.cert.expired.why }
+      - { id: other, text: c1.q.cert.other, why: c1.q.cert.other.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: notice
+    text: c1.q.notice
+    objective: notice
+    options:
+      - { id: warn, text: c1.q.notice.warn, impact: 1 }
+      - { id: pause, text: c1.q.notice.pause, impact: 3 }
+      - { id: wait, text: c1.q.notice.wait, impact: 5 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: fake }
+    do:
+      - ada.say: c1.ada.fake
+  - on: { event: ObjectiveCompleted, objective: origin }
+    do:
+      - ada.say: c1.ada.origin
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: c1.ada.why
+      - ada.ask: cert
+  - on: { event: ObjectiveCompleted, objective: cert }
+    do:
+      - ada.say: c1.ada.cert
+      - ada.ask: notice
+  - on: { event: Answered, question: notice, option: warn }
+    do:
+      - ada.say: c1.ada.notice.warn
+  - on: { event: Answered, question: notice, option: pause }
+    do:
+      - ada.say: c1.ada.notice.pause
+  - on: { event: Answered, question: notice, option: wait }
+    do:
+      - ada.say: c1.ada.notice.wait
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  fake: c1.ada.g.fake
+  origin: c1.ada.g.origin
+  why: c1.ada.g.why
+  cert: c1.ada.g.cert
+  notice: c1.ada.g.notice
+
+hints:
+  fake: [c1.hint.fake.1, c1.hint.fake.2]
+  origin: [c1.hint.origin.1, c1.hint.origin.2]
+  why: [c1.hint.why.1]
+  cert: [c1.hint.cert.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "MANRS · Mutually Agreed Norms for Routing Security"

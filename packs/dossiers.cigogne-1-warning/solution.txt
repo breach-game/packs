@@ -1,0 +1,11 @@
+# Case file 40, mission 1: the shortest path, replayed by CI in every language.
+cat support/signalements.txt
+cat dns/reponses.csv
+answer fake 203.0.113.44
+cat routes/annonces.csv
+answer origin 64510
+answer specific
+openssl x509 -noout -subject -issuer -in preuves/site-vu.pem
+openssl x509 -noout -subject -issuer -in preuves/site-vrai.pem
+answer self
+answer warn

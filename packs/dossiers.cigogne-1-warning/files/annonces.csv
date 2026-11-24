@@ -1,0 +1,5 @@
+first_seen,prefix,origin_as,seen_by_collectors,note
+2026-02-03 09:00,10.110.0.0/23,AS64500,41 of 41,name operator of Nacre - usual announcement
+2029-06-12 13:10,10.110.0.0/24,AS64510,26 of 41,new origin - never seen for this prefix
+2027-11-19 16:30,10.110.4.0/22,AS64500,41 of 41,name operator of Nacre - usual announcement
+2028-04-02 08:15,10.110.8.0/22,AS64502,41 of 41,another customer of the same collector

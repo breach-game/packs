@@ -1,0 +1,8 @@
+NACRE - support, 12 June 2029 (times in local time)
+
+13:18  ticket 8841  "My browser says the connection is not private. Is that normal?"
+13:21  ticket 8842  "Certificate warning on the wallet page. I closed the tab."
+13:24  ticket 8845  "Everything works fine for me." (same city, another Internet provider)
+13:27  ticket 8849  "Warning page. I clicked 'continue anyway' and signed in. The page looks odd."
+13:31  ticket 8853  "Not private warning. Three colleagues have it, two do not."
+13:36  on-call note  Site checked from the office: normal, usual certificate. Nothing deployed today.

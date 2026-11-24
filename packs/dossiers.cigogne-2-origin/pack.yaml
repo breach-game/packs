@@ -1,0 +1,16 @@
+id: dossiers.cigogne-2-origin
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.cigogne-world]
+title:
+  fr: "Dossier 40 · 2. L'origine"
+  en: "Case file 40 · 2. The origin"
+summary:
+  fr: "Le lendemain. Tu mesures combien de temps la fausse route a tenu, tu comptes les réseaux qui l'ont refusée, tu écris le plan de Nacre pour ses routes, ses noms et son site, tu dis ce qui protège encore un client quand tout le reste a cédé, puis tu remets l'après-midi dans l'ordre."
+  en: "The next day. You measure how long the false route lasted, count the networks that refused it, write Nacre's plan for its routes, names and site, say what still protects a customer when everything else has given way, then put the afternoon in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [defense, crypto, logs]
+minutes: 14

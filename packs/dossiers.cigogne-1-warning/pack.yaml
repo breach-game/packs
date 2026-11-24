@@ -1,0 +1,16 @@
+id: dossiers.cigogne-1-warning
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [dossiers.cigogne-world]
+title:
+  fr: "Dossier 40 · 1. L'avertissement"
+  en: "Case file 40 · 1. The warning"
+summary:
+  fr: "Des clients de Nacre voient un avertissement de certificat, d'autres non. Le site n'a pas changé. Tu compares les réponses des serveurs de noms vues de plusieurs endroits, tu trouves l'annonce de route qui n'aurait pas dû exister, tu lis le certificat du faux site, et tu décides quoi dire pendant que la route est encore fausse."
+  en: "Some Nacre customers see a certificate warning, others do not. The site has not changed. You compare name server answers seen from several places, find the route announcement that should not exist, read the fake site's certificate, and decide what to say while the route is still wrong."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [defense, crypto, logs]
+minutes: 14

@@ -1,0 +1,4 @@
+# Case file series, in playing order: the warning, then the plan.
+missions:
+  - dossiers.cigogne-1-warning
+  - dossiers.cigogne-2-origin

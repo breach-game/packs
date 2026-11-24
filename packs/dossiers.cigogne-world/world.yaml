@@ -1,0 +1,60 @@
+# Case file 40 "Cigogne". Inspired by the April 2018 route hijack against the name servers of a
+# cryptocurrency wallet site: a network announced more specific routes for the name servers'
+# addresses, rogue servers answered for one site only, and visitors met a self-signed certificate.
+# Defence only: no route is announced, no name server is touched. The player reads exported
+# files (name answers seen by probes, route announcements seen by a collector, two certificates),
+# takes decisions and writes a plan. Autonomous system numbers come from the documentation range.
+startTime: "2029-06-12T13:40:00+02:00"
+mandate: NC-2029-027
+scope:
+  domains: ["*.nacre.test"]
+  networks: ["10.110.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.110.0.53
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.110.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [site, ns1, statut]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            NC-2029-027.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: site, hostname: portefeuille.nacre.test, ip: 10.110.0.20, os: Linux, map: { x: 160, z: -40, h: 130 }, services: [{ port: 443, name: https, product: Wallet site }] }
+  - { id: ns1, hostname: ns1.nacre.test, ip: 10.110.0.53, os: Linux, map: { x: -20, z: -140, h: 100 }, services: [{ port: 53, name: domain, product: Authoritative name server }] }
+  - { id: statut, hostname: statut.nacre.test, ip: 10.110.0.30, os: Linux, map: { x: 60, z: 140, h: 80 }, services: [{ port: 443, name: https, product: Status page }] }
+
+dns:
+  nacre.test: { A: ["10.110.0.20"] }
+  portefeuille.nacre.test: { A: ["10.110.0.20"] }
+  ns1.nacre.test: { A: ["10.110.0.53"] }
+  statut.nacre.test: { A: ["10.110.0.30"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
