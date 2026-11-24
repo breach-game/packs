@@ -1,0 +1,12 @@
+id: hors-serie.sosie-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Cabinet Sarcelle"
+  en: "Cabinet Sarcelle"
+summary:
+  fr: "Cabinet Sarcelle, petit cabinet d'expertise comptable fictif. Ses clients règlent leurs factures par virement, et quelqu'un vient d'enregistrer un nom de domaine qui lui ressemble beaucoup."
+  en: "Cabinet Sarcelle, a small fictional accounting firm. Its clients pay their invoices by transfer, and someone has just registered a domain name that looks a lot like its own."
+authors: [BREACH team]
+locales: [fr, en]

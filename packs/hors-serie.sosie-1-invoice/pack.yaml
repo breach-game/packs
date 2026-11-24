@@ -1,0 +1,16 @@
+id: hors-serie.sosie-1-invoice
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.sosie-world]
+title:
+  fr: "Le Domaine sosie · 1. La facture qui change de banque"
+  en: "The look-alike domain · 1. The invoice that changes bank"
+summary:
+  fr: "Une facture du cabinet, avec un nouvel IBAN. Toutes les vérifications du courriel passent. Tu lis les en-têtes, tu interroges le whois du domaine, et tu comprends pourquoi « authentifié » ne veut pas dire « à nous »."
+  en: "An invoice from the firm, with a new IBAN. Every email check passes. You read the headers, query the domain's whois, and understand why \"authenticated\" does not mean \"ours\"."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, recon, defense]
+minutes: 8

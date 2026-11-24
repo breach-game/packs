@@ -1,0 +1,19 @@
+Return-Path: <factures@sarcelle-compta.test>
+Received: from mail.client-boulangerie.test (mail.client-boulangerie.test [10.84.0.140]) by boite.client-boulangerie.test; Thu, 30 Sep 2027 15:22:41 +0200
+Received: from mx.sarcelle-compta.test (mx.sarcelle-compta.test [203.0.113.70])
+  by mail.client-boulangerie.test with ESMTPS id 71a; Thu, 30 Sep 2027 15:22:39 +0200
+Authentication-Results: mail.client-boulangerie.test; spf=pass smtp.mailfrom=sarcelle-compta.test;
+  dkim=pass header.d=sarcelle-compta.test; dmarc=pass header.from=sarcelle-compta.test
+From: "Cabinet Sarcelle - Facturation" <factures@sarcelle-compta.test>
+To: contact@client-boulangerie.test
+Date: Thu, 30 Sep 2027 15:22:30 +0200
+Subject: Facture 2027-0931 - changement de coordonnees bancaires
+
+Bonjour,
+
+Veuillez trouver ci-joint votre facture d'honoraires du troisieme trimestre.
+Suite a un changement de banque, merci de regler desormais sur le compte suivant :
+IBAN : XX00 0000 0000 0000 0000 0000 000 (fictif)
+
+Cordialement,
+Le service facturation - Cabinet Sarcelle

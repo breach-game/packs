@@ -1,0 +1,8 @@
+; Zone of sarcelle.test, as served by the firm's DNS host.
+$ORIGIN sarcelle.test.
+$TTL 3600
+@        IN MX   10 mail.sarcelle.test.
+@        IN TXT  "v=spf1 mx include:spf.lettres-pro.example ~all"
+_dmarc   IN TXT  "v=DMARC1; p=none; rua=mailto:dmarc@sarcelle.test"
+mail     IN A    10.84.0.25
+www      IN A    10.84.0.10

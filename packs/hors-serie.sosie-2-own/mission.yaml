@@ -1,0 +1,78 @@
+# The firm's own domain, spoofed: SPF only soft-fails and DMARC only watches. Harden both, keep the newsletter.
+side: defense
+order: 2
+stage: defense
+briefing: s2.briefing
+reveal: [mail]
+
+files:
+  clients/relance.eml: { $file: files/relance.eml }
+  dns/sarcelle.zone: { $file: files/sarcelle.zone }
+  dns/rapports-dmarc.txt: { $file: files/rapports-dmarc.txt }
+
+objectives:
+  - { id: policy, text: s2.obj.policy }
+  - { id: before, text: s2.obj.before }
+  - { id: spf, text: s2.obj.spf }
+  - { id: dmarc, text: s2.obj.dmarc }
+
+investigation:
+  - { id: policy, text: s2.q.policy, value: "none", points: 75, objective: policy }
+
+questions:
+  - id: before
+    text: s2.q.before
+    objective: before
+    correct: reports
+    options:
+      - { id: reports, text: s2.q.before.reports }
+      - { id: clients, text: s2.q.before.clients, why: s2.q.before.clients.why }
+      - { id: age, text: s2.q.before.age, why: s2.q.before.age.why }
+
+checks:
+  - id: spf
+    text: s2.check.spf
+    if: { all: [{ file: "~/dns/sarcelle.zone", contains: "v=spf1 mx include:spf.lettres-pro.example -all" }, { file: "~/dns/sarcelle.zone", lacks: "~all" }] }
+    objective: spf
+  - id: dmarc
+    text: s2.check.dmarc
+    if: { all: [{ file: "~/dns/sarcelle.zone", contains: "p=reject" }, { file: "~/dns/sarcelle.zone", lacks: "p=none" }] }
+    objective: dmarc
+  - id: works
+    text: s2.check.works
+    if: { all: [{ file: "~/dns/sarcelle.zone", contains: "include:spf.lettres-pro.example" }, { file: "~/dns/sarcelle.zone", contains: "MX   10 mail.sarcelle.test." }, { file: "~/dns/sarcelle.zone", contains: "rua=mailto:dmarc@sarcelle.test" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: policy }
+    do:
+      - ada.say: s2.ada.policy
+      - ada.ask: before
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: spf }, { objective: dmarc }] } }
+    once: false
+    do:
+      - ada.say: s2.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s2.ada.done
+
+guide:
+  policy: s2.ada.g.policy
+  before: s2.ada.answer
+  spf: s2.ada.g.spf
+  dmarc: s2.ada.g.dmarc
+
+hints:
+  policy: [s2.hint.policy.1, s2.hint.policy.2]
+  before: [s2.hint.before.1]
+  spf: [s2.hint.spf.1, s2.hint.spf.2]
+  dmarc: [s2.hint.dmarc.1]
+
+debrief:
+  title: s2.debrief.title
+  lesson: s2.debrief.lesson
+  points: [s2.debrief.p1, s2.debrief.p2, s2.debrief.p3]
+  reference: "Business email compromise · SPF, DKIM, DMARC"

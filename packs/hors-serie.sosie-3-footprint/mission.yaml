@@ -1,0 +1,98 @@
+# Defensive footprint: what a company publishes about itself is the fraudster's first source.
+side: defense
+order: 3
+stage: defense
+briefing: s3.briefing
+reveal: [www]
+
+files:
+  site/plaquette.pdf:
+    $binary:
+      format: data
+      strings:
+        - "%PDF-1.7"
+        - "/Title (Cabinet Sarcelle - plaquette 2027)"
+        - "/Author (Aline Morel - paiements fournisseurs)"
+        - "/Producer (PayFlux 4.2 export)"
+        - "%%EOF"
+  site/recrutement.md: { $file: files/recrutement.md }
+  site/equipe.md: { $file: files/equipe.md }
+
+objectives:
+  - { id: tool, text: s3.obj.tool }
+  - { id: jobs, text: s3.obj.jobs }
+  - { id: team, text: s3.obj.team }
+  - { id: clients, text: s3.obj.clients }
+
+investigation:
+  - { id: tool, text: s3.q.tool, value: "PayFlux", points: 75, objective: tool }
+
+questions:
+  - id: clients
+    text: s3.q.clients
+    objective: clients
+    options:
+      - { id: all, text: s3.q.clients.all, impact: 1 }
+      - { id: two, text: s3.q.clients.two, impact: 4 }
+      - { id: none, text: s3.q.clients.none, impact: 6 }
+
+checks:
+  - id: jobs
+    text: s3.check.jobs
+    if: { all: [{ file: "~/site/recrutement.md", lacks: "PayFlux" }, { file: "~/site/recrutement.md", lacks: "simple e-mail" }, { file: "~/site/recrutement.md", lacks: "Aline Morel" }] }
+    objective: jobs
+  - id: team
+    text: s3.check.team
+    if: { all: [{ file: "~/site/equipe.md", lacks: "aline.morel@" }, { file: "~/site/equipe.md", lacks: "claire.fontaine@" }, { file: "~/site/equipe.md", lacks: "hugo.petit@" }] }
+    objective: team
+  - id: works
+    text: s3.check.works
+    if: { all: [{ file: "~/site/recrutement.md", contains: "assistant(e) comptable" }, { file: "~/site/equipe.md", contains: "contact@sarcelle.test" }, { file: "~/site/equipe.md", contains: "Claire Fontaine" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: tool }
+    do:
+      - ada.say: s3.ada.tool
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: jobs }, { objective: team }] } }
+    once: false
+    do:
+      - ada.say: s3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: jobs }, { objective: team }] }
+    do:
+      - ada.say: s3.ada.ready
+      - ada.ask: clients
+  - on: { event: Answered, question: clients, option: all }
+    do:
+      - ada.say: s3.ada.all
+  - on: { event: Answered, question: clients, option: two }
+    do:
+      - ada.say: s3.ada.two
+  - on: { event: Answered, question: clients, option: none }
+    do:
+      - ada.say: s3.ada.none
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s3.ada.done
+
+guide:
+  tool: s3.ada.g.tool
+  jobs: s3.ada.g.jobs
+  team: s3.ada.g.team
+  clients: s3.ada.answer
+
+hints:
+  tool: [s3.hint.tool.1, s3.hint.tool.2]
+  jobs: [s3.hint.jobs.1, s3.hint.jobs.2]
+  team: [s3.hint.team.1, s3.hint.team.2]
+  clients: [s3.hint.clients.1]
+
+debrief:
+  title: s3.debrief.title
+  lesson: s3.debrief.lesson
+  points: [s3.debrief.p1, s3.debrief.p2, s3.debrief.p3]
+  reference: "Social engineering · public footprint"

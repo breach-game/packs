@@ -1,0 +1,6 @@
+# Side series "Le Domaine sosie", mission 1: the shortest path, replayed by CI in every language.
+mailhdr clients/facture.eml
+answer domain sarcelle-compta.test
+whois sarcelle-compta.test
+answer created 2027-09-28
+answer theirs
