@@ -1,0 +1,14 @@
+SUPPORT LUCARNE - ticket 4471 - priority: high
+Opened: 2027-12-10 21:52
+
+Customer (account client-20418) reports:
+  "At 21:40 a voice we do not know spoke through the living room camera.
+   It said hello, laughed, and played music. We unplugged the camera."
+
+Support notes:
+  - Camera firmware up to date. No fault found on the device.
+  - The customer did not share the account with anyone.
+  - The customer says the password is "the one I use everywhere".
+  - Second factor on the account: not enabled (optional).
+  - Three other tickets this week tell the same story.
+Sign-in export attached: comptes/connexions.csv

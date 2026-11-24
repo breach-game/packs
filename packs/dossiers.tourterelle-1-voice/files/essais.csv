@@ -1,0 +1,15 @@
+time,account,src,client,attempts,result
+2027-12-10T21:35:40,client-11873,203.0.113.77,config-runner/2.4,1,refused
+2027-12-10T21:35:44,client-15220,198.51.100.14,config-runner/2.4,1,refused
+2027-12-10T21:35:49,client-17006,203.0.113.77,config-runner/2.4,1,opened
+2027-12-10T21:35:53,client-18841,192.0.2.201,config-runner/2.4,1,refused
+2027-12-10T21:35:58,client-19377,198.51.100.14,config-runner/2.4,1,refused
+2027-12-10T21:36:02,client-20418,203.0.113.77,config-runner/2.4,1,opened
+2027-12-10T21:36:07,client-22094,192.0.2.201,config-runner/2.4,1,refused
+2027-12-10T21:36:11,client-23650,198.51.100.14,config-runner/2.4,1,opened
+2027-12-10T21:36:16,client-25113,203.0.113.77,config-runner/2.4,1,refused
+2027-12-10T21:36:20,client-27489,192.0.2.201,config-runner/2.4,1,refused
+2027-12-10T21:36:25,client-28802,198.51.100.14,config-runner/2.4,1,refused
+2027-12-10T21:36:29,client-30175,203.0.113.77,config-runner/2.4,1,opened
+2027-12-10T21:36:34,client-31966,192.0.2.201,config-runner/2.4,1,refused
+2027-12-10T21:36:38,client-33521,198.51.100.14,config-runner/2.4,1,opened

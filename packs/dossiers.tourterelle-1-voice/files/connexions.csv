@@ -1,0 +1,6 @@
+time,account,src,client,result,second_factor,new_device_alert
+2027-12-08T07:58:11,client-20418,192.0.2.31,LucarneApp/6.1 (iOS),ok,none,-
+2027-12-09T18:20:45,client-20418,192.0.2.31,LucarneApp/6.1 (iOS),ok,none,-
+2027-12-10T21:36:02,client-20418,203.0.113.77,config-runner/2.4,ok,none,not sent
+2027-12-10T21:40:19,client-20418,203.0.113.77,config-runner/2.4,live view + talk,none,-
+2027-12-10T21:55:30,client-20418,192.0.2.31,LucarneApp/6.1 (iOS),ok,none,-

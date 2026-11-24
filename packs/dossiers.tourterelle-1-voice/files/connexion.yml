@@ -1,0 +1,7 @@
+# Lucarne - customer sign-in policy. One setting per line, possible values after the #.
+sign_in: enabled
+second_factor: optional            # optional | required
+new_device_alert: off              # off | email
+leaked_password_check: off         # off | on  (refuse a password already seen in a public leak)
+attempts_per_address: unlimited    # unlimited | 5-per-minute
+on_password_change: keep-sessions  # keep-sessions | close-sessions

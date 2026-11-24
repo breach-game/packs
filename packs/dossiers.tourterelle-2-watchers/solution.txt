@@ -1,0 +1,14 @@
+# Case file 33, mission 2: the shortest path, replayed by CI in every language.
+cat interne/note.txt
+cut -d, -f2 interne/lectures.csv | sort | uniq -c
+answer viewer presta-22
+grep -c ",-" interne/lectures.csv
+answer noticket 17
+cat interne/acces-video.yml
+answer everyone
+sed -i "s/default_access: all-staff-and-contractors/default_access: none/" interne/acces-video.yml
+sed -i "s/support_access: any-video/support_access: ticket-and-customer-consent/" interne/acces-video.yml
+sed -i "s/access_log: off/access_log: on/" interne/acces-video.yml
+sed -i "s/bulk_viewing_alert: off/bulk_viewing_alert: on/" interne/acces-video.yml
+verify
+answer each
