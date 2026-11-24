@@ -1,0 +1,16 @@
+id: dossiers.bouvreuil-2-gateway
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.bouvreuil-world]
+title:
+  fr: "Dossier 17 · 2. Le filtre de la passerelle"
+  en: "Case file 17 · 2. The gateway filter"
+summary:
+  fr: "Voir ne suffit plus. Tu écris le filtre que la passerelle applique à chaque envoi vers un assistant : ce qui est confidentiel ne part pas chez un service public, le reste passe. Puis tu juges l'idée du jour, limiter chaque question à 1 024 octets."
+  en: "Seeing is no longer enough. You write the filter the gateway applies to every upload to an assistant: what is confidential does not go to a public service, the rest gets through. Then you judge today's idea, capping each prompt at 1,024 bytes."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, privacy, defense]
+minutes: 10

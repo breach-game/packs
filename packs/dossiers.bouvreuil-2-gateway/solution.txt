@@ -1,0 +1,8 @@
+# Case file 17, mission 2: the shortest path, replayed by CI in every language.
+cat dossier/etiquettes.txt
+eval run filtres/assistants.yml
+echo "dest: public" >> filtres/assistants.yml
+eval run filtres/assistants.yml
+echo "label: confidential" >> filtres/assistants.yml
+eval run filtres/assistants.yml
+answer small

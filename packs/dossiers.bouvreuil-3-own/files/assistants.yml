@@ -1,0 +1,22 @@
+# Bouvreuil - AI assistants policy - mandate BV-2027-017
+public_assistant:
+  # everyone | nobody: who may reach assistant.example through the gateway
+  access: everyone
+  # off | on: the filter filtres/assistants.yml, applied by the gateway
+  gateway_filter: off
+  log_uploads: on
+
+internal_assistant:
+  # none | running: an assistant hosted inside Bouvreuil, whose data never leaves
+  status: none
+  # none | internal
+  hosting: none
+
+classification:
+  # unlabeled | confidential: what the leak prevention tool marks
+  source_code: unlabeled
+  meeting_notes: unlabeled
+
+training:
+  # never | before-access: a short session on what may be pasted where
+  ai_rules: never

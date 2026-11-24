@@ -1,0 +1,89 @@
+# Engineers paste things into a public assistant through the outbound gateway. Nothing can fail:
+# the "adversary" is this morning's traffic, arriving as the player works.
+side: defense
+order: 1
+stage: defense
+briefing: v1.briefing
+reveal: [gateway]
+
+files:
+  dossier/dlp-export.txt: { $file: files/dlp-export.txt }
+  regles/gros-envois.yml: |
+    title: A big paste sent to the public assistant
+    source: access
+
+adversary:
+  id: paste
+  name: engineers
+  from: office
+  pace: 1
+  steps:
+    - { id: one, host: gateway, source: access, fields: { src: 10.77.0.131, method: POST, path: "https://assistant.example/v1/chat", status: 200, bytes: 12840, ua: "Mozilla/5.0 (X11; Linux x86_64) Firefox/131.0" } }
+    - { id: two, host: gateway, source: access, fields: { src: 10.77.0.117, method: POST, path: "https://assistant.example/v1/chat", status: 200, bytes: 22310, ua: "Mozilla/5.0 (Windows NT 10.0) Edge/131.0" } }
+    - { id: three, host: gateway, source: access, fields: { src: 10.77.0.131, method: POST, path: "https://assistant.example/v1/chat", status: 200, bytes: 9120, ua: "Mozilla/5.0 (X11; Linux x86_64) Firefox/131.0" } }
+
+# Ordinary traffic: short questions to the assistant, and big downloads elsewhere.
+background:
+  - { host: gateway, source: access, every: 2, offset: 0, fields: { src: 10.77.0.114, method: POST, path: "https://assistant.example/v1/chat", status: 200, bytes: 1310, ua: "Mozilla/5.0 (Windows NT 10.0) Edge/131.0" } }
+  - { host: gateway, source: access, every: 3, offset: 1, fields: { src: 10.77.0.188, method: GET, path: "https://docs.example/datasheets/usb-c.pdf", status: 200, bytes: 48210, ua: "Mozilla/5.0 (Windows NT 10.0) Edge/131.0" } }
+  - { host: gateway, source: access, every: 4, offset: 2, fields: { src: 10.77.0.131, method: POST, path: "https://assistant.example/v1/chat", status: 200, bytes: 840, ua: "Mozilla/5.0 (X11; Linux x86_64) Firefox/131.0" } }
+  - { host: gateway, source: access, every: 5, offset: 3, fields: { src: 10.77.0.150, method: POST, path: "https://upload.example/partners", status: 201, bytes: 30400, ua: "Mozilla/5.0 (Windows NT 10.0) Edge/131.0" } }
+
+objectives:
+  - { id: count, text: v1.obj.count }
+  - { id: leak, text: v1.obj.leak }
+  - { id: rule, text: v1.obj.rule }
+
+investigation:
+  - { id: code, text: v1.q.code, value: "3", points: 75, objective: count }
+
+questions:
+  - id: leak
+    text: v1.q.leak
+    objective: leak
+    correct: gone
+    options:
+      - { id: gone, text: v1.q.leak.gone }
+      - { id: forgets, text: v1.q.leak.forgets, why: v1.q.leak.forgets.why }
+      - { id: repeat, text: v1.q.leak.repeat, why: v1.q.leak.repeat.why }
+
+hunts:
+  - id: big
+    file: regles/gros-envois.yml
+    catch: { source: access, where: { bytes: { gte: 8000 }, path: { contains: assistant.example } } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: v1.ada.count
+      - ada.ask: leak
+  - on: { event: ObjectiveCompleted, objective: leak }
+    do:
+      - ada.say: v1.ada.leak
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: v1.ada.again, for: rule, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v1.ada.done
+
+guide:
+  count: v1.ada.g.count
+  leak: v1.ada.answer
+  rule: v1.ada.g.rule
+
+hints:
+  count: [v1.hint.count.1, v1.hint.count.2]
+  leak: [v1.hint.leak.1]
+  rule: [v1.hint.rule.1, v1.hint.rule.2, v1.hint.rule.3]
+
+debrief:
+  title: v1.debrief.title
+  lesson: v1.debrief.lesson
+  points: [v1.debrief.p1, v1.debrief.p2, v1.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"

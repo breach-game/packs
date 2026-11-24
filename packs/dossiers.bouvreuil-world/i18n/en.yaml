@@ -1,0 +1,5 @@
+file.readme: "Ligne Rouge workstation. Case file: Bouvreuil. Type `mission` to see your objectives, `hint` if you are stuck."
+ada.outOfScope: "Stop. That target is outside mandate BV-2027-017. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE BV-2027-017\nClient: Bouvreuil Electronique SA. Scope: *.bouvreuil.test, 10.77.0.0/24.\nPurpose: for three weeks, Bouvreuil's engineers have been allowed to use a public AI assistant to save time. The CTO worries about what they entrust to it. They want to know what left, and how to keep the tool without losing the manufacturing secrets.\nSet-up agreed: Ligne Rouge reads the outbound gateway's logs and the export of the leak prevention tool. Ligne Rouge does not contact the public assistant's vendor and does not read staff conversations beyond what the export summarises.\nSigned: the CTO of Bouvreuil."

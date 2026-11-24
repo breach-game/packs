@@ -1,0 +1,10 @@
+# Case file 17, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/assistants.yml
+sed -i "s/gateway_filter: off/gateway_filter: on/" dossier/assistants.yml
+sed -i "s/source_code: unlabeled/source_code: confidential/" dossier/assistants.yml
+sed -i "s/meeting_notes: unlabeled/meeting_notes: confidential/" dossier/assistants.yml
+sed -i "s/status: none/status: running/" dossier/assistants.yml
+sed -i "s/hosting: none/hosting: internal/" dossier/assistants.yml
+sed -i "s/ai_rules: never/ai_rules: before-access/" dossier/assistants.yml
+verify
+answer both

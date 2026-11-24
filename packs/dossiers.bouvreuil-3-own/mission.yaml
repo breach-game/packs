@@ -1,0 +1,91 @@
+# Configuration and a decision: no attacker, the threat is ordinary good will.
+side: defense
+order: 3
+stage: defense
+briefing: v3.briefing
+
+files:
+  dossier/assistants.yml: { $file: files/assistants.yml }
+
+objectives:
+  - { id: filter, text: v3.obj.filter }
+  - { id: inside, text: v3.obj.inside }
+  - { id: people, text: v3.obj.people }
+  - { id: decide, text: v3.obj.decide }
+
+questions:
+  - id: decide
+    text: v3.q.decide
+    objective: decide
+    options:
+      - { id: both, text: v3.q.decide.both, impact: 0 }
+      - { id: inside, text: v3.q.decide.inside, impact: 2 }
+      - { id: ban, text: v3.q.decide.ban, impact: 6 }
+
+checks:
+  - id: filter
+    text: v3.check.filter
+    if: { all: [{ file: "~/dossier/assistants.yml", lacks: "gateway_filter: off" }, { file: "~/dossier/assistants.yml", contains: "gateway_filter: on" }, { file: "~/dossier/assistants.yml", contains: "source_code: confidential" }, { file: "~/dossier/assistants.yml", contains: "meeting_notes: confidential" }] }
+    objective: filter
+  - id: inside
+    text: v3.check.inside
+    if: { all: [{ file: "~/dossier/assistants.yml", contains: "status: running" }, { file: "~/dossier/assistants.yml", contains: "hosting: internal" }] }
+    objective: inside
+  - id: people
+    text: v3.check.people
+    if: { all: [{ file: "~/dossier/assistants.yml", lacks: "ai_rules: never" }, { file: "~/dossier/assistants.yml", contains: "ai_rules: before-access" }] }
+    objective: people
+  - id: logs
+    text: v3.check.logs
+    if: { file: "~/dossier/assistants.yml", contains: "log_uploads: on" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v3.ada.brief
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: filter }, { objective: inside }, { objective: people }] } }
+    once: false
+    do:
+      - ada.say: v3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: filter }, { objective: inside }, { objective: people }] }
+    do:
+      - ada.say: v3.ada.ready
+      - ada.ask: decide
+  - on: { event: Answered, question: decide, option: both }
+    do:
+      - ada.say: v3.ada.both
+  - on: { event: Answered, question: decide, option: inside }
+    do:
+      - ada.say: v3.ada.inside
+  - on: { event: Answered, question: decide, option: ban }
+    do:
+      - ada.say: v3.ada.ban
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v3.ada.done
+
+guide:
+  filter: v3.ada.g.filter
+  inside: v3.ada.g.inside
+  people: v3.ada.g.people
+  decide: v3.ada.answer
+
+hints:
+  filter: [v3.hint.filter.1, v3.hint.filter.2]
+  inside: [v3.hint.inside.1, v3.hint.inside.2]
+  people: [v3.hint.people.1]
+  decide: [v3.hint.decide.1]
+
+debrief:
+  title: v3.debrief.title
+  lesson: v3.debrief.lesson
+  points: [v3.debrief.p1, v3.debrief.p2, v3.debrief.p3, v3.debrief.p4]
+  reference: "OWASP Top 10 for LLM Applications · LLM02 Sensitive Information Disclosure"
+  facts:
+    title: v3.facts.title
+    points: [v3.facts.p1, v3.facts.p2, v3.facts.p3, v3.facts.p4, v3.facts.p5]
+    sources:
+      - { label: "The Register, Samsung bans generative AI after sensitive data leak (2 May 2023)", url: "https://www.theregister.com/2023/05/02/samsung_generative_ai_ban/" }
+      - { label: "Fortune, Samsung bans employee use of ChatGPT after a data leak (2 May 2023)", url: "https://fortune.com/2023/05/02/samsung-bans-employee-use-chatgpt-data-leak/" }

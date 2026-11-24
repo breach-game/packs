@@ -1,0 +1,5 @@
+file.readme: "Poste Ligne Rouge. Dossier : Bouvreuil. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+ada.outOfScope: "Stop. Cette cible est hors du mandat BV-2027-017. Hors mandat, ce n'est plus un test : c'est un délit (article 323-1 du Code pénal). Reviens dans le périmètre."
+ada.noise70: "Tu fais beaucoup de bruit. Ralentis."
+ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte des points."
+file.mandate: "MANDAT BV-2027-017\nClient : Bouvreuil Électronique SA. Périmètre : *.bouvreuil.test, 10.77.0.0/24.\nObjet : depuis trois semaines, les ingénieurs de Bouvreuil ont le droit d'utiliser un assistant IA public pour gagner du temps. Le directeur technique s'inquiète de ce qu'ils lui confient. Il veut savoir ce qui est sorti, et comment garder l'outil sans perdre les secrets de fabrication.\nDispositif convenu : Ligne Rouge lit les journaux de la passerelle de sortie et l'export de l'outil de prévention des fuites. Ligne Rouge ne contacte pas l'éditeur de l'assistant public et ne lit pas les conversations des salariés au-delà de ce que l'export résume.\nSigné : le directeur technique de Bouvreuil."

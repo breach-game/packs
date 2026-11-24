@@ -1,0 +1,12 @@
+id: dossiers.bouvreuil-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Bouvreuil"
+  en: "Bouvreuil"
+summary:
+  fr: "Bouvreuil Électronique, concepteur fictif de puces. Ses ingénieurs viennent d'obtenir le droit d'utiliser un assistant IA public, et sa passerelle de sortie voit passer ce qu'ils lui envoient."
+  en: "Bouvreuil Electronics, a fictional chip designer. Its engineers have just been allowed to use a public AI assistant, and its outbound gateway sees what they send to it."
+authors: [BREACH team]
+locales: [fr, en]
