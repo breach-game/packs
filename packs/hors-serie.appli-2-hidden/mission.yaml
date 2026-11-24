@@ -65,6 +65,12 @@ rules:
     if: { all: [{ objective: route }, { objective: backup }] }
     do:
       - ada.ask: where
+  # Validating a refund is what the mandate forbids: the attempt costs noise and a reminder.
+  - on: { event: HttpRequest, host: api, path: { glob: "*/valider" } }
+    once: false
+    do:
+      - noise.add: { points: 15, as: a2.noise.refund }
+      - ada.warn: a2.ada.mandate
   - on: { event: MissionCompleted }
     do:
       - ada.say: a2.ada.done

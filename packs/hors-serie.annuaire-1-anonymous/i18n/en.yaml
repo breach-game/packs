@@ -24,6 +24,7 @@ d1.ada.g.closed.standard: "Close anonymous access to the directory, then check i
 d1.ada.closed: "With no account, the directory now answers \"50 Insufficient access\". The map is no longer handed out."
 d1.ada.g.why: "What did a stranger know, before your fix?"
 d1.ada.done: "Anonymous access closed. But what was readable may have been read by others before you. I am watching sign-ins to the directory."
+d1.hint.password.0: "With no account, filter on entries that have a description."
 d1.hint.password.1: "`ldapsearch -x -H ldap://annuaire.ardoise.test -b dc=ardoise,dc=test \"(description=*)\" uid description`"
 d1.hint.password.2: "`answer password svc-sauvegarde`"
 d1.hint.former.1: "Filter `(memberOf=cn=admins-annuaire*)`."

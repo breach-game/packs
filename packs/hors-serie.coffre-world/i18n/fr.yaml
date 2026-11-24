@@ -5,4 +5,5 @@ ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte d
 file.mandate: "MANDAT TL-2027-044\nClient : Mutuelle Tilleul, mutuelle santé. Périmètre : *.tilleul.test, 10.86.0.0/24.\nObjet : une copie de la table des adhérents du Coffre a été retrouvée sur un partage de fichiers mal réglé, sans preuve qu'elle en soit sortie. Ligne Rouge évalue ce qu'elle exposerait, relit la réinitialisation des mots de passe et accompagne la migration vers un stockage sûr.\nDispositif convenu : Ligne Rouge lit la copie sur son poste, sans jamais essayer de retrouver un mot de passe d'adhérent. Seul le mot de passe provisoire publié par la mutuelle en 2016 peut être comparé. Aucune modification en production sans l'accord de l'équipe.\nSigné : le responsable de la sécurité de Mutuelle Tilleul."
 page.home.h1: "Le Coffre"
 page.home.p: "Vos remboursements, vos attestations et vos échanges avec Mutuelle Tilleul, au même endroit."
+page.home.sample: "Format des empreintes (compte de test)"
 page.home.footer: "Mutuelle Tilleul · espace adhérent depuis 2016"

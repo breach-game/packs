@@ -15,7 +15,7 @@ c1.ada.g.old: "Pick the hash of an old account and give it to `hashid`: `grep 10
 c1.ada.g.old.standard: "Find the algorithm of the 2016 to 2018 accounts with `hashid`, then `answer old`."
 c1.ada.old: "SHA-1, unsalted. Fast to compute: it is made to check files, not to keep passwords. Yet the insurer published a password itself: `cat docs/courrier-bienvenue-2016.txt`."
 c1.ada.g.same: "Compute the hash of that temporary password: `echo -n \"Tilleul2016\" | openssl dgst -sha1`. Then count how often it appears: `grep -c <hash> copie/adherents.csv`, and `answer same <number>`."
-c1.ada.g.same.standard: "Count the accounts that still have the password from the 2016 letter, then `answer same`."
+c1.ada.g.same.standard: "Compute the SHA-1 hash of the password from the 2016 letter (`openssl dgst -sha1`), count the accounts that still have it in the copy, then `answer same`."
 c1.ada.same: "Six accounts, one single hash. Without salt, the same password always gives the same hash: one computation finds them all. For what comes next, keep `cat docs/temps-de-cassage.txt` in view."
 c1.ada.answer: "Answer in the messenger, or with `answer` in the terminal."
 c1.ada.answer.standard: "My question is waiting in the messenger."

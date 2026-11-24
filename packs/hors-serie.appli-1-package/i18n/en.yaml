@@ -13,7 +13,7 @@ a1.ada.g.apk: "Save the package on your workstation: `curl -s https://magasin.ca
 a1.ada.g.apk.standard: "The page offers the app's package. Fetch it to your workstation."
 a1.ada.apk: "Package fetched. Nobody asked who you were."
 a1.ada.g.key: "List what it holds with `unzip -l cabas.apk`, then read its configuration: `unzip -p cabas.apk assets/config.json | jq .`. If a key lies there, try it the way the app would: `curl -s -H \"X-Cabas-Cle: <the key>\" https://api.cabas.test/v4/partenaires/stock`. Then `submit` the marker."
-a1.ada.g.key.standard: "Open the package, read its configuration, and check whether what you find opens the partner API (header `X-Cabas-Cle`)."
+a1.ada.g.key.standard: "Open the package, read its configuration and its compiled strings, and check whether the key opens the partner API (`X-Cabas-Cle` header)."
 a1.ada.key: "Marker accepted. The partner key, the one that reads stock and today's orders, travels inside every phone."
 a1.ada.g.why: "Think back to what it took to read that file."
 a1.ada.done: "The package says more than its configuration. It also holds the compiled code, and the code knows routes the app does not show."

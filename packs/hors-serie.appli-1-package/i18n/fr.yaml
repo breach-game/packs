@@ -13,7 +13,7 @@ a1.ada.g.apk: "Enregistre le paquet sur ton poste : `curl -s https://magasin.cab
 a1.ada.g.apk.standard: "La page propose le paquet de l'appli. Récupère-le sur ton poste."
 a1.ada.apk: "Paquet récupéré. Personne ne t'a demandé qui tu étais."
 a1.ada.g.key: "Liste ce qu'il contient avec `unzip -l cabas.apk`, puis lis sa configuration : `unzip -p cabas.apk assets/config.json | jq .`. Si une clé y traîne, essaie-la comme le ferait l'appli : `curl -s -H \"X-Cabas-Cle: <la clé>\" https://api.cabas.test/v4/partenaires/stock`. Puis `submit` le repère."
-a1.ada.g.key.standard: "Ouvre le paquet, lis sa configuration, et vérifie si ce que tu y trouves ouvre l'API des partenaires (en-tête `X-Cabas-Cle`)."
+a1.ada.g.key.standard: "Ouvre le paquet, lis sa configuration et ses textes compilés, et vérifie si la clé ouvre l'API des partenaires (en-tête `X-Cabas-Cle`)."
 a1.ada.key: "Repère validé. La clé des partenaires, celle qui lit le stock et les commandes du jour, voyage dans chaque téléphone."
 a1.ada.g.why: "Repense à ce qu'il t'a fallu pour lire ce fichier."
 a1.ada.done: "Le paquet dit autre chose que sa configuration. Il contient aussi le code compilé, et le code connaît des routes que l'appli ne montre pas."

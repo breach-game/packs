@@ -17,7 +17,7 @@ f1.ada.service: "Un site de « résumé de CV » reçoit à lui seul plus d'envo
 f1.ada.g.accounts: "Même idée, sur le compte (3ᵉ champ) : `grep dst=resume-cv.example /var/log/passerelle/acces.log | grep method=POST | cut -d \" \" -f 3 | sort | uniq | wc -l`. Puis `answer accounts <nombre>`."
 f1.ada.g.accounts.standard: "Compte les comptes distincts qui envoient à ce service."
 f1.ada.accounts: "Six comptes, tous de l'équipe recrutement (`rec-`). Ce n'est pas une personne, c'est une habitude d'équipe. Avant de conclure, lis le ticket que la DPO a joint : `cat tickets/TIL-2291.txt` (sur ton poste, après `exit`)."
-f1.ada.g.why: "Lis `tickets/TIL-2291.txt` sur ton poste, et la page de l'assistant interne."
+f1.ada.g.why: "Lis `tickets/TIL-2291.txt` sur ton poste, et la page de l'assistant interne : `curl -s https://assistant.tilia.test/`."
 f1.ada.done: "Le problème n'est pas l'équipe. C'est un besoin réel, sans outil approuvé pour y répondre. Interdire ne suffira pas : il faut une passerelle qui sait dire non au bon moment, et un outil qui sait dire oui."
 f1.hint.service.1: "`cut -d \" \" -f 4` garde la destination ; `sort | uniq -c | sort -rn` compte et trie."
 f1.hint.service.2: "`answer service resume-cv.example`"

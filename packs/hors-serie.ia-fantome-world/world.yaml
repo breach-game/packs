@@ -150,21 +150,25 @@ hosts:
           tri-cv-fr:
             fiche.md: { $t: file.fiche }
             origine.txt: "telecharge le 2027-12-06 depuis https://hub-modeles.example/cv-boost/tri-cv-fr\npar : equipe donnees (essai)\nchargement prevu : lundi 2027-12-13, script tri_cv.py\n"
+            # A PyTorch .bin is a zip archive around a pickle: `file` says zip, `unzip -l` lists it.
             model.bin:
-              $binary:
-                format: data
-                strings:
-                  - "PK archive/data.pkl"
-                  - "pickle protocol 4"
-                  - "collections OrderedDict"
-                  - "classifier.weight"
-                  - "classifier.bias"
-                  - "__reduce__"
-                  - "subprocess"
-                  - "check_call"
-                  - "telecharge et lance outil-maj.sh au chargement"
-                  - "hub-modeles.example/cv-boost/outil-maj.sh"
-                  - "archive/version"
+              $archive:
+                format: zip
+                files:
+                  archive/data.pkl:
+                    $binary:
+                      format: data
+                      strings:
+                        - "pickle protocol 4"
+                        - "collections OrderedDict"
+                        - "classifier.weight"
+                        - "classifier.bias"
+                        - "__reduce__"
+                        - "subprocess"
+                        - "check_call"
+                        - "telecharge et lance outil-maj.sh au chargement"
+                        - "hub-modeles.example/cv-boost/outil-maj.sh"
+                  archive/version: "3\n"
             config.json: "{\n  \"architecture\": \"classifieur-cv\",\n  \"labels\": [\"entretien\", \"refus\"],\n  \"langue\": \"fr\"\n}\n"
           README.txt: "Modeles en essai. Rien ne va en production sans revue.\n"
 

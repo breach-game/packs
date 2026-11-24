@@ -8,6 +8,6 @@ sed -i "s/on_login: nothing/on_login: rehash/" coffre/mots-de-passe.yml
 sed -i "s/temporary_password: shared/temporary_password: random-single-use/" coffre/mots-de-passe.yml
 verify
 contain rotate coffre
-curl https://coffre.tilleul.test/api/exemple-empreinte | jq -r .password_hash | hashid
-answer sample argon2
+curl https://coffre.tilleul.test/api/exemple-empreinte | jq -r .password_hash
+answer sample argon2id
 answer targeted

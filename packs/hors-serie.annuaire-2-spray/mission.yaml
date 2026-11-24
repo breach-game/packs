@@ -12,6 +12,10 @@ config:
 
 files:
   regles/pulverisation.yml: |
+    # Detection rule, to try with: rule test regles/pulverisation.yml
+    # One condition per line. Fields of the ldap log: src, bind, err, base, filter, entries.
+    # Modifiers: |contains, |startswith, |endswith.
+    # To count: count|gte: N, within: minutes, by: field (src by default).
     title: One password tried on many directory accounts
     source: ldap
 
@@ -36,9 +40,10 @@ adversary:
     - { id: copy3, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 49807360 }, blockedIf: { config: ad.svc.disabled, eq: true } }
     - { id: copy4, host: sauvegarde, source: flow, fields: { src: 10.94.0.20, dst: 198.51.100.77, dport: 873, bytes: 50331648 }, blockedIf: { config: ad.svc.disabled, eq: true } }
 
-# Apps binding with their own accounts, and now and then a person mistyping a password.
+# The timetable app still searching with no account (refused since anonymous search closed), apps
+# binding with their own accounts, and now and then a person mistyping a password.
 background:
-  - { host: annuaire, source: ldap, every: 2, offset: 0, fields: { src: 10.94.0.40, bind: "uid=app-horaires,ou=services,dc=ardoise,dc=test", err: 0, base: "ou=lignes,dc=ardoise,dc=test", filter: "(cn=*)", entries: 2 } }
+  - { host: annuaire, source: ldap, every: 2, offset: 0, fields: { src: 10.94.0.40, bind: "", err: 50, base: "ou=lignes,dc=ardoise,dc=test", filter: "(cn=*)", entries: 0 } }
   - { host: annuaire, source: ldap, every: 3, offset: 1, fields: { src: 10.94.0.31, bind: "uid=dsi-chef,ou=personnes,dc=ardoise,dc=test", err: 0, base: "dc=ardoise,dc=test", filter: "(uid=dsi-chef)", entries: 1 } }
   - { host: annuaire, source: ldap, every: 15, offset: 4, fields: { src: 10.94.0.51, bind: "uid=accueil-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
   - { host: annuaire, source: ldap, every: 15, offset: 9, fields: { src: 10.94.0.53, bind: "uid=compta-01,ou=personnes,dc=ardoise,dc=test", err: 49 } }
@@ -107,7 +112,7 @@ guide:
   stop: d2.ada.g.stop
 
 hints:
-  rule: [d2.hint.rule.1, d2.hint.rule.2, d2.hint.rule.3]
+  rule: [d2.hint.rule.2, d2.hint.rule.3]
   who: [d2.hint.who.1, d2.hint.who.2]
   stop: [d2.hint.stop.1]
 
