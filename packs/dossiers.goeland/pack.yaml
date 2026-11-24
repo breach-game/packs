@@ -1,11 +1,11 @@
 id: dossiers.goeland
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.17 <1"
 kind: series
 requires: [dossiers.goeland-world]
 title:
-  fr: "Dossier 34 : une ligne de trop"
-  en: "Case file 34: one line too many"
+  fr: "Dossier 34 : le passager clandestin"
+  en: "Case file 34: the stowaway"
 summary:
   fr: "Inspiré du vol de cartes bancaires sur le site d'une compagnie aérienne en 2018. Joué côté défense : une ligne ajoutée au script de la page de paiement envoie une copie de chaque carte ailleurs, pendant quinze jours. Tu la trouves, tu la retires, puis tu remontes jusqu'à la porte d'entrée : le compte d'un prestataire, sans second facteur. La dernière mission raconte les faits, sources à l'appui."
   en: "Inspired by the theft of payment cards on an airline's website in 2018. Played on the defence side: one line added to the payment page's script sends a copy of every card elsewhere, for fifteen days. You find it, remove it, then trace it back to the way in: a contractor's account, with no second factor. The last mission tells the facts, with its sources."

@@ -3,6 +3,9 @@ cat portail/connexions.csv
 answer account froid-nord
 cat reseau/pare-feu.csv
 answer rule R-17
+contain
+contain remove programme
+contain reset compte-vole
 cat reseau/cloisonnement.yml
 sed -i "s/portal_to_tills: allow/portal_to_tills: deny/" reseau/cloisonnement.yml
 sed -i "s/file_server_to_internet: any/file_server_to_internet: update-servers-only/" reseau/cloisonnement.yml

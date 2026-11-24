@@ -6,6 +6,8 @@ TRANSFLUIDE - crisis log, Friday 2029-05-04
 05:02  Control room: pumps and valves respond normally. Supervision shows nothing odd.
        But: metering and billing (facturation) sits on the office network, and it
        talks to supervision every minute to read the volumes delivered.
+04:58  IT on call: the remote access server shows sessions from an unknown
+       address since 02:41 tonight. Whoever it is keeps coming back.
 05:04  Nobody can say yet where the attack started, or how far it has gone.
 
 Remote access profiles : vpn/profils.csv

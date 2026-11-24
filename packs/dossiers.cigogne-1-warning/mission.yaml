@@ -63,6 +63,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: fake }
     do:
       - ada.say: c1.ada.fake
+  - on: { event: ObjectiveCompleted, objective: fake }
+    if: { not: { objective: origin } }
+    do:
+      - ada.say: c1.ada.fake.routes
   - on: { event: ObjectiveCompleted, objective: origin }
     do:
       - ada.say: c1.ada.origin

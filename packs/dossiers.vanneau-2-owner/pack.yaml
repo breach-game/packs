@@ -1,5 +1,5 @@
 id: dossiers.vanneau-2-owner
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.17 <1"
 kind: mission
 requires: [dossiers.vanneau-world]

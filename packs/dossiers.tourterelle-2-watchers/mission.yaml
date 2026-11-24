@@ -45,8 +45,8 @@ questions:
     text: c2.q.tell
     objective: tell
     options:
-      - { id: each, text: c2.q.tell.each, impact: 2 }
-      - { id: notice, text: c2.q.tell.notice, impact: 1 }
+      - { id: each, text: c2.q.tell.each, impact: 1 }
+      - { id: notice, text: c2.q.tell.notice, impact: 3 }
       - { id: later, text: c2.q.tell.later, impact: 4 }
 
 checks:

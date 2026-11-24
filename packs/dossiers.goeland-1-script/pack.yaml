@@ -1,11 +1,11 @@
 id: dossiers.goeland-1-script
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.17 <1"
 kind: mission
 requires: [dossiers.goeland-world]
 title:
-  fr: "Dossier 34 · 1. Une ligne de trop"
-  en: "Case file 34 · 1. One line too many"
+  fr: "Dossier 34 · 1. Le passager clandestin"
+  en: "Case file 34 · 1. The stowaway"
 summary:
   fr: "Une banque relie des fraudes au site d'une compagnie aérienne. La base de données est intacte. Tu compares le script de la page de paiement à sa version relue, tu trouves où part la copie des cartes, tu remets le bon fichier, puis tu dis au navigateur à qui cette page a le droit de parler."
   en: "A bank links fraud to an airline's website. The database is untouched. You compare the payment page's script with its reviewed version, find where the copy of the cards goes, put the right file back, then tell the browser who this page is allowed to talk to."

@@ -70,6 +70,19 @@ timelines:
       - { id: restart, text: c2.tl.restart }
 
 rules:
+  # What happened since Friday depends on the decision of mission 1 (shutdown when played alone).
+  - on: { event: MissionStarted }
+    if: { not: { any: [{ choice: stop, eq: split }, { choice: stop, eq: run }] } }
+    do:
+      - ada.say: c2.ada.since.shutdown
+  - on: { event: MissionStarted }
+    if: { choice: stop, eq: split }
+    do:
+      - ada.say: c2.ada.since.split
+  - on: { event: MissionStarted }
+    if: { choice: stop, eq: run }
+    do:
+      - ada.say: c2.ada.since.run
   - on: { event: MissionStarted }
     do:
       - ada.say: c2.ada.brief
@@ -89,8 +102,13 @@ rules:
     do:
       - ada.say: c2.ada.restart
   - on: { event: MissionCompleted }
+    if: { not: { any: [{ choice: stop, eq: split }, { choice: stop, eq: run }] } }
     do:
       - ada.say: c2.ada.done
+  - on: { event: MissionCompleted }
+    if: { any: [{ choice: stop, eq: split }, { choice: stop, eq: run }] }
+    do:
+      - ada.say: c2.ada.done.kept
 
 guide:
   unused: c2.ada.g.unused
