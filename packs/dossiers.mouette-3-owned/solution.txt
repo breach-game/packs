@@ -1,0 +1,10 @@
+# Case file 20, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/politique.yml
+sed -i "s/source: manual/source: from-sbom/" dossier/politique.yml
+sed -i "s/bulletins_to: mailing-list/bulletins_to: owners/" dossier/politique.yml
+sed -i "s/critical_deadline: none/critical_deadline: 72h/" dossier/politique.yml
+sed -i "s/cert_expiry_alert: off/cert_expiry_alert: 30d/" dossier/politique.yml
+sed -i "s/bypass_mode: silent/bypass_mode: alert/" dossier/politique.yml
+sed -i "s/db_credentials: files/db_credentials: vault/" dossier/politique.yml
+verify
+answer site

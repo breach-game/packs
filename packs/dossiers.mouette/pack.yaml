@@ -1,0 +1,16 @@
+id: dossiers.mouette
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [dossiers.mouette-world]
+title:
+  fr: "Dossier 20 : le correctif oublié"
+  en: "Case file 20: the forgotten patch"
+summary:
+  fr: "Inspiré de la fuite d'un bureau de crédit en 2017, entré par un portail jamais corrigé. Sous mandat, tu trouves le composant oublié avec une nomenclature logicielle, tu rends la vue à un appareil d'inspection aveuglé par un certificat expiré, puis tu poses une politique où l'on sait ce qu'on possède. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2017 breach of a credit bureau, entered through a portal that was never patched. Under mandate, you find the forgotten component with a software bill of materials, give sight back to an inspection device blinded by an expired certificate, then set a policy where you know what you own. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, crypto, logs, defense]
+incident: 2017

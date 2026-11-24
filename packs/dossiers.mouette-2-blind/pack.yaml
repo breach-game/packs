@@ -1,0 +1,16 @@
+id: dossiers.mouette-2-blind
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.mouette-world]
+title:
+  fr: "Dossier 20 · 2. L'appareil aveugle"
+  en: "Case file 20 · 2. The blind device"
+summary:
+  fr: "L'appareil qui devait voir les envois chiffrés ne voyait plus rien depuis des mois. Tu lis son certificat avec `openssl`, tu le remplaces, puis tu écris la règle qui repère les gros envois du portail vers l'extérieur."
+  en: "The device meant to see encrypted uploads had seen nothing for months. You read its certificate with `openssl`, replace it, then write the rule that spots the portal's big uploads to the outside."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [crypto, logs, defense]
+minutes: 12

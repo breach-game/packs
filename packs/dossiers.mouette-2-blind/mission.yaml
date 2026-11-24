@@ -1,0 +1,108 @@
+# The inspection device was in bypass: its certificate had expired. The flows were there, unread.
+side: defense
+order: 2
+stage: defense
+briefing: o2.briefing
+reveal: [inspection, portal, db]
+
+files:
+  inspection/statut.txt: { $file: files/statut.txt }
+  inspection/inspect.pem:
+    $cert:
+      subject: "CN=inspection.mouette.test, O=Mouette Credit"
+      issuer: "CN=Mouette Internal CA, O=Mouette Credit"
+      serial: "4D:6F:75:65:74:74:65:20"
+      notBefore: "2024-01-12T00:00:00Z"
+      notAfter: "2026-01-12T00:00:00Z"
+      san: [inspection.mouette.test]
+  regles/gros-envois.yml: |
+    title: Big uploads from the dispute portal to the outside
+    source: flow
+
+config:
+  mo.inspect: false
+  mo.portal_isolated: false
+
+adversary:
+  id: copier
+  name: unknown
+  from: outside
+  pace: 2
+  steps:
+    - { id: f1, host: inspection, source: flow, fields: { action: allow, src: 10.80.0.21, dst: 203.0.113.80, dport: 443, bytes: 48210000 } }
+    - { id: f2, host: inspection, source: flow, fields: { action: allow, src: 10.80.0.21, dst: 203.0.113.80, dport: 443, bytes: 51630000 }, blockedIf: { config: mo.portal_isolated, eq: true } }
+    - { id: f3, host: inspection, source: flow, fields: { action: allow, src: 10.80.0.21, dst: 198.51.100.140, dport: 443, bytes: 39900000 }, blockedIf: { config: mo.portal_isolated, eq: true } }
+
+# Ordinary flows: the portal answering customers, the nightly backup, the client area's exports.
+background:
+  - { host: inspection, source: flow, every: 4, offset: 0, fields: { action: allow, src: 10.80.0.21, dst: 198.51.100.17, dport: 443, bytes: 24100 } }
+  - { host: inspection, source: flow, every: 9, offset: 2, fields: { action: allow, src: 10.80.0.30, dst: 10.80.0.40, dport: 873, bytes: 912000000 } }
+  - { host: inspection, source: flow, every: 6, offset: 1, fields: { action: allow, src: 10.80.0.22, dst: 203.0.113.9, dport: 443, bytes: 1800000 } }
+
+containment:
+  - id: rotate-cert
+    action: rotate
+    target: inspection-cert
+    text: o2.contain.rotate
+    sets: { mo.inspect: true }
+    impact: 0
+  - id: isolate-portal
+    action: isolate
+    target: litiges.mouette.test
+    text: o2.contain.isolate
+    sets: { mo.portal_isolated: true }
+    impact: 6
+
+objectives:
+  - { id: since, text: o2.obj.since }
+  - { id: rotate, text: o2.obj.rotate }
+  - { id: rule, text: o2.obj.rule }
+
+investigation:
+  - { id: since, text: o2.q.since, value: "2026-01-12", points: 75, objective: since }
+
+hunts:
+  - id: big
+    file: regles/gros-envois.yml
+    catch: { source: flow, where: { src: 10.80.0.21, bytes: { gte: 1000000 } } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: since }
+    do:
+      - ada.say: o2.ada.since
+  - on: { event: Contained, containment: rotate-cert }
+    do:
+      - objective.complete: rotate
+  - on: { event: ObjectiveCompleted, objective: rotate }
+    do:
+      - ada.say: o2.ada.rotated
+  - on: { event: Contained, containment: isolate-portal }
+    do:
+      - ada.say: o2.ada.isolated
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: o2.ada.again, for: rule, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o2.ada.done
+
+guide:
+  since: o2.ada.g.since
+  rotate: o2.ada.g.rotate
+  rule: o2.ada.g.rule
+
+hints:
+  since: [o2.hint.since.1, o2.hint.since.2]
+  rotate: [o2.hint.rotate.1]
+  rule: [o2.hint.rule.1, o2.hint.rule.2, o2.hint.rule.3]
+
+debrief:
+  title: o2.debrief.title
+  lesson: o2.debrief.lesson
+  points: [o2.debrief.p1, o2.debrief.p2, o2.debrief.p3]
+  reference: "OWASP Top 10 · A09 Security Logging and Monitoring Failures"

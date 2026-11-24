@@ -1,0 +1,16 @@
+id: dossiers.mouette-1-patch
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.mouette-world]
+title:
+  fr: "Dossier 20 · 1. Le correctif oublié"
+  en: "Case file 20 · 1. The forgotten patch"
+summary:
+  fr: "Un portail que personne n'avait inventorié. Tu fais l'inventaire de ses composants avec `sbom`, tu trouves celui dont le correctif attendait depuis des semaines, tu comptes les jours, et tu dis pourquoi l'alerte n'est jamais arrivée."
+  en: "A portal nobody had inventoried. You list its components with `sbom`, find the one whose patch had been waiting for weeks, count the days, and say why the alert never arrived."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [supply, defense]
+minutes: 10

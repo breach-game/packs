@@ -1,0 +1,65 @@
+# Inventory after the fact: the vulnerable component, the days it waited, why nobody patched.
+side: defense
+order: 1
+stage: defense
+briefing: o1.briefing
+reveal: [portal]
+
+files:
+  portail/bom.json: { $file: files/bom.json }
+  dossier/bulletin.eml: { $file: files/bulletin.eml }
+  dossier/inventaire.txt: { $file: files/inventaire.txt }
+  dossier/trace-mai.txt: { $file: files/trace-mai.txt }
+
+objectives:
+  - { id: component, text: o1.obj.component }
+  - { id: days, text: o1.obj.days }
+  - { id: why, text: o1.obj.why }
+
+investigation:
+  - { id: component, text: o1.q.component, value: "fennec-web", points: 50, objective: component }
+  - { id: days, text: o1.q.days, value: "65", points: 75, objective: days }
+
+questions:
+  - id: why
+    text: o1.q.why
+    objective: why
+    correct: inventory
+    options:
+      - { id: inventory, text: o1.q.why.inventory }
+      - { id: nofix, text: o1.q.why.nofix, why: o1.q.why.nofix.why }
+      - { id: tooold, text: o1.q.why.tooold, why: o1.q.why.tooold.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o1.ada.brief
+  - on: { event: SbomScanned }
+    do:
+      - ada.say: o1.ada.scanned
+  - on: { event: ObjectiveCompleted, objective: component }
+    do:
+      - ada.say: o1.ada.component
+  - on: { event: ObjectiveCompleted, objective: days }
+    do:
+      - ada.say: o1.ada.days
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o1.ada.done
+
+guide:
+  component: o1.ada.g.component
+  days: o1.ada.g.days
+  why: o1.ada.answer
+
+hints:
+  component: [o1.hint.component.1, o1.hint.component.2]
+  days: [o1.hint.days.1, o1.hint.days.2]
+  why: [o1.hint.why.1]
+
+debrief:
+  title: o1.debrief.title
+  lesson: o1.debrief.lesson
+  points: [o1.debrief.p1, o1.debrief.p2, o1.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"

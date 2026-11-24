@@ -1,0 +1,16 @@
+id: dossiers.mouette-3-owned
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.mouette-world]
+title:
+  fr: "Dossier 20 · 3. Savoir ce qu'on possède"
+  en: "Case file 20 · 3. Knowing what you own"
+summary:
+  fr: "Tu règles la politique de Mouette : un inventaire tiré des nomenclatures, des alertes aux vrais responsables, un délai pour les correctifs critiques, des contrôles qui crient quand ils tombent en panne, des mots de passe hors des fichiers. Puis tu décides comment prévenir des millions de personnes. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Mouette's policy: an inventory drawn from bills of materials, alerts to the real owners, a deadline for critical patches, controls that shout when they fail, passwords out of files. Then you decide how to tell millions of people. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense, crisis]
+minutes: 12

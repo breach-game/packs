@@ -1,0 +1,12 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "metadata": { "component": { "name": "portail-litiges", "version": "4.1.0" } },
+  "components": [
+    { "type": "framework", "name": "fennec-web", "version": "2.5.10" },
+    { "type": "library", "name": "json-lien", "version": "2.9.1" },
+    { "type": "library", "name": "journalog", "version": "1.2.17" },
+    { "type": "library", "name": "pdf-lecteur", "version": "3.0.2" },
+    { "type": "library", "name": "pool-sql", "version": "8.0.4" }
+  ]
+}

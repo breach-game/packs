@@ -1,0 +1,5 @@
+# Case file 20, in playing order: the forgotten component, the blind device, the policy.
+missions:
+  - dossiers.mouette-1-patch
+  - dossiers.mouette-2-blind
+  - dossiers.mouette-3-owned

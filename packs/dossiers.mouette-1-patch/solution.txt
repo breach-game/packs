@@ -1,0 +1,9 @@
+# Case file 20, mission 1: the shortest path, replayed by CI in every language.
+sbom portail
+sbom portail --vuln
+answer component fennec-web
+cat dossier/bulletin.eml
+cat dossier/trace-mai.txt
+answer days 65
+cat dossier/inventaire.txt
+answer inventory
