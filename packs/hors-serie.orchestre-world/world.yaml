@@ -1,0 +1,151 @@
+# Side series "Orchestre". Everything here is fictional: reserved .test domains and private addresses
+# only. The cluster's API is a host whose web routes sit at the API paths kubectl asks for.
+startTime: "2027-12-01T10:00:00+01:00"
+mandate: ON-2027-063
+scope:
+  domains: ["*.ondine.test"]
+  networks: ["10.91.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.91.0.2
+
+config:
+  on.dashboard.closed: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.91.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [tableau]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          .kube: {}
+          mandate:
+            ON-2027-063.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The monitoring dashboard, opened without sign-in "for the weekend".
+  - id: tableau
+    hostname: tableau.ondine.test
+    ip: 10.91.0.30
+    os: Linux 6.1 (conteneur)
+    map: { x: 40, z: 60, h: 110 }
+    links: [k8s]
+    services:
+      - { port: 443, name: https, product: nginx 1.25 }
+    web:
+      "/":
+        page:
+          title: "Supervision · Ondine"
+          blocks:
+            - { h1: page.tableau.h1 }
+            - { p: page.tableau.p }
+            - table:
+                head: [page.tableau.th.ns, page.tableau.th.pods, page.tableau.th.state]
+                rows:
+                  - [diffusion, "12", page.tableau.ok]
+                  - [catalogue, "6", page.tableau.ok]
+                  - [kube-system, "9", page.tableau.ok]
+            - nav:
+                - { href: /kubeconfig, label: page.tableau.kubeconfig }
+            - { comment: page.tableau.comment }
+            - { footer: page.tableau.footer }
+        variants:
+          - id: closed
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: "401 Authorization Required\n"
+      "/kubeconfig":
+        headers: { content-type: text/yaml }
+        body: "apiVersion: v1\nkind: Config\nclusters:\n- name: ondine\n  cluster:\n    server: https://k8s.ondine.test:6443\ncontexts:\n- name: tableau\n  context:\n    cluster: ondine\n    namespace: diffusion\n    user: lecteur-tableau\ncurrent-context: tableau\nusers:\n- name: lecteur-tableau\n  user:\n    token: ond-sa-lecteur-tableau-4f81c2\n"
+        variants:
+          - id: closed
+            if: { config: on.dashboard.closed, eq: true }
+            status: 401
+            body: "401 Authorization Required\n"
+
+  # The cluster's API server.
+  - id: k8s
+    hostname: k8s.ondine.test
+    ip: 10.91.0.10
+    os: Kubernetes 1.31
+    map: { x: 240, z: -40, h: 140 }
+    services:
+      - { port: 6443, name: kubernetes, product: kube-apiserver 1.31 }
+    web:
+      "/api/v1/namespaces/diffusion/pods":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME                         READY   STATUS    RESTARTS   AGE\nlecteur-7f9c4                1/1     Running   0          6d\nlecteur-b21e0                1/1     Running   0          6d\nrecommandations-5d8aa        1/1     Running   2          13d\npasserelle-audio-90c1f       1/1     Running   0          2d\n"
+      "/api/v1/pods":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAMESPACE     NAME                         READY   STATUS    RESTARTS   AGE\ncatalogue     catalogue-api-66a2b          1/1     Running   0          9d\ndiffusion     lecteur-7f9c4                1/1     Running   0          6d\ndiffusion     lecteur-b21e0                1/1     Running   0          6d\ndiffusion     recommandations-5d8aa        1/1     Running   2          13d\ndiffusion     passerelle-audio-90c1f       1/1     Running   0          2d\nkube-system   coredns-7db6d-x2k4p          1/1     Running   0          41d\nkube-system   outil-debug                  1/1     Running   0          58d\nsupervision   tableau-5c7e1                1/1     Running   0          3d\n"
+      "/api/v1/namespaces/diffusion/configmaps":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "NAME               DATA   AGE\nkube-root-ca.crt   1      41d\nlecteur-reglages   4      6d\nnotes-equipe       1      3d\n"
+      "/api/v1/namespaces/diffusion/configmaps/notes-equipe/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:         notes-equipe\nNamespace:    diffusion\nLabels:       equipe=supervision\n\nData\n====\nnote.txt:\n----\nTableau ouvert sans connexion pour le week-end de la sortie. A refermer lundi.\nRepere de test : FLAG{ondine-tableau-ouvert-3c7a}\n\nEvents:  <none>\n"
+      "/api/v1/namespaces/diffusion/secrets":
+        status: 403
+        body: "Error from server (Forbidden): secrets is forbidden: User \"system:serviceaccount:supervision:lecteur-tableau\" cannot list resource \"secrets\" in API group \"\" in the namespace \"diffusion\""
+      "/api/v1/namespaces/diffusion/pods/lecteur-7f9c4/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             lecteur-7f9c4\nNamespace:        diffusion\nNode:             noeud-2/10.91.0.22\nStatus:           Running\nControlled By:    ReplicaSet/lecteur-7f9\nContainers:\n  lecteur:\n    Image:          registre.ondine.test/lecteur:3.8.2\n    Port:           8080/TCP\n    Environment:\n      CATALOGUE_URL:   http://catalogue-api.catalogue:8080\n      CACHE_TAILLE:    2Gi\n      LICENCE_DRM:     FLAG{ondine-env-en-clair-81d2}\n      BASE_MOTDEPASSE: <set to the key 'motdepasse' in secret 'lecteur-base'>\n    Mounts:\n      /var/cache/lecteur from cache (rw)\nEvents:  <none>\n"
+      "/api/v1/namespaces/kube-system/pods/outil-debug/describe":
+        status: 403
+        body: ""
+        variants:
+          - id: token
+            header: "Authorization: Bearer ond-sa-lecteur-tableau-4f81c2"
+            body: "Name:             outil-debug\nNamespace:        kube-system\nNode:             noeud-1/10.91.0.21\nStart Time:       Sat, 04 Oct 2027 16:12:40 +0200\nAnnotations:      cree-par: stagiaire-infra (test reseau, a supprimer)\nStatus:           Running\nContainers:\n  debug:\n    Image:          registre.ondine.test/outils-reseau:1.0\n    Command:        sleep infinity\n    Security Context:\n      Privileged:   true\n    Mounts:\n      /hote from racine-noeud (rw)\nVolumes:\n  racine-noeud:\n    Type:          HostPath (bare host directory volume)\n    Path:          /\nHost Network:     true\nEvents:  <none>\n"
+
+dns:
+  ondine.test: { A: ["10.91.0.30"] }
+  tableau.ondine.test: { A: ["10.91.0.30"] }
+  k8s.ondine.test: { A: ["10.91.0.10"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  kubectl: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

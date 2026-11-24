@@ -1,0 +1,9 @@
+# Side series "Orchestre", mission 2: the shortest path, replayed by CI in every language.
+curl -s https://tableau.ondine.test/kubeconfig > .kube/config
+kubectl get pods
+kubectl describe pod lecteur-7f9c4
+submit FLAG{ondine-env-en-clair-81d2}
+kubectl get pods -A
+kubectl describe pod outil-debug -n kube-system
+answer privileged outil-debug
+answer node

@@ -1,0 +1,58 @@
+# Orchestra 1: the monitoring dashboard was opened without sign-in for a release weekend, and it
+# hands out a read-only kubeconfig. Read only: the token can list pods and configmaps, not secrets.
+order: 1
+stage: recon
+briefing: o1.briefing
+reveal: [tableau]
+
+objectives:
+  - { id: config, text: o1.obj.config }
+  - { id: marker, text: o1.obj.marker }
+  - { id: scope, text: o1.obj.scope }
+
+flags:
+  - { id: marker, value: "FLAG{ondine-tableau-ouvert-3c7a}", points: 200, objective: marker }
+
+questions:
+  - id: scope
+    text: o1.q.scope
+    objective: scope
+    correct: whatread
+    options:
+      - { id: whatread, text: o1.q.scope.whatread }
+      - { id: secrets, text: o1.q.scope.secrets, why: o1.q.scope.secrets.why }
+      - { id: nothing, text: o1.q.scope.nothing, why: o1.q.scope.nothing.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o1.ada.brief
+  - on: { event: HttpRequest, host: tableau, path: /kubeconfig }
+    do:
+      - objective.complete: config
+  - on: { event: ObjectiveCompleted, objective: config }
+    do:
+      - ada.say: o1.ada.config
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.say: o1.ada.marker
+      - ada.ask: scope
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o1.ada.done
+
+guide:
+  config: o1.ada.g.config
+  marker: o1.ada.g.marker
+  scope: o1.ada.g.scope
+
+hints:
+  config: [o1.hint.config.1, o1.hint.config.2]
+  marker: [o1.hint.marker.1, o1.hint.marker.2]
+  scope: [o1.hint.scope.1]
+
+debrief:
+  title: o1.debrief.title
+  lesson: o1.debrief.lesson
+  points: [o1.debrief.p1, o1.debrief.p2, o1.debrief.p3]
+  reference: "OWASP Kubernetes Top 10 · K07 Missing Network Segmentation"

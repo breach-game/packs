@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lecteur
+  namespace: diffusion
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: lecteur
+          image: registre.ondine.test/lecteur:3.8.2
+          env:
+            - name: CATALOGUE_URL
+              value: http://catalogue-api.catalogue:8080
+            - name: LICENCE_DRM
+              value: FLAG-masque-dans-le-depot
+            - name: BASE_MOTDEPASSE
+              valueFrom:
+                secretKeyRef: { name: lecteur-base, key: motdepasse }

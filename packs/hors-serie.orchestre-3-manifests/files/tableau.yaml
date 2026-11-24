@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tableau-reglages
+  namespace: supervision
+data:
+  host: tableau.ondine.test
+  auth: none
+  expose_kubeconfig: "true"
+  refresh_seconds: "30"

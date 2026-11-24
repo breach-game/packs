@@ -1,0 +1,15 @@
+id: hors-serie.orchestre
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: series
+requires: [hors-serie.orchestre-world]
+title:
+  fr: "Hors-série : Orchestre"
+  en: "Side series: Orchestra"
+summary:
+  fr: "Une plateforme de musique en continu, une grappe de conteneurs, et un tableau de bord ouvert « pour le week-end ». Tu récupères ce qu'il distribue, tu lis la grappe avec `kubectl get` et `describe`, puis tu corriges les manifestes côté défense, jugés par `verify`."
+  en: "A music streaming platform, a container cluster, and a dashboard left open \"for the weekend\". You fetch what it hands out, read the cluster with `kubectl get` and `describe`, then fix the manifests on the defence side, judged by `verify`."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, recon, defense]

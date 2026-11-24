@@ -1,0 +1,5 @@
+# Side series, in playing order: the dashboard, the descriptions, the manifests.
+missions:
+  - hors-serie.orchestre-1-dashboard
+  - hors-serie.orchestre-2-describe
+  - hors-serie.orchestre-3-manifests
