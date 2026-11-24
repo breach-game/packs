@@ -1,0 +1,117 @@
+# Dossier 21. Everything here is fictional: reserved .test and .example domains, private and documentation addresses only.
+startTime: "2027-08-14T09:00:00+02:00"
+mandate: CO-2027-021
+scope:
+  domains: ["*.cormoran.test"]
+  networks: ["10.81.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.81.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.81.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [portal]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CO-2027-021.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The customer site: sign-in, family tree, and the "relatives" page that finds DNA cousins.
+  - id: portal
+    hostname: origines.cormoran.test
+    ip: 10.81.0.20
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: -60, h: 120 }
+    links: [db]
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - h1: web.home.h1
+            - p: web.home.p1
+            - list: [web.home.l1, web.home.l2, web.home.l3]
+            - footer: web.footer
+      "/api/login":
+        status: 405
+        headers: { content-type: application/json }
+        body: "{\"error\": \"use POST with email and password\"}\n"
+      "/api/relatives":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first (cookie session=...)\"}\n"
+        variants:
+          - id: test-account
+            cookie: "session=lr-test-021"
+            headers: { content-type: application/json }
+            body: { $file: files/relatives.json }
+
+  - id: db
+    hostname: base.cormoran.test
+    ip: 10.81.0.30
+    os: Linux 6.1 (Debian 12)
+    map: { x: 300, z: 80, h: 110 }
+    services:
+      - { port: 5432, name: postgresql, product: PostgreSQL 15 }
+
+  # Where the sign-in attempts come from: dozens of addresses, seen only in the logs.
+  - id: outside
+    hostname: inconnu.cormoran.test
+    ip: 10.81.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  cormoran.test: { A: ["10.81.0.20"] }
+  origines.cormoran.test: { A: ["10.81.0.20"] }
+  base.cormoran.test: { A: ["10.81.0.30"] }
+
+whois:
+  cormoran.test: |
+    Domain Name: CORMORAN.TEST
+    Creation Date: 2011-09-20T08:00:00Z
+    Registrant Organization: Cormoran Origines SAS
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected

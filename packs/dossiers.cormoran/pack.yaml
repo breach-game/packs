@@ -1,0 +1,16 @@
+id: dossiers.cormoran
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [dossiers.cormoran-world]
+title:
+  fr: "Dossier 21 : mille deux cents cousins"
+  en: "Case file 21: twelve hundred cousins"
+summary:
+  fr: "Inspiré de la fuite d'un service de tests ADN en 2023, sans un seul serveur forcé. Sous mandat, tu repères des mots de passe volés essayés une fois par adresse, tu mesures ce qu'un seul compte ouvert laisse voir, puis tu fermes la porte et tu décides quoi dire aux clients. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the 2023 breach of a DNA testing service, without a single server broken into. Under mandate, you spot stolen passwords tried once per address, measure what a single open account lets you see, then close the door and decide what to tell customers. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, web, privacy, defense]
+incident: 2023

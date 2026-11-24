@@ -1,0 +1,10 @@
+# Case file 21, mission 2: the shortest path, replayed by CI in every language.
+curl -b "session=lr-test-021" https://origines.cormoran.test/api/relatives
+curl -b "session=lr-test-021" https://origines.cormoran.test/api/relatives | jq .total
+answer total 1214
+answer each
+cat partage/cousins.yml
+sed -i "s/visible_fields: .*/visible_fields: [display_name, relationship, shared_dna]/" partage/cousins.yml
+sed -i "s/opt_in: default-on/opt_in: explicit/" partage/cousins.yml
+sed -i "s/max_listed: unlimited/max_listed: 50/" partage/cousins.yml
+verify

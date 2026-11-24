@@ -1,0 +1,12 @@
+id: dossiers.cormoran-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Cormoran"
+  en: "Cormoran"
+summary:
+  fr: "Cormoran Origines, service fictif de généalogie par l'ADN. Ses clients retrouvent leurs cousins grâce à une fonction de partage qui montre beaucoup à chaque compte."
+  en: "Cormoran Origines, a fictional DNA genealogy service. Its customers find their cousins through a sharing feature that shows a lot to every account."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,87 @@
+# The sign-in policy, then a decision on what to tell customers.
+side: defense
+order: 3
+stage: defense
+briefing: c3.briefing
+
+files:
+  connexion/politique.yml: { $file: files/politique.yml }
+
+objectives:
+  - { id: factor, text: c3.obj.factor }
+  - { id: watch, text: c3.obj.watch }
+  - { id: tell, text: c3.obj.tell }
+
+questions:
+  - id: tell
+    text: c3.q.tell
+    objective: tell
+    options:
+      - { id: everyone, text: c3.q.tell.everyone, impact: 2 }
+      - { id: opened, text: c3.q.tell.opened, impact: 6 }
+      - { id: blame, text: c3.q.tell.blame, impact: 8 }
+
+checks:
+  - id: factor
+    text: c3.check.factor
+    if: { all: [{ file: "~/connexion/politique.yml", contains: "second_factor: required" }, { file: "~/connexion/politique.yml", contains: "leaked_passwords: refused" }, { file: "~/connexion/politique.yml", contains: "reset_on_leak: on" }] }
+    objective: factor
+  - id: watch
+    text: c3.check.watch
+    if: { all: [{ file: "~/connexion/politique.yml", contains: "failed_logins_alert: site-wide" }, { file: "~/connexion/politique.yml", contains: "new_device_email: on" }] }
+    objective: watch
+  - id: works
+    text: c3.check.works
+    if: { file: "~/connexion/politique.yml", contains: "sign_in:" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: factor }
+    do:
+      - ada.say: c3.ada.factor
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: factor }, { objective: watch }] } }
+    once: false
+    do:
+      - ada.say: c3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: factor }, { objective: watch }] }
+    do:
+      - ada.say: c3.ada.ready
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: everyone }
+    do:
+      - ada.say: c3.ada.everyone
+  - on: { event: Answered, question: tell, option: opened }
+    do:
+      - ada.say: c3.ada.opened
+  - on: { event: Answered, question: tell, option: blame }
+    do:
+      - ada.say: c3.ada.blame
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c3.ada.done
+
+guide:
+  factor: c3.ada.g.factor
+  watch: c3.ada.g.watch
+  tell: c3.ada.answer
+
+hints:
+  factor: [c3.hint.factor.1, c3.hint.factor.2]
+  watch: [c3.hint.watch.1]
+  tell: [c3.hint.tell.1]
+
+debrief:
+  title: c3.debrief.title
+  lesson: c3.debrief.lesson
+  points: [c3.debrief.p1, c3.debrief.p2, c3.debrief.p3, c3.debrief.p4]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"
+  facts:
+    title: c3.facts.title
+    points: [c3.facts.p1, c3.facts.p2, c3.facts.p3, c3.facts.p4, c3.facts.p5]
+    sources:
+      - { label: "ICO, 23andMe fined for failing to protect UK users' genetic data (June 2025)", url: "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2025/06/23andme-fined-for-failing-to-protect-uk-users-genetic-data" }
+      - { label: "SecurityWeek, 23andMe says hackers saw data from millions of users (December 2023)", url: "https://www.securityweek.com/23andme-says-hackers-saw-data-from-millions-of-users/" }
