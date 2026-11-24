@@ -1,0 +1,4 @@
+# Case file series, in playing order: the three nights, then the inventory.
+missions:
+  - dossiers.vanneau-1-nights
+  - dossiers.vanneau-2-owner

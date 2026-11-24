@@ -1,0 +1,16 @@
+id: dossiers.vanneau
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [dossiers.vanneau-world]
+title:
+  fr: "Dossier 35 : le domaine sans propriétaire"
+  en: "Case file 35: the domain nobody owned"
+summary:
+  fr: "Inspiré de la fuite de données d'un opérateur télécom en 2022. Joué côté défense : une vieille adresse d'API, oubliée depuis des années, répond encore, et sans demander qui appelle. Tu vois les fiches partir une à une, tu écris la règle, tu éteins le domaine, puis tu cherches pourquoi personne ne s'en occupait. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by a telecom operator's data breach in 2022. Played on the defence side: an old API address, forgotten for years, still answers, without asking who is calling. You watch the records leave one by one, write the rule, switch the domain off, then look for why nobody was looking after it. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, logs, defense]
+incident: 2022

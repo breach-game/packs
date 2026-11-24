@@ -1,0 +1,106 @@
+# Case file 35, mission 2: the inventory. The list of internet-facing names shows three with no
+# owner, never tested, not monitored. The old API's history shows a change that made its key check
+# answer "valid" to anyone, reviewed by nobody, three years before. The player counts the orphans,
+# dates the error, rewrites the inventory rules judged by `verify`, and decides who is told (a
+# decision: no option is wrong).
+side: defense
+order: 2
+stage: report
+startTime: "2028-09-20T10:00:00+02:00"
+briefing: c2.briefing
+reveal: [ancien, api, www]
+
+config:
+  bt.old_off: true
+
+files:
+  inventaire/noms.csv: { $file: files/noms.csv }
+  inventaire/historique.txt: { $file: files/historique.txt }
+  inventaire/regles.yml: { $file: files/regles.yml }
+
+objectives:
+  - { id: orphans, text: c2.obj.orphans }
+  - { id: since, text: c2.obj.since }
+  - { id: rules, text: c2.obj.rules }
+  - { id: tell, text: c2.obj.tell }
+
+investigation:
+  - { id: orphans, text: c2.q.orphans, value: "3", points: 75, objective: orphans }
+  - { id: since, text: c2.q.since, value: "2025", points: 75, objective: since }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: tell
+    text: c2.q.tell
+    objective: tell
+    options:
+      - { id: everyone, text: c2.q.tell.everyone, impact: 2 }
+      - { id: documents, text: c2.q.tell.documents, impact: 3 }
+      - { id: count, text: c2.q.tell.count, impact: 5 }
+
+checks:
+  - id: owner
+    text: c2.check.owner
+    if: { file: "~/inventaire/regles.yml", contains: "name_without_owner: refused" }
+    objective: rules
+  - id: unused
+    text: c2.check.unused
+    if: { file: "~/inventaire/regles.yml", contains: "unused_for_90_days: switch-off" }
+    objective: rules
+  - id: review
+    text: c2.check.review
+    if: { file: "~/inventaire/regles.yml", contains: "change_to_access_check: second-person-review" }
+    objective: rules
+  - id: scope
+    text: c2.check.scope
+    if: { file: "~/inventaire/regles.yml", contains: "security_test_scope: everything-that-answers" }
+    objective: rules
+  - id: works
+    text: c2.check.works
+    if: { file: "~/inventaire/regles.yml", contains: "inventory: enabled" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: orphans }
+    do:
+      - ada.say: c2.ada.orphans
+  - on: { event: ObjectiveCompleted, objective: since }
+    do:
+      - ada.say: c2.ada.since
+  - on: { event: Verified }
+    if: { not: { objective: rules } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: ObjectiveCompleted, objective: rules }
+    do:
+      - ada.say: c2.ada.rules
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  orphans: c2.ada.g.orphans
+  since: c2.ada.g.since
+  rules: c2.ada.g.rules
+  tell: c2.ada.g.tell
+
+hints:
+  orphans: [c2.hint.orphans.1, c2.hint.orphans.2]
+  since: [c2.hint.since.1, c2.hint.since.2]
+  rules: [c2.hint.rules.1, c2.hint.rules.2]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "OWASP API Security Top 10 · API9 Improper Inventory Management"
+  facts:
+    title: c2.facts.title
+    points: [c2.facts.p1, c2.facts.p2, c2.facts.p3, c2.facts.p4]
+    sources:
+      - { label: "ACMA, statement on the 2022 Optus data breach (May 2024)", url: "https://www.acma.gov.au/acma-statement-2022-optus-data-breach" }
+      - { label: "Light Reading, Optus domain unsecured for four years led to data breach - ACMA (June 2024)", url: "https://lightreading.com/security/optus-domain-unsecured-for-four-years-led-to-data-breach-acma" }

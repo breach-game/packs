@@ -1,0 +1,8 @@
+name,owner,last_change,in_monitoring,security_test
+www.boreal.test,team-web,2028-08-30,yes,2028-06
+api.boreal.test,team-api,2028-09-12,yes,2028-06
+espace-client.boreal.test,team-web,2028-07-04,yes,2028-06
+api-old.boreal.test,none,2025-03-18,no,never
+promo-2026.boreal.test,none,2026-11-02,no,never
+recette-facture.boreal.test,none,2027-01-25,no,never
+boutique.boreal.test,team-shop,2028-09-01,yes,2028-03

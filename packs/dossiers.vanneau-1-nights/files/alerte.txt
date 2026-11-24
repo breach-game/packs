@@ -1,0 +1,12 @@
+BORÉAL TÉLÉCOM - network operations, 2028-09-19 22:55
+
+Third night in a row with unusual traffic on 10.105.0.21 (api-old.boreal.test).
+Nobody on call knows what this machine is for. It is not in the monitoring
+dashboards. Its certificate was renewed automatically last month.
+
+For comparison, the current API is api.boreal.test (10.105.0.20): every request
+there carries a customer or partner token.
+
+Logs: soc logs ancien access     (old API)
+      soc logs api access        (current API)
+Test record created for Ligne Rouge: customer 900001.
