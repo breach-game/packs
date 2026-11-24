@@ -1,0 +1,3 @@
+file.readme: "Poste Ligne Rouge. Dossier : Goéland. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.mandate: "MANDAT AZ-2028-044\nClient : Air Alizé, compagnie aérienne. Périmètre : *.alize.test, 10.104.0.0/24.\nObjet : une banque signale des fraudes sur des cartes qui ont toutes servi sur le site d'Air Alizé. Ligne Rouge aide à trouver la fuite, à la fermer, puis à comprendre par où l'intrus est entré.\nCadre convenu : défense seulement. Lecture des fichiers et des journaux fournis par Air Alizé, mesures validées par la direction et passées par `contain`.\nSigné : le directeur technique d'Air Alizé."
+ada.outOfScope: "Stop. Cette cible est hors du mandat AZ-2028-044. Même pour défendre, hors mandat c'est un délit (article 323-1 du Code pénal)."

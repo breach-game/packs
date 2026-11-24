@@ -1,0 +1,6 @@
+# Air Alizé - remote access for partners. Possible values after the #.
+partner_access: enabled
+partner_second_factor: optional       # optional | required
+partner_reach: whole-network          # whole-network | own-application-only
+admin_passwords: in-scripts           # in-scripts | in-vault
+unusual_address_alert: off            # off | on

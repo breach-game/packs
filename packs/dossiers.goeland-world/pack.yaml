@@ -1,0 +1,12 @@
+id: dossiers.goeland-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Air Alizé"
+  en: "Air Alizé"
+summary:
+  fr: "Air Alizé, compagnie aérienne fictive. Un site qui vend des billets jour et nuit, une page de paiement, et des prestataires qui se connectent à distance pour le fret."
+  en: "Air Alizé, a fictional airline. A website selling tickets day and night, a payment page, and contractors who connect remotely for cargo."
+authors: [BREACH team]
+locales: [fr, en]

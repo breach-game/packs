@@ -1,0 +1,5 @@
+account,company,purpose,usual_address,second_factor
+fret-03,Cargo Ponant,cargo booking app,198.51.100.20,yes
+fret-07,Cargo Ponant,cargo booking app,198.51.100.20,no
+maintenance-02,Atelier Mistral,maintenance planning,192.0.2.88,yes
+audit-01,Cabinet Sirocco,yearly audit (read only),192.0.2.150,yes

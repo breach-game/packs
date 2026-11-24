@@ -1,0 +1,72 @@
+# Case file 34 "Goéland". Inspired by the 2018 theft of payment card data from an airline's website:
+# a script of the payment page altered to send a copy of what customers typed to a look-alike
+# domain, after an entry through a supplier's remote access account. Played on the defence side
+# only. The altered script is shown as a two-line difference in a description of what the page
+# does: it is not a working script, and nothing here can be reused.
+startTime: "2028-09-05T20:30:00+02:00"
+mandate: AZ-2028-044
+scope:
+  domains: ["*.alize.test"]
+  networks: ["10.104.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.104.0.2
+
+config:
+  az.script_restored: false
+  az.domain_blocked: false
+
+telemetry:
+  background:
+    - { host: passerelle, source: auth, every: 3, offset: 0, fields: { src: 198.51.100.20, user: fret-07, method: password } }
+    - { host: passerelle, source: auth, every: 4, offset: 1, fields: { src: 198.51.100.20, user: fret-03, method: password } }
+    - { host: passerelle, source: auth, every: 5, offset: 2, fields: { src: 203.0.113.140, user: fret-07, method: password } }
+    - { host: passerelle, source: auth, every: 4, offset: 3, fields: { src: 192.0.2.88, user: maintenance-02, method: password } }
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.104.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [www, paiement, passerelle, partage]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AZ-2028-044.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - { id: www, hostname: www.alize.test, ip: 10.104.0.10, os: Linux, map: { x: 60, z: -100, h: 120 }, services: [{ port: 443, name: https, product: Booking website }] }
+  - { id: paiement, hostname: paiement.alize.test, ip: 10.104.0.20, os: Linux, map: { x: 220, z: -40, h: 110 }, services: [{ port: 443, name: https, product: Payment service }] }
+  - { id: passerelle, hostname: passerelle.alize.test, ip: 10.104.0.30, os: Linux, map: { x: 40, z: 140, h: 100 }, services: [{ port: 443, name: https, product: Remote access gateway }] }
+  - { id: partage, hostname: partage.alize.test, ip: 10.104.0.40, os: Windows Server 2022, map: { x: 240, z: 120, h: 90 }, services: [{ port: 445, name: microsoft-ds, product: File sharing }] }
+
+dns:
+  alize.test: { A: ["10.104.0.10"] }
+  www.alize.test: { A: ["10.104.0.10"] }
+  paiement.alize.test: { A: ["10.104.0.20"] }
+  passerelle.alize.test: { A: ["10.104.0.30"] }
+  partage.alize.test: { A: ["10.104.0.40"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

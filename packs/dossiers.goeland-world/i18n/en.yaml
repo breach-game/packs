@@ -1,0 +1,3 @@
+file.readme: "Ligne Rouge workstation. Case file: Goéland. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE AZ-2028-044\nClient: Air Alizé, airline. Scope: *.alize.test, 10.104.0.0/24.\nPurpose: a bank reports fraud on cards that were all used on Air Alizé's website. Ligne Rouge helps find the leak, close it, then understand how the intruder got in.\nAgreed set-up: defence only. Reading the files and logs Air Alizé provides, measures approved by management and run through `contain`.\nSigned: the chief technology officer of Air Alizé."
+ada.outOfScope: "Stop. This target is outside mandate AZ-2028-044. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

@@ -1,0 +1,14 @@
+From: fraud desk, Banque du Ponant
+To: Air Alizé, security
+Date: 2028-09-05 18:10
+
+We see card fraud on 212 cards since late August. The only thing they have in
+common: each one paid for a ticket on www.alize.test between 21 August and
+today. Card number, expiry date and security code are all known to the
+fraudsters. Cards used on your site before 21 August are not affected.
+
+Air Alizé note (20:15): the payment database stores no security code, and
+shows no unusual read. What customers TYPE is another matter.
+  reviewed copy of the page's script : site/depot/paiement.js
+  copy served to customers right now : site/production/paiement.js
+  file dates on the web server       : site/production/dates.txt
