@@ -1,0 +1,14 @@
+id: paths.maison
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: path
+title:
+  fr: "Parcours : sécuriser sa maison"
+  en: "Path: securing your home"
+summary:
+  fr: "Tout ce qui se joue chez soi : lire ce que dit un nom de domaine et un message suspect, passer un week-end à sécuriser le réseau, les objets et les comptes d'une famille, puis quatre histoires vraies de caméras, d'objets connectés, de mots de passe et de SMS, et une permanence où l'on apprend à aider quelqu'un qui se sent suivi. Chaque étape se termine par des gestes à refaire chez soi."
+  en: "Everything that happens at home: read what a domain name and a suspicious message say, spend a weekend securing a family's network, devices and accounts, then four true stories of cameras, connected devices, passwords and text messages, and a help desk where you learn to help someone who feels followed. Each step ends with things to do again at home."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, privacy, defense]

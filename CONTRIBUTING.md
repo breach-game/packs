@@ -301,6 +301,46 @@ A mission can replay a documented attack, as the case file in `packs/dossiers.co
 - Sources are shown as plain text: the game follows no link.
 - **Give the year.** Put `incident: <year>` in the `pack.yaml` of the series (or of the mission, when it stands alone). The store lists it under *Real incidents*, and players can sort by it.
 
+### Home and personal life: the Wi-Fi list, text messages, the "at home" card
+
+Three tools for missions about a home or a person rather than a company. They need engine 0.17 (`engine: ">=0.17 <1"`). See the official season 10 in the game repository (`content/worlds/lemerle`, `content/missions/s10-*`) and `packs/hors-serie.pastille*`.
+
+```yaml
+# In world.yaml or mission.yaml: what `nmcli device wifi list` shows from the workstation.
+wifi:
+  - ssid: Atelier-Invites
+    bssid: "02:4C:10:24:00:01"      # must be a locally administered address (second digit 2, 6, A or E)
+    channel: 6
+    signal: 86                      # 0 to 100
+    security: WPA2                  # open | WEP | WPA1 | WPA1 WPA2 | WPA2 | WPA2 WPA3 | WPA3
+    inUse: true                     # the network the workstation is on
+    if: { file: "~/box/reglages.conf", lacks: "wifi_security: WPA3" }   # optional: follows a file the player fixes
+```
+
+It is the passive list a phone shows: no capture, no connection, no key. A `bssid` that could belong to a real maker is refused.
+
+```yaml
+# In world.yaml or mission.yaml: the inbox that `sms` lists and `sms <id or sender>` opens.
+sms:
+  - { id: parcel, from: ColisPlus, at: "2029-05-12 09:14", text: m1.sms.parcel }
+  - { id: bank, from: "38070", at: "2029-05-11 18:02", text: m1.sms.bank }
+  - { id: kid, from: "+33 6 39 98 41 07", at: "2029-05-13 11:02", text: m1.sms.kid }
+```
+
+`from` is a sender name (3 to 11 letters, digits or spaces: anyone can set one, which is the lesson), a five-digit short code, or a number from the ranges set aside for fiction (`+33 1 99 00 xx xx`, `+33 6 39 98 xx xx`, `+1 xxx 555 01xx`). Any other number is refused. A link in a message must point to a reserved domain like everything else.
+
+```yaml
+# In mission.yaml: a card shown after the debrief, "To do at home".
+debrief:
+  title: m1.debrief.title
+  lesson: m1.debrief.lesson
+  points: [m1.debrief.p1, m1.debrief.p2]
+  home:
+    points: [m1.home.p1, m1.home.p2, m1.home.p3]   # concrete steps the player can redo on their own devices
+```
+
+Write each `home` point as one thing a person can do tonight, on their own equipment, with no tool to install. Missions on these subjects stay on the defence side: settings and weakness classes, never a technique against a real device, no real model or firmware name, fictional brands only. When the story involves a person at risk (scams on a relative, being tracked by someone close), show only the defence, keep every decision with that person, and never touch anyone else's devices or accounts.
+
 ### Series: several missions in a row
 
 One long mission is tiring; a story in two or three short ones (the way in, the next step, the fix) works better. A **series** is a third kind of pack that lists missions of one world, as in `packs/example.atelier-pixel/`:
@@ -358,7 +398,7 @@ steps:                           # 3 to 20, each one once
   - { ref: example.night-shift, note: why.rules }    # a community mission or series
 ```
 
-`note` is a text key, translated in `i18n/` like any other. `breach-pack check` refuses a step that is not a known mission or series (worlds cannot be steps). The official ids are `breach.official.m00` to `m06` and `b01` to `b03` (campaign), `breach.training.t01`…, `breach.season2` to `breach.season9` and their missions `breach.season3.s01`…
+`note` is a text key, translated in `i18n/` like any other. `breach-pack check` refuses a step that is not a known mission or series (worlds cannot be steps). The official ids are `breach.official.m00` to `m06` and `b01` to `b03` (campaign), `breach.training.t01`…, `breach.season2` to `breach.season11` and their missions `breach.season3.s01`…
 
 **Challenges.** `levels` in the `pack.yaml` of a mission or a series limits the guidance levels it can be played at. `levels: [expert]` makes a challenge: the store files it under *Challenges*, the game plays it at Expert whatever the player's setting (which stays as it is), and the status bar greys out the other levels. At Expert the player only gets the briefing and the objectives, so they must be enough on their own; hints still work and still cost points.
 
@@ -705,7 +745,7 @@ A guardrail file has one condition per line, with the same modifiers and no `sou
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `nmcli device wifi list`, `sms`, `call`, `file`, `strings`, `unzip`, `tar`, `openssl x509`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 

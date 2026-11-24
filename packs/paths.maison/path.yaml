@@ -1,0 +1,9 @@
+steps:
+  - { ref: breach.training.t12, note: why.dns }
+  - { ref: breach.training.t04, note: why.mail }
+  - { ref: breach.season10, note: why.home }
+  - { ref: dossiers.tourterelle, note: why.camera }
+  - { ref: dossiers.etourneau, note: why.swarm }
+  - { ref: dossiers.verdier, note: why.vault }
+  - { ref: dossiers.pivert, note: why.texts }
+  - { ref: hors-serie.pastille, note: why.tag }

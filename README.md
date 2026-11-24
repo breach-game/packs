@@ -35,6 +35,7 @@ A path is a pack that only lists steps through missions that already exist, offi
 | `paths.owasp-llm` | Attacking and defending an AI | 12: the OWASP Top 10 for LLM applications, campaign, season 5 and case files |
 | `paths.soc` | SOC analyst | 11: from reading a log to the finale, all on the defence side |
 | `paths.first-steps` | First steps | 9: for someone who has never opened a terminal, one technique per step, up to the campaign |
+| `paths.maison` | Securing your home | 8: two trainings, the official season 10 at a family home, four real cases (camera accounts, connected devices, a password manager, text message phishing) and helping someone who feels followed |
 
 ## First steps
 
