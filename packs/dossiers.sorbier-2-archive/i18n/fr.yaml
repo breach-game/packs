@@ -25,7 +25,7 @@ s2.ada.flag: "`bad-header.plz`. On s'arrête là, on n'ouvre pas ce fichier : l'
 s2.ada.answer: "Réponds dans la messagerie, ou avec `answer` et la lettre."
 s2.ada.answer.standard: "Réponds à ma question."
 s2.ada.where: "Oui. Deux chemins différents pour le même code : celui que tout le monde relit, et celui que tout le monde installe. Il suffit de glisser quelque chose entre les deux."
-s2.ada.g.who: "Maintenant, qui. L'historique du projet est dans `dossier/history.txt` : lis-le en remontant le temps, puis réponds."
+s2.ada.g.who: "Maintenant, qui. L'historique du projet est dans `dossier/history.txt` : lis-le de bas en haut, du plus ancien au plus récent, puis réponds."
 s2.ada.g.who.standard: "Lis l'historique du projet, puis réponds à ma question."
 s2.ada.history: "Lis-le de bas en haut. Un premier petit correctif, une faute de frappe corrigée, des inconnus qui pressent le fondateur de passer la main, puis les droits, puis la signature des versions. Chaque étape, prise seule, est banale."
 s2.ada.who: "C'est ça. On ne connaît pas la personne derrière ce compte, et ce n'est pas à nous de la désigner. Ce que l'historique montre, c'est une méthode : deux ans de travail utile pour obtenir une seule chose, le droit de publier."

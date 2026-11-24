@@ -65,7 +65,7 @@ hosts:
         body: "{\n  \"service\": \"identity\",\n  \"machine\": \"passerelle-01\",\n  \"role\": \"role-passerelle\",\n  \"pass\": \"temporary pass issued (hidden in this exercise)\",\n  \"valid\": \"6h\",\n  \"asked_by\": \"passerelle-01 (relay)\"\n}\n"
       "/relay/stock":
         headers: { content-type: text/plain }
-        body: "STORAGE - listing as role-passerelle\n\n  demandes-2012/      41 870 files\n  demandes-2013/      58 112 files\n  ...\n  demandes-2026/     102 344 files\n  sauvegardes/           318 files\n  exercice/temoin.txt      1 file\n\n15 folders, 1 204 551 files readable with this role\n"
+        body: "STORAGE - listing as role-passerelle\n\n  demandes-2012/      41 870 files\n  demandes-2013/      58 112 files\n  ...\n  demandes-2026/     102 344 files\n  sauvegardes/           318 files\n  exercice/temoin.txt      1 file\n\n17 folders, 1 204 551 files readable with this role\n"
       "/relay/stock/exercice/temoin.txt":
         headers: { content-type: text/plain }
         body: "Witness file placed for mandate MS-2027-005.\nIf you can read this, you could read everything listed next to it.\nFLAG{mesange-role-trop-large-4b7e}\n"

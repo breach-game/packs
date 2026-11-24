@@ -5,7 +5,7 @@ briefing: c3.briefing
 # What Covera's CTO sent: the image recipe, and the CI example their documentation gives customers.
 files:
   dossier/Dockerfile: "FROM debian:12-slim\nRUN apt-get install -y python3 nginx\nCOPY app/ /opt/covera/\nCOPY deploy/ /opt/deploy/\nRUN /opt/deploy/publish-assets.sh --check && rm -rf /opt/deploy\nCMD [\"python3\", \"/opt/covera/server.py\"]\n"
-  dossier/ci-example.yml: "test:\n  script:\n    - make test\n    - curl -sO https://get.covera.test/uploader.sh\n    # TODO check the file before running it\n    - bash uploader.sh\n"
+  dossier/ci-example.yml: "test:\n  script:\n    - make test\n    - curl -sO https://get.covera.test/uploader.sh\n    # uploader.sha256 (published in the docs, apart from the script) holds the genuine fingerprint\n    # TODO check the file before running it\n    - bash uploader.sh\n"
   dossier/uploader.sha256: "5f1c0e7a9b3d2468ace013579bdf02468ace13579bdf0246a8c1e3f5b7d9e0c2  uploader.sh\n"
 
 objectives:
@@ -34,7 +34,7 @@ checks:
     objective: image
   - id: verified
     text: c3.check.verified
-    if: { file: "~/dossier/ci-example.yml", contains: "sha256sum -c uploader.sha256" }
+    if: { any: [{ file: "~/dossier/ci-example.yml", contains: "sha256sum -c" }, { file: "~/dossier/ci-example.yml", contains: "sha256sum --check" }] }
     objective: pin
   - id: runs
     text: c3.check.runs

@@ -44,6 +44,7 @@ rules:
       - ada.guide: { key: c1.ada.listing, for: key, step: 1 }
   - on: { event: HttpRequest, host: registry, path: /v2/covera/enterprise/blobs/4d1e9a/opt/deploy/release.key }
     do:
+      - objective.complete: layer
       - ada.guide: { key: c1.ada.found, for: key, step: 2 }
   - on: { event: FlagSubmitted, correct: true }
     do:

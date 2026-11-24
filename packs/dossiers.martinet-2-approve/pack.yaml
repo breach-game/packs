@@ -1,5 +1,5 @@
 id: dossiers.martinet-2-approve
-version: 1.1.0
+version: 1.1.1
 engine: ">=0.5 <1"
 kind: mission
 requires: [dossiers.martinet-world]

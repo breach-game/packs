@@ -1,5 +1,5 @@
 file.readme: "Poste Ligne Rouge. Dossier : Covera. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
-file.mandate: "MANDAT CV-2026-014\nClient : Covera SAS. Périmètre : *.covera.test, 10.61.0.0/24.\nObjet : émulation d'adversaire. Rejouer, étape par étape, le type d'attaque qu'un éditeur de logiciels a subi en 2021, pour voir si Covera y résisterait.\nLimites : lecture seule, sauf une ligne de commentaire comme preuve d'accès en écriture là où la mission le demande. Aucune donnée de client. Signé : le directeur technique de Covera."
+file.mandate: "MANDAT CV-2026-014\nClient : Covera SAS. Périmètre : *.covera.test, 10.61.0.0/24.\nObjet : émulation d'adversaire. Rejouer, étape par étape, le type d'attaque qu'un éditeur de logiciels a subi en 2021, pour voir si Covera y résisterait.\nLimites : lecture seule, sauf une ligne de commentaire comme preuve d'accès en écriture là où la mission le demande, exactement : # LR-CANARY CV-2026-014. Aucune donnée de client. Signé : le directeur technique de Covera."
 web.nav.home: "Accueil"
 web.nav.docs: "Installer"
 web.home.title: "Covera - sachez ce que vos tests couvrent"

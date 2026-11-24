@@ -4,7 +4,7 @@ triggers:
   - every morning: "have a look at the open issues"
 reads: [issues, code]
 can_write: [labels, comments, pull_requests]
-# How far the token goes. "all" means every repository of the owner.
+# How far the token goes. The "all" scope reaches every repository of the owner, "repo:<name>" only that one repository.
 token_scope: owner:all
-# Who confirms a tool call. "always" means nobody is asked.
+# Who confirms a tool call. "always" means nobody is asked, "ask" means a human confirms each call.
 auto_approve: always

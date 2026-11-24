@@ -12,6 +12,10 @@ role-passerelle    read + list, ALL folders        none
 role-tri           read + write, demandes-2026/    read + write, demandes-2026/
 role-sauvegarde    read, ALL folders               read, all folders
 
+INTERNAL SERVICE   NAME       WHAT IT DOES
+identity service   identity   gives each machine a temporary pass for its role
+storage            stock      card applications and backups
+
 NOTES
 - Each machine gets a temporary pass for its role from the internal
   identity service. The service answers any request that comes from
