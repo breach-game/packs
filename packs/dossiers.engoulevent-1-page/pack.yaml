@@ -1,0 +1,16 @@
+id: dossiers.engoulevent-1-page
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.engoulevent-world]
+title:
+  fr: "Dossier 27 · 1. La page de trop"
+  en: "Case file 27 · 1. The extra page"
+summary:
+  fr: "L'éditeur annonce une faille déjà exploitée. Tu compares le serveur à ce que l'éditeur a livré, tu trouves la page et le compte que personne n'a créés, tu écris la règle qui voit leur usage, puis tu fermes et tu corriges."
+  en: "The vendor announces a flaw already being exploited. You compare the server with what the vendor shipped, find the page and the account nobody created, write the rule that sees them used, then shut and patch."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, logs, defense]
+minutes: 15

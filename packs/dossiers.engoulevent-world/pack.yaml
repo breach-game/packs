@@ -1,0 +1,12 @@
+id: dossiers.engoulevent-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Horizon Paie"
+  en: "Horizon Paie"
+summary:
+  fr: "Horizon Paie, prestataire fictif qui prépare les fiches de paie d'une quarantaine d'entreprises et collectivités. Les clients déposent et récupèrent leurs fichiers sur Navette, un logiciel de transfert de fichiers acheté à un éditeur."
+  en: "Horizon Paie, a fictional provider that prepares the payslips of some forty companies and local authorities. Clients drop and collect their files on Navette, a file transfer product bought from a vendor."
+authors: [BREACH team]
+locales: [fr, en]

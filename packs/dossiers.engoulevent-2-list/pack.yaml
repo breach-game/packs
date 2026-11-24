@@ -1,0 +1,16 @@
+id: dossiers.engoulevent-2-list
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.engoulevent-world]
+title:
+  fr: "Dossier 27 · 2. La liste"
+  en: "Case file 27 · 2. The list"
+summary:
+  fr: "La porte est fermée. Tu fais la liste de ce qui est sorti, client par client, tu dis qui doit prévenir qui, tu décides quoi répondre à la demande de rançon, puis tu remets la semaine dans l'ordre. La dernière mission raconte les faits, sources à l'appui."
+  en: "The door is shut. You list what left, client by client, say who must tell whom, decide how to answer the ransom demand, then put the week back in order. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, privacy, crisis, defense]
+minutes: 15

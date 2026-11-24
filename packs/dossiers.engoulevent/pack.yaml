@@ -1,0 +1,16 @@
+id: dossiers.engoulevent
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.engoulevent-world]
+title:
+  fr: "Dossier 27 : la page de trop"
+  en: "Case file 27: the extra page"
+summary:
+  fr: "Inspiré du vol de données de masse par un logiciel de transfert de fichiers, en mai et juin 2023. Joué entièrement côté défense : tu trouves ce que l'intrus a laissé, tu fermes la porte, puis tu fais la liste de ce qui est sorti et de qui doit être prévenu. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the mass data theft through a file transfer product in May and June 2023. Played entirely on the defence side: you find what the intruder left, shut the door, then list what left and who must be told. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, logs, privacy, defense]
+incident: 2023
