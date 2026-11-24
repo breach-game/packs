@@ -1,0 +1,16 @@
+id: dossiers.cormoran-1-stuffing
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.cormoran-world]
+title:
+  fr: "Dossier 21 · 1. Une adresse, un essai"
+  en: "Case file 21 · 1. One address, one try"
+summary:
+  fr: "Des connexions ratées arrivent de partout, une seule fois par adresse. Tu trouves ce qu'elles ont en commun, puis tu écris une règle à seuil qui compte par client logiciel plutôt que par adresse."
+  en: "Failed sign-ins come from everywhere, once per address. You find what they share, then write a threshold rule that counts by software client rather than by address."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, defense]
+minutes: 12

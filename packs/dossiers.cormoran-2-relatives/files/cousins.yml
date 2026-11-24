@@ -1,0 +1,6 @@
+# DNA Cousins: what each customer sees of the people they share DNA with.
+cousins:
+  enabled: true
+  opt_in: default-on
+  visible_fields: [display_name, relationship, shared_dna, birth_year, location, family_names, ancestry]
+  max_listed: unlimited

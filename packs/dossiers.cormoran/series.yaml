@@ -1,0 +1,5 @@
+# Case file 21, in playing order: the stuffing, the multiplier, the front door.
+missions:
+  - dossiers.cormoran-1-stuffing
+  - dossiers.cormoran-2-relatives
+  - dossiers.cormoran-3-door

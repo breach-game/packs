@@ -1,0 +1,102 @@
+# Credential stuffing: passwords leaked elsewhere, tried once per address. A rule by address sees nothing.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [portal]
+
+files:
+  regles/bourrage.yml: |
+    title: Passwords from other leaks, tried on our sign-in page
+    source: access
+
+adversary:
+  id: stuffer
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: s1, host: portal, source: access, fields: { src: 198.51.100.11, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s2, host: portal, source: access, fields: { src: 203.0.113.52, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s3, host: portal, source: access, fields: { src: 192.0.2.77, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s4, host: portal, source: access, fields: { src: 198.51.100.203, method: POST, path: /api/login, status: 200, ua: lotus-client/3.1 } }
+    - { id: s5, host: portal, source: access, fields: { src: 203.0.113.140, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s6, host: portal, source: access, fields: { src: 192.0.2.18, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s7, host: portal, source: access, fields: { src: 198.51.100.96, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s8, host: portal, source: access, fields: { src: 203.0.113.21, method: POST, path: /api/login, status: 200, ua: lotus-client/3.1 } }
+    - { id: s9, host: portal, source: access, fields: { src: 192.0.2.201, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s10, host: portal, source: access, fields: { src: 198.51.100.57, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s11, host: portal, source: access, fields: { src: 203.0.113.88, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    - { id: s12, host: portal, source: access, fields: { src: 192.0.2.140, method: POST, path: /api/login, status: 401, ua: lotus-client/3.1 } }
+
+# Customers signing in and browsing, and now and then one of them mistyping a password.
+background:
+  - { host: portal, source: access, every: 2, offset: 0, fields: { src: 192.0.2.31, method: GET, path: /arbre, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+  - { host: portal, source: access, every: 3, offset: 1, fields: { src: 192.0.2.31, method: POST, path: /api/login, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+  - { host: portal, source: access, every: 4, offset: 2, fields: { src: 198.51.100.62, method: POST, path: /api/login, status: 200, ua: "CormoranApp/5.2 (Android 14)" } }
+  - { host: portal, source: access, every: 15, offset: 3, fields: { src: 198.51.100.62, method: POST, path: /api/login, status: 401, ua: "CormoranApp/5.2 (Android 14)" } }
+  - { host: portal, source: access, every: 15, offset: 8, fields: { src: 192.0.2.44, method: POST, path: /api/login, status: 401, ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4) Safari/604.1" } }
+  - { host: portal, source: access, every: 15, offset: 13, fields: { src: 192.0.2.31, method: POST, path: /api/login, status: 401, ua: "Mozilla/5.0 (Windows NT 10.0) Firefox/131.0" } }
+
+objectives:
+  - { id: ua, text: c1.obj.ua }
+  - { id: rule, text: c1.obj.rule }
+  - { id: why, text: c1.obj.why }
+
+investigation:
+  - { id: ua, text: c1.q.ua, value: "lotus-client/3.1", points: 75, objective: ua }
+
+hunts:
+  - id: stuffing
+    file: regles/bourrage.yml
+    catch: { source: access, where: { path: /api/login, status: 401, ua: lotus-client/3.1 } }
+    objective: rule
+
+questions:
+  - id: why
+    text: c1.q.why
+    objective: why
+    correct: spread
+    options:
+      - { id: spread, text: c1.q.why.spread }
+      - { id: hidden, text: c1.q.why.hidden, why: c1.q.why.hidden.why }
+      - { id: success, text: c1.q.why.success, why: c1.q.why.success.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: AdversaryStep, step: s4 }
+    do:
+      - ada.say: c1.ada.opened
+  - on: { event: ObjectiveCompleted, objective: ua }
+    do:
+      - ada.say: c1.ada.ua
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: c1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: c1.ada.rule
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  ua: c1.ada.g.ua
+  rule: c1.ada.g.rule
+  why: c1.ada.answer
+
+hints:
+  ua: [c1.hint.ua.1, c1.hint.ua.2]
+  rule: [c1.hint.rule.1, c1.hint.rule.2, c1.hint.rule.3]
+  why: [c1.hint.why.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

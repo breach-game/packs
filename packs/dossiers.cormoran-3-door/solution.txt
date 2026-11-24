@@ -1,0 +1,9 @@
+# Case file 21, mission 3: the shortest path, replayed by CI in every language.
+cat connexion/politique.yml
+sed -i "s/second_factor: optional/second_factor: required/" connexion/politique.yml
+sed -i "s/leaked_passwords: allowed/leaked_passwords: refused/" connexion/politique.yml
+sed -i "s/reset_on_leak: off/reset_on_leak: on/" connexion/politique.yml
+sed -i "s/failed_logins_alert: per-address/failed_logins_alert: site-wide/" connexion/politique.yml
+sed -i "s/new_device_email: off/new_device_email: on/" connexion/politique.yml
+verify
+answer everyone

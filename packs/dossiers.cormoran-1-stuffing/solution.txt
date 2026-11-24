@@ -1,0 +1,11 @@
+# Case file 21, mission 1: the shortest path, replayed by CI in every language.
+soc logs portal access
+answer ua lotus-client/3.1
+echo "path: /api/login" >> regles/bourrage.yml
+echo "status: 401" >> regles/bourrage.yml
+rule test regles/bourrage.yml
+echo "count|gte: 3" >> regles/bourrage.yml
+echo "within: 10" >> regles/bourrage.yml
+echo "by: ua" >> regles/bourrage.yml
+rule test regles/bourrage.yml
+answer spread

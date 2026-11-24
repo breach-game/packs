@@ -1,0 +1,8 @@
+# Cormoran Origines: how customers sign in.
+sign_in:
+  second_factor: optional
+  leaked_passwords: allowed
+  reset_on_leak: off
+  failed_logins_alert: per-address
+  new_device_email: off
+  password_min_length: 8

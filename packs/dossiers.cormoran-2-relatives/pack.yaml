@@ -1,0 +1,16 @@
+id: dossiers.cormoran-2-relatives
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.cormoran-world]
+title:
+  fr: "Dossier 21 · 2. Mille deux cents cousins"
+  en: "Case file 21 · 2. Twelve hundred cousins"
+summary:
+  fr: "Avec le compte de test, tu interroges la fonction qui retrouve les cousins, tu comptes avec `jq` combien de personnes un seul compte voit, et tu réduis ce qu'elle montre au strict nécessaire."
+  en: "With the test account, you query the feature that finds cousins, count with `jq` how many people a single account sees, and cut what it shows down to what is needed."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, privacy, defense]
+minutes: 12

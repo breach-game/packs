@@ -1,0 +1,16 @@
+id: dossiers.cormoran-3-door
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.cormoran-world]
+title:
+  fr: "Dossier 21 · 3. La porte d'entrée"
+  en: "Case file 21 · 3. The front door"
+summary:
+  fr: "Tu règles la connexion de Cormoran : une seconde étape obligatoire, les mots de passe déjà fuités refusés, une alerte sur tout le site et un courriel à chaque nouvel appareil. Puis tu décides quoi dire aux clients. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set Cormoran's sign-in: a required second step, passwords that already leaked refused, an alert across the whole site and an email for each new device. Then you decide what to tell customers. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, crisis]
+minutes: 10

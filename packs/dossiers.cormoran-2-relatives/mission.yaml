@@ -1,0 +1,79 @@
+# One open account sees twelve hundred people: the sharing feature multiplies a small leak into a huge one.
+side: defense
+order: 2
+stage: defense
+briefing: c2.briefing
+reveal: [portal]
+
+files:
+  partage/cousins.yml: { $file: files/cousins.yml }
+
+objectives:
+  - { id: total, text: c2.obj.total }
+  - { id: many, text: c2.obj.many }
+  - { id: fields, text: c2.obj.fields }
+  - { id: consent, text: c2.obj.consent }
+
+investigation:
+  - { id: total, text: c2.q.total, value: "1214", points: 75, objective: total }
+
+questions:
+  - id: many
+    text: c2.q.many
+    objective: many
+    correct: each
+    options:
+      - { id: each, text: c2.q.many.each }
+      - { id: database, text: c2.q.many.database, why: c2.q.many.database.why }
+      - { id: family, text: c2.q.many.family, why: c2.q.many.family.why }
+
+checks:
+  - id: fields
+    text: c2.check.fields
+    if: { all: [{ file: "~/partage/cousins.yml", lacks: "birth_year" }, { file: "~/partage/cousins.yml", lacks: "location" }, { file: "~/partage/cousins.yml", lacks: "family_names" }, { file: "~/partage/cousins.yml", lacks: "ancestry" }] }
+    objective: fields
+  - id: consent
+    text: c2.check.consent
+    if: { all: [{ file: "~/partage/cousins.yml", contains: "opt_in: explicit" }, { file: "~/partage/cousins.yml", lacks: "max_listed: unlimited" }] }
+    objective: consent
+  - id: works
+    text: c2.check.works
+    if: { all: [{ file: "~/partage/cousins.yml", contains: "enabled: true" }, { file: "~/partage/cousins.yml", contains: "display_name" }, { file: "~/partage/cousins.yml", contains: "shared_dna" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: total }
+    do:
+      - ada.say: c2.ada.total
+      - ada.ask: many
+  - on: { event: ObjectiveCompleted, objective: many }
+    do:
+      - ada.say: c2.ada.many
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: fields }, { objective: consent }] } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  total: c2.ada.g.total
+  many: c2.ada.answer
+  fields: c2.ada.g.fields
+  consent: c2.ada.g.consent
+
+hints:
+  total: [c2.hint.total.1, c2.hint.total.2]
+  many: [c2.hint.many.1]
+  fields: [c2.hint.fields.1, c2.hint.fields.2]
+  consent: [c2.hint.consent.1]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "OWASP API Security Top 10 · API3 Broken Object Property Level Authorization"
