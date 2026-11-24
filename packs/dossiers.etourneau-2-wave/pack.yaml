@@ -1,0 +1,16 @@
+id: dossiers.etourneau-2-wave
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.etourneau-world]
+title:
+  fr: "Dossier 30 · 2. La vague"
+  en: "Case file 30 · 2. The wave"
+summary:
+  fr: "Un fournisseur de DNS a été noyé sous les requêtes de dizaines de milliers d'objets, dont deux caméras de Parcs Lumen. Tu relis le journal de flux de ce samedi soir, tu trouves la cible et l'adresse qui donnait les ordres, puis tu décides de l'avenir des caméras."
+  en: "A DNS provider was drowned in queries from tens of thousands of devices, two of Lumen's cameras among them. You read that Saturday night's flow log, find the target and the address giving the orders, then decide the cameras' future."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, logs, defense]
+minutes: 12

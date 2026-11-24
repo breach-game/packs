@@ -1,0 +1,16 @@
+id: dossiers.etourneau
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.etourneau-world]
+title:
+  fr: "Dossier 30 : la nuée de caméras"
+  en: "Case file 30: the swarm of cameras"
+summary:
+  fr: "Inspiré du réseau d'objets connectés infectés de 2016. Joué entièrement côté défense, depuis la place d'un petit client : les caméras qui balaient Internet, l'accès à distance laissé ouvert, les mots de passe d'usine, puis la vague à laquelle elles ont pris part. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the botnet of infected connected devices of 2016. Played entirely on the defence side, from a small customer's seat: the cameras scanning the Internet, the remote access left open, the factory passwords, then the wave they took part in. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, logs, defense]
+incident: 2016

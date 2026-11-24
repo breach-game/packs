@@ -1,0 +1,107 @@
+# Case file 30, mission 2: the wave. The gateway's exported flow log of Saturday night shows the two
+# cameras checking in with a control address, getting a longer message at 20:11, then sending huge
+# volumes to one DNS server. The player names the target and the control address, blocks the latter,
+# decides what happens to the cameras (a decision: no option is wrong), and puts the story in order.
+side: defense
+order: 2
+stage: report
+startTime: "2027-10-22T10:00:00+02:00"
+briefing: e2.briefing
+reveal: [passerelle, cam3, cam5]
+
+config:
+  lm.forward_closed: true
+  lm.passwords_reset: true
+
+files:
+  traces/flux-samedi.log: { $file: files/flux-samedi.log }
+  traces/courrier-nuee.txt: { $file: files/courrier-nuee.txt }
+
+containment:
+  - id: control
+    action: block
+    target: 198.51.100.66
+    text: e2.contain.control
+    sets: { lm.c2_blocked: true }
+    impact: 0
+
+objectives:
+  - { id: target, text: e2.obj.target }
+  - { id: c2, text: e2.obj.c2 }
+  - { id: control, text: e2.obj.control }
+  - { id: future, text: e2.obj.future }
+  - { id: story, text: e2.obj.story }
+
+investigation:
+  - { id: target, text: e2.q.target, value: "192.0.2.53", points: 75, objective: target }
+  - { id: c2, text: e2.q.c2, value: "198.51.100.66", points: 100, objective: c2 }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: future
+    text: e2.q.future
+    objective: future
+    options:
+      - { id: apart, text: e2.q.future.apart, impact: 1 }
+      - { id: renew, text: e2.q.future.renew, impact: 4 }
+      - { id: keep, text: e2.q.future.keep, impact: 2 }
+
+timelines:
+  - id: vague
+    text: e2.tl.text
+    objective: story
+    events:
+      - { id: install, text: e2.tl.install }
+      - { id: found, text: e2.tl.found }
+      - { id: spread, text: e2.tl.spread }
+      - { id: order, text: e2.tl.order }
+      - { id: flood, text: e2.tl.flood }
+      - { id: notice, text: e2.tl.notice }
+      - { id: cleanup, text: e2.tl.cleanup }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: target }
+    do:
+      - ada.say: e2.ada.target
+  - on: { event: ObjectiveCompleted, objective: c2 }
+    do:
+      - ada.say: e2.ada.c2
+  - on: { event: Contained, containment: control }
+    do:
+      - objective.complete: control
+      - ada.say: e2.ada.control
+      - ada.ask: future
+  - on: { event: ObjectiveCompleted, objective: future }
+    do:
+      - ada.say: e2.ada.future
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e2.ada.done
+
+guide:
+  target: e2.ada.g.target
+  c2: e2.ada.g.c2
+  control: e2.ada.g.control
+  future: e2.ada.g.future
+  story: e2.ada.g.story
+
+hints:
+  target: [e2.hint.target.1, e2.hint.target.2]
+  c2: [e2.hint.c2.1, e2.hint.c2.2]
+  control: [e2.hint.control.1]
+  story: [e2.hint.story.1, e2.hint.story.2]
+
+debrief:
+  title: e2.debrief.title
+  lesson: e2.debrief.lesson
+  points: [e2.debrief.p1, e2.debrief.p2, e2.debrief.p3]
+  reference: "CISA · TA16-288A Heightened DDoS threat posed by Mirai"
+  facts:
+    title: e2.facts.title
+    points: [e2.facts.p1, e2.facts.p2, e2.facts.p3, e2.facts.p4, e2.facts.p5]
+    sources:
+      - { label: "CISA (US-CERT), Alert TA16-288A: Heightened DDoS Threat Posed by Mirai and Other Botnets (October 2016)", url: "https://www.cisa.gov/ncas/alerts/TA16-288A" }
+      - { label: "US Department of Justice, charges and guilty pleas in three computer crime cases (December 2017)", url: "https://www.justice.gov/opa/pr/justice-department-announces-charges-and-guilty-pleas-three-computer-crime-cases-involving" }

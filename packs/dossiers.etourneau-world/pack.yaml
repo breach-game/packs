@@ -1,0 +1,12 @@
+id: dossiers.etourneau-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Parcs Lumen"
+  en: "Lumen Car Parks"
+summary:
+  fr: "Parcs Lumen, exploitant fictif de parkings, surveille ses six niveaux avec des caméras connectées. Un prestataire les a installées, avec leurs mots de passe d'usine, et a ouvert leur accès à distance pour la maintenance."
+  en: "Lumen Car Parks, a fictional car park operator, watches its six levels with connected cameras. A contractor installed them, with their factory passwords, and opened remote access for maintenance."
+authors: [BREACH team]
+locales: [fr, en]

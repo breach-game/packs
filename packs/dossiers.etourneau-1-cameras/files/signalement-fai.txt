@@ -1,0 +1,19 @@
+From: abuse@fibre-ouest.example
+To: technique@lumen.test
+Date: Mon, 18 Oct 2027 17:42:10 +0200
+Subject: [Abuse #2027-88413] Telnet scanning from your connection
+
+Hello,
+
+Your connection (public address 203.0.113.40, contract PRO-55102) has been
+reported by three other networks since Saturday 16 October. It opens
+connections to TCP port 23 (telnet) on a large number of Internet addresses,
+one after another, a few per second.
+
+This pattern matches a device infected by a botnet that spreads through
+connected devices left with their factory password.
+
+Please find the device(s) and fix them within 72 hours. Past that delay we
+may restrict your connection.
+
+Fibre Ouest, abuse desk

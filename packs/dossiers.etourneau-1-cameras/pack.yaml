@@ -1,0 +1,16 @@
+id: dossiers.etourneau-1-cameras
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.etourneau-world]
+title:
+  fr: "Dossier 30 · 1. Les caméras"
+  en: "Case file 30 · 1. The cameras"
+summary:
+  fr: "Le fournisseur d'accès de Parcs Lumen signale que sa connexion balaie Internet. Tu lis le journal de flux, tu écris la règle qui voit les caméras infectées, puis tu fermes l'accès à distance et tu changes les mots de passe d'usine."
+  en: "Lumen's Internet provider reports that its connection is scanning the Internet. You read the flow log, write the rule that sees the infected cameras, then close remote access and change the factory passwords."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, logs, defense]
+minutes: 12
