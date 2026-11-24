@@ -78,9 +78,18 @@ rules:
   - on: { event: ObjectiveCompleted, objective: next }
     do:
       - ada.say: c1.ada.next
+  - on: { event: ObjectiveCompleted, objective: next }
+    if: { not: { objective: proof } }
+    do:
+      - ada.say: c1.ada.next.proof
   - on: { event: ObjectiveCompleted, objective: proof }
+    if: { not: { objective: off } }
     do:
       - ada.say: c1.ada.proof
+  - on: { event: ObjectiveCompleted, objective: proof }
+    if: { all: [{ not: { objective: off } }, { not: { objective: rule } }] }
+    do:
+      - ada.say: c1.ada.proof.rule
   - on: { event: RuleTested, passed: false }
     once: false
     do:
@@ -88,11 +97,22 @@ rules:
   - on: { event: ObjectiveCompleted, objective: rule }
     do:
       - ada.say: c1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: rule }
+    if: { not: { objective: off } }
+    do:
+      - ada.say: c1.ada.rule.off
   - on: { event: Contained, containment: off }
     do:
       - objective.complete: off
       - ada.say: c1.ada.off
       - ada.ask: why
+  # Switching the old API off first is the right reflex: the test record can no longer be read,
+  # but the logs already prove the point, so the proof objective closes without its answer's points.
+  - on: { event: Contained, containment: off }
+    if: { not: { objective: proof } }
+    do:
+      - ada.say: c1.ada.offearly
+      - objective.complete: proof
   - on: { event: MissionCompleted }
     do:
       - ada.say: c1.ada.done

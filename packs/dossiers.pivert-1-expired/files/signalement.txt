@@ -7,7 +7,7 @@ family members of employees.
 
 A test phone that received it is plugged into your workstation: sms
 About the domain in the link:
-  registered : 2028-08-04 15:34 (38 minutes before the first text)
+  registered : 2028-08-04 15:34 (18 minutes before the first text)
   hosted     : outside Sémaphore, not ours
 Real sign-in page: connexion.semaphore.test
 Sign-in log: soc logs sso auth

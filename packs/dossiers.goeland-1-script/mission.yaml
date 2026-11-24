@@ -44,7 +44,7 @@ containment:
     impact: 0
   - id: block
     action: block
-    target: alize-paiements.example
+    target: destination
     text: c1.contain.block
     sets: { az.domain_blocked: true }
     impact: 0
@@ -81,6 +81,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: typed }
     do:
       - ada.say: c1.ada.typed
+  - on: { event: ObjectiveCompleted, objective: typed }
+    if: { not: { objective: stop } }
+    do:
+      - ada.say: c1.ada.typed.close
   - id: stop-a
     on: { event: Contained, containment: restore }
     if: { config: az.domain_blocked, eq: true }

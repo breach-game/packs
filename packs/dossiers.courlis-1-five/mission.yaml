@@ -35,7 +35,7 @@ background:
 containment:
   - id: profile
     action: disable
-    target: profil-2019
+    target: acces-intrus
     text: c1.contain.profile
     sets: { tf.profile_off: true }
     impact: 0
@@ -78,6 +78,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: old }
     do:
       - ada.say: c1.ada.old
+  - on: { event: ObjectiveCompleted, objective: old }
+    if: { not: { objective: cut } }
+    do:
+      - ada.say: c1.ada.old.cut
   - on: { event: Contained, containment: profile }
     do:
       - objective.complete: cut

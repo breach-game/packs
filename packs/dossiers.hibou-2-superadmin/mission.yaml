@@ -72,6 +72,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: why }
     do:
       - ada.say: c2.ada.why
+  - on: { event: ObjectiveCompleted, objective: why }
+    if: { not: { objective: design } }
+    do:
+      - ada.say: c2.ada.why.design
   - on: { event: Verified }
     if: { not: { objective: design } }
     once: false

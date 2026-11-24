@@ -35,7 +35,7 @@ background:
 containment:
   - id: out
     action: block
-    target: 203.0.113.45
+    target: sortie
     text: c1.contain.out
     sets: { gc.out_blocked: true }
     impact: 0
@@ -76,6 +76,10 @@ rules:
   - on: { event: ObjectiveCompleted, objective: exit }
     do:
       - ada.say: c1.ada.exit
+  - on: { event: ObjectiveCompleted, objective: exit }
+    if: { not: { objective: cut } }
+    do:
+      - ada.say: c1.ada.exit.cut
   - id: cut-a
     on: { event: Contained, containment: out }
     if: { config: gc.relay_isolated, eq: true }

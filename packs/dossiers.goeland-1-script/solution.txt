@@ -6,7 +6,7 @@ cat site/production/dates.txt
 answer browser
 contain
 contain restore paiement.js
-contain block alize-paiements.example
+contain block destination
 cat site/en-tetes.yml
 sed -i "s/scripts_allowed_from: anywhere/scripts_allowed_from: own-site-only/" site/en-tetes.yml
 sed -i "s/form_data_may_go_to: anywhere/form_data_may_go_to: own-payment-service-only/" site/en-tetes.yml
