@@ -77,6 +77,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 24 | `dossiers.huppe*` | The Friday of the counters | CrowdStrike, 2024 | No attacker: finding a faulty content file in a rescue-mode journal (`journalctl`, `last`, `strings`), why withdrawing it repairs nothing, the recovery order traced with `path` (key vault before counters), delivery rings set with `flag` |
 | 25 | `dossiers.heron*` | The remote lookup | Log4Shell (CVE-2021-44228), 2021 | Defence only: finding a library hidden inside a vendor archive (`sbom`, `unzip -l`), egress blocking while no patch exists, a first fix that is not enough, a rule on the lookup class, finding a miner with `ps` and `ss`, rebuilding rather than cleaning |
 | 26 | `dossiers.rossignol*` | The heartbeat | Heartbleed (CVE-2014-0160), 2014 | Defence only: counting affected services from `nmap -sV` banners (older branches are safe), patching and switching the heartbeat off on a box that cannot be updated, a rule on the new IDS signature and what it cannot prove, reissuing keys and certificates, the order of the message to users |
+| 27 | `dossiers.engoulevent*` | The extra page | MOVEit Transfer (CVE-2023-34362), 2023 | Defence only: the page and the admin account an intruder left, found against the vendor manifest, a rule on the exact path, removing them with the patch, counting clients and people from an audit log, a provider's duty to tell its clients, the ransom decision |
 
 ## Side series
 

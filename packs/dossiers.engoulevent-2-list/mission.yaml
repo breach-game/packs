@@ -1,0 +1,104 @@
+# Case file 27, mission 2: Monday. The Navette audit log lists the downloads made with the planted
+# account: four clients out of six, and how many employees their files cover. Then the processor's
+# duty to tell its clients at once, the ransom decision (no wrong option, only a cost), the week in
+# order, and the real facts.
+side: defense
+order: 2
+stage: report
+startTime: "2027-06-07T09:30:00+02:00"
+briefing: e2.briefing
+reveal: [navette, base]
+
+config:
+  en.page.removed: true
+  en.account.disabled: true
+  en.patched: true
+
+files:
+  traces/navette-audit.log: { $file: files/navette-audit.log }
+  traces/message-recu.txt: { $file: files/message-recu.txt }
+
+objectives:
+  - { id: clients, text: e2.obj.clients }
+  - { id: people, text: e2.obj.people }
+  - { id: notify, text: e2.obj.notify }
+  - { id: ransom, text: e2.obj.ransom }
+  - { id: week, text: e2.obj.week }
+
+investigation:
+  - { id: clients, text: e2.q.clients, value: "4", points: 75, objective: clients }
+  - { id: people, text: e2.q.people, value: "2487", points: 100, objective: people }
+
+questions:
+  - id: notify
+    text: e2.q.notify
+    objective: notify
+    correct: tell
+    options:
+      - { id: tell, text: e2.q.notify.tell }
+      - { id: later, text: e2.q.notify.later, why: e2.q.notify.later.why }
+      - { id: announce, text: e2.q.notify.announce, why: e2.q.notify.announce.why }
+  - id: ransom
+    text: e2.q.ransom
+    objective: ransom
+    options:
+      - { id: refuse, text: e2.q.ransom.refuse, why: e2.q.ransom.refuse.why, impact: 2 }
+      - { id: payup, text: e2.q.ransom.payup, why: e2.q.ransom.payup.why, impact: 8 }
+      - { id: silence, text: e2.q.ransom.silence, why: e2.q.ransom.silence.why, impact: 5 }
+
+timelines:
+  - id: semaine
+    text: e2.tl.text
+    objective: week
+    events:
+      - { id: account, text: e2.tl.account }
+      - { id: downloads, text: e2.tl.downloads }
+      - { id: advisory, text: e2.tl.advisory }
+      - { id: removed, text: e2.tl.removed }
+      - { id: message, text: e2.tl.message }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: clients }
+    do:
+      - ada.say: e2.ada.clients
+  - on: { event: ObjectiveCompleted, objective: people }
+    do:
+      - ada.say: e2.ada.people
+      - ada.ask: notify
+  - on: { event: ObjectiveCompleted, objective: notify }
+    do:
+      - ada.say: e2.ada.notify
+      - ada.ask: ransom
+  - on: { event: ObjectiveCompleted, objective: ransom }
+    do:
+      - ada.say: e2.ada.ransom
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e2.ada.done
+
+guide:
+  clients: e2.ada.g.clients
+  people: e2.ada.g.people
+  notify: e2.ada.g.notify
+  ransom: e2.ada.g.ransom
+  week: e2.ada.g.week
+
+hints:
+  clients: [e2.hint.clients.1, e2.hint.clients.2]
+  people: [e2.hint.people.1, e2.hint.people.2]
+  week: [e2.hint.week.1, e2.hint.week.2]
+
+debrief:
+  title: e2.debrief.title
+  lesson: e2.debrief.lesson
+  points: [e2.debrief.p1, e2.debrief.p2, e2.debrief.p3]
+  reference: "RGPD · article 33, paragraphe 2 (sous-traitant)"
+  facts:
+    title: e2.facts.title
+    points: [e2.facts.p1, e2.facts.p2, e2.facts.p3, e2.facts.p4, e2.facts.p5]
+    sources:
+      - { label: "CISA and FBI, Advisory AA23-158A: CL0P exploits CVE-2023-34362 MOVEit (June 2023)", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a" }
+      - { label: "Mandiant (Google Cloud), Zero-Day Vulnerability in MOVEit Transfer Exploited for Data Theft", url: "https://cloud.google.com/blog/topics/threat-intelligence/zero-day-moveit-data-theft" }

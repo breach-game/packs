@@ -1,0 +1,13 @@
+Navette Transfer - Critical security advisory NAV-2027-0602 - 2 June 2027, 21:00
+
+A flaw in the Navette Transfer web interface lets an unauthenticated visitor
+reach the database. It is being exploited in the wild since at least 29 May.
+
+Check NOW:
+  1. Files in the web root (www/) that are not in the MANIFESTE.txt of your version.
+  2. Navette admin accounts nobody in your team created.
+  3. Large downloads from the web interface to unknown addresses.
+
+Fix: Navette Transfer 2027.0.3.
+Until patched: cut HTTP and HTTPS access to Navette from the internet.
+Patching does not remove what an intruder left: remove it yourself.

@@ -1,0 +1,12 @@
+2027-05-28 17:40:12 user=client-mercier action=upload folder=/clients/mercier file=paie-2027-05.csv lines=812 src=10.97.0.140
+2027-05-28 18:02:55 user=client-orme action=upload folder=/clients/orme file=paie-2027-05.csv lines=96 src=10.97.0.171
+2027-05-29 03:12:40 user=- action=account.create target=sante-svc role=admin src=198.51.100.66
+2027-05-29 03:14:02 user=sante-svc action=list folder=/clients src=198.51.100.66
+2027-05-29 03:20:18 user=sante-svc action=download folder=/clients/mercier file=paie-2027-05.csv lines=812 src=198.51.100.66
+2027-05-29 03:31:47 user=sante-svc action=download folder=/clients/saules file=paie-2027-05.csv lines=140 src=198.51.100.66
+2027-05-29 10:15:09 user=client-garance action=download folder=/clients/garance file=bulletins-2027-04.zip lines=58 src=10.97.0.180
+2027-05-30 02:48:33 user=sante-svc action=download folder=/clients/pradelles file=paie-2027-05.csv lines=1230 src=198.51.100.66
+2027-05-30 02:59:01 user=sante-svc action=download folder=/clients/pradelles file=paie-2027-04.csv lines=1230 src=198.51.100.66
+2027-05-31 04:05:51 user=sante-svc action=download folder=/clients/lazare file=paie-2027-05.csv lines=305 src=203.0.113.91
+2027-06-01 09:22:30 user=client-lazare action=upload folder=/clients/lazare file=paie-2027-05-v2.csv lines=305 src=10.97.0.163
+2027-06-02 23:41:05 user=admin-hp action=login src=10.97.0.31

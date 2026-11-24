@@ -1,0 +1,124 @@
+# Case file 27, mission 1: Thursday morning. An extra page in the web root (compared with the
+# vendor manifest), an admin account created at 3 am on a holiday weekend, live requests to the page
+# for the rule, then removal, account disabled and the vendor patch. Defence only: the injection
+# that dropped the page never appears, only what it left.
+side: defense
+order: 1
+stage: defense
+briefing: e1.briefing
+reveal: [navette, base]
+
+files:
+  bulletin/NAV-2027-0602.txt: { $file: files/bulletin.txt }
+  regles/page-inconnue.yml: |
+    title: Requests to a page Navette never shipped
+    source: access
+
+adversary:
+  id: thief
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: a1, host: navette, source: access, fields: { src: 198.51.100.66, method: GET, path: /aide2.php, status: 200, bytes: 1840, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" } }
+    - { id: a2, host: navette, source: access, fields: { src: 198.51.100.66, method: GET, path: /aide2.php, status: 200, bytes: 52428800, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" } }
+    - { id: a3, host: navette, source: access, fields: { src: 203.0.113.91, method: GET, path: /aide2.php, status: 200, bytes: 1840, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" }, blockedIf: { config: en.page.removed, eq: true } }
+    - { id: a4, host: navette, source: flow, fields: { src: 10.97.0.15, dst: 203.0.113.91, dport: 443, bytes: 61865984 }, blockedIf: { config: en.page.removed, eq: true } }
+
+# Clients dropping and collecting their payroll files, and reading the help pages.
+background:
+  - { host: navette, source: access, every: 2, offset: 0, fields: { src: 10.97.0.140, method: POST, path: /transfert.php, status: 200, ua: "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) Safari/605.1.15" } }
+  - { host: navette, source: access, every: 3, offset: 1, fields: { src: 10.97.0.152, method: GET, path: /aide.php, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/126.0" } }
+  - { host: navette, source: access, every: 4, offset: 2, fields: { src: 10.97.0.163, method: GET, path: /connexion.php, status: 200, ua: "Mozilla/5.0 (X11; Linux x86_64) Chrome/125.0" } }
+
+containment:
+  - id: page
+    action: remove
+    target: aide2.php
+    text: e1.contain.page
+    sets: { en.page.removed: true }
+    removes: [{ host: navette, path: /srv/navette/www/aide2.php }]
+    impact: 0
+  - id: account
+    action: disable
+    target: sante-svc
+    text: e1.contain.account
+    sets: { en.account.disabled: true }
+    impact: 0
+
+releases:
+  - service: navette
+    current: "2027.0.2"
+    versions:
+      - { version: "2027.0.2" }
+      - { version: "2027.0.3", sets: { en.patched: true }, impact: 1 }
+
+objectives:
+  - { id: page, text: e1.obj.page }
+  - { id: account, text: e1.obj.account }
+  - { id: rule, text: e1.obj.rule }
+  - { id: close, text: e1.obj.close }
+  - { id: patch, text: e1.obj.patch }
+
+investigation:
+  - { id: page, text: e1.q.page, value: "aide2.php", points: 75, objective: page }
+  - { id: account, text: e1.q.account, value: "sante-svc", points: 75, objective: account }
+
+hunts:
+  - id: page
+    file: regles/page-inconnue.yml
+    catch: { source: access, where: { path: /aide2.php } }
+    objective: rule
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: page }
+    do:
+      - ada.say: e1.ada.page
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: e1.ada.account
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: e1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: e1.ada.rule
+  - on: { event: ConfigPatched }
+    if: { all: [{ config: en.page.removed, eq: true }, { config: en.account.disabled, eq: true }] }
+    do:
+      - objective.complete: close
+  - on: { event: ObjectiveCompleted, objective: close }
+    do:
+      - ada.say: e1.ada.close
+  - on: { event: ConfigPatched }
+    if: { config: en.patched, eq: true }
+    do:
+      - objective.complete: patch
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e1.ada.done
+
+guide:
+  page: e1.ada.g.page
+  account: e1.ada.g.account
+  rule: e1.ada.g.rule
+  close: e1.ada.g.close
+  patch: e1.ada.g.patch
+
+hints:
+  page: [e1.hint.page.1, e1.hint.page.2]
+  account: [e1.hint.account.1, e1.hint.account.2]
+  rule: [e1.hint.rule.1, e1.hint.rule.2]
+  close: [e1.hint.close.1]
+  patch: [e1.hint.patch.1]
+
+debrief:
+  title: e1.debrief.title
+  lesson: e1.debrief.lesson
+  points: [e1.debrief.p1, e1.debrief.p2, e1.debrief.p3]
+  reference: "OWASP Top 10 · A03 Injection (effects, defence side)"

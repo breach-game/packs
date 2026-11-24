@@ -1,0 +1,113 @@
+# Case file 27 "Engoulevent". Inspired by the mass data theft through a file transfer product in
+# May and June 2023. Played on the defence side only: the extra page, the account, the rule, the
+# patch, then the list of what left and who must be told. The product (Navette), its vendor and
+# every company are fictional; no injection appears anywhere, only its effects.
+startTime: "2027-06-03T09:00:00+02:00"
+mandate: HP-2027-071
+scope:
+  domains: ["*.horizon.test"]
+  networks: ["10.97.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.97.0.2
+
+config:
+  en.page.removed: false
+  en.account.disabled: false
+  en.patched: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.97.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [navette]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            HP-2027-071.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The file transfer server, open to the internet so clients can drop their files.
+  - id: navette
+    hostname: navette.horizon.test
+    ip: 10.97.0.15
+    os: Linux 5.15 (Ubuntu 22.04)
+    map: { x: 200, z: -40, h: 110 }
+    links: [base]
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 8.9p1 Ubuntu }
+      - { port: 443, name: https, product: Navette Transfer 2027.0.2 }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    web:
+      "/":
+        page:
+          title: "Navette · Horizon Paie"
+          blocks:
+            - { h1: page.navette.h1 }
+            - { p: page.navette.p }
+    fs:
+      etc:
+        hostname: "navette\n"
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.readme }
+      srv:
+        navette:
+          MANIFESTE.txt: { $t: file.manifest }
+          comptes.txt: { $t: file.accounts }
+          www:
+            accueil.php: "<!-- Navette 2027.0.2: home page -->\n"
+            connexion.php: "<!-- Navette 2027.0.2: sign-in page -->\n"
+            transfert.php: "<!-- Navette 2027.0.2: upload and download -->\n"
+            aide.php: "<!-- Navette 2027.0.2: help pages -->\n"
+            aide2.php: { $t: file.page }
+
+  - id: base
+    hostname: base.horizon.test
+    ip: 10.97.0.30
+    os: Linux 5.15 (Ubuntu 22.04)
+    map: { x: 380, z: 60, h: 120 }
+    services:
+      - { port: 5432, name: postgresql, product: PostgreSQL 14 }
+
+  # Where the downloads went, seen only through the logs. Never reachable.
+  - id: outside
+    hostname: inconnu.horizon.test
+    ip: 10.97.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  horizon.test: { A: ["10.97.0.15"] }
+  navette.horizon.test: { A: ["10.97.0.15"] }
+  base.horizon.test: { A: ["10.97.0.30"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

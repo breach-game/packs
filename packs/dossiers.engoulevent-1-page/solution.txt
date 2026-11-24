@@ -1,0 +1,16 @@
+# Case file 27, mission 1: the shortest path, replayed by CI in every language.
+cat bulletin/NAV-2027-0602.txt
+ssh ir@navette.horizon.test
+cat /srv/navette/MANIFESTE.txt
+ls /srv/navette/www
+cat /srv/navette/www/aide2.php
+answer page aide2.php
+cat /srv/navette/comptes.txt
+answer account sante-svc
+exit
+soc logs navette access
+echo "path: /aide2.php" >> regles/page-inconnue.yml
+rule test regles/page-inconnue.yml
+contain remove aide2.php
+contain disable sante-svc
+deploy navette 2027.0.3
