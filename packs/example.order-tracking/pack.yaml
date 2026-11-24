@@ -1,0 +1,16 @@
+id: example.order-tracking
+version: 1.0.0
+engine: ">=0.11 <1"
+kind: mission
+requires: [example.pixel-world]
+title:
+  fr: Le suivi trop bavard
+  en: The chatty tracking form
+summary:
+  fr: "Mission d'exemple du kit d'auteur : un formulaire qui répond par un personnage, une forme d'entrée reconnue, une API et sa variante par cookie."
+  en: "Author kit sample: a form answered by a character, an input shape the engine recognises, an API and its cookie variant."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, defense]
+minutes: 10

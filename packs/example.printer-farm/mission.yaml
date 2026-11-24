@@ -1,0 +1,61 @@
+# Author kit: connected devices and decisions. Read it with CONTRIBUTING.md, section 4
+# (a broker is a host whose routes are topics) and section 5 (decisions).
+order: 3
+stage: iot
+briefing: pf.briefing
+reveal: [www, farm]
+
+objectives:
+  - { id: listen, text: pf.obj.listen }
+  - { id: bench, text: pf.obj.bench }
+  - { id: decide, text: pf.obj.decide }
+
+flags:
+  - { id: retained, value: "FLAG{pixel-farm-retained-5a90}", points: 100, objective: listen }
+  - { id: bench, value: "FLAG{pixel-anyone-commands-c41d}", points: 100, objective: bench }
+
+# A decision: no `correct`. Every option ends the objective; `sets` changes the target, `impact` costs.
+questions:
+  - id: decide
+    text: pf.q.decide
+    objective: decide
+    options:
+      - { id: acl, text: pf.q.decide.acl, why: pf.q.decide.acl.why, sets: { farm.auth: true, farm.acl: true }, impact: 5 }
+      - { id: auth, text: pf.q.decide.auth, why: pf.q.decide.auth.why, sets: { farm.auth: true }, impact: 5 }
+      - { id: unplug, text: pf.q.decide.unplug, why: pf.q.decide.unplug.why, impact: 40 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: pf.ada.brief
+  - on: { event: HttpRequest, host: farm, method: SUBSCRIBE }
+    if: { not: { flag: retained } }
+    do:
+      - ada.guide: { key: pf.ada.read, for: listen, step: 1 }
+  # Production printers: the mandate forbids touching them, the target notices.
+  - on: { event: ChatReply, npc: printers }
+    once: false
+    do:
+      - noise.add: { points: 25, as: pf.soc.production }
+      - ada.warn: pf.ada.production
+  - on: { event: ObjectiveCompleted, objective: bench }
+    do:
+      - ada.ask: decide
+  - on: { event: Answered, question: decide }
+    do:
+      - ada.say: pf.ada.after
+
+guide:
+  listen: pf.ada.listen
+  bench: pf.ada.bench
+  decide: pf.ada.decide
+
+hints:
+  listen: [pf.hint.listen.1, pf.hint.listen.2]
+  bench: [pf.hint.bench.1, pf.hint.bench.2]
+
+debrief:
+  title: pf.debrief.title
+  lesson: pf.debrief.lesson
+  points: [pf.debrief.p1, pf.debrief.p2, pf.debrief.p3]
+  reference: "OWASP IoT Top 10 · I1 Weak passwords, I9 Insecure default settings"

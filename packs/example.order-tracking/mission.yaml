@@ -1,0 +1,71 @@
+# Author kit: web mechanics. Read it with CONTRIBUTING.md, section 4 (forms, tables, variants)
+# and section 8 (input shapes).
+order: 2
+stage: web
+briefing: ot.briefing
+reveal: [www]
+
+objectives:
+  - { id: form, text: ot.obj.form }
+  - { id: quote, text: ot.obj.quote }
+  - { id: role, text: ot.obj.role }
+  - { id: fix, text: ot.obj.fix }
+
+flags:
+  # The form's error page shows its debug token: a quote broke the query.
+  - { id: quote, value: "FLAG{pixel-quote-error-8b21}", points: 100, objective: quote }
+  # The API trusted a role written in a cookie.
+  - { id: role, value: "FLAG{pixel-cookie-role-3e17}", points: 100, objective: role }
+
+questions:
+  - id: fix
+    text: ot.q.fix
+    objective: fix
+    correct: server
+    options:
+      - { id: hide, text: ot.q.fix.hide, why: ot.q.fix.hide.why }
+      - { id: server, text: ot.q.fix.server }
+      - { id: rename, text: ot.q.fix.rename, why: ot.q.fix.rename.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: ot.ada.brief
+  # The form posts to the character `suivi`: a reference it knows, an error, or nothing.
+  - on: { event: ChatReply, npc: suivi }
+    do:
+      - objective.complete: form
+  - on: { event: ChatReply, npc: suivi, intent: found }
+    do:
+      - ada.guide: { key: ot.ada.found, for: quote, step: 1 }
+  - on: { event: ChatReply, npc: suivi, intent: error }
+    do:
+      - noise.add: { points: 4, as: ot.soc.error }
+      - ada.say: ot.ada.error
+  - on: { event: HttpRequest, host: www, path: /api/orders, variant: { in: [staff] } }
+    do:
+      - noise.add: { points: 3, as: ot.soc.staff }
+  - on: { event: HttpRequest, host: www, path: /api/orders }
+    if: { not: { objective: role } }
+    do:
+      - ada.guide: { key: ot.ada.api, for: role, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: role }
+    do:
+      - ada.ask: fix
+
+guide:
+  form: ot.ada.form
+  quote: ot.ada.quote
+  role: ot.ada.role
+  fix: ot.ada.fix
+
+hints:
+  form: [ot.hint.form.1]
+  quote: [ot.hint.quote.1, ot.hint.quote.2]
+  role: [ot.hint.role.1, ot.hint.role.2, ot.hint.role.3]
+
+debrief:
+  title: ot.debrief.title
+  lesson: ot.debrief.lesson
+  points: [ot.debrief.p1, ot.debrief.p2, ot.debrief.p3]
+  reference: "OWASP Top 10 · A03 Injection, A01 Broken Access Control"

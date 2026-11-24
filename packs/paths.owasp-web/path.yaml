@@ -1,0 +1,10 @@
+steps:
+  - { ref: example.order-tracking, note: why.warmup }
+  - { ref: breach.season3.s01, note: why.exposure }
+  - { ref: breach.season3.s02, note: why.injection }
+  - { ref: breach.season3.s03, note: why.xss }
+  - { ref: breach.season3.s04, note: why.idor }
+  - { ref: breach.season3.s05, note: why.logic }
+  - { ref: breach.season7.s02, note: why.race }
+  - { ref: dossiers.mesange, note: why.role }
+  - { ref: dossiers.hirondelle, note: why.number }

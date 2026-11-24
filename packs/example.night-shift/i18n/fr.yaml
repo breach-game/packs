@@ -1,0 +1,33 @@
+ns.briefing: |
+  Ton rapport est parti chez Atelier Pixel. Cette nuit, Ligne Rouge est côté défense : Chloé a
+  demandé de l'aide pour surveiller la boutique, tenir Pixou et vérifier le script de sauvegarde.
+
+  Trois tâches, toutes sur ton poste. Rien ne peut casser.
+ns.obj.detect: "Écrire une règle qui repère la lecture de l'ancien site, et rien d'autre"
+ns.obj.guard: "Écrire le garde-fou qui empêche Pixou d'accorder seul de grosses remises"
+ns.obj.review: "Trouver les deux lignes fautives du script de sauvegarde"
+ns.ada.brief: "Quelqu'un d'autre a trouvé /old/ cette nuit. Voyons-le dans les journaux, puis assurons-nous de le voir la prochaine fois."
+ns.ada.detect: "Lis les journaux web : `soc logs www access`. Puis la règle que j'ai commencée : `cat regles/vieux-site.yml`. Ajoute la condition sur le chemin : `echo \"path|startswith: /old/\" >> regles/vieux-site.yml`, et essaie-la : `rule test regles/vieux-site.yml`."
+ns.ada.detect.standard: "Lis les journaux web, puis complète la règle de regles/vieux-site.yml pour qu'elle alerte sur /old/ seulement. `rule test` la juge."
+ns.ada.rule.again: "Pas encore. Une bonne règle alerte sur chaque ligne du visiteur, et sur aucune ligne ordinaire."
+ns.ada.guard: "Pixou peut appeler un outil de remise. Essaie le garde-fou tel quel : `eval run garde-fous/pixou.yml`. Il bloque trop : ajoute `asked_by: visitor` et `percent|gte: 50`, une par ligne, puis relance."
+ns.ada.guard.standard: "Complète garde-fous/pixou.yml : bloquer les grosses remises demandées par un visiteur, laisser passer le reste. `eval run` le juge."
+ns.ada.eval.again: "Regarde les cas : lesquels sont bloqués à tort, lesquels passent encore ?"
+ns.ada.review: "Dernière tâche : `review atelier/sauvegarde.sh` montre le script avec les numéros de ligne. Désigne chaque ligne fautive : `review atelier/sauvegarde.sh 4`."
+ns.ada.review.standard: "Relis le script de sauvegarde avec `review` et désigne ses deux lignes fautives."
+ns.ada.done: "Règle, garde-fou, relecture : Chloé a une nuit plus calme devant elle."
+ns.case.big: "Un visiteur demande 80 % de remise à Pixou"
+ns.case.half: "Un visiteur demande 50 % de remise à Pixou"
+ns.case.small: "Un visiteur obtient la remise étudiante de 10 %"
+ns.case.manager: "Chloé, la gérante, accorde 70 % à une école"
+ns.case.quote: "Un visiteur demande un devis"
+ns.hint.detect.1: "Les lignes du visiteur ont toutes un chemin qui commence par /old/."
+ns.hint.detect.2: "`echo \"path|startswith: /old/\" >> regles/vieux-site.yml`"
+ns.hint.guard.1: "Un garde-fou bloque un appel qui remplit toutes les conditions. Quelles deux conditions séparent les cas dangereux ?"
+ns.hint.guard.2: "`asked_by: visitor` et `percent|gte: 50`, une par ligne."
+ns.hint.review.1: "Une ligne copie le site dans un dossier que le serveur web publie ; une autre écrit un mot de passe sur la ligne de commande."
+ns.debrief.title: "Une nuit calme, ça se prépare"
+ns.debrief.lesson: "Détection, garde-fous et relecture s'écrivent et se testent comme du code : contre ce qu'il faut attraper et contre ce qui doit passer."
+ns.debrief.p1: "Une règle qui alerte sur tout est aussi inutile que pas de règle : on l'essaie contre l'activité ordinaire."
+ns.debrief.p2: "Les outils d'un agent ont des limites hors du modèle, vérifiées à chaque appel."
+ns.debrief.p3: "Une sauvegarde copiée dans un dossier publié, un mot de passe sur une ligne de commande : deux classiques qu'une relecture attrape avant un attaquant."

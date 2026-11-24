@@ -1,0 +1,6 @@
+pixel/info ferme.atelier-pixel.test - printer farm, 3 printers + test bench
+pixel/imprimantes/01/etat {"job":"PX-1040","layer":212,"of":212,"state":"done"}
+pixel/imprimantes/02/etat {"job":"PX-1041","layer":88,"of":340,"state":"printing","nozzle":215}
+pixel/imprimantes/03/etat {"job":null,"state":"idle"}
+pixel/banc/etat {"job":"calibration","state":"idle"}
+pixel/maintenance/note "wifi farm: PixelFerme2024 / admin panel token FLAG{pixel-farm-retained-5a90}"

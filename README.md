@@ -7,7 +7,7 @@ Missions written by players for [BREACH](https://github.com/breach-game/breach),
 
 ## What a pack is
 
-A pack is a folder of YAML files. It holds data only, never code: a fictional network (a *world* pack) or a mission played in a world (a *mission* pack). The game's engine simulates every command on that data. Nothing a pack says can reach a real machine.
+A pack is a folder of YAML files. It holds data only, never code: a fictional network (a *world* pack), a mission played in a world (a *mission* pack), missions played in a row (a *series*), or an order through existing missions (a *path*). The game's engine simulates every command on that data. Nothing a pack says can reach a real machine.
 
 ```
 packs/
@@ -15,8 +15,22 @@ packs/
   example.forgotten-backup/   a mission in that world: objectives, flag, rules, hints, debrief
   example.closing-the-door/   a defence mission: a question, a file to repair, `verify`
   example.atelier-pixel/      a series: the two missions above, played in a row in one save
+  example.order-tracking/     author kit: a form, a role cookie, jq
+  example.printer-farm/       author kit: a message broker, a decision with no wrong answer
+  example.night-shift/        author kit: a detection rule, an agent guardrail, a code review
   dossiers.<name>*/           a case file: a world, three or four missions and their series
+  paths.<name>/               a path: an order through official and community missions
 ```
+
+## Paths
+
+A path is a pack that only lists steps through missions that already exist, official or from this repository, with a sentence on why each one matters. The store shows them first, with the player's progress.
+
+| Folder | Path | Steps |
+| --- | --- | --- |
+| `paths.owasp-web` | Web flaws | 9: from a chatty form to the OWASP Top 10 of season 3 and two real cases |
+| `paths.owasp-llm` | Attacking and defending an AI | 12: the OWASP Top 10 for LLM applications, campaign, season 5 and case files |
+| `paths.soc` | SOC analyst | 11: from reading a log to the finale, all on the defence side |
 
 ## The case files
 

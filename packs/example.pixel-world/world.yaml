@@ -33,7 +33,7 @@ hosts:
     ip: 10.42.0.10
     os: Linux 6.1 (Debian 12)
     map: { x: 60, z: -120, h: 110 }
-    links: [shop]
+    links: [shop, farm]
     services:
       - { port: 80, name: http, product: nginx 1.22 }
       - { port: 443, name: https, product: nginx 1.22 }
@@ -71,6 +71,39 @@ hosts:
         headers: { content-type: application/octet-stream }
         body: "<?php\n// Old shop configuration, kept \"just in case\" during the 2024 migration.\n$db_host = 'db.atelier-pixel.test';\n$db_user = 'shop';\n$db_pass = 'Pixel2024!';\n// Admin token for the order back office:\n$admin_token = 'FLAG{pixel-old-backup-7c2e}';\n"
 
+      # Author kit: a form answered by a scripted application, a table, a JSON API with a variant.
+      "/suivi":
+        page:
+          title: web.track.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/order", label: web.nav.order }
+                - { href: "/suivi", label: web.nav.track }
+            - h1: web.track.h1
+            - p: web.track.p1
+            - form: { to: suivi, label: web.track.label, button: web.track.button, name: ref, placeholder: "PX-1042" }
+            - h2: web.track.h2
+            - table:
+                head: [web.track.th.ref, web.track.th.item, web.track.th.state]
+                rows:
+                  - ["PX-1040", web.track.r1, web.track.done]
+                  - ["PX-1041", web.track.r2, web.track.printing]
+                  - ["PX-1042", web.track.r3, web.track.queued]
+            - comment: web.track.comment
+            - footer: web.footer
+        chat: suivi
+      # The order API trusts a role the browser sends: a cookie anyone can write.
+      "/api/orders":
+        headers: { content-type: application/json }
+        body: "{\"orders\":[{\"ref\":\"PX-1042\",\"item\":\"lamp shade\",\"state\":\"queued\"}],\"role\":\"customer\"}\n"
+        variants:
+          - id: staff
+            cookie: "role=staff"
+            if: { config: api.server_roles, eq: false }
+            headers: { content-type: application/json }
+            body: { $file: files/orders-staff.json }
+
   - id: shop
     hostname: shop.atelier-pixel.test
     ip: 10.42.0.20
@@ -80,6 +113,31 @@ hosts:
     services:
       - { port: 443, name: https, product: pixou-bot 0.9 }
 
+  # Author kit: a message broker. Its routes are topics, read with `mqtt sub` and written with `mqtt pub`.
+  - id: farm
+    hostname: ferme.atelier-pixel.test
+    ip: 10.42.0.30
+    os: Linux 6.1 (Raspberry Pi OS)
+    map: { x: 220, z: -200, h: 80 }
+    services:
+      - { port: 1883, name: mqtt, product: Mosquitto 2.0.18 }
+    web:
+      "/#": &topics
+        body: { $file: files/topics.txt }
+        variants:
+          - id: closed
+            if: { config: farm.auth, eq: true }
+            status: 401
+            body: ""
+      "/pixel/#": *topics
+      "/pixel/imprimantes/#": *topics
+      # The test printer on the bench: the only one the mandate lets the tester command.
+      "/pixel/banc/cmd":
+        chat: bench
+      # The printers working for customers: the audit copy answers and nothing moves.
+      "/pixel/imprimantes/cmd":
+        chat: printers
+
 dns:
   atelier-pixel.test:
     A: ["10.42.0.10"]
@@ -87,6 +145,7 @@ dns:
     TXT: ["v=spf1 include:mail.example.net -all"]
   www.atelier-pixel.test: { A: ["10.42.0.10"] }
   shop.atelier-pixel.test: { A: ["10.42.0.20"] }
+  ferme.atelier-pixel.test: { A: ["10.42.0.30"] }
 
 whois:
   atelier-pixel.test: |
@@ -105,6 +164,7 @@ noise:
   curl: 3
   browse: 2
   chat: 1
+  mqtt: 2
 
 rules:
   - id: out-of-scope
@@ -146,3 +206,62 @@ npcs:
         words: [bonjour, salut, hello, hi, hey, bonsoir]
         reply: [npc.pixou.hello]
     fallback: [npc.pixou.fallback]
+
+  # Author kit: the order tracking form. A form is a scripted character without a face.
+  - id: suivi
+    name: suivi-commandes
+    role: npc.suivi.role
+    intents:
+      - id: safe
+        input: [quote]
+        if: { config: track.parameterized, eq: true }
+        reply: [npc.suivi.none]
+      - id: error
+        input: [quote]
+        reply: [npc.suivi.error]
+      - id: found
+        words: [px-1040, px-1041, px-1042, "1040", "1041", "1042"]
+        reply: [npc.suivi.found]
+    fallback: [npc.suivi.none]
+
+  # Author kit: the test printer on the bench obeys whoever publishes, unless the broker has rights per topic.
+  - id: bench
+    name: imprimante-banc
+    role: npc.bench.role
+    intents:
+      - id: denied
+        words: [pause, start, stop, home]
+        if: { config: farm.acl, eq: true }
+        reply: [npc.bench.denied]
+      - id: pause
+        words: [pause, stop]
+        reply: [npc.bench.pause]
+      - id: start
+        words: [start, home]
+        reply: [npc.bench.start]
+    fallback: [npc.bench.unknown]
+
+  - id: printers
+    name: imprimantes
+    role: npc.printers.role
+    intents:
+      - id: order
+        words: [pause, start, stop, home]
+        reply: [npc.printers.order]
+    fallback: [npc.printers.unknown]
+
+# The weaknesses of the author kit, as switches a fix can turn (`sets`) and conditions can read.
+config:
+  track.parameterized: false
+  api.server_roles: false
+  farm.auth: false
+  farm.acl: false
+
+# An ordinary day, so that a detection rule has something not to raise alerts on.
+telemetry:
+  background:
+    - { host: www, source: access, every: 3, offset: 0, fields: { src: 198.51.100.40, method: GET, path: /, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/133.0" } }
+    - { host: www, source: access, every: 5, offset: 2, fields: { src: 198.51.100.77, method: GET, path: /order, status: 200, ua: "Mozilla/5.0 (Macintosh; Intel Mac OS X 15_2) Safari/619.1" } }
+    - { host: www, source: access, every: 7, offset: 4, fields: { src: 192.0.2.15, method: GET, path: /suivi, status: 200, ua: "Mozilla/5.0 (Linux; Android 15) Chrome/131.0" } }
+    - { host: farm, source: mqtt, every: 2, offset: 1, fields: { client: imprimante-02, src: 10.42.0.102, action: publish, topic: pixel/imprimantes/02/etat, bytes: 31 } }
+    - { host: farm, source: mqtt, every: 6, offset: 3, fields: { client: atelier-pc, src: 10.42.0.50, action: subscribe, topic: "pixel/imprimantes/#" } }

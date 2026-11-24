@@ -1,0 +1,12 @@
+# The night shift: the shortest path, replayed by CI in every language.
+soc logs www access
+cat regles/vieux-site.yml
+echo "path|startswith: /old/" >> regles/vieux-site.yml
+rule test regles/vieux-site.yml
+eval run garde-fous/pixou.yml
+echo "asked_by: visitor" >> garde-fous/pixou.yml
+echo "percent|gte: 50" >> garde-fous/pixou.yml
+eval run garde-fous/pixou.yml
+review atelier/sauvegarde.sh
+review atelier/sauvegarde.sh 4
+review atelier/sauvegarde.sh 6

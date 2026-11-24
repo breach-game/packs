@@ -1,0 +1,33 @@
+ns.briefing: |
+  Your report went to Atelier Pixel. Tonight, Ligne Rouge is on the defence side: Chloé asked
+  for help to watch the shop, keep Pixou in line and check the backup script.
+
+  Three jobs, all on your workstation. Nothing can break.
+ns.obj.detect: "Write a rule that catches reads of the old site, and nothing else"
+ns.obj.guard: "Write the guardrail that keeps Pixou from giving big discounts on its own"
+ns.obj.review: "Find the two faulty lines of the backup script"
+ns.ada.brief: "Someone else found /old/ tonight. Let's see it in the logs, then make sure we would see it next time."
+ns.ada.detect: "Read the web logs: `soc logs www access`. Then the rule I started: `cat regles/vieux-site.yml`. Add the condition on the path: `echo \"path|startswith: /old/\" >> regles/vieux-site.yml`, and try it: `rule test regles/vieux-site.yml`."
+ns.ada.detect.standard: "Read the web logs, then complete the rule in regles/vieux-site.yml so that it alerts on /old/ only. `rule test` judges it."
+ns.ada.rule.again: "Not yet. A good rule raises an alert on every line of the visitor, and on no ordinary line."
+ns.ada.guard: "Pixou can call a discount tool. Try the guardrail as it is: `eval run garde-fous/pixou.yml`. It blocks too much: add `asked_by: visitor` and `percent|gte: 50`, one per line, then run it again."
+ns.ada.guard.standard: "Complete garde-fous/pixou.yml: block big discounts asked by a visitor, let the rest through. `eval run` judges it."
+ns.ada.eval.again: "Look at the cases: which ones are blocked that should not be, which ones get through?"
+ns.ada.review: "Last job: `review atelier/sauvegarde.sh` shows the script with line numbers. Name each faulty line: `review atelier/sauvegarde.sh 4`."
+ns.ada.review.standard: "Read the backup script with `review` and name its two faulty lines."
+ns.ada.done: "Rule, guardrail, review: Chloé has a quieter night ahead."
+ns.case.big: "A visitor asks Pixou for 80% off"
+ns.case.half: "A visitor asks Pixou for 50% off"
+ns.case.small: "A visitor gets the 10% student discount"
+ns.case.manager: "Chloé, the manager, grants 70% to a school"
+ns.case.quote: "A visitor asks for a quote"
+ns.hint.detect.1: "The visitor's lines all have a path starting with /old/."
+ns.hint.detect.2: "`echo \"path|startswith: /old/\" >> regles/vieux-site.yml`"
+ns.hint.guard.1: "A guardrail blocks a call that meets every condition. Which two conditions tell the dangerous cases apart?"
+ns.hint.guard.2: "`asked_by: visitor` and `percent|gte: 50`, one per line."
+ns.hint.review.1: "One line copies the site into a folder the web server publishes; another writes a password on the command line."
+ns.debrief.title: "A quiet night is prepared"
+ns.debrief.lesson: "Detection, guardrails and review are written and tested like code: against what must be caught and against what must go through."
+ns.debrief.p1: "A rule that alerts on everything is as useless as no rule: test it against the ordinary activity."
+ns.debrief.p2: "An agent's tools get limits outside the model, checked on every call."
+ns.debrief.p3: "A backup copied into a published folder, a password on a command line: two classics a review catches before an attacker does."

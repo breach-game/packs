@@ -1,12 +1,23 @@
 # Writing a BREACH mission
 
-This guide takes you from an empty folder to a mission published in the game. The two packs in `packs/` are a complete, working example: keep them open while you read.
+This guide takes you from an empty folder to a mission published in the game. The `example.*` packs in `packs/` are the **author kit**: complete, working missions that each show a few tools of the engine. Keep them open while you read.
+
+| Pack | What it shows |
+| --- | --- |
+| `example.pixel-world` | a world: hosts, web pages, a form, a table, a JSON API with a cookie variant, a message broker, DNS, characters, logs |
+| `example.forgotten-backup` | the simplest attack mission: rules, Ada's guidance, hints, a flag, a defence replay |
+| `example.closing-the-door` | a defence mission: a file to repair, `verify`, a multiple choice question |
+| `example.order-tracking` | a form that answers in text (`input: [quote]`), a role cookie sent with `curl -b`, `jq` |
+| `example.printer-farm` | a message broker (`mqtt sub`, `mqtt pub`), a mandate that limits what may be touched, a decision with no wrong answer |
+| `example.night-shift` | the defender's tools: a detection rule the player writes (`rule test`), a guardrail for an AI agent (`eval run`), a code review (`review`) |
+| `example.atelier-pixel` | a series: two missions played in a row in one save |
 
 - [1. Before you start](#1-before-you-start)
 - [2. Set up](#2-set-up)
 - [3. Anatomy of a pack](#3-anatomy-of-a-pack)
 - [4. The world](#4-the-world)
 - [5. The mission](#5-the-mission)
+- [5b. Paths and challenges](#5b-paths-and-challenges)
 - [6. Rules: events, conditions, effects](#6-rules-events-conditions-effects)
 - [7. Guiding the player: Ada, guidance levels, hints](#7-guiding-the-player-ada-guidance-levels-hints)
 - [8. Characters](#8-characters)
@@ -76,7 +87,7 @@ packs/your-name.mission-name/
 id: jdoe.lost-backup            # <your-name>.<pack-name>, lowercase. "breach." is reserved.
 version: 1.0.0                  # change it every time you change the pack
 engine: ">=0.2 <1"              # engine versions this pack works with
-kind: mission                   # or world, or series (section 5)
+kind: mission                   # or world, series (section 5) or path (section 5b)
 requires: [jdoe.bakery-world]   # a mission names its world first
 title: { fr: La sauvegarde perdue, en: The lost backup }
 summary: { fr: …, en: … }       # one sentence, shown in the mission list
@@ -87,6 +98,7 @@ skills: [web, defense]          # optional, up to 4 of: recon, web, social, llm,
                                 #   crisis, cloud, privacy, iot
 minutes: 15                     # optional, your estimate of the playing time (a series adds up its missions')
 incident: 2021                  # optional, year of the real incident the pack retells (see section 5)
+levels: [expert]                # optional, the guidance levels allowed (section 5b): a challenge
 ```
 
 The game's community screen is a store: players search titles and summaries, filter by skill, difficulty and status, and sort by date, length or incident year. `summary`, `difficulty`, `skills` and `minutes` are what they see before opening your pack, so fill them in. The dates come from git: the catalogue lists the day each pack was added and last changed.
@@ -157,7 +169,7 @@ web:
   "/api/search": { status: 405, chat: search }     # curl -d "q=vase" reaches the same character
 ```
 
-The browser's form and `curl -d` both go through the character `search`, whose intents decide the answer. To recognise a class of flaw rather than one exact string, an intent can ask for a shape of input with `input: [quote]`, `[markup]` or `[negative]` (a quote that is not an apostrophe inside a word, a tag, a negative number). The validator still refuses `<script`, `javascript:` and `on…=` attributes anywhere in a pack.
+A complete example is `/suivi` in `packs/example.pixel-world/world.yaml`, played in `packs/example.order-tracking/`. The browser's form and `curl -d` both go through the character `search`, whose intents decide the answer. To recognise a class of flaw rather than one exact string, an intent can ask for a shape of input with `input: [quote]`, `[markup]` or `[negative]` (a quote that is not an apostrophe inside a word, a tag, a negative number). The validator still refuses `<script`, `javascript:` and `on…=` attributes anywhere in a pack.
 
 **Variants of a route.** A route can answer differently when the request carries a cookie or a header, or while a condition holds. The first variant that matches answers, and the `HttpRequest` event carries its `id` in `variant`.
 
@@ -173,7 +185,7 @@ The browser's form and `curl -d` both go through the character `search`, whose i
 
 A variant needs a `cookie`, a `header` or an `if`. With only `if` it answers every request while the condition holds, in the browser too: a bucket made private, a page that changes after an action. A variant can serve a `page` instead of a `body`.
 
-**A message broker.** A host with a service named `mqtt` is a broker for connected devices, and its routes are topics (`"/farm/room/#"`). `mqtt sub -h <host> -t <topic>` prints the route's body as the retained messages, `mqtt pub … -m <message>` hands the message to the route's `chat` character, and `-u user -P password` arrives as the header `Authorization: user:password`, so a variant can open a topic to one account. A status 401 or 403 refuses the connection. Rules see an `HttpRequest` whose `method` is `SUBSCRIBE` or `PUBLISH`.
+**A message broker.** (Example: `farm` in `packs/example.pixel-world/world.yaml`, played in `packs/example.printer-farm/`.) A host with a service named `mqtt` is a broker for connected devices, and its routes are topics (`"/farm/room/#"`). `mqtt sub -h <host> -t <topic>` prints the route's body as the retained messages, `mqtt pub … -m <message>` hands the message to the route's `chat` character, and `-u user -P password` arrives as the header `Authorization: user:password`, so a variant can open a topic to one account. A status 401 or 403 refuses the connection. Rules see an `HttpRequest` whose `method` is `SUBSCRIBE` or `PUBLISH`.
 
 **Noise.** Every command adds noise to a gauge. At 100 the target's SOC spots the player, who goes back to the last checkpoint. The world's table gives a cost per command, and per option:
 
@@ -194,7 +206,7 @@ A mission can override any entry with its own `noise` table.
 order: 0                  # position among the missions of the same world
 stage: recon              # shown in the notebook; translated ones: cadrage, recon, social, access, injection, indirect,
                           # agency, lateral, escalation, supply, cloud, analysis, defense, response, rag, memory,
-                          # agents, logic, disclosure, phishing, iot, firmware
+                          # agents, logic, disclosure, phishing, iot, firmware, web, decision, lessons, recovery
 startTime: "2026-12-09T09:00:00+01:00"   # optional: the in-game clock when this mission starts (a later day of a series)
 briefing: fb.briefing
 
@@ -320,6 +332,35 @@ Each mission stays a pack of its own, with its own folder, `solution.txt` and de
 - CI replays the solutions one after the other in a single game, as the player will play them. A mission that only finishes when played alone fails the check.
 
 Raise the series `version` when you change one of its missions in a way that breaks a game under way: the save is kept per series version.
+
+## 5b. Paths and challenges
+
+**Paths.** A path is a fourth kind of pack: no world, no mission, just an order through missions and series that already exist, official or from the community, with a sentence on why each step matters. The store lists paths first, shows how many steps the player has done (in any save), and its *Open* button leads to the screen where each step is played. See `packs/paths.*`:
+
+```yaml
+# pack.yaml
+id: jdoe.first-steps
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: path                       # no `requires`
+title: { fr: …, en: … }
+summary: { fr: …, en: … }
+authors: [Jane Doe]
+locales: [fr, en]
+```
+
+```yaml
+# path.yaml
+steps:                           # 3 to 20, each one once
+  - { ref: breach.training.t01, note: why.read }     # an official training
+  - { ref: breach.season3.s02, note: why.injection } # one mission of a season
+  - { ref: breach.season4 }                          # a whole season
+  - { ref: example.night-shift, note: why.rules }    # a community mission or series
+```
+
+`note` is a text key, translated in `i18n/` like any other. `breach-pack check` refuses a step that is not a known mission or series (worlds cannot be steps). The official ids are `breach.official.m00` to `m06` and `b01` to `b03` (campaign), `breach.training.t01`…, `breach.season2` to `breach.season9` and their missions `breach.season3.s01`…
+
+**Challenges.** `levels` in the `pack.yaml` of a mission or a series limits the guidance levels it can be played at. `levels: [expert]` makes a challenge: the store files it under *Challenges*, the game plays it at Expert whatever the player's setting (which stays as it is), and the status bar greys out the other levels. At Expert the player only gets the briefing and the objectives, so they must be enough on their own; hints still work and still cost points.
 
 ## 6. Rules: events, conditions, effects
 
@@ -549,6 +590,8 @@ A measure can also change files of the target, so that the machine shows what wa
 
 ### Detection rules the player writes
 
+`packs/example.night-shift/` uses a detection rule, a guardrail and a code review in one short mission.
+
 Instead of picking a rule among three, the player can write one. Hand them a starting file with `files`, and declare what it must catch:
 
 ```yaml
@@ -615,7 +658,8 @@ A guardrail file has one condition per line, with the same modifiers and no `sou
 | `VarSet` | `name`, `value` |
 | `HostRevealed` | `host` |
 | `Asked` | `question` |
-| `Answered` | `question`, `option`, `correct` |
+| `Answered` | `question`, `option`, `correct`, `decision`, `impact` |
+| `GuidanceChanged` | `level` |
 | `Verified` | `passed`, `failed` (lists of check ids) |
 | `Reviewed` | `review`, `line`, `correct` |
 | `RuleTested` | `hunt`, `caught`, `missed`, `falsePositives`, `passed` |
