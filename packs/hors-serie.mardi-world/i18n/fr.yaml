@@ -1,0 +1,4 @@
+file.readme: "Poste Ligne Rouge. Hors-série : le Mardi noir. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.astreinte.readme: "Compte d'astreinte, ouvert pour Ligne Rouge pendant la crise. Les changements passent par `deploy`, `rollback`, `flag` et `contain`, depuis le poste Ligne Rouge."
+file.mandate: "MANDAT GV-2027-058\nClient : Transports Gavotte, transporteur régional. Périmètre : *.gavotte.test, 10.89.0.0/24.\nObjet : assistance à l'équipe d'astreinte pendant un incident de production. Aucun attaquant n'est soupçonné.\nDispositif convenu : accès d'astreinte aux serveurs, mise en production et retour arrière par les outils de l'équipe, chaque décision validée par la direction des opérations.\nSigné : le directeur des opérations de Transports Gavotte."
+ada.outOfScope: "Stop. Cette cible est hors du mandat GV-2027-058. Même en pleine crise, hors mandat, c'est un délit (article 323-1 du Code pénal)."

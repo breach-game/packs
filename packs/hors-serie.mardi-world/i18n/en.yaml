@@ -1,0 +1,4 @@
+file.readme: "Ligne Rouge workstation. Side series: Black Tuesday. Type `mission` to see your objectives, `hint` if you get stuck."
+file.astreinte.readme: "On-call account, opened for Ligne Rouge during the crisis. Changes go through `deploy`, `rollback`, `flag` and `contain`, from the Ligne Rouge workstation."
+file.mandate: "MANDATE GV-2027-058\nClient: Transports Gavotte, regional carrier. Scope: *.gavotte.test, 10.89.0.0/24.\nPurpose: help the on-call team during a production incident. No attacker is suspected.\nAgreed setup: on-call access to the servers, releases and rollbacks through the team's tools, each decision approved by the head of operations.\nSigned: the head of operations of Transports Gavotte."
+ada.outOfScope: "Stop. This target is outside mandate GV-2027-058. Even in the middle of a crisis, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

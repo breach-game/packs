@@ -85,6 +85,7 @@ Fictional stories with no real incident behind them, each a short series in its 
 | `hors-serie.vendredi*` | The Friday patch | Triaging a fictional advisory with `sbom --vuln` by exposure, finding why production still runs the old version (a stale cache, checked with `openssl dgst`), and a patch policy that `verify` can check |
 | `hors-serie.coffre*` | The Vault | Recognising unsalted fast hashes with `hashid` and why one shared password shows up at once (`openssl dgst`, `grep -c`), decoding a guessable reset token with `base64 -d`, migrating to Argon2id and wrapping old hashes |
 | `hors-serie.poste42*` | Bench 42 | Defence: reading what a workstation runs with `ps`, `ss`, `systemctl` and `journalctl`, why killing a process restarted by a service does nothing, a DNS fallback channel found with `flows` and a precise rule, then the week rebuilt with `timeline` and the data path traced with `path` |
+| `hors-serie.mardi*` | Black Tuesday | No attacker: reading a crash in `journalctl`, choosing the smallest reversible move (`flag` rather than `rollback`), finding the last backup that really holds data with `tar -tzvf` when the script swallowed rsync's error, then a timeline, a clean release with `deploy` then `flag`, and what to tell customers |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

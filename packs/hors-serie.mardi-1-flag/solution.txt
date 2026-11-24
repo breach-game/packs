@@ -1,0 +1,12 @@
+# Side series "Le Mardi noir", mission 1: the shortest path, replayed by CI in every language.
+curl -s https://planif.gavotte.test/sante
+ssh astreinte@planif.gavotte.test
+systemctl status tournees
+journalctl -u tournees
+exit
+answer cause planif.zones-hiver
+deploy
+flag list
+answer flag
+flag set planif.zones-hiver off
+curl -s https://planif.gavotte.test/sante

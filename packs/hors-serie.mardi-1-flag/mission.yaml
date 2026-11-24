@@ -1,0 +1,77 @@
+# Black Tuesday, 06:52: version 4.2.0 went out at 05:58 with a new option switched on, and the
+# service crashes at start. Two fixes work (switch the option off, or go back to 4.1.3): the
+# smaller one is the option, which needs no restart of the whole release.
+side: defense
+order: 1
+stage: incident
+briefing: m1.briefing
+reveal: [planif]
+
+releases:
+  - service: tournees
+    current: 4.2.0
+    versions:
+      - { version: 4.1.3, sets: { tr.v42: false }, impact: 3 }
+      - { version: 4.2.0, sets: { tr.v42: true } }
+
+toggles:
+  - name: planif.zones-hiver
+    value: "on"
+    on: { tr.zones: true }
+    off: { tr.zones: false }
+
+objectives:
+  - { id: cause, text: m1.obj.cause }
+  - { id: first, text: m1.obj.first }
+  - { id: back, text: m1.obj.back }
+
+investigation:
+  - { id: cause, text: m1.q.cause, value: "planif.zones-hiver", points: 75, objective: cause }
+
+questions:
+  - id: first
+    text: m1.q.first
+    objective: first
+    correct: flag
+    options:
+      - { id: flag, text: m1.q.first.flag }
+      - { id: rollback, text: m1.q.first.rollback, why: m1.q.first.rollback.why }
+      - { id: restart, text: m1.q.first.restart, why: m1.q.first.restart.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: cause }
+    do:
+      - ada.say: m1.ada.cause
+      - ada.ask: first
+  - on: { event: ToggleSet, name: planif.zones-hiver, value: "off" }
+    do:
+      - ada.say: m1.ada.flagged
+  - on: { event: Deployed, service: tournees, version: 4.1.3 }
+    do:
+      - ada.say: m1.ada.rolledback
+  - on: { event: HttpRequest, host: planif, path: /sante }
+    if: { not: { all: [{ config: tr.v42, eq: true }, { config: tr.zones, eq: true }] } }
+    do:
+      - objective.complete: back
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m1.ada.done
+
+guide:
+  cause: m1.ada.g.cause
+  first: m1.ada.g.first
+  back: m1.ada.g.back
+
+hints:
+  cause: [m1.hint.cause.1, m1.hint.cause.2]
+  first: [m1.hint.first.1]
+  back: [m1.hint.back.1, m1.hint.back.2]
+
+debrief:
+  title: m1.debrief.title
+  lesson: m1.debrief.lesson
+  points: [m1.debrief.p1, m1.debrief.p2, m1.debrief.p3]
+  reference: "Google SRE · Release engineering, feature flags"

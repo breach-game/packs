@@ -1,0 +1,111 @@
+# Black Tuesday, the crisis room: the night in order, the winter zones brought back with the fixed
+# release (4.2.1) and the option switched on separately, the lesson, and the customers.
+side: defense
+order: 3
+stage: report
+briefing: m3.briefing
+reveal: [planif, sauvegarde]
+
+# Played alone, the morning starts after the option was switched off and the table restored.
+config:
+  tr.zones: false
+  tr.restored: true
+
+files:
+  cellule/main-courante.txt: { $file: files/main-courante.txt }
+
+releases:
+  - service: tournees
+    current: 4.2.0
+    versions:
+      - { version: 4.1.3, sets: { tr.v42: false }, impact: 3 }
+      - { version: 4.2.0, sets: { tr.v42: true } }
+      - { version: 4.2.1, sets: { tr.v42: false }, impact: 1 }
+
+toggles:
+  - name: planif.zones-hiver
+    value: "off"
+    on: { tr.zones: true }
+    off: { tr.zones: false }
+
+objectives:
+  - { id: order, text: m3.obj.order }
+  - { id: winter, text: m3.obj.winter }
+  - { id: change, text: m3.obj.change }
+  - { id: tell, text: m3.obj.tell }
+
+timelines:
+  - id: nuit
+    text: m3.tl.text
+    objective: order
+    events:
+      - { id: sauvegarde, text: m3.tl.sauvegarde }
+      - { id: livraison, text: m3.tl.livraison }
+      - { id: migration, text: m3.tl.migration }
+      - { id: abandon, text: m3.tl.abandon }
+      - { id: appel, text: m3.tl.appel }
+      - { id: astreinte, text: m3.tl.astreinte }
+
+questions:
+  - id: change
+    text: m3.q.change
+    objective: change
+    correct: canary
+    options:
+      - { id: canary, text: m3.q.change.canary }
+      - { id: daytime, text: m3.q.change.daytime, why: m3.q.change.daytime.why }
+      - { id: approval, text: m3.q.change.approval, why: m3.q.change.approval.why }
+  - id: tell
+    text: m3.q.tell
+    objective: tell
+    options:
+      - { id: everyone, text: m3.q.tell.everyone, why: m3.q.tell.everyone.why, impact: 1 }
+      - { id: late, text: m3.q.tell.late, why: m3.q.tell.late.why, impact: 2 }
+      - { id: nothing, text: m3.q.tell.nothing, why: m3.q.tell.nothing.why, impact: 6 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: m3.ada.order
+  - on: { event: Deployed, service: tournees, version: 4.2.1 }
+    do:
+      - ada.say: m3.ada.deployed
+  - on: { event: ToggleSet, name: planif.zones-hiver, value: "on" }
+    if: { config: tr.v42, eq: true }
+    do:
+      - ada.warn: m3.ada.again
+  - on: { event: HttpRequest, host: planif, path: /sante }
+    if: { all: [{ config: tr.zones, eq: true }, { config: tr.v42, eq: false }] }
+    do:
+      - objective.complete: winter
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: order }, { objective: winter }] }
+    do:
+      - ada.ask: change
+  - on: { event: ObjectiveCompleted, objective: change }
+    do:
+      - ada.say: m3.ada.change
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m3.ada.done
+
+guide:
+  order: m3.ada.g.order
+  winter: m3.ada.g.winter
+  change: m3.ada.g.change
+  tell: m3.ada.g.tell
+
+hints:
+  order: [m3.hint.order.1, m3.hint.order.2]
+  winter: [m3.hint.winter.1, m3.hint.winter.2]
+  change: [m3.hint.change.1]
+
+debrief:
+  title: m3.debrief.title
+  lesson: m3.debrief.lesson
+  points: [m3.debrief.p1, m3.debrief.p2, m3.debrief.p3]
+  reference: "Google SRE · Postmortem culture"

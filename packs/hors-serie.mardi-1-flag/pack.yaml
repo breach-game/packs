@@ -1,0 +1,16 @@
+id: hors-serie.mardi-1-flag
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.mardi-world]
+title:
+  fr: "Le Mardi noir · 1. Six heures du matin"
+  en: "Black Tuesday · 1. Six in the morning"
+summary:
+  fr: "La mise à jour de la nuit a planté le calcul des tournées, et soixante camions attendent au dépôt. Tu lis le journal du service, tu trouves l'option qui fait tomber la nouvelle version, puis tu choisis le plus petit geste qui remet les camions sur la route : `flag` ou `rollback`."
+  en: "Last night's update crashed the rounds planner, and sixty trucks are waiting at the depot. You read the service's journal, find the option that brings the new version down, then pick the smallest move that gets the trucks back on the road: `flag` or `rollback`."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [linux, crisis, defense]
+minutes: 10
