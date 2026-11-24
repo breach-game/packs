@@ -1,0 +1,18 @@
+From: securite@nuee-dns.example
+To: technique@lumen.test
+Date: Thu, 21 Oct 2027 16:05:44 +0200
+Subject: Saturday 16 October: your address took part in an attack on our servers
+
+Hello,
+
+On Saturday 16 October, between 20:12 and 20:31, one of our public DNS
+servers received a flood of queries from tens of thousands of addresses at
+once. Several hundred websites that rely on us could not be reached for
+about twenty minutes.
+
+Your public address 203.0.113.40 is in the list. We know you are not
+the attacker: most of the addresses are cameras, recorders and home routers.
+We would like to know which of your devices took part, who gave them the
+order, and what you have changed since.
+
+Nuée DNS, security team

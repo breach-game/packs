@@ -1,0 +1,128 @@
+# Case file 30, mission 1: the provider's abuse notice. Two cameras open telnet connections to
+# address after address; new tries come in through the port forwards the installer left open. The
+# player writes the flow rule, counts the cameras, closes the forwards, says why a reboot is not
+# enough, then changes the factory passwords.
+side: defense
+order: 1
+stage: defense
+briefing: e1.briefing
+reveal: [passerelle, cam1, cam2, cam3, cam4, cam5, cam6]
+
+files:
+  traces/signalement-fai.txt: { $file: files/signalement-fai.txt }
+  traces/installation.txt: { $file: files/installation.txt }
+  regles/balayage.yml: |
+    title: A Lumen camera opens telnet connections to the Internet
+    source: flow
+
+adversary:
+  id: swarm
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: s1, host: passerelle, source: flow, fields: { action: allow, src: 10.100.0.43, dst: 203.0.113.17, dport: 23, bytes: 60 } }
+    - { id: s2, host: passerelle, source: flow, fields: { action: allow, src: 10.100.0.45, dst: 203.0.113.94, dport: 23, bytes: 60 } }
+    - { id: i1, host: passerelle, source: flow, fields: { action: allow, src: 198.51.100.23, dst: 10.100.0.44, dport: 23, bytes: 1840 }, blockedIf: { config: lm.forward_closed, eq: true } }
+    - { id: s3, host: passerelle, source: flow, fields: { action: allow, src: 10.100.0.43, dst: 203.0.113.140, dport: 23, bytes: 60 } }
+    - { id: s4, host: passerelle, source: flow, fields: { action: allow, src: 10.100.0.45, dst: 203.0.113.201, dport: 23, bytes: 60 } }
+    - { id: i2, host: passerelle, source: flow, fields: { action: allow, src: 198.51.100.61, dst: 10.100.0.41, dport: 23, bytes: 1840 }, blockedIf: { config: lm.forward_closed, eq: true } }
+    - { id: s5, host: passerelle, source: flow, fields: { action: allow, src: 10.100.0.43, dst: 203.0.113.55, dport: 23, bytes: 60 } }
+    - { id: i3, host: passerelle, source: flow, fields: { action: allow, src: 198.51.100.88, dst: 10.100.0.46, dport: 23, bytes: 1840 }, blockedIf: { config: lm.forward_closed, eq: true } }
+
+# Ordinary flows: the recorder pulling streams, the cameras setting their clocks, the contractor's
+# laptop doing maintenance on site, the office browsing.
+background:
+  - { host: passerelle, source: flow, every: 2, offset: 0, fields: { action: allow, src: 10.100.0.30, dst: 10.100.0.42, dport: 554, bytes: 8400000 } }
+  - { host: passerelle, source: flow, every: 3, offset: 1, fields: { action: allow, src: 10.100.0.44, dst: 192.0.2.123, dport: 123, bytes: 90 } }
+  - { host: passerelle, source: flow, every: 4, offset: 2, fields: { action: allow, src: 10.100.0.50, dst: 10.100.0.42, dport: 23, bytes: 2210 } }
+  - { host: passerelle, source: flow, every: 3, offset: 2, fields: { action: allow, src: 10.100.0.70, dst: 198.51.100.200, dport: 443, bytes: 54000 } }
+
+containment:
+  - id: forwards
+    action: block
+    target: redirections-telnet
+    text: e1.contain.forwards
+    sets: { lm.forward_closed: true }
+    impact: 1
+  - id: passwords
+    action: reset
+    target: cameras
+    text: e1.contain.passwords
+    sets: { lm.passwords_reset: true }
+    impact: 1
+
+objectives:
+  - { id: rule, text: e1.obj.rule }
+  - { id: count, text: e1.obj.count }
+  - { id: forwards, text: e1.obj.forwards }
+  - { id: reboot, text: e1.obj.reboot }
+  - { id: passwords, text: e1.obj.passwords }
+
+investigation:
+  - { id: count, text: e1.q.count, value: "2", points: 75, objective: count }
+
+hunts:
+  - id: scan
+    file: regles/balayage.yml
+    catch: { source: flow, where: { src: { in: [10.100.0.43, 10.100.0.45] }, dport: 23 } }
+    objective: rule
+
+questions:
+  - id: reboot
+    text: e1.q.reboot
+    objective: reboot
+    correct: again
+    options:
+      - { id: again, text: e1.q.reboot.again }
+      - { id: clean, text: e1.q.reboot.clean, why: e1.q.reboot.clean.why }
+      - { id: replace, text: e1.q.reboot.replace, why: e1.q.reboot.replace.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e1.ada.brief
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: e1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: e1.ada.rule
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: e1.ada.count
+  - on: { event: Contained, containment: forwards }
+    do:
+      - objective.complete: forwards
+      - ada.say: e1.ada.forwards
+      - ada.ask: reboot
+  - on: { event: ObjectiveCompleted, objective: reboot }
+    do:
+      - ada.say: e1.ada.reboot
+  - on: { event: Contained, containment: passwords }
+    do:
+      - objective.complete: passwords
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e1.ada.done
+
+guide:
+  rule: e1.ada.g.rule
+  count: e1.ada.g.count
+  forwards: e1.ada.g.forwards
+  reboot: e1.ada.g.reboot
+  passwords: e1.ada.g.passwords
+
+hints:
+  rule: [e1.hint.rule.1, e1.hint.rule.2]
+  count: [e1.hint.count.1, e1.hint.count.2]
+  forwards: [e1.hint.forwards.1]
+  passwords: [e1.hint.passwords.1]
+
+debrief:
+  title: e1.debrief.title
+  lesson: e1.debrief.lesson
+  points: [e1.debrief.p1, e1.debrief.p2, e1.debrief.p3]
+  reference: "OWASP IoT Top 10 · I1 Weak, guessable or hardcoded passwords"

@@ -1,0 +1,10 @@
+# Case file 30, mission 2: the shortest path, replayed by CI in every language.
+cat traces/courrier-nuee.txt
+grep 20:1 traces/flux-samedi.log
+answer target 192.0.2.53
+grep 198.51.100.66 traces/flux-samedi.log
+answer c2 198.51.100.66
+contain block 198.51.100.66
+answer apart
+timeline vague
+timeline vague install found spread order flood notice cleanup

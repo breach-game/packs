@@ -1,0 +1,12 @@
+# Case file 30, mission 1: the shortest path, replayed by CI in every language.
+cat traces/signalement-fai.txt
+cat traces/installation.txt
+flows --port 23
+echo "src|startswith: 10.100.0.4" >> regles/balayage.yml
+echo "dport: 23" >> regles/balayage.yml
+rule test regles/balayage.yml
+flows --port 23 --dst 203.0.113
+answer count 2
+contain block redirections-telnet
+answer again
+contain reset cameras

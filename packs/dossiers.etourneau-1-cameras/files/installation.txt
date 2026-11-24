@@ -1,0 +1,13 @@
+LUMEN CAR PARKS - CAMERA INSTALLATION SHEET (contractor: Vidéo Services Atlantique)
+Date: 2027-09-06
+
+Camera   Level   Address        Login     Password         Remote maintenance
+cam-n1   -1      10.100.0.41    admin     (factory)        telnet, gateway port 2341 -> 23
+cam-n2   -2      10.100.0.42    admin     (factory)        telnet, gateway port 2342 -> 23
+cam-n3   -3      10.100.0.43    admin     (factory)        telnet, gateway port 2343 -> 23
+cam-n4   -4      10.100.0.44    admin     (factory)        telnet, gateway port 2344 -> 23
+cam-n5   -5      10.100.0.45    admin     (factory)        telnet, gateway port 2345 -> 23
+cam-n6   -6      10.100.0.46    admin     (factory)        telnet, gateway port 2346 -> 23
+
+Note: factory passwords kept so the contractor can step in quickly.
+Recorder: nvr.lumen.test (10.100.0.30), pulls each stream over RTSP (554).
