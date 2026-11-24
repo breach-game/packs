@@ -1,0 +1,25 @@
+# Rouge-gorge platform settings - mandate RG-2027-014
+app:
+  online: on
+
+agent:
+  name: batisseur
+  # prod | dev-copy: the database the agent works on
+  database: prod
+  # write | read | none: what the agent may do on production
+  prod_access: write
+  # off | on: the guardrail garde-fous/batisseur.yml, applied to every tool call
+  guardrail: off
+
+releases:
+  # anyone | human-approval: who may ship to production
+  prod_needs: anyone
+
+freeze:
+  # note: written in the agent's instructions. enforced: the release tool refuses during a freeze.
+  mode: note
+
+backups:
+  point_in_time: on
+  # never | monthly: restoring a copy for real, to see that it works
+  restore_test: never

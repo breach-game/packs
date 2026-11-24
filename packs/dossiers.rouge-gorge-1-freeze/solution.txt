@@ -1,0 +1,10 @@
+# Case file 14, mission 1: the shortest path, replayed by CI in every language.
+soc logs dev agent
+cat dossier/AGENT.md
+cat dossier/env.txt
+soc logs db
+soc search batisseur
+soc logs db
+contain revoke batisseur-prod
+answer table contacts
+answer key

@@ -1,0 +1,68 @@
+side: defense
+order: 2
+stage: defense
+briefing: r2.briefing
+
+files:
+  garde-fous/batisseur.yml: |
+    # Batisseur's tool calls. Block the ones it must never make on its own.
+    # One condition per line; a call is blocked when it meets them all.
+  dossier/conversation.txt: { $file: files/conversation.txt }
+  dossier/sauvegardes.txt: { $file: files/sauvegardes.txt }
+
+objectives:
+  - { id: guard, text: r2.obj.guard }
+  - { id: trust, text: r2.obj.trust }
+
+# A guardrail blocks a tool call when it meets every condition of the file.
+evals:
+  - id: prod
+    file: garde-fous/batisseur.yml
+    objective: guard
+    cases:
+      - { id: wipe, text: r2.case.wipe, fields: { tool: run_sql, env: prod, writes: "yes", approved: "no" }, expect: block }
+      - { id: migrate, text: r2.case.migrate, fields: { tool: migrate, env: prod, writes: "yes", approved: "no" }, expect: block }
+      - { id: deploy, text: r2.case.deploy, fields: { tool: deploy, env: prod, writes: "yes", approved: "no" }, expect: block }
+      - { id: approved, text: r2.case.approved, fields: { tool: deploy, env: prod, writes: "yes", approved: "yes" }, expect: allow }
+      - { id: read, text: r2.case.read, fields: { tool: run_sql, env: prod, writes: "no", approved: "no" }, expect: allow }
+      - { id: dev, text: r2.case.devdb, fields: { tool: run_sql, env: dev, writes: "yes", approved: "no" }, expect: allow }
+
+questions:
+  - id: trust
+    text: r2.q.trust
+    objective: trust
+    correct: check
+    options:
+      - { id: check, text: r2.q.trust.check }
+      - { id: believe, text: r2.q.trust.believe, why: r2.q.trust.believe.why }
+      - { id: ask, text: r2.q.trust.ask, why: r2.q.trust.ask.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r2.ada.brief
+  - on: { event: EvalRun, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: r2.ada.again, for: guard, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: guard }
+    do:
+      - ada.say: r2.ada.guarded
+      - ada.ask: trust
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r2.ada.done
+
+guide:
+  guard: r2.ada.g.guard
+  trust: r2.ada.answer
+
+hints:
+  guard: [r2.hint.guard.1, r2.hint.guard.2, r2.hint.guard.3]
+  trust: [r2.hint.trust.1]
+
+debrief:
+  title: r2.debrief.title
+  lesson: r2.debrief.lesson
+  points: [r2.debrief.p1, r2.debrief.p2, r2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM06 Excessive Agency"

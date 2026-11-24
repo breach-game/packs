@@ -1,0 +1,16 @@
+id: dossiers.rouge-gorge
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.rouge-gorge-world]
+title:
+  fr: "Dossier 14 : le gel"
+  en: "Case file 14: the freeze"
+summary:
+  fr: "Inspiré de l'agent de programmation qui a supprimé une base de production pendant un gel du code, en 2025. Sous mandat, tu surveilles l'agent en direct et tu l'arrêtes à temps, tu écris le garde-fou qui dit non à sa place, puis tu sépares la production de son terrain de jeu. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the coding agent that deleted a production database during a code freeze, in 2025. Under mandate, you watch the agent live and stop it in time, write the guardrail that says no in its place, then separate production from its playground. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, cloud]
+incident: 2025

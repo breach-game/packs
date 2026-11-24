@@ -1,0 +1,10 @@
+# Case file 14, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/plateforme.yml
+sed -i "s/database: prod/database: dev-copy/" dossier/plateforme.yml
+sed -i "s/prod_access: write/prod_access: read/" dossier/plateforme.yml
+sed -i "s/guardrail: off/guardrail: on/" dossier/plateforme.yml
+sed -i "s/prod_needs: anyone/prod_needs: human-approval/" dossier/plateforme.yml
+sed -i "s/mode: note/mode: enforced/" dossier/plateforme.yml
+sed -i "s/restore_test: never/restore_test: monthly/" dossier/plateforme.yml
+verify
+answer back

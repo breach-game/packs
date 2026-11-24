@@ -1,0 +1,16 @@
+id: dossiers.rouge-gorge-3-split
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.rouge-gorge-world]
+title:
+  fr: "Dossier 14 · 3. Deux bases, une porte"
+  en: "Case file 14 · 3. Two databases, one door"
+summary:
+  fr: "Tu règles la plateforme pour que l'agent ne puisse plus jamais abîmer la production : sa propre base, la production en lecture seule, une personne qui approuve, un gel que l'outil applique, et une restauration essayée. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set the platform so the agent can never damage production again: its own database, production read-only, a person who approves, a freeze the tooling enforces, and a restore that has been tried. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, cloud]
+minutes: 12

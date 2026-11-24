@@ -1,0 +1,16 @@
+id: dossiers.rouge-gorge-2-guardrail
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.rouge-gorge-world]
+title:
+  fr: "Dossier 14 · 2. Le garde-fou"
+  en: "Case file 14 · 2. The guardrail"
+summary:
+  fr: "L'agent est arrêté. Tu écris le garde-fou qui dit non à sa place à toute écriture en production non approuvée, puis tu décides quoi faire de ce que l'agent raconte sur les sauvegardes."
+  en: "The agent is stopped. You write the guardrail that says no in its place to any unapproved write to production, then decide what to do with what the agent says about backups."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense]
+minutes: 10
