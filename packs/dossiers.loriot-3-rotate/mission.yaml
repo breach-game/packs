@@ -1,0 +1,99 @@
+# Rotate what leaked, delete the poster, decide what the library's users are told.
+side: defense
+order: 3
+stage: defense
+briefing: l3.briefing
+
+files:
+  dossier/secrets.yml: { $file: files/secrets.yml }
+
+objectives:
+  - { id: rotate, text: l3.obj.rotate }
+  - { id: log, text: l3.obj.log }
+  - { id: forge, text: l3.obj.forge }
+  - { id: tell, text: l3.obj.tell }
+
+checks:
+  - id: rotate
+    text: l3.check.rotate
+    if: { all: [{ file: "~/dossier/secrets.yml", lacks: "npm_token: old" }, { file: "~/dossier/secrets.yml", contains: "npm_token: rotated" }, { file: "~/dossier/secrets.yml", lacks: "deploy_key: old" }, { file: "~/dossier/secrets.yml", contains: "deploy_key: rotated" }] }
+    objective: rotate
+  - id: log
+    text: l3.check.log
+    if: { all: [{ file: "~/dossier/secrets.yml", lacks: "run_812_log: public" }, { file: "~/dossier/secrets.yml", contains: "run_812_log: deleted" }] }
+    objective: log
+  - id: works
+    text: l3.check.works
+    if: { all: [{ file: "~/dossier/secrets.yml", contains: "forge_token: per-run" }, { file: "~/dossier/secrets.yml", contains: "publish_from_ci_only: on" }] }
+
+questions:
+  - id: forge
+    text: l3.q.forge
+    objective: forge
+    correct: expired
+    options:
+      - { id: expired, text: l3.q.forge.expired }
+      - { id: harmless, text: l3.q.forge.harmless, why: l3.q.forge.harmless.why }
+      - { id: forgot, text: l3.q.forge.forgot, why: l3.q.forge.forgot.why }
+  - id: tell
+    text: l3.q.tell
+    objective: tell
+    options:
+      - { id: advisory, text: l3.q.tell.advisory, impact: 1 }
+      - { id: changelog, text: l3.q.tell.changelog, impact: 4 }
+      - { id: quiet, text: l3.q.tell.quiet, impact: 7 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l3.ada.brief
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: rotate }, { objective: log }] } }
+    once: false
+    do:
+      - ada.say: l3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: rotate }, { objective: log }] }
+    do:
+      - ada.say: l3.ada.rotated
+      - ada.ask: forge
+  - on: { event: ObjectiveCompleted, objective: forge }
+    do:
+      - ada.say: l3.ada.forge
+      - ada.ask: tell
+  - on: { event: Answered, question: tell, option: advisory }
+    do:
+      - ada.say: l3.ada.advisory
+  - on: { event: Answered, question: tell, option: changelog }
+    do:
+      - ada.say: l3.ada.changelog
+  - on: { event: Answered, question: tell, option: quiet }
+    do:
+      - ada.say: l3.ada.quiet
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l3.ada.done
+
+guide:
+  rotate: l3.ada.g.rotate
+  log: l3.ada.g.log
+  forge: l3.ada.answer
+  tell: l3.ada.answer
+
+hints:
+  rotate: [l3.hint.rotate.1, l3.hint.rotate.2]
+  log: [l3.hint.log.1]
+  forge: [l3.hint.forge.1]
+  tell: [l3.hint.tell.1]
+
+debrief:
+  title: l3.debrief.title
+  lesson: l3.debrief.lesson
+  points: [l3.debrief.p1, l3.debrief.p2, l3.debrief.p3, l3.debrief.p4]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"
+  facts:
+    title: l3.facts.title
+    points: [l3.facts.p1, l3.facts.p2, l3.facts.p3, l3.facts.p4, l3.facts.p5]
+    sources:
+      - { label: "BleepingComputer, Supply chain attack on popular GitHub Action exposes CI/CD secrets (March 2025)", url: "https://www.bleepingcomputer.com/news/security/supply-chain-attack-on-popular-github-action-exposes-ci-cd-secrets/" }
+      - { label: "NVD, CVE-2025-30066", url: "https://nvd.nist.gov/vuln/detail/CVE-2025-30066" }

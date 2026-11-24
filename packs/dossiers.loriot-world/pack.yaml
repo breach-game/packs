@@ -1,0 +1,12 @@
+id: dossiers.loriot-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Loriot"
+  en: "Loriot"
+summary:
+  fr: "Loriot, petite entreprise fictive qui publie une bibliothèque libre d'interface. Sa forge de code est publique, comme les journaux de son intégration continue."
+  en: "Loriot, a small fictional company that publishes an open-source interface library. Its code forge is public, and so are its continuous integration logs."
+authors: [BREACH team]
+locales: [fr, en]

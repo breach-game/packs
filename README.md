@@ -67,6 +67,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 16 | `dossiers.sittelle*` | Somebody else's script | The Polyfill script service, 2024 | A third-party script that changes owner and content, serving a different file to phones, counting diverted visitors in DNS, self-hosting with Subresource Integrity and a strict CSP |
 | 17 | `dossiers.bouvreuil*` | What gets pasted | Samsung engineers and a public AI assistant, 2023 | Pasting into a public assistant is sending, a rule on upload size, an egress filter that reads labels, an internal assistant and training rather than a ban |
 | 18 | `dossiers.verdier*` | The key at home | LastPass, 2022 | What an encrypted backup leaves in clear, withdrawing a stolen key rather than blocking an address, keeping backup keys apart and usable from managed devices only, telling customers what to change |
+| 19 | `dossiers.loriot*` | The tag that moved | tj-actions/changed-files (CVE-2025-30066), 2025 | Secrets printed in a public CI log and encoded twice, pinning a third-party action to a full commit hash, a read-only job token, rotating what leaked and telling the library's users |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

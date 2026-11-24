@@ -1,0 +1,9 @@
+# Case file 19, mission 1: the shortest path, replayed by CI in every language.
+curl https://forge.loriot.test/loriot/loriot-ui/actions
+curl https://forge.loriot.test/loriot/loriot-ui/actions/runs/811/log
+curl https://forge.loriot.test/loriot/loriot-ui/actions/runs/812/log
+answer run 812
+echo ZXlKT1VFMWZWRTlMUlU0aU9uc2lkbUZzZFdVaU9pSnVjRzFmYkhJeE9WODNZekpsT1dJME1XUXdZVGhtTXlJc0ltbHpVMlZqY21WMElqcDBjblZsZlN3aVJFVlFURTlaWDB0RldTSTZleUoyWVd4MVpTSTZJbXh5TVRrdFpHVndiRzk1TFRWaU1HVTNOMk14SWl3aWFYTlRaV055WlhRaU9uUnlkV1Y5TENKR1QxSkhSVjlVVDB0RlRpSTZleUoyWVd4MVpTSTZJbVpuZEY5eWRXNDRNVEpmWlRReFl5SXNJbWx6VTJWamNtVjBJanAwY25WbGZYMEs= | base64 -d
+echo ZXlKT1VFMWZWRTlMUlU0aU9uc2lkbUZzZFdVaU9pSnVjRzFmYkhJeE9WODNZekpsT1dJME1XUXdZVGhtTXlJc0ltbHpVMlZqY21WMElqcDBjblZsZlN3aVJFVlFURTlaWDB0RldTSTZleUoyWVd4MVpTSTZJbXh5TVRrdFpHVndiRzk1TFRWaU1HVTNOMk14SWl3aWFYTlRaV055WlhRaU9uUnlkV1Y5TENKR1QxSkhSVjlVVDB0RlRpSTZleUoyWVd4MVpTSTZJbVpuZEY5eWRXNDRNVEpmWlRReFl5SXNJbWx6VTJWamNtVjBJanAwY25WbGZYMEs= | base64 -d | base64 -d
+answer secret NPM_TOKEN
+answer anyone

@@ -1,0 +1,16 @@
+id: dossiers.loriot-1-log
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.loriot-world]
+title:
+  fr: "Dossier 19 · 1. Le journal public"
+  en: "Case file 19 · 1. The public log"
+summary:
+  fr: "Une action d'intégration continue a été modifiée cette nuit. Tu lis les journaux publics de la bibliothèque, tu repères la ligne qui n'a rien à y faire, tu la décodes deux fois et tu dis quel secret permet de publier une fausse version."
+  en: "A continuous integration action was modified last night. You read the library's public logs, spot the line that does not belong, decode it twice and say which secret lets someone publish a fake version."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [supply, crypto, defense]
+minutes: 10

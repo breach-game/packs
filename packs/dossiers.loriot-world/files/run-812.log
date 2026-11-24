@@ -1,0 +1,12 @@
+2027-11-04T06:12:01Z ##[group]Run forge/checkout@v4
+2027-11-04T06:12:03Z Syncing repository: loriot/loriot-ui
+2027-11-04T06:12:04Z ##[endgroup]
+2027-11-04T06:12:04Z ##[group]Run actions-communes/fichiers-modifies@v45
+2027-11-04T06:12:05Z Using merge base 7f3c1e2 for comparison
+2027-11-04T06:12:06Z ZXlKT1VFMWZWRTlMUlU0aU9uc2lkbUZzZFdVaU9pSnVjRzFmYkhJeE9WODNZekpsT1dJME1XUXdZVGhtTXlJc0ltbHpVMlZqY21WMElqcDBjblZsZlN3aVJFVlFURTlaWDB0RldTSTZleUoyWVd4MVpTSTZJbXh5TVRrdFpHVndiRzk1TFRWaU1HVTNOMk14SWl3aWFYTlRaV055WlhRaU9uUnlkV1Y5TENKR1QxSkhSVjlVVDB0RlRpSTZleUoyWVd4MVpTSTZJbVpuZEY5eWRXNDRNVEpmWlRReFl5SXNJbWx6VTJWamNtVjBJanAwY25WbGZYMEs=
+2027-11-04T06:12:06Z Changed files: src/button.ts src/theme.css
+2027-11-04T06:12:06Z ##[endgroup]
+2027-11-04T06:12:07Z ##[group]Run npm test
+2027-11-04T06:12:31Z 214 passing (24s)
+2027-11-04T06:12:31Z ##[endgroup]
+2027-11-04T06:12:32Z Job completed. Token FORGE_TOKEN revoked.

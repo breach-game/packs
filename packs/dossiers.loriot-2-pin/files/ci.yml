@@ -1,0 +1,12 @@
+# loriot-ui - continuous integration, run on every push
+name: ci
+on: push
+permissions: write-all
+jobs:
+  test:
+    runs-on: forge-runner
+    steps:
+      - uses: forge/checkout@v4
+      - uses: actions-communes/fichiers-modifies@v45
+      - run: npm ci
+      - run: npm test
