@@ -1,0 +1,16 @@
+id: dossiers.martin-pecheur-2-limits
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.martin-pecheur-world]
+title:
+  fr: "Dossier 31 · 2. Les garde-fous"
+  en: "Case file 31 · 2. The safeguards"
+summary:
+  fr: "Intrus ou fausse manœuvre, personne ne le sait encore. Tu poses les garde-fous qui tiennent dans les deux cas : des limites de consigne, une alarme, un compte par personne, puis tu décides comment rouvrir l'accès à distance."
+  en: "An intruder or a slip, nobody knows yet. You put in the safeguards that hold either way: setpoint limits, an alarm, one account per person, then decide how to reopen remote access."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, defense]
+minutes: 10

@@ -1,0 +1,10 @@
+BRUME WATER BOARD - ON-CALL PROCEDURE (version of 2022, still in force)
+
+Normal values
+  Sodium hydroxide (NaOH), pH adjustment: 100 ppm. Never above 120 ppm in
+  normal operation. The pump cannot safely dose more than 150 ppm.
+  Chlorine (Cl2): between 0.2 and 2.0 mg/L.
+
+Remote access
+  The on-call engineer may connect to the HMI with TelePoste to look at the
+  trends. Account: station. Password: see the binder.

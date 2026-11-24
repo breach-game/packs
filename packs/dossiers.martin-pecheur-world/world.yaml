@@ -1,0 +1,98 @@
+# Case file 31 "Martin-pêcheur". Inspired by the 2021 incident at a small water treatment plant,
+# where a setpoint was changed through a remote access tool. Played on the defence side only: the
+# remote sessions, a rule on setpoint changes made remotely, switching the tool off, then the
+# safeguards (setpoint limits, individual accounts) that hold whether it was an intruder or a slip.
+# No industrial protocol, no PLC command: the supervision screen is a log and a configuration file.
+startTime: "2027-02-05T13:40:00+01:00"
+mandate: EB-2027-021
+scope:
+  domains: ["*.brume.test"]
+  networks: ["10.101.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.101.0.2
+
+config:
+  eb.remote_off: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.101.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [ihm, historien]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            EB-2027-021.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The supervision workstation (HMI): operators change setpoints here, and the remote tool runs here.
+  - id: ihm
+    hostname: ihm.brume.test
+    ip: 10.101.0.20
+    os: Windows 7 Professional (HMI station)
+    map: { x: 160, z: -60, h: 110 }
+    services:
+      - { port: 5938, name: teleposte, product: TelePoste remote access 14 }
+
+  # The plant's controller: it applies the setpoints. Shown on the map, never reached directly.
+  - id: automate
+    hostname: automate.brume.test
+    ip: 10.101.0.30
+    os: PLC firmware
+    map: { x: 360, z: -20, h: 90 }
+
+  # The historian keeps every setpoint and measurement.
+  - id: historien
+    hostname: historien.brume.test
+    ip: 10.101.0.40
+    os: Linux 5.15 (Debian 12)
+    map: { x: 260, z: 140, h: 90 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "historien\n"
+
+  - id: outside
+    hostname: inconnu.brume.test
+    ip: 10.101.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  brume.test: { A: ["10.101.0.40"] }
+  ihm.brume.test: { A: ["10.101.0.20"] }
+  automate.brume.test: { A: ["10.101.0.30"] }
+  historien.brume.test: { A: ["10.101.0.40"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

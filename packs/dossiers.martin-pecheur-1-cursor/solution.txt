@@ -1,0 +1,10 @@
+# Case file 31, mission 1: the shortest path, replayed by CI in every language.
+cat traces/note-operateur.txt
+cat traces/teleposte-sessions.log
+answer source 203.0.113.75
+soc logs ihm audit
+echo "user: station" >> regles/consigne-distance.yml
+echo "cmd|contains: setpoint" >> regles/consigne-distance.yml
+rule test regles/consigne-distance.yml
+contain disable teleposte
+answer watched

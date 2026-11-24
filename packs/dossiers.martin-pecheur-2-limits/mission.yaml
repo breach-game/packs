@@ -1,0 +1,108 @@
+# Case file 31, mission 2: the safeguards. The player edits the HMI's setpoint limits (the pump
+# cannot safely dose more than 150 ppm), turns on the change alarm, switches remote access to
+# individual accounts with a second factor (judged by `verify`), decides how remote access comes
+# back (a decision: no option is wrong), and puts the day in order. The facts card says plainly that
+# the real case may have been an employee's mistake.
+side: defense
+order: 2
+stage: report
+startTime: "2027-02-08T09:00:00+01:00"
+briefing: m2.briefing
+reveal: [ihm, automate, historien]
+
+config:
+  eb.remote_off: true
+
+files:
+  ihm/limites.conf: { $file: files/limites.conf }
+  acces/acces-distance.conf: { $file: files/acces-distance.conf }
+  traces/procedure-astreinte.txt: { $file: files/procedure-astreinte.txt }
+
+objectives:
+  - { id: limits, text: m2.obj.limits }
+  - { id: alarm, text: m2.obj.alarm }
+  - { id: accounts, text: m2.obj.accounts }
+  - { id: future, text: m2.obj.future }
+  - { id: story, text: m2.obj.story }
+
+checks:
+  - id: limits
+    text: m2.check.limits
+    if: { all: [{ file: "~/ihm/limites.conf", lacks: "NaOH_ppm_max: 20000" }, { file: "~/ihm/limites.conf", contains: "NaOH_ppm_max: 150" }] }
+    objective: limits
+  - id: alarm
+    text: m2.check.alarm
+    if: { all: [{ file: "~/ihm/limites.conf", lacks: "alarm_on_change: off" }, { file: "~/ihm/limites.conf", contains: "alarm_on_change: on" }] }
+    objective: alarm
+  - id: accounts
+    text: m2.check.accounts
+    if: { all: [{ file: "~/acces/acces-distance.conf", contains: "accounts: individual" }, { file: "~/acces/acces-distance.conf", contains: "mfa: on" }] }
+    objective: accounts
+  - id: works
+    text: m2.check.works
+    if: { all: [{ file: "~/ihm/limites.conf", contains: "Cl2_mgL_min: 0.2" }, { file: "~/ihm/limites.conf", contains: "Cl2_mgL_max: 2.0" }, { file: "~/ihm/limites.conf", contains: "NaOH_ppm_min: 0" }] }
+
+# A decision: no option is wrong, each one costs something different.
+questions:
+  - id: future
+    text: m2.q.future
+    objective: future
+    options:
+      - { id: vpn, text: m2.q.future.vpn, impact: 1 }
+      - { id: lookonly, text: m2.q.future.lookonly, impact: 2 }
+      - { id: onsite, text: m2.q.future.onsite, impact: 4 }
+
+timelines:
+  - id: journee
+    text: m2.tl.text
+    objective: story
+    events:
+      - { id: setup, text: m2.tl.setup }
+      - { id: morning, text: m2.tl.morning }
+      - { id: raise, text: m2.tl.raise }
+      - { id: revert, text: m2.tl.revert }
+      - { id: cut, text: m2.tl.cut }
+      - { id: guard, text: m2.tl.guard }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: limits }
+    do:
+      - ada.say: m2.ada.limits
+  - on: { event: ObjectiveCompleted, objective: accounts }
+    do:
+      - ada.say: m2.ada.accounts
+      - ada.ask: future
+  - on: { event: ObjectiveCompleted, objective: future }
+    do:
+      - ada.say: m2.ada.future
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m2.ada.done
+
+guide:
+  limits: m2.ada.g.limits
+  alarm: m2.ada.g.alarm
+  accounts: m2.ada.g.accounts
+  future: m2.ada.g.future
+  story: m2.ada.g.story
+
+hints:
+  limits: [m2.hint.limits.1, m2.hint.limits.2]
+  alarm: [m2.hint.alarm.1]
+  accounts: [m2.hint.accounts.1, m2.hint.accounts.2]
+  story: [m2.hint.story.1, m2.hint.story.2]
+
+debrief:
+  title: m2.debrief.title
+  lesson: m2.debrief.lesson
+  points: [m2.debrief.p1, m2.debrief.p2, m2.debrief.p3]
+  reference: "CISA · AA21-042A Compromise of U.S. Water Treatment Facility"
+  facts:
+    title: m2.facts.title
+    points: [m2.facts.p1, m2.facts.p2, m2.facts.p3, m2.facts.p4, m2.facts.p5]
+    sources:
+      - { label: "FBI, CISA, EPA and MS-ISAC, Advisory AA21-042A: Compromise of U.S. Water Treatment Facility (February 2021)", url: "https://www.cisa.gov/news-events/alerts/2021/02/11/compromise-us-water-treatment-facility" }
+      - { label: "Industrial Cyber, Oldsmar incident allegedly caused by human error, not a breach (April 2023)", url: "https://industrialcyber.co/news/oldsmar-water-treatment-plant-incident-allegedly-caused-by-human-error-not-remote-access-cybersecurity-breach/" }

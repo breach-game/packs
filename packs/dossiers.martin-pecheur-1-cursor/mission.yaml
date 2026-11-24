@@ -1,0 +1,111 @@
+# Case file 31, mission 1: the cursor. The remote access tool's session list shows one address the
+# on-call team never uses; the HMI's audit lines show the shared account opening the dosing screen
+# and changing the sodium hydroxide setpoint. The player writes a rule on setpoint changes made
+# through the remote account (not the on-call team viewing trends), switches the tool off, and says
+# what actually protected the water.
+side: defense
+order: 1
+stage: defense
+briefing: m1.briefing
+reveal: [ihm, automate, historien]
+
+files:
+  traces/note-operateur.txt: { $file: files/note-operateur.txt }
+  traces/teleposte-sessions.log: { $file: files/teleposte-sessions.log }
+  regles/consigne-distance.yml: |
+    title: A setpoint changed through the remote access account
+    source: audit
+
+adversary:
+  id: remote
+  name: unknown
+  from: outside
+  pace: 3
+  delay: 0
+  steps:
+    - { id: r1, host: ihm, source: audit, fields: { user: station, exe: ihm.exe, cmd: "open screen Dosage" } }
+    - { id: r2, host: ihm, source: audit, fields: { user: station, exe: ihm.exe, cmd: "setpoint NaOH_ppm 11100" } }
+    - { id: r3, host: ihm, source: audit, fields: { user: station, exe: ihm.exe, cmd: "setpoint NaOH_ppm 11100" }, blockedIf: { config: eb.remote_off, eq: true } }
+
+# Ordinary activity: the operator at the console, and the on-call engineer viewing trends from home.
+background:
+  - { host: ihm, source: audit, every: 2, offset: 0, fields: { user: operateur, exe: ihm.exe, cmd: "setpoint Cl2_mgL 1.2" } }
+  - { host: ihm, source: audit, every: 3, offset: 1, fields: { user: station, exe: ihm.exe, cmd: "open screen Tendances" } }
+  - { host: ihm, source: audit, every: 4, offset: 2, fields: { user: operateur, exe: ihm.exe, cmd: "ack alarm TURB-02" } }
+  - { host: ihm, source: audit, every: 5, offset: 3, fields: { user: operateur, exe: ihm.exe, cmd: "setpoint NaOH_ppm 100" } }
+
+containment:
+  - id: remote
+    action: disable
+    target: teleposte
+    text: m1.contain.remote
+    sets: { eb.remote_off: true }
+    impact: 1
+
+objectives:
+  - { id: source, text: m1.obj.source }
+  - { id: rule, text: m1.obj.rule }
+  - { id: remote, text: m1.obj.remote }
+  - { id: saved, text: m1.obj.saved }
+
+investigation:
+  - { id: source, text: m1.q.source, value: "203.0.113.75", points: 75, objective: source }
+
+hunts:
+  - id: setpoint
+    file: regles/consigne-distance.yml
+    catch: { source: audit, where: { user: station, cmd: { contains: "setpoint" } } }
+    objective: rule
+
+questions:
+  - id: saved
+    text: m1.q.saved
+    objective: saved
+    correct: watched
+    options:
+      - { id: watched, text: m1.q.saved.watched }
+      - { id: firewall, text: m1.q.saved.firewall, why: m1.q.saved.firewall.why }
+      - { id: antivirus, text: m1.q.saved.antivirus, why: m1.q.saved.antivirus.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: source }
+    do:
+      - ada.say: m1.ada.source
+  - on: { event: AdversaryStep, step: r2 }
+    do:
+      - ada.say: m1.ada.again.live
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: m1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: m1.ada.rule
+  - on: { event: Contained, containment: remote }
+    do:
+      - objective.complete: remote
+      - ada.say: m1.ada.remote
+      - ada.ask: saved
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m1.ada.done
+
+guide:
+  source: m1.ada.g.source
+  rule: m1.ada.g.rule
+  remote: m1.ada.g.remote
+  saved: m1.ada.g.saved
+
+hints:
+  source: [m1.hint.source.1, m1.hint.source.2]
+  rule: [m1.hint.rule.1, m1.hint.rule.2]
+  remote: [m1.hint.remote.1]
+
+debrief:
+  title: m1.debrief.title
+  lesson: m1.debrief.lesson
+  points: [m1.debrief.p1, m1.debrief.p2, m1.debrief.p3]
+  reference: "CISA · AA21-042A Compromise of U.S. Water Treatment Facility"
