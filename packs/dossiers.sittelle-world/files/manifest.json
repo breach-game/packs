@@ -1,0 +1,12 @@
+{
+  "site": "www.sittelle.test",
+  "built": "2026-09-30",
+  "scripts": [
+    { "src": "/assets/app.js", "owner": "sittelle" },
+    { "src": "/assets/billets.js", "owner": "sittelle" },
+    { "src": "https://cdn.compat-cdn.test/v3/compat.min.js", "owner": "third-party", "integrity": null }
+  ],
+  "styles": [
+    { "src": "/assets/site.css", "owner": "sittelle" }
+  ]
+}

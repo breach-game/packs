@@ -64,6 +64,7 @@ A case file ("Dossier") is a short series inspired by a real, publicly documente
 | 13 | `dossiers.bergeronnette*` | The diagnostic file | Okta support system, 2023 | A browser diagnostic file (HAR) is a key, a session replayed from elsewhere and the rule that sees it, cleaning files on arrival and binding sessions to their device |
 | 14 | `dossiers.rouge-gorge*` | The freeze | A Replit coding agent, 2025 | Watching an agent live and stopping it with the cheapest move, a guardrail outside the model, separating production from the agent's playground and testing restores |
 | 15 | `dossiers.chardonneret*` | The assistant's answer | Air Canada's chatbot ruling, 2024 | A chat assistant that makes up rules confidently, a company answering for its assistant, grounding answers in published pages and handing over when unsure |
+| 16 | `dossiers.sittelle*` | Somebody else's script | The Polyfill script service, 2024 | A third-party script that changes owner and content, serving a different file to phones, counting diverted visitors in DNS, self-hosting with Subresource Integrity and a strict CSP |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

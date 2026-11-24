@@ -1,0 +1,10 @@
+# Case file 16, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/site.yml
+sed -i "s/compat_from: third-party/compat_from: self-hosted/" dossier/site.yml
+sed -i "s/integrity: off/integrity: on/" dossier/site.yml
+verify
+answer ours
+sed -i "s/script_src: any/script_src: self/" dossier/site.yml
+sed -i "s/csp_reports: off/csp_reports: on/" dossier/site.yml
+sed -i "s/third_parties: none/third_parties: owner-and-content/" dossier/site.yml
+verify

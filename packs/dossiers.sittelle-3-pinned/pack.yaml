@@ -1,0 +1,16 @@
+id: dossiers.sittelle-3-pinned
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.sittelle-world]
+title:
+  fr: "Dossier 16 · 3. Ne charger que ce qu'on a vérifié"
+  en: "Case file 16 · 3. Load only what you checked"
+summary:
+  fr: "Tu règles le site pour qu'un script qui change ne s'exécute plus : copie chez soi, empreinte vérifiée par le navigateur, politique de sécurité qui n'accepte que le site, et une veille sur les tiers. La dernière mission raconte les faits, sources à l'appui."
+  en: "You set the site so that a script that changes no longer runs: a copy at home, a fingerprint checked by the browser, a security policy that only accepts the site, and a watch on third parties. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense, web]
+minutes: 12

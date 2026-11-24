@@ -1,0 +1,12 @@
+id: dossiers.sittelle-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: "Sittelle"
+  en: "Sittelle"
+summary:
+  fr: "Sittelle, billetterie fictive d'un réseau de petits musées. Son site, et la bibliothèque de compatibilité qu'il charge depuis un service tiers, dont le propriétaire vient de changer."
+  en: "Sittelle, a fictional ticket office for a network of small museums. Its website, and the compatibility library it loads from a third-party service whose owner just changed."
+authors: [BREACH team]
+locales: [fr, en]

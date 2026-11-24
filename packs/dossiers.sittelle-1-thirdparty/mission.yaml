@@ -1,0 +1,69 @@
+order: 1
+stage: recon
+briefing: s1.briefing
+reveal: [www]
+
+objectives:
+  - { id: inventory, text: s1.obj.inventory }
+  - { id: owner, text: s1.obj.owner }
+  - { id: phone, text: s1.obj.phone }
+  - { id: why, text: s1.obj.why }
+
+questions:
+  - id: why
+    text: s1.q.why
+    objective: why
+    correct: targeted
+    options:
+      - { id: targeted, text: s1.q.why.targeted }
+      - { id: down, text: s1.q.why.down, why: s1.q.why.down.why }
+      - { id: blocked, text: s1.q.why.blocked, why: s1.q.why.blocked.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /assets/manifest.json }
+    do:
+      - objective.complete: inventory
+      - host.reveal: cdn
+  - on: { event: ObjectiveCompleted, objective: inventory }
+    do:
+      - ada.say: s1.ada.inventory
+  - on: { event: CommandRun, command: whois, args: { contains: compat-cdn } }
+    do:
+      - objective.complete: owner
+  - on: { event: ObjectiveCompleted, objective: owner }
+    do:
+      - ada.say: s1.ada.owner
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js }
+    do:
+      - ada.guide: { key: s1.ada.same, for: phone, step: 1 }
+  - on: { event: HttpRequest, host: cdn, path: /v3/compat.min.js, variant: mobile }
+    do:
+      - objective.complete: phone
+  - on: { event: ObjectiveCompleted, objective: phone }
+    do:
+      - ada.say: s1.ada.phone
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s1.ada.done
+
+guide:
+  inventory: s1.ada.g.inventory
+  owner: s1.ada.g.owner
+  phone: s1.ada.g.phone
+  why: s1.ada.answer
+
+hints:
+  inventory: [s1.hint.inventory.1, s1.hint.inventory.2]
+  owner: [s1.hint.owner.1]
+  phone: [s1.hint.phone.1, s1.hint.phone.2]
+  why: [s1.hint.why.1]
+
+debrief:
+  title: s1.debrief.title
+  lesson: s1.debrief.lesson
+  points: [s1.debrief.p1, s1.debrief.p2, s1.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

@@ -1,0 +1,19 @@
+# Sittelle site settings - mandate SI-2027-016
+site:
+  online: on
+
+scripts:
+  # third-party | self-hosted: where compat.js is served from
+  compat_from: third-party
+  # off | on: Subresource Integrity, the browser refuses a file whose fingerprint changed
+  integrity: off
+
+headers:
+  # any | self: where scripts may come from (Content-Security-Policy, script-src)
+  script_src: any
+  # off | on: browsers report the scripts they block
+  csp_reports: off
+
+watch:
+  # none | owner-and-content: alert when a third party changes owner, or a file changes
+  third_parties: none

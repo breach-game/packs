@@ -1,0 +1,5 @@
+# Case file 16, in playing order: the script, the diverted visitors, the pinned site.
+missions:
+  - dossiers.sittelle-1-thirdparty
+  - dossiers.sittelle-2-detour
+  - dossiers.sittelle-3-pinned
