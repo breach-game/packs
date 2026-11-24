@@ -1,0 +1,16 @@
+id: hors-serie.vendredi-2-running
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.vendredi-world]
+title:
+  fr: "Le Correctif du vendredi · 2. Ce qui tourne vraiment"
+  en: "The Friday patch · 2. What really runs"
+summary:
+  fr: "Le déploiement de vendredi a réussi, dit le robot. Tu demandes sa version au portail avec `curl`, tu compares les livraisons avec `tar` et `openssl dgst`, tu trouves pourquoi l'ancienne version est revenue, puis tu redéploies et tu vérifies."
+  en: "Friday's deployment succeeded, says the bot. You ask the portal for its version with `curl`, compare the releases with `tar` and `openssl dgst`, find why the old version came back, then redeploy and check."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, crypto, defense]
+minutes: 12

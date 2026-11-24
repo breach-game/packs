@@ -1,0 +1,15 @@
+id: hors-serie.vendredi
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [hors-serie.vendredi-world]
+title:
+  fr: "Hors-série : le Correctif du vendredi"
+  en: "Side series: the Friday patch"
+summary:
+  fr: "Un petit éditeur de logiciels, trois bulletins de sécurité la même semaine. Tu tries les alertes selon l'exposition avec `sbom`, tu découvres que le correctif « déployé » n'est jamais arrivé, puis tu écris une politique de correctifs qui vérifie ce qui tourne vraiment."
+  en: "A small software publisher, three security bulletins in the same week. You sort the alerts by exposure with `sbom`, discover that the \"deployed\" patch never arrived, then write a patch policy that checks what really runs."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [supply, crypto, defense, crisis]

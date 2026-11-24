@@ -1,0 +1,81 @@
+# The policy that would have caught both problems, then a decision about Friday evenings.
+side: defense
+order: 3
+stage: defense
+briefing: v3.briefing
+
+files:
+  politique/correctifs.yml: { $file: files/correctifs.yml }
+
+objectives:
+  - { id: know, text: v3.obj.know }
+  - { id: deploy, text: v3.obj.deploy }
+  - { id: friday, text: v3.obj.friday }
+
+questions:
+  - id: friday
+    text: v3.q.friday
+    objective: friday
+    options:
+      - { id: checked, text: v3.q.friday.checked, impact: 1 }
+      - { id: never, text: v3.q.friday.never, impact: 4 }
+      - { id: asbefore, text: v3.q.friday.asbefore, impact: 6 }
+
+checks:
+  - id: know
+    text: v3.check.know
+    if: { all: [{ file: "~/politique/correctifs.yml", contains: "sbom: every-build" }, { file: "~/politique/correctifs.yml", contains: "advisories_check: daily" }, { file: "~/politique/correctifs.yml", contains: "internet_critical: 72h" }, { file: "~/politique/correctifs.yml", contains: "internet_high: 7d" }] }
+    objective: know
+  - id: deploy
+    text: v3.check.deploy
+    if: { all: [{ file: "~/politique/correctifs.yml", contains: "verify_hash: on" }, { file: "~/politique/correctifs.yml", contains: "post_deploy_check: version" }] }
+    objective: deploy
+  - id: works
+    text: v3.check.works
+    if: { all: [{ file: "~/politique/correctifs.yml", contains: "internal: 90d" }, { file: "~/politique/correctifs.yml", contains: "notify: team-channel" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: know }
+    do:
+      - ada.say: v3.ada.know
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: know }, { objective: deploy }] } }
+    once: false
+    do:
+      - ada.say: v3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: know }, { objective: deploy }] }
+    do:
+      - ada.say: v3.ada.ready
+      - ada.ask: friday
+  - on: { event: Answered, question: friday, option: checked }
+    do:
+      - ada.say: v3.ada.checked
+  - on: { event: Answered, question: friday, option: never }
+    do:
+      - ada.say: v3.ada.never
+  - on: { event: Answered, question: friday, option: asbefore }
+    do:
+      - ada.say: v3.ada.asbefore
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v3.ada.done
+
+guide:
+  know: v3.ada.g.know
+  deploy: v3.ada.g.deploy
+  friday: v3.ada.answer
+
+hints:
+  know: [v3.hint.know.1, v3.hint.know.2]
+  deploy: [v3.hint.deploy.1]
+  friday: [v3.hint.friday.1]
+
+debrief:
+  title: v3.debrief.title
+  lesson: v3.debrief.lesson
+  points: [v3.debrief.p1, v3.debrief.p2, v3.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"

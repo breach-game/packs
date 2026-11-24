@@ -1,0 +1,5 @@
+# Side series "Le Correctif du vendredi", mission 1: the shortest path, replayed by CI in every language.
+sbom produits --vuln
+answer portal jeton-web
+cat produits/inventaire.txt
+answer exposed

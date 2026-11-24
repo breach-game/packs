@@ -81,6 +81,7 @@ Fictional stories with no real incident behind them, each a short series in its 
 | Folder | Series | What you learn |
 | --- | --- | --- |
 | `hors-serie.sosie*` | The look-alike domain | A fake invoice that passes SPF, DKIM and DMARC for its own look-alike name, hardening your real domain from the DMARC reports, shrinking what your website tells fraudsters |
+| `hors-serie.vendredi*` | The Friday patch | Triaging a fictional advisory with `sbom --vuln` by exposure, finding why production still runs the old version (a stale cache, checked with `openssl dgst`), and a patch policy that `verify` can check |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
 

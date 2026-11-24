@@ -1,0 +1,16 @@
+id: hors-serie.vendredi-1-triage
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.vendredi-world]
+title:
+  fr: "Le Correctif du vendredi · 1. Trois alertes"
+  en: "The Friday patch · 1. Three alerts"
+summary:
+  fr: "Trois bulletins la même semaine, une petite équipe. Tu fais l'inventaire des trois produits avec `sbom --vuln`, puis tu décides par quoi commencer, en regardant qui peut atteindre chaque produit plutôt que la seule gravité."
+  en: "Three bulletins in the same week, a small team. You inventory the three products with `sbom --vuln`, then decide where to start, looking at who can reach each product rather than severity alone."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [supply, defense]
+minutes: 8

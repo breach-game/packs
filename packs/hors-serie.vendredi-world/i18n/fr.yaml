@@ -1,0 +1,8 @@
+file.readme: "Poste Ligne Rouge. Hors-série : le Correctif du vendredi. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+ada.outOfScope: "Stop. Cette cible est hors du mandat BE-2027-031. Hors mandat, ce n'est plus un test : c'est un délit (article 323-1 du Code pénal). Reviens dans le périmètre."
+ada.noise70: "Tu fais beaucoup de bruit. Ralentis."
+ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte des points."
+file.mandate: "MANDAT BE-2027-031\nClient : Bergamote Logiciel SAS, éditeur de logiciels de gestion. Périmètre : *.bergamote.test, 10.85.0.0/24.\nObjet : trois bulletins de sécurité sont arrivés la même semaine. L'équipe a déployé un correctif vendredi soir et pense le sujet clos. Ligne Rouge trie les alertes, vérifie ce qui tourne vraiment en production, et aide l'éditeur à écrire sa politique de correctifs.\nDispositif convenu : Ligne Rouge lit les fichiers de dépendances des trois produits, interroge les pages de version et relit les livraisons. Ligne Rouge ne modifie rien en production sans l'accord de l'équipe.\nSigné : la directrice technique de Bergamote Logiciel."
+adv.jeton: "Un jeton de session expiré est encore accepté si l'on retire sa signature."
+adv.pdf: "Un fichier PDF piégé fait exécuter du code au générateur de documents."
+adv.graphe: "Un graphique aux données très nombreuses ralentit fortement le service."
