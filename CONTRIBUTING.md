@@ -83,7 +83,8 @@ summary: { fr: …, en: … }       # one sentence, shown in the mission list
 authors: [Jane Doe]
 locales: [fr, en]               # one or both; players of another language see it as not yet translated
 difficulty: 1                   # optional, 1 to 3, shown in the list
-skills: [web, defense]          # optional, up to 4 of: recon, web, social, llm, logs, linux, crypto, supply, defense
+skills: [web, defense]          # optional, up to 4 of: recon, web, social, llm, logs, linux, crypto, supply, defense,
+                                #   crisis, cloud, privacy, iot
 minutes: 15                     # optional, your estimate of the playing time (a series adds up its missions')
 incident: 2021                  # optional, year of the real incident the pack retells (see section 5)
 ```
@@ -92,7 +93,7 @@ The game's community screen is a store: players search titles and summaries, fil
 
 Use your GitHub login as the first part of the id, so that two authors never pick the same one.
 
-A world can be the official one: `requires: [breach.world.novamind]`. Your mission then happens in NovaMind's network, with its hosts, pages and characters, and can redefine those characters. A mission cannot add machines or pages to a world: to tell a story somewhere else, write a world pack too.
+A world can be an official one: `requires: [breach.world.novamind]`. Your mission then happens in NovaMind's network, with its hosts, pages and characters, and can redefine those characters. The worlds of the seasons work the same way: `breach.world.halcyon` (a build chain), `pelican` (an online shop), `corbelle` (a town hall), `selene` (teams of AI agents), `alto` (a start-up on a fictional cloud), `lumiere` (a festival's ticket office), `verdure` (a vertical farm and its message broker) and `lignerouge` (the pentest firm itself). Their files are in [`content/worlds`](https://github.com/breach-game/breach/tree/main/content/worlds). A mission cannot add machines or pages to a world: to tell a story somewhere else, write a world pack too.
 
 ## 4. The world
 
@@ -141,7 +142,38 @@ web:
   "/order/chat": { status: 405, chat: pixou }   # curl -d "message" talks to the character here
 ```
 
-Blocks are `h1`, `h2`, `p`, `list`, `code`, `nav`, `link`, `comment`, `chat` and `footer`. The game draws them itself and `curl` prints the HTML it derives from them. You never write HTML for a page.
+Blocks are `h1`, `h2`, `p`, `list`, `code`, `nav`, `link`, `comment`, `chat`, `table`, `form` and `footer`. The game draws them itself and `curl` prints the HTML it derives from them. You never write HTML for a page.
+
+**Tables and forms.** A `table` is a header row and plain cells. A `form` is one field of the fictional application: what the player types is posted to a scripted character, which stands for the code behind the form.
+
+```yaml
+web:
+  "/search":
+    page:
+      title: web.search.title
+      blocks:
+        - table: { head: [web.col.ref, web.col.name], rows: [["A-12", web.item.vase], ["A-13", web.item.lamp]] }
+        - form: { to: search, label: web.search.label, button: web.search.go, name: q }   # name: the field in curl -d "q=…"
+  "/api/search": { status: 405, chat: search }     # curl -d "q=vase" reaches the same character
+```
+
+The browser's form and `curl -d` both go through the character `search`, whose intents decide the answer. To recognise a class of flaw rather than one exact string, an intent can ask for a shape of input with `input: [quote]`, `[markup]` or `[negative]` (a quote that is not an apostrophe inside a word, a tag, a negative number). The validator still refuses `<script`, `javascript:` and `on…=` attributes anywhere in a pack.
+
+**Variants of a route.** A route can answer differently when the request carries a cookie or a header, or while a condition holds. The first variant that matches answers, and the `HttpRequest` event carries its `id` in `variant`.
+
+```yaml
+  "/account":
+    status: 401
+    body: "{\"error\":\"login required\"}\n"
+    variants:
+      - { id: mine, cookie: "session=u1042", body: { $file: files/account-1042.json } }   # curl -b "session=u1042"
+      - { id: staff, header: "X-Role: staff", if: { config: shop.role_header, eq: true }, body: "…" }   # curl -H
+      - { id: closed, if: { config: shop.fixed, eq: true }, status: 403, body: "403 Forbidden\n" }       # no cookie, no header
+```
+
+A variant needs a `cookie`, a `header` or an `if`. With only `if` it answers every request while the condition holds, in the browser too: a bucket made private, a page that changes after an action. A variant can serve a `page` instead of a `body`.
+
+**A message broker.** A host with a service named `mqtt` is a broker for connected devices, and its routes are topics (`"/farm/room/#"`). `mqtt sub -h <host> -t <topic>` prints the route's body as the retained messages, `mqtt pub … -m <message>` hands the message to the route's `chat` character, and `-u user -P password` arrives as the header `Authorization: user:password`, so a variant can open a topic to one account. A status 401 or 403 refuses the connection. Rules see an `HttpRequest` whose `method` is `SUBSCRIBE` or `PUBLISH`.
 
 **Noise.** Every command adds noise to a gauge. At 100 the target's SOC spots the player, who goes back to the last checkpoint. The world's table gives a cost per command, and per option:
 
@@ -161,7 +193,9 @@ A mission can override any entry with its own `noise` table.
 ```yaml
 order: 0                  # position among the missions of the same world
 stage: recon              # shown in the notebook; translated ones: cadrage, recon, social, access, injection, indirect,
-                          # agency, lateral, escalation, supply, cloud, analysis, defense, response
+                          # agency, lateral, escalation, supply, cloud, analysis, defense, response, rag, memory,
+                          # agents, logic, disclosure, phishing, iot, firmware
+startTime: "2026-12-09T09:00:00+01:00"   # optional: the in-game clock when this mission starts (a later day of a series)
 briefing: fb.briefing
 
 objectives:
@@ -223,6 +257,10 @@ questions:
 - **Questions.** The options appear as buttons in the messenger, and `answer b` does the same in the terminal. The right option completes the objective. A wrong one costs 10 points and shows its `why`: write it as the explanation a mentor would give, that is where the player learns. The game shuffles the options, always the same way for a given question, so never refer to an option by its letter or its position in your texts. `breach-pack check` refuses a question whose right option is more than 1.3 times as long as the longest wrong one, in any language: a right answer that stands out by its length is found without reading the question. Write wrong options that a thoughtful beginner could pick, with as much detail as the right one.
 - **Short answers.** A flag does not have to look like `FLAG{…}`: `{ id: account, value: "c.morel", … }` lets the player `submit c.morel` (an address, a user name, a host). Keep them unambiguous.
 - **Analysis.** With `files` and the text tools (`grep`, `cut`, `sort`, `uniq -c`, `diff`, `sha256sum`, `base64 -d`), a mission can be about reading a log, comparing two versions of a script, or decoding a value, with no network at all.
+
+- **Decisions.** A question without `correct` is a decision: no option is wrong, each has a price. An option can carry `impact` (0 to 100, what it costs the organisation, 3 points each) and `sets` (settings of the target it changes). Any option completes the objective, and the choice is remembered for the rest of the save: a later mission of the same series reads it with the condition `{ choice: <question id>, eq: <option id> }`, which is how a series gets branching endings. `breach-pack check` replays your solution once per option, so every branch must finish.
+- **Code review.** `reviews: [{ id: acl, file: dossier/acl.conf, lines: [11], objective: review }]` makes a file of the workstation something to read critically: `review <file>` prints it with line numbers, `review <file> <line>` points at a faulty line. A wrong line costs 10 points; the objective is done when every listed line is found.
+- **Rules and guardrails the player writes.** See "Detection rules the player writes" and "Guardrails the player writes" in section 12.
 
 In `solution.txt`, answer with `answer <option id>` (the letters change with the shuffle) and repair with `sed -i`.
 
@@ -427,7 +465,7 @@ telemetry:
     - { host: www, source: access, every: 4, offset: 1, fields: { src: 203.0.113.17, path: /, ua: "Mozilla/5.0" } }
 ```
 
-`every` and `offset` are in minutes. Sources: `access`, `auth`, `chat`, `agent`, `dns`, `ids`, `audit`, `git`, `db`, `flow`. The same seed gives every player the same lines.
+`every` and `offset` are in minutes. Sources: `access`, `auth`, `chat`, `agent`, `dns`, `ids`, `audit`, `git`, `db`, `flow`, `mail` (a mail gateway: `from`, `to`, `subject`, `link`, `verdict`) and `mqtt` (a message broker: `client`, `src`, `action`, `topic`). The same seed gives every player the same lines.
 
 ### Weaknesses as data
 
@@ -505,7 +543,44 @@ rules:
     do: [ { objective.complete: contain } ]
 ```
 
-`action` is one of `block`, `revoke`, `isolate`, `disable`, `reset`. `impact` (0 to 100) is what the order costs the business: it fills the impact gauge and costs 3 points each. When a containment makes the attacker's next step impossible, the step fails at once. Keep the attack slow enough for a guided player: count the lines of your solution against `pace`. Every key that `sets` changes must be declared in `config`.
+`action` is one of `block`, `revoke`, `isolate`, `disable`, `reset`, `remove`, `restore`, `rotate`. `impact` (0 to 100) is what the order costs the business: it fills the impact gauge and costs 3 points each. When a containment makes the attacker's next step impossible, the step fails at once. Keep the attack slow enough for a guided player: count the lines of your solution against `pace`. Every key that `sets` changes must be declared in `config`.
+
+A measure can also change files of the target, so that the machine shows what was done: `writes: [{ host, path, content }]` rewrites a file (an account locked, a scheduled job emptied) and `removes: [{ host, path }]` deletes one. The player reads the result over `ssh`, or with `crontab -l` for scheduled jobs (`/var/spool/cron/crontabs/<account>` on the host). A defence mission does not need an `adversary` if it has measures or questions: a crisis where the harm is already done is played with `contain`, questions and decisions alone.
+
+### Detection rules the player writes
+
+Instead of picking a rule among three, the player can write one. Hand them a starting file with `files`, and declare what it must catch:
+
+```yaml
+files:
+  rules/backup-account.yml: "title: Backup account login\nsource: auth\nuser: svc-backup\n"
+hunts:
+  - id: svc
+    file: rules/backup-account.yml
+    catch: { source: auth, where: { user: svc-backup, method: password } }   # the attacker's lines to catch
+    objective: detect
+```
+
+A rule file is a `source:` line, then one field per line, with the modifiers `|contains`, `|startswith`, `|endswith` and `|gte` (`bytes|gte: 1000000`). `rule test <file>` runs it against the logs and shows what it catches. It passes when it raises an alert on every line of the attacker that `catch` selects and on no line of the ordinary activity, so give the world enough `telemetry.background` for a lazy rule to ring wrongly. The attacker's lines come from the `adversary`: in a mission played after the fact, use a two or three step adversary with no `blockedIf` as a replay of what happened. The `RuleTested` event (`hunt`, `caught`, `missed`, `falsePositives`, `passed`) lets Ada say why a rule fails.
+
+### Guardrails the player writes
+
+The same idea for an AI agent: the player writes the conditions under which a tool call is refused.
+
+```yaml
+files:
+  guardrails/refund.yml: "tool: refund\n"
+evals:
+  - id: refund
+    file: guardrails/refund.yml
+    objective: guard
+    cases:                                        # 2 to 16, at least one to block and one to allow
+      - { id: forged, text: g.case.forged, fields: { tool: refund, amount: 900, signed: false }, expect: block }
+      - { id: legit, text: g.case.legit, fields: { tool: refund, amount: 40, signed: true }, expect: allow }
+      - { id: lookup, text: g.case.lookup, fields: { tool: lookup_invoice, signed: false }, expect: allow }
+```
+
+A guardrail file has one condition per line, with the same modifiers and no `source:` line. A call is blocked when it meets every condition. `eval run <file>` shows each case and what the guardrail does with it; it passes when every `block` case is blocked and no `allow` case is. Write `allow` cases that a blunt guardrail would stop, otherwise "block everything" wins. The cases are data: nothing is run and no model judges. The `EvalRun` event carries `eval`, `blocked`, `missed`, `wrongly` and `passed`.
 
 ## 13. Reference
 
@@ -517,12 +592,14 @@ rules:
 | `CommandRun` | `command` (first word), `line`, `cwd` |
 | `FileRead` | `host`, `path` |
 | `FileWritten` | `host`, `path`, `append` |
+| `FileRemoved` | `host`, `path` (a containment's `removes`) |
+| `SessionOpened` | `host`, `user` (an `ssh` login) |
 | `DnsQuery` | `name`, `rtype`, `found` |
 | `WhoisQuery` | `domain` |
 | `Scan` | `target`, `intensity` |
 | `HostDiscovered` | `host` |
 | `ServiceDiscovered` | `host`, `port` |
-| `HttpRequest` | `host` (host id), `path`, `method`, `status` |
+| `HttpRequest` | `host` (host id), `path`, `method` (also `SUBSCRIBE` and `PUBLISH` for `mqtt`), `status`, `variant` |
 | `AppOpened` | `app`, `url` |
 | `ChatSent` | `npc`, `text`, `via` (`browser` or `api`) |
 | `ChatReply` | `npc`, `intent`, `families` |
@@ -540,6 +617,9 @@ rules:
 | `Asked` | `question` |
 | `Answered` | `question`, `option`, `correct` |
 | `Verified` | `passed`, `failed` (lists of check ids) |
+| `Reviewed` | `review`, `line`, `correct` |
+| `RuleTested` | `hunt`, `caught`, `missed`, `falsePositives`, `passed` |
+| `EvalRun` | `eval`, `blocked`, `missed`, `wrongly`, `passed` |
 | `MissionCompleted` | `mission`, `score` |
 | `ToolCall` | `agent`, `tool`, `args`, `admin` (a character's intent with `tool`) |
 | `ConfigPatched` | `key`, `value`, `by` |
@@ -559,6 +639,7 @@ rules:
 | `{ var: name, eq: value }` | a variable set by `var.set` or a character has that value |
 | `{ file: "~/path", contains: "text", lacks: "text" }` | the file on the player's machine exists and has, or does not have, that text (`host: id` for another machine) |
 | `{ answer: question-id, eq: option-id }` | the player picked that option |
+| `{ choice: question-id, eq: option-id }` | the player took that decision, in this mission or an earlier one of the same save |
 | `{ config: key, eq: value }` | a setting of the target has that value (section 12) |
 | `{ all: [...] }`, `{ any: [...] }`, `{ not: ... }` | combinations |
 
@@ -580,7 +661,7 @@ rules:
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl`, `ssh`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 
