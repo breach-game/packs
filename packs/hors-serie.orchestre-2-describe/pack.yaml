@@ -1,0 +1,16 @@
+id: hors-serie.orchestre-2-describe
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.orchestre-world]
+title:
+  fr: "Orchestre · 2. Ce que dit une description"
+  en: "Orchestra · 2. What a description says"
+summary:
+  fr: "Le compte ne lit pas les secrets, mais il lit la description des pods. Avec `kubectl describe`, tu trouves une clé écrite en clair dans les réglages d'un conteneur, puis un pod de test oublié qui a la main sur sa machine entière."
+  en: "The account cannot read secrets, but it reads the pods' descriptions. With `kubectl describe` you find a key written in clear in a container's settings, then a forgotten test pod that holds the whole machine it runs on."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, recon]
+minutes: 12

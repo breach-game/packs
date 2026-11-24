@@ -1,0 +1,16 @@
+id: hors-serie.orchestre-3-manifests
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.orchestre-world]
+title:
+  fr: "Orchestre · 3. Réécrire les partitions"
+  en: "Orchestra · 3. Rewriting the scores"
+summary:
+  fr: "Côté défense, tu corriges les trois manifestes en cause : la clé passe dans un secret, le pod de test perd ses privilèges et la racine de sa machine, le tableau de bord retrouve sa connexion. `verify` juge les fichiers, puis tu fermes le tableau et tu vérifies avec `curl`."
+  en: "On the defence side, you fix the three manifests involved: the key moves into a secret, the test pod loses its privileges and its machine's root, the dashboard gets its sign-in back. `verify` judges the files, then you close the dashboard and check with `curl`."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, defense]
+minutes: 12

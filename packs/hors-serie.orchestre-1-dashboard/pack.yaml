@@ -1,0 +1,16 @@
+id: hors-serie.orchestre-1-dashboard
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.orchestre-world]
+title:
+  fr: "Orchestre · 1. Ouvert pour le week-end"
+  en: "Orchestra · 1. Open for the weekend"
+summary:
+  fr: "Un tableau de bord de supervision ouvert sans connexion, et un lien qui donne un fichier de configuration pour la grappe. Tu le récupères avec `curl`, tu interroges l'API avec `kubectl get` et `describe`, et tu prouves ce qu'un inconnu peut lire."
+  en: "A monitoring dashboard open without sign-in, and a link that hands out a configuration file for the cluster. You fetch it with `curl`, query the API with `kubectl get` and `describe`, and prove what a stranger can read."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, recon, web]
+minutes: 12

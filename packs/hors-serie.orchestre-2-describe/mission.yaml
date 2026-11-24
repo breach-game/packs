@@ -1,0 +1,58 @@
+# Orchestra 2: one container gets a licence key as a plain environment value (the password next to
+# it comes from a secret, as it should), and a forgotten debug pod is privileged with the node's root
+# mounted. Read only: the finding is the description, nothing is run in a container.
+order: 2
+stage: recon
+briefing: o2.briefing
+reveal: [tableau, k8s]
+
+objectives:
+  - { id: env, text: o2.obj.env }
+  - { id: privileged, text: o2.obj.privileged }
+  - { id: why, text: o2.obj.why }
+
+flags:
+  - { id: env, value: "FLAG{ondine-env-en-clair-81d2}", points: 200, objective: env }
+
+investigation:
+  - { id: privileged, text: o2.q.privileged, value: "outil-debug", points: 100, objective: privileged }
+
+questions:
+  - id: why
+    text: o2.q.why
+    objective: why
+    correct: node
+    options:
+      - { id: node, text: o2.q.why.node }
+      - { id: pod, text: o2.q.why.pod, why: o2.q.why.pod.why }
+      - { id: network, text: o2.q.why.network, why: o2.q.why.network.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: env }
+    do:
+      - ada.say: o2.ada.env
+  - on: { event: ObjectiveCompleted, objective: privileged }
+    do:
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o2.ada.done
+
+guide:
+  env: o2.ada.g.env
+  privileged: o2.ada.g.privileged
+  why: o2.ada.g.why
+
+hints:
+  env: [o2.hint.env.1, o2.hint.env.2]
+  privileged: [o2.hint.privileged.1, o2.hint.privileged.2]
+  why: [o2.hint.why.1]
+
+debrief:
+  title: o2.debrief.title
+  lesson: o2.debrief.lesson
+  points: [o2.debrief.p1, o2.debrief.p2, o2.debrief.p3]
+  reference: "OWASP Kubernetes Top 10 · K01 Insecure Workload Configurations"

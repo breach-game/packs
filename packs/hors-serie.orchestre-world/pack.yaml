@@ -1,0 +1,12 @@
+id: hors-serie.orchestre-world
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: world
+title:
+  fr: "Ondine"
+  en: "Ondine"
+summary:
+  fr: "Ondine, plateforme fictive de musique en continu. Tout tourne dans une grappe de conteneurs, et l'équipe de supervision a ouvert un tableau de bord « le temps d'un week-end »."
+  en: "Ondine, a fictional music streaming platform. Everything runs in a container cluster, and the monitoring team opened a dashboard \"just for a weekend\"."
+authors: [BREACH team]
+locales: [fr, en]

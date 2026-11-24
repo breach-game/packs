@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: outil-debug
+  namespace: kube-system
+spec:
+  hostNetwork: true
+  containers:
+    - name: debug
+      image: registre.ondine.test/outils-reseau:1.0
+      command: ["sleep", "infinity"]
+      securityContext:
+        privileged: true
+      volumeMounts:
+        - { name: racine-noeud, mountPath: /hote }
+  volumes:
+    - name: racine-noeud
+      hostPath: { path: / }

@@ -1,0 +1,81 @@
+# Orchestra 3: fix the manifests (checked by verify), close the dashboard, check from outside.
+side: defense
+order: 3
+stage: defense
+briefing: o3.briefing
+reveal: [tableau, k8s]
+
+files:
+  manifestes/lecteur.yaml: { $file: files/lecteur.yaml }
+  manifestes/outil-debug.yaml: { $file: files/outil-debug.yaml }
+  manifestes/tableau.yaml: { $file: files/tableau.yaml }
+
+containment:
+  - id: close
+    action: disable
+    target: tableau
+    text: o3.contain.close
+    sets: { on.dashboard.closed: true }
+    impact: 1
+
+objectives:
+  - { id: secret, text: o3.obj.secret }
+  - { id: debug, text: o3.obj.debug }
+  - { id: auth, text: o3.obj.auth }
+  - { id: closed, text: o3.obj.closed }
+
+checks:
+  - id: secret
+    text: o3.check.secret
+    if: { all: [{ file: "~/manifestes/lecteur.yaml", lacks: "FLAG-masque-dans-le-depot" }, { file: "~/manifestes/lecteur.yaml", contains: "secretKeyRef: { name: lecteur-licence, key: drm }" }] }
+    objective: secret
+  - id: debug
+    text: o3.check.debug
+    if: { all: [{ file: "~/manifestes/outil-debug.yaml", lacks: "privileged: true" }, { file: "~/manifestes/outil-debug.yaml", lacks: "hostPath" }, { file: "~/manifestes/outil-debug.yaml", lacks: "hostNetwork: true" }] }
+    objective: debug
+  - id: auth
+    text: o3.check.auth
+    if: { all: [{ file: "~/manifestes/tableau.yaml", contains: "auth: oidc" }, { file: "~/manifestes/tableau.yaml", contains: "expose_kubeconfig: \"false\"" }] }
+    objective: auth
+  - id: works
+    text: o3.check.works
+    if: { all: [{ file: "~/manifestes/lecteur.yaml", contains: "name: BASE_MOTDEPASSE" }, { file: "~/manifestes/outil-debug.yaml", contains: "name: debug" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: o3.ada.brief
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: secret }, { objective: debug }, { objective: auth }] } }
+    once: false
+    do:
+      - ada.say: o3.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: secret }, { objective: debug }, { objective: auth }] }
+    do:
+      - ada.say: o3.ada.verified
+  - on: { event: HttpRequest, host: tableau }
+    if: { config: on.dashboard.closed, eq: true }
+    do:
+      - objective.complete: closed
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: o3.ada.done
+
+guide:
+  secret: o3.ada.g.secret
+  debug: o3.ada.g.debug
+  auth: o3.ada.g.auth
+  closed: o3.ada.g.closed
+
+hints:
+  secret: [o3.hint.secret.1]
+  debug: [o3.hint.debug.1]
+  auth: [o3.hint.auth.1]
+  closed: [o3.hint.closed.1]
+
+debrief:
+  title: o3.debrief.title
+  lesson: o3.debrief.lesson
+  points: [o3.debrief.p1, o3.debrief.p2, o3.debrief.p3]
+  reference: "OWASP Kubernetes Top 10 · K01, K03, K07"

