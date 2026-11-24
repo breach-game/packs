@@ -1,0 +1,3 @@
+cadre-web==3.0.3
+pdf-moule==1.8.0
+connecteur-sql==2.9.9

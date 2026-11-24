@@ -1,0 +1,55 @@
+# Triage: the "critical" flaw sits behind a VPN, the "high" one faces the internet. Exposure decides the order.
+side: defense
+order: 1
+stage: defense
+briefing: v1.briefing
+reveal: [portal, internal]
+
+files:
+  produits/portail/package-lock.json: { $file: files/portail/package-lock.json }
+  produits/outil/requirements.txt: { $file: files/outil/requirements.txt }
+  produits/rapports/go.mod: { $file: files/rapports/go.mod }
+  produits/inventaire.txt: { $file: files/inventaire.txt }
+
+objectives:
+  - { id: portal, text: v1.obj.portal }
+  - { id: first, text: v1.obj.first }
+
+investigation:
+  - { id: portal, text: v1.q.portal, value: "jeton-web", points: 75, objective: portal }
+
+questions:
+  - id: first
+    text: v1.q.first
+    objective: first
+    correct: exposed
+    options:
+      - { id: exposed, text: v1.q.first.exposed }
+      - { id: critical, text: v1.q.first.critical, why: v1.q.first.critical.why }
+      - { id: all, text: v1.q.first.all, why: v1.q.first.all.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: portal }
+    do:
+      - ada.say: v1.ada.portal
+      - ada.ask: first
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v1.ada.done
+
+guide:
+  portal: v1.ada.g.portal
+  first: v1.ada.answer
+
+hints:
+  portal: [v1.hint.portal.1, v1.hint.portal.2]
+  first: [v1.hint.first.1]
+
+debrief:
+  title: v1.debrief.title
+  lesson: v1.debrief.lesson
+  points: [v1.debrief.p1, v1.debrief.p2, v1.debrief.p3]
+  reference: "OWASP Top 10 · A06 Vulnerable and Outdated Components"

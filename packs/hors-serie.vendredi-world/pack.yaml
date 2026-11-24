@@ -1,0 +1,12 @@
+id: hors-serie.vendredi-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Bergamote Logiciel"
+  en: "Bergamote Logiciel"
+summary:
+  fr: "Bergamote Logiciel, petit éditeur fictif de logiciels de gestion. Trois produits, une équipe de six, et des correctifs qu'on déploie le vendredi soir pour ne gêner personne."
+  en: "Bergamote Logiciel, a small fictional publisher of business software. Three products, a team of six, and patches deployed on Friday evening so as not to bother anyone."
+authors: [BREACH team]
+locales: [fr, en]

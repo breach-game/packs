@@ -1,0 +1,12 @@
+# Bergamote Logiciel - patch policy.
+patching:
+  sbom: manual
+  advisories_check: monthly
+  deadlines:
+    internet_critical: 30d
+    internet_high: 30d
+    internal: 90d
+deploy:
+  verify_hash: off
+  post_deploy_check: none
+  notify: team-channel

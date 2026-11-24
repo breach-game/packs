@@ -1,0 +1,13 @@
+# Side series "Le Correctif du vendredi", mission 2: the shortest path, replayed by CI in every language.
+curl https://recette.bergamote.test/version
+curl https://portail.bergamote.test/version
+answer running 3.2.1
+cat deploiement/journal.txt
+tar -tzvf deploiement/cache/portail.tgz
+tar -xzf deploiement/cache/portail.tgz -C cache-ouvert
+cat cache-ouvert/portail/VERSION
+openssl dgst -sha256 livraisons/portail-5.6.1.tgz deploiement/cache/portail.tgz
+cat livraisons/SHA256SUMS
+answer cache
+contain restore portail
+curl https://portail.bergamote.test/version

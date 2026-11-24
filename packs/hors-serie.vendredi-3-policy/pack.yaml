@@ -1,0 +1,16 @@
+id: hors-serie.vendredi-3-policy
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.vendredi-world]
+title:
+  fr: "Le Correctif du vendredi · 3. La politique de correctifs"
+  en: "The Friday patch · 3. The patch policy"
+summary:
+  fr: "Tu écris la politique de Bergamote : une nomenclature à chaque construction, des bulletins lus chaque jour, des délais selon l'exposition, des empreintes vérifiées et une version contrôlée après chaque déploiement. Puis tu tranches la question des déploiements du vendredi soir."
+  en: "You write Bergamote's policy: a bill of materials at every build, bulletins read every day, deadlines by exposure, verified hashes and a checked version after every deployment. Then you settle the question of Friday evening deployments."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [supply, defense, crisis]
+minutes: 10

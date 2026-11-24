@@ -1,0 +1,92 @@
+# The patch passed in staging and "succeeded" in production, but production still runs the old release.
+side: defense
+order: 2
+stage: defense
+briefing: v2.briefing
+reveal: [portal, staging]
+
+files:
+  livraisons/portail-5.6.1.tgz:
+    $archive:
+      format: tgz
+      files:
+        portail/VERSION: "5.6.1\n"
+        portail/package-lock.json: "{\"name\": \"portail\", \"version\": \"5.6.1\", \"lockfileVersion\": 3, \"packages\": {\"node_modules/jeton-web\": {\"version\": \"3.2.4\"}}}\n"
+  livraisons/SHA256SUMS: { $file: files/SHA256SUMS }
+  deploiement/cache/portail.tgz:
+    $archive:
+      format: tgz
+      files:
+        portail/VERSION: "5.6.0\n"
+        portail/package-lock.json: "{\"name\": \"portail\", \"version\": \"5.6.0\", \"lockfileVersion\": 3, \"packages\": {\"node_modules/jeton-web\": {\"version\": \"3.2.1\"}}}\n"
+  deploiement/journal.txt: { $file: files/journal-deploiement.txt }
+
+containment:
+  - id: redeploy
+    action: restore
+    target: portail
+    text: v2.contain.redeploy
+    sets: { be.redeployed: true }
+    impact: 1
+
+objectives:
+  - { id: running, text: v2.obj.running }
+  - { id: why, text: v2.obj.why }
+  - { id: redeploy, text: v2.obj.redeploy }
+  - { id: check, text: v2.obj.check }
+
+investigation:
+  - { id: running, text: v2.q.running, value: "3.2.1", points: 75, objective: running }
+
+questions:
+  - id: why
+    text: v2.q.why
+    objective: why
+    correct: cache
+    options:
+      - { id: cache, text: v2.q.why.cache }
+      - { id: revert, text: v2.q.why.revert, why: v2.q.why.revert.why }
+      - { id: staging, text: v2.q.why.staging, why: v2.q.why.staging.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: v2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: running }
+    do:
+      - ada.say: v2.ada.running
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: v2.ada.why
+  - on: { event: Contained, containment: redeploy }
+    do:
+      - objective.complete: redeploy
+  - on: { event: ObjectiveCompleted, objective: redeploy }
+    do:
+      - ada.say: v2.ada.redeployed
+  - on: { event: HttpRequest, host: portal, path: /version }
+    if: { config: be.redeployed, eq: true }
+    do:
+      - objective.complete: check
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: v2.ada.done
+
+guide:
+  running: v2.ada.g.running
+  why: v2.ada.g.why
+  redeploy: v2.ada.g.redeploy
+  check: v2.ada.g.check
+
+hints:
+  running: [v2.hint.running.1, v2.hint.running.2]
+  why: [v2.hint.why.1, v2.hint.why.2]
+  redeploy: [v2.hint.redeploy.1]
+  check: [v2.hint.check.1]
+
+debrief:
+  title: v2.debrief.title
+  lesson: v2.debrief.lesson
+  points: [v2.debrief.p1, v2.debrief.p2, v2.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

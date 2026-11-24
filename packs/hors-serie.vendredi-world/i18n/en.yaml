@@ -1,0 +1,8 @@
+file.readme: "Ligne Rouge workstation. Side series: the Friday patch. Type `mission` to see your objectives, `hint` if you are stuck."
+ada.outOfScope: "Stop. That target is outside mandate BE-2027-031. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE BE-2027-031\nClient: Bergamote Logiciel SAS, a publisher of business software. Scope: *.bergamote.test, 10.85.0.0/24.\nPurpose: three security bulletins arrived in the same week. The team deployed a patch on Friday evening and thinks the matter is closed. Ligne Rouge sorts the alerts, checks what really runs in production, and helps the publisher write its patch policy.\nSet-up agreed: Ligne Rouge reads the three products' dependency files, queries the version pages and reviews the releases. Ligne Rouge changes nothing in production without the team's agreement.\nSigned: Bergamote Logiciel's CTO."
+adv.jeton: "An expired session token is still accepted if its signature is removed."
+adv.pdf: "A crafted PDF file makes the document generator run code."
+adv.graphe: "A chart with a very large number of points slows the service down badly."

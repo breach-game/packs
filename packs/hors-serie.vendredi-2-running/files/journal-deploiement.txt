@@ -1,0 +1,5 @@
+deploy-bot  2027-11-05T22:38:02+01:00  job #1184 "portail 5.6.1 - jeton-web 3.2.4" started by f.roux
+deploy-bot  2027-11-05T22:38:05+01:00  fetching artifact portail.tgz ...
+deploy-bot  2027-11-05T22:38:05+01:00  artifact portail.tgz found in cache, skipping download
+deploy-bot  2027-11-05T22:41:09+01:00  rolling restart on portail.bergamote.test: 3/3 nodes healthy
+deploy-bot  2027-11-05T22:41:10+01:00  job #1184 SUCCESS

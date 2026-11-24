@@ -1,0 +1,6 @@
+Bergamote Logiciel - products and exposure
+
+PRODUCT     WHO USES IT                     REACHABLE FROM            DATA
+portail     4 200 customer companies        the whole internet        customers' invoices and accounts
+outil       12 staff members                VPN only, after sign-in   internal documents
+rapports    nightly batch job               nowhere (no listener)     aggregated figures

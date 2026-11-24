@@ -1,0 +1,10 @@
+# Side series "Le Correctif du vendredi", mission 3: the shortest path, replayed by CI in every language.
+cat politique/correctifs.yml
+sed -i "s/sbom: manual/sbom: every-build/" politique/correctifs.yml
+sed -i "s/advisories_check: monthly/advisories_check: daily/" politique/correctifs.yml
+sed -i "s/internet_critical: 30d/internet_critical: 72h/" politique/correctifs.yml
+sed -i "s/internet_high: 30d/internet_high: 7d/" politique/correctifs.yml
+sed -i "s/verify_hash: off/verify_hash: on/" politique/correctifs.yml
+sed -i "s/post_deploy_check: none/post_deploy_check: version/" politique/correctifs.yml
+verify
+answer checked
