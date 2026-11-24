@@ -1,0 +1,11 @@
+# Case file 24, mission 2: the shortest path, replayed by CI in every language.
+cat cellule/avis-editeur.txt
+ssh ir@comptoir07.ravel.test
+journalctl -u guetteur-capteur
+exit
+answer cache
+curl -s https://cles.ravel.test/
+path reprise cles annuaire comptoir07
+contain restore cles
+curl -s https://cles.ravel.test/
+contain remove canal-0447

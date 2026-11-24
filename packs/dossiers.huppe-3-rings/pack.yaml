@@ -1,0 +1,16 @@
+id: dossiers.huppe-3-rings
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [dossiers.huppe-world]
+title:
+  fr: "Dossier 24 · 3. Les anneaux"
+  en: "Case file 24 · 3. The rings"
+summary:
+  fr: "Le dernier comptoir a redémarré. Tu remets la journée dans l'ordre avec `timeline`, tu règles l'agent pour que le prochain fichier passe d'abord par quelques pharmacies avec `flag`, puis tu décides de la suite avec l'éditeur. La dernière mission raconte les faits, sources à l'appui."
+  en: "The last counter has restarted. You put the day back in order with `timeline`, set the agent so the next file goes through a few pharmacies first with `flag`, then decide what comes next with the vendor. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [crisis, defense, supply]
+minutes: 10

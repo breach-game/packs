@@ -1,0 +1,16 @@
+id: dossiers.huppe-2-keys
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [dossiers.huppe-world]
+title:
+  fr: "Dossier 24 · 2. Le trousseau dans le coffre"
+  en: "Case file 24 · 2. The keys in the safe"
+summary:
+  fr: "L'éditeur a retiré son fichier, mais les comptoirs plantent toujours. La réparation se fait à la main, machine par machine, avec la clé de chaque disque, et ces clés sont sur un serveur tombé lui aussi. Tu trouves pourquoi, tu traces l'ordre de reprise sur la carte avec `path`, puis tu répares dans cet ordre."
+  en: "The vendor withdrew its file, but the counters still crash. The repair is manual, machine by machine, with each disk's key, and those keys sit on a server that went down too. You find out why, trace the recovery order on the map with `path`, then repair in that order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, crisis, defense]
+minutes: 12

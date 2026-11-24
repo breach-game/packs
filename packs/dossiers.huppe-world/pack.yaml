@@ -1,0 +1,12 @@
+id: dossiers.huppe-world
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: world
+title:
+  fr: "Pharmacies Ravel"
+  en: "Pharmacies Ravel"
+summary:
+  fr: "Pharmacies Ravel, réseau fictif de quarante officines. Chaque comptoir est protégé par Guetteur, un agent de sécurité fictif qui reçoit plusieurs fois par jour de nouveaux fichiers de détection."
+  en: "Pharmacies Ravel, a fictional network of forty pharmacies. Every counter is protected by Guetteur, a fictional security agent that receives new detection files several times a day."
+authors: [BREACH team]
+locales: [fr, en]

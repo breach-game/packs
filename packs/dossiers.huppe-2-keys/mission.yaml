@@ -1,0 +1,102 @@
+# Case file 24, 08:00: the vendor withdrew channel 0447 at 07:27, but a crashed machine loads the
+# file from its cache before it can fetch the next one. Repair is manual and needs each disk's key,
+# and the key vault runs the same agent. Order matters: the vault, then the directory, then the counters.
+side: defense
+order: 2
+stage: recovery
+briefing: h2.briefing
+reveal: [comptoir07, cles, annuaire]
+
+files:
+  cellule/avis-editeur.txt: { $file: files/note.txt }
+
+containment:
+  - id: vault
+    action: restore
+    target: cles
+    text: h2.contain.vault
+    sets: { hp.cles: true, hp.annuaire: true }
+    impact: 1
+  - id: counters
+    action: remove
+    target: canal-0447
+    text: h2.contain.counters
+    sets: { hp.comptoirs: true }
+    impact: 4
+    removes:
+      - { host: comptoir07, path: /var/lib/guetteur/canaux/C-0447-20271126-0609.gtr }
+
+objectives:
+  - { id: cache, text: h2.obj.cache }
+  - { id: order, text: h2.obj.order }
+  - { id: vault, text: h2.obj.vault }
+  - { id: counters, text: h2.obj.counters }
+
+paths:
+  - id: reprise
+    text: h2.path.text
+    hosts: [cles, annuaire, comptoir07]
+    objective: order
+
+questions:
+  - id: cache
+    text: h2.q.cache
+    objective: cache
+    correct: cache
+    options:
+      - { id: cache, text: h2.q.cache.cache }
+      - { id: slow, text: h2.q.cache.slow, why: h2.q.cache.slow.why }
+      - { id: offline, text: h2.q.cache.offline, why: h2.q.cache.offline.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: h2.ada.brief
+  - on: { event: SystemRead, host: comptoir07, what: journalctl }
+    do:
+      - ada.ask: cache
+  - on: { event: ObjectiveCompleted, objective: cache }
+    do:
+      - ada.say: h2.ada.cache
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: h2.ada.order
+  - on: { event: Contained, containment: vault }
+    do:
+      - objective.complete: vault
+  - on: { event: ObjectiveCompleted, objective: vault }
+    do:
+      - ada.say: h2.ada.vault
+  - on: { event: Contained, containment: counters }
+    if: { config: hp.cles, eq: false }
+    do:
+      - ada.warn: h2.ada.nokeys
+  - on: { event: Contained, containment: counters }
+    if: { config: hp.cles, eq: true }
+    do:
+      - objective.complete: counters
+  - on: { event: Contained, containment: vault }
+    if: { config: hp.comptoirs, eq: true }
+    do:
+      - objective.complete: counters
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: h2.ada.done
+
+guide:
+  cache: h2.ada.g.cache
+  order: h2.ada.g.order
+  vault: h2.ada.g.vault
+  counters: h2.ada.g.counters
+
+hints:
+  cache: [h2.hint.cache.1, h2.hint.cache.2]
+  order: [h2.hint.order.1, h2.hint.order.2]
+  vault: [h2.hint.vault.1]
+  counters: [h2.hint.counters.1]
+
+debrief:
+  title: h2.debrief.title
+  lesson: h2.debrief.lesson
+  points: [h2.debrief.p1, h2.debrief.p2, h2.debrief.p3]
+  reference: "NIST SP 800-34 · Contingency Planning Guide"

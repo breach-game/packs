@@ -1,0 +1,16 @@
+id: dossiers.huppe-1-loop
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [dossiers.huppe-world]
+title:
+  fr: "Dossier 24 · 1. Tous les comptoirs à la fois"
+  en: "Case file 24 · 1. Every counter at once"
+summary:
+  fr: "À 6 h 09, les quarante pharmacies redémarrent en boucle. Sur un comptoir démarré en mode secours, tu lis le journal du démarrage précédent, `last` et le dossier de l'agent de sécurité, tu trouves le fichier qui fait tomber les machines, et tu dis si c'est une attaque."
+  en: "At 6:09 all forty pharmacies start restarting in a loop. On a counter started in rescue mode, you read the previous boot's journal, `last` and the security agent's folder, find the file that brings the machines down, and say whether it is an attack."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [linux, crisis, defense]
+minutes: 10

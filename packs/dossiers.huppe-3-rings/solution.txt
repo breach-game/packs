@@ -1,0 +1,8 @@
+# Case file 24, mission 3: the shortest path, replayed by CI in every language.
+timeline vendredi
+cat cellule/main-courante.txt
+timeline vendredi arret boucle retrait coffre techniciens dernier
+flag list
+flag set guetteur.anneau-pilote on
+flag set guetteur.contenu-n-1 on
+answer conditions
