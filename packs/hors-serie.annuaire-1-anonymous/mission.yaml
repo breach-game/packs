@@ -44,7 +44,7 @@ rules:
   - on: { event: ObjectiveCompleted, objective: former }
     do:
       - ada.say: d1.ada.former
-  - on: { event: LdapSearch }
+  - on: { event: LdapSearch, bind: "", ok: false }
     if: { config: ad.anon.closed, eq: true }
     do:
       - objective.complete: closed
@@ -64,7 +64,7 @@ guide:
   why: d1.ada.g.why
 
 hints:
-  password: [d1.hint.password.1, d1.hint.password.2]
+  password: [d1.hint.password.0, d1.hint.password.1, d1.hint.password.2]
   former: [d1.hint.former.1, d1.hint.former.2]
   closed: [d1.hint.closed.1]
   why: [d1.hint.why.1]
