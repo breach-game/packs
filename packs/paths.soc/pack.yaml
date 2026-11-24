@@ -1,0 +1,14 @@
+id: paths.soc
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: path
+title:
+  fr: "Parcours : analyste SOC"
+  en: "Path: SOC analyst"
+summary:
+  fr: "Tout le côté défense, du premier journal lu à la crise complète : lire les traces, contenir un attaquant qui avance, écrire ses propres règles de détection, piloter une mairie sous rançongiciel, puis la finale."
+  en: "The whole defence side, from the first log read to a full crisis: read traces, contain an attacker who moves on, write your own detection rules, run a town hall under ransomware, then the finale."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, logs, crisis]

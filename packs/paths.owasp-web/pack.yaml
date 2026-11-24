@@ -1,0 +1,14 @@
+id: paths.owasp-web
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: path
+title:
+  fr: "Parcours : les failles du web"
+  en: "Path: web flaws"
+summary:
+  fr: "Les grandes classes de failles du web (OWASP Top 10), dans un ordre qui monte doucement : une page qui en dit trop, une requête qui se laisse écrire, un script stocké, l'objet du voisin, une logique de panier, puis un contrôle d'accès qui manque dans des affaires réelles."
+  en: "The big classes of web flaws (OWASP Top 10), in an order that climbs gently: a page that says too much, a query that lets itself be written, a stored script, the neighbour's object, a basket logic, then missing access control in real cases."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [web, defense]

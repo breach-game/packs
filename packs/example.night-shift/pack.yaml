@@ -1,0 +1,16 @@
+id: example.night-shift
+version: 1.0.0
+engine: ">=0.11 <1"
+kind: mission
+requires: [example.pixel-world]
+title:
+  fr: La garde de nuit
+  en: The night shift
+summary:
+  fr: "Mission d'exemple du kit d'auteur, côté défense : une règle de détection écrite par le joueur, un garde-fou d'agent et une relecture de code."
+  en: "Author kit sample, defence side: a detection rule the player writes, an agent guardrail and a code review."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [defense, logs, llm]
+minutes: 15

@@ -1,0 +1,14 @@
+id: paths.owasp-llm
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: path
+title:
+  fr: "Parcours : attaquer et défendre une IA"
+  en: "Path: attacking and defending an AI"
+summary:
+  fr: "L'OWASP Top 10 des applications LLM, de l'injection de consigne aux agents qui en font trop : la campagne NovaMind, l'équipe d'agents de Sélène et les affaires réelles qui ont fait parler d'elles."
+  en: "The OWASP Top 10 for LLM applications, from prompt injection to agents that do too much: the NovaMind campaign, Sélène's agent team and the real cases that made the news."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense]

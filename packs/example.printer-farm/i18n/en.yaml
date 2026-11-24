@@ -1,0 +1,36 @@
+pf.briefing: |
+  Atelier Pixel's printers report their state to a small broker, ferme.atelier-pixel.test.
+  Chloé wonders who else can hear them.
+
+  The mandate allows one write, on the test printer of the bench (topic pixel/banc/cmd).
+  The printers working for customers are off limits.
+pf.obj.listen: "Listen to the broker without an account (flag)"
+pf.obj.bench: "Give an order to the test printer, and only to it (flag)"
+pf.obj.decide: "Decide what Atelier Pixel does about it"
+pf.ada.brief: "A broker relays messages between machines. Most are set up in a hurry. Let's start by looking at what listens on that host."
+pf.ada.listen: "Scan it: `nmap ferme.atelier-pixel.test`. Port 1883 is MQTT. Subscribe to everything: `mqtt sub -h ferme.atelier-pixel.test -t \"#\"`."
+pf.ada.listen.standard: "Find the broker's port, then subscribe to every topic without an account."
+pf.ada.read: "Read the retained messages: the last message of each topic, kept for whoever arrives. Someone left a note in pixel/maintenance."
+pf.ada.read.standard: "Read the retained messages carefully."
+pf.ada.bench: "If anyone can read, can anyone write? On the bench only: `mqtt pub -h ferme.atelier-pixel.test -t pixel/banc/cmd -m pause`."
+pf.ada.bench.standard: "Check whether the broker lets anyone write. On the test bench only."
+pf.ada.production: "Not those printers: they print for customers, and the mandate says the bench only."
+pf.ada.decide: "Chloé has to choose. There is no wrong answer here, only costs: answer in the messenger."
+pf.ada.after: "Noted in the report. Whatever she chose, the broker will be audited again next month."
+pf.soc.production: "order published to production printers"
+pf.q.decide: "Chloé: what do we do with the broker this week?"
+pf.q.decide.acl: "Accounts for every device, and rights per topic: a printer writes its own state, only the workshop PC gives orders"
+pf.q.decide.acl.why: "The best fix, and a day of work to give every printer its own account. Reading and writing are both closed."
+pf.q.decide.auth: "Accounts for every device, without rights per topic, to keep the printers' setup unchanged"
+pf.q.decide.auth.why: "Strangers are out, but any device can still give orders to any other: one stolen printer password is enough."
+pf.q.decide.unplug: "Unplug the broker until a supplier comes, and run the printers by hand"
+pf.q.decide.unplug.why: "Nothing leaks any more, but the workshop slows down for days: that costs the business a lot."
+pf.hint.listen.1: "`nmap` shows a port 1883: MQTT. The `mqtt` command speaks it."
+pf.hint.listen.2: "`mqtt sub -h ferme.atelier-pixel.test -t \"#\"` subscribes to every topic."
+pf.hint.bench.1: "`mqtt pub` publishes a message on a topic."
+pf.hint.bench.2: "`mqtt pub -h ferme.atelier-pixel.test -t pixel/banc/cmd -m pause`"
+pf.debrief.title: "Everyone listening, anyone talking"
+pf.debrief.lesson: "A broker without accounts lets anyone read every message and give every order. Retained messages keep secrets for whoever comes next."
+pf.debrief.p1: "One account per device, never a shared one, and no anonymous access."
+pf.debrief.p2: "Rights per topic: a sensor writes its own topic, only the controller gives orders."
+pf.debrief.p3: "Nothing secret in a message, retained or not: a password belongs in a vault, not on a topic."

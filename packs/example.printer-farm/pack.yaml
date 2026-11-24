@@ -1,0 +1,16 @@
+id: example.printer-farm
+version: 1.0.0
+engine: ">=0.11 <1"
+kind: mission
+requires: [example.pixel-world]
+title:
+  fr: La ferme d'imprimantes
+  en: The printer farm
+summary:
+  fr: "Mission d'exemple du kit d'auteur : un courtier MQTT lu et écrit avec `mqtt`, puis une décision sans mauvaise réponse qui change la cible."
+  en: "Author kit sample: an MQTT broker read and written with `mqtt`, then a decision with no wrong answer that changes the target."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, recon, defense]
+minutes: 10

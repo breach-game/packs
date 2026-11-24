@@ -1,0 +1,12 @@
+steps:
+  - { ref: breach.training.t01, note: why.read }
+  - { ref: breach.training.t04, note: why.mail }
+  - { ref: breach.official.b01, note: why.contain }
+  - { ref: breach.official.b02, note: why.agentic }
+  - { ref: breach.official.b03, note: why.key }
+  - { ref: example.night-shift, note: why.rules }
+  - { ref: dossiers.sorbier, note: why.slow }
+  - { ref: breach.season4, note: why.crisis }
+  - { ref: breach.season7.s04, note: why.phishing }
+  - { ref: breach.season8.s04, note: why.iot }
+  - { ref: breach.season9, note: why.finale }

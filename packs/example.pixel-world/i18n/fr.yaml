@@ -52,3 +52,32 @@ npc.pixou.fallback: "Je n'ai pas bien saisi. Je peux t'aider sur les matières, 
 ada.outOfScope: "Stop. Cette cible est hors mandat, et le poste l'a bloquée. Sans autorisation écrite, c'est l'article 323-1 du Code pénal. Notre périmètre : *.atelier-pixel.test, rien d'autre."
 ada.noise70: "Tu fais beaucoup de bruit. Leur hébergeur va le remarquer : ralentis."
 ada.detected: "Repéré. Retour au dernier point de sauvegarde. Plus discret cette fois."
+web.nav.track: Suivre une commande
+web.track.title: Suivre une commande · Atelier Pixel
+web.track.h1: Où en est mon impression ?
+web.track.p1: "Tape la référence de ta commande, telle qu'elle figure dans le mail de confirmation."
+web.track.label: Référence de commande
+web.track.button: Suivre
+web.track.h2: Dernières commandes à l'atelier
+web.track.th.ref: Référence
+web.track.th.item: Pièce
+web.track.th.state: État
+web.track.r1: Support de drone
+web.track.r2: Jeu d'échecs
+web.track.r3: Abat-jour
+web.track.done: Expédiée
+web.track.printing: En impression
+web.track.queued: En file
+web.track.comment: "l'API des commandes est sur /api/orders, le back-office lit le rôle dans le cookie (provisoire !)"
+npc.suivi.role: "Formulaire de suivi des commandes"
+npc.suivi.found: "Commande trouvée : elle est à l'atelier. Tu recevras un mail à l'expédition."
+npc.suivi.none: "Aucune commande avec cette référence."
+npc.suivi.error: "Error 500\n\nquery failed: SELECT * FROM orders WHERE ref = 'PX-1042'' (unterminated string)\ndebug token: FLAG{pixel-quote-error-8b21}"
+npc.bench.role: "Imprimante de test sur le banc"
+npc.bench.pause: "pixel/banc/etat {\"job\":\"calibration\",\"state\":\"paused\"}\n\ntest bench: paused by client kestrel.\n  no account asked, no right checked.\n  audit marker: FLAG{pixel-anyone-commands-c41d}"
+npc.bench.start: "pixel/banc/etat {\"job\":\"calibration\",\"state\":\"printing\"}"
+npc.bench.denied: "(pas de réponse : le courtier a jeté le message, ce client n'a pas le droit d'écrire sur ce sujet)"
+npc.bench.unknown: "pixel/banc/etat unchanged (expected: pause, start)"
+npc.printers.role: "Imprimantes au travail pour les clients"
+npc.printers.order: "(copie d'audit : rien n'a bougé sur les imprimantes. Ordre noté, interdit par le mandat.)"
+npc.printers.unknown: "(copie d'audit : message ignoré)"

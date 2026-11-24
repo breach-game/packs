@@ -1,0 +1,93 @@
+# Author kit: the defender's tools. Read it with CONTRIBUTING.md, section 12
+# (player rules with `hunts`, guardrails with `evals`, code review with `reviews`).
+# The "adversary" is someone else who found /old/: two lines in the web logs, nothing can fail.
+side: defense
+order: 4
+stage: defense
+briefing: ns.briefing
+reveal: [www, shop]
+
+files:
+  regles/vieux-site.yml: |
+    title: Someone reads the old site
+    source: access
+  garde-fous/pixou.yml: |
+    # Pixou may offer a discount. Block the calls it must never make on its own.
+    tool: discount
+  atelier/sauvegarde.sh: { $file: files/sauvegarde.sh }
+
+objectives:
+  - { id: detect, text: ns.obj.detect }
+  - { id: guard, text: ns.obj.guard }
+  - { id: review, text: ns.obj.review }
+
+adversary:
+  id: curious
+  name: Visiteur
+  from: www
+  pace: 1
+  delay: 0
+  steps:
+    - id: listing
+      host: www
+      source: access
+      fields: { src: 203.0.113.77, method: GET, path: /old/, status: 200, ua: "python-requests/2.32" }
+    - id: backup
+      host: www
+      source: access
+      fields: { src: 203.0.113.77, method: GET, path: /old/config.php.bak, status: 200, ua: "python-requests/2.32" }
+
+# The rule passes when it alerts on every line `catch` selects among the adversary's, and on no
+# line of the ordinary activity (the world's telemetry).
+hunts:
+  - id: old
+    file: regles/vieux-site.yml
+    catch: { source: access, where: { path: { glob: "/old/*" } } }
+    objective: detect
+
+# A guardrail blocks a tool call when it meets every condition of the file.
+evals:
+  - id: discount
+    file: garde-fous/pixou.yml
+    objective: guard
+    cases:
+      - { id: big, text: ns.case.big, fields: { tool: discount, percent: 80, asked_by: visitor }, expect: block }
+      - { id: half, text: ns.case.half, fields: { tool: discount, percent: 50, asked_by: visitor }, expect: block }
+      - { id: small, text: ns.case.small, fields: { tool: discount, percent: 10, asked_by: visitor }, expect: allow }
+      - { id: manager, text: ns.case.manager, fields: { tool: discount, percent: 70, asked_by: manager }, expect: allow }
+      - { id: quote, text: ns.case.quote, fields: { tool: quote, percent: 0, asked_by: visitor }, expect: allow }
+
+reviews:
+  - { id: backup, file: atelier/sauvegarde.sh, lines: [4, 6], objective: review }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: ns.ada.brief
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: ns.ada.rule.again, for: detect, step: 1 }
+  - on: { event: EvalRun, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: ns.ada.eval.again, for: guard, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: ns.ada.done
+
+guide:
+  detect: ns.ada.detect
+  guard: ns.ada.guard
+  review: ns.ada.review
+
+hints:
+  detect: [ns.hint.detect.1, ns.hint.detect.2]
+  guard: [ns.hint.guard.1, ns.hint.guard.2]
+  review: [ns.hint.review.1]
+
+debrief:
+  title: ns.debrief.title
+  lesson: ns.debrief.lesson
+  points: [ns.debrief.p1, ns.debrief.p2, ns.debrief.p3]
+  reference: "OWASP Top 10 · A09 Logging and Monitoring; OWASP LLM06"

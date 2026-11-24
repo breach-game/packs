@@ -1,0 +1,36 @@
+pf.briefing: |
+  Les imprimantes d'Atelier Pixel donnent leur état à un petit courtier, ferme.atelier-pixel.test.
+  Chloé se demande qui d'autre peut les entendre.
+
+  Le mandat autorise une écriture, sur l'imprimante de test du banc (sujet pixel/banc/cmd).
+  Les imprimantes qui travaillent pour les clients sont interdites.
+pf.obj.listen: "Écouter le courtier sans compte (flag)"
+pf.obj.bench: "Donner un ordre à l'imprimante de test, et seulement à elle (flag)"
+pf.obj.decide: "Décider de ce que fait Atelier Pixel"
+pf.ada.brief: "Un courtier relaie les messages entre machines. La plupart sont montés à la va-vite. Commençons par regarder ce qui écoute sur cette machine."
+pf.ada.listen: "Scanne-la : `nmap ferme.atelier-pixel.test`. Le port 1883, c'est MQTT. Abonne-toi à tout : `mqtt sub -h ferme.atelier-pixel.test -t \"#\"`."
+pf.ada.listen.standard: "Trouve le port du courtier, puis abonne-toi à tous les sujets sans compte."
+pf.ada.read: "Lis les messages retenus : le dernier message de chaque sujet, gardé pour qui arrive. Quelqu'un a laissé une note dans pixel/maintenance."
+pf.ada.read.standard: "Lis attentivement les messages retenus."
+pf.ada.bench: "Si tout le monde peut lire, tout le monde peut-il écrire ? Sur le banc seulement : `mqtt pub -h ferme.atelier-pixel.test -t pixel/banc/cmd -m pause`."
+pf.ada.bench.standard: "Vérifie si le courtier laisse n'importe qui écrire. Sur le banc de test seulement."
+pf.ada.production: "Pas ces imprimantes-là : elles impriment pour des clients, et le mandat dit le banc seulement."
+pf.ada.decide: "Chloé doit choisir. Pas de mauvaise réponse ici, seulement des coûts : réponds dans la messagerie."
+pf.ada.after: "Noté dans le rapport. Quel que soit son choix, le courtier sera audité de nouveau le mois prochain."
+pf.soc.production: "ordre publié vers les imprimantes de production"
+pf.q.decide: "Chloé : on fait quoi du courtier cette semaine ?"
+pf.q.decide.acl: "Un compte par appareil, et des droits par sujet : une imprimante écrit son état, seul le PC de l'atelier donne des ordres"
+pf.q.decide.acl.why: "La meilleure correction, et une journée de travail pour donner un compte à chaque imprimante. Lecture et écriture sont fermées."
+pf.q.decide.auth: "Un compte par appareil, sans droits par sujet, pour ne pas toucher au réglage des imprimantes"
+pf.q.decide.auth.why: "Les inconnus sont dehors, mais n'importe quel appareil peut encore donner des ordres aux autres : un mot de passe d'imprimante volé suffit."
+pf.q.decide.unplug: "Débrancher le courtier en attendant un prestataire, et piloter les imprimantes à la main"
+pf.q.decide.unplug.why: "Plus rien ne fuit, mais l'atelier tourne au ralenti pendant des jours : ça coûte cher à l'entreprise."
+pf.hint.listen.1: "`nmap` montre un port 1883 : MQTT. La commande `mqtt` le parle."
+pf.hint.listen.2: "`mqtt sub -h ferme.atelier-pixel.test -t \"#\"` s'abonne à tous les sujets."
+pf.hint.bench.1: "`mqtt pub` publie un message sur un sujet."
+pf.hint.bench.2: "`mqtt pub -h ferme.atelier-pixel.test -t pixel/banc/cmd -m pause`"
+pf.debrief.title: "Tout le monde écoute, n'importe qui parle"
+pf.debrief.lesson: "Un courtier sans comptes laisse n'importe qui lire tous les messages et donner tous les ordres. Les messages retenus gardent les secrets pour le suivant."
+pf.debrief.p1: "Un compte par appareil, jamais un compte partagé, et pas d'accès anonyme."
+pf.debrief.p2: "Des droits par sujet : un capteur écrit son sujet, seul l'automate donne des ordres."
+pf.debrief.p3: "Rien de secret dans un message, retenu ou non : un mot de passe va dans un coffre, pas sur un sujet."

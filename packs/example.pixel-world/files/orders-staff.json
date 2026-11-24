@@ -1,0 +1,9 @@
+{
+  "role": "staff",
+  "orders": [
+    { "ref": "PX-1040", "customer": "client-0412", "item": "drone bracket", "state": "done", "paid": 18.5 },
+    { "ref": "PX-1041", "customer": "client-0388", "item": "chess set", "state": "printing", "paid": 64.0 },
+    { "ref": "PX-1042", "customer": "client-0501", "item": "lamp shade", "state": "queued", "paid": 32.0 }
+  ],
+  "backoffice": { "export": "/api/orders/export.csv", "audit_marker": "FLAG{pixel-cookie-role-3e17}" }
+}
