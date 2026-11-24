@@ -1,0 +1,147 @@
+# Side series "L'Appli". Everything here is fictional: reserved .test domains and private addresses
+# only. The app package is an archive described as data; its compiled code is a `$binary` member
+# whose only readable texts are the ones listed here.
+startTime: "2027-12-08T09:30:00+01:00"
+mandate: CB-2027-071
+scope:
+  domains: ["*.cabas.test"]
+  networks: ["10.92.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.92.0.2
+
+config:
+  cb.role.server: false
+  cb.key.rotated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.92.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [magasin, api]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CB-2027-071.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The company's own download page for testers and partners.
+  - id: magasin
+    hostname: magasin.cabas.test
+    ip: 10.92.0.20
+    os: Linux 6.1
+    map: { x: 20, z: 90, h: 100 }
+    services:
+      - { port: 443, name: https, product: nginx 1.25 }
+    web:
+      "/":
+        page:
+          title: "Cabas · Télécharger"
+          blocks:
+            - { h1: page.magasin.h1 }
+            - { p: page.magasin.p }
+            - list: [page.magasin.l1, page.magasin.l2, page.magasin.l3]
+            - nav:
+                - { href: /cabas-4.2.0.apk, label: page.magasin.download }
+            - { footer: page.magasin.footer }
+      "/cabas-4.2.0.apk":
+        headers: { content-type: application/vnd.android.package-archive }
+        artifact:
+          $archive:
+            format: zip
+            files:
+              AndroidManifest.xml: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!-- decoded from the binary manifest -->\n<manifest package=\"test.cabas.livraison\" versionName=\"4.2.0\">\n  <uses-permission name=\"android.permission.INTERNET\"/>\n  <uses-permission name=\"android.permission.ACCESS_FINE_LOCATION\"/>\n  <application\n      label=\"Cabas\"\n      allowBackup=\"true\"\n      debuggable=\"true\"\n      usesCleartextTraffic=\"false\">\n    <activity name=\"MainActivity\" exported=\"true\"/>\n    <activity name=\"DebugMenu\" exported=\"false\"/>\n  </application>\n</manifest>\n"
+              assets/config.json: "{\n  \"api_base\": \"https://api.cabas.test/v4\",\n  \"region\": \"fr-idf\",\n  \"partner_key\": \"cbs-part-live-9d27e1\",\n  \"feature_flags\": { \"menu_debug\": false, \"paiement_express\": true }\n}\n"
+              classes.dex:
+                $binary:
+                  format: data
+                  strings:
+                    - "Ltest/cabas/livraison/MainActivity;"
+                    - "Ltest/cabas/livraison/api/Client;"
+                    - "/v4/catalogue"
+                    - "/v4/panier"
+                    - "/v4/commandes"
+                    - "Ltest/cabas/livraison/DebugMenu;"
+                    - "/v4/interne/remboursements"
+                    - "X-Cabas-Role"
+                    - "staff"
+                    - "client"
+                    - "X-Cabas-Cle"
+                    - "partner_key"
+                    - "SharedPreferences: jeton_session"
+                    - "afficher le menu si role == staff"
+              res/xml/network_security_config.xml: "<network-security-config>\n  <base-config cleartextTrafficPermitted=\"false\"/>\n</network-security-config>\n"
+              META-INF/CERT.SF: "Signature-Version: 1.0\nCreated-By: 1.0 (Cabas build)\n"
+
+  # The API the app talks to.
+  - id: api
+    hostname: api.cabas.test
+    ip: 10.92.0.30
+    os: Linux 6.1
+    map: { x: 220, z: -30, h: 130 }
+    services:
+      - { port: 443, name: https, product: cabas-api 4.12.0 }
+    web:
+      "/v4/catalogue":
+        headers: { content-type: application/json }
+        body: "{\"rayons\": [\"fruits-legumes\", \"boulangerie\", \"epicerie\", \"frais\"], \"livraison_minutes\": 60}\n"
+      "/v4/partenaires/stock":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"erreur\": \"cle partenaire manquante\"}\n"
+        variants:
+          - id: key
+            header: "X-Cabas-Cle: cbs-part-live-9d27e1"
+            if: { config: cb.key.rotated, eq: false }
+            headers: { content-type: application/json }
+            body: "{\"partenaire\": \"magasins-cabas\", \"entrepots\": 14, \"stock_temps_reel\": true, \"commandes_du_jour\": 3812, \"repere\": \"FLAG{cabas-cle-dans-le-paquet-5e1b}\"}\n"
+          - id: revoked
+            header: "X-Cabas-Cle: cbs-part-live-9d27e1"
+            status: 401
+            headers: { content-type: application/json }
+            body: "{\"erreur\": \"cle partenaire revoquee\"}\n"
+      "/v4/interne/remboursements":
+        status: 403
+        headers: { content-type: application/json }
+        body: "{\"erreur\": \"role insuffisant\"}\n"
+        variants:
+          - id: staff
+            header: "X-Cabas-Role: staff"
+            if: { config: cb.role.server, eq: false }
+            headers: { content-type: application/json }
+            body: "{\"file\": \"remboursements-en-attente\", \"total\": 127, \"exemples\": [{\"commande\": \"C-58213\", \"montant\": 42.90, \"motif\": \"produits manquants\", \"action\": \"POST /v4/interne/remboursements/C-58213/valider\"}], \"repere\": \"FLAG{cabas-role-cote-client-a27f}\"}\n"
+          - id: staff-refused
+            header: "X-Cabas-Role: staff"
+            status: 403
+            headers: { content-type: application/json }
+            body: "{\"erreur\": \"session personnel requise\"}\n"
+
+dns:
+  cabas.test: { A: ["10.92.0.20"] }
+  magasin.cabas.test: { A: ["10.92.0.20"] }
+  api.cabas.test: { A: ["10.92.0.30"] }
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

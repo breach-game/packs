@@ -1,0 +1,8 @@
+# Side series "L'Appli", mission 1: the shortest path, replayed by CI in every language.
+curl -s https://magasin.cabas.test/
+curl -s https://magasin.cabas.test/cabas-4.2.0.apk > cabas.apk
+unzip -l cabas.apk
+unzip -p cabas.apk assets/config.json | jq .
+curl -s -H "X-Cabas-Cle: cbs-part-live-9d27e1" https://api.cabas.test/v4/partenaires/stock
+submit FLAG{cabas-cle-dans-le-paquet-5e1b}
+answer anyone

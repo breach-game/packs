@@ -1,0 +1,16 @@
+id: hors-serie.appli-1-package
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.appli-world]
+title:
+  fr: "L'Appli · 1. Ce que contient le paquet"
+  en: "The App · 1. What the package holds"
+summary:
+  fr: "Une appli mobile n'est qu'une archive que tout le monde peut télécharger. Tu l'ouvres avec `unzip`, tu lis sa configuration avec `jq`, et tu trouves une clé qui n'aurait jamais dû quitter le serveur."
+  en: "A mobile app is just an archive anyone can download. You open it with `unzip`, read its configuration with `jq`, and find a key that should never have left the server."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [mobile, recon]
+minutes: 10

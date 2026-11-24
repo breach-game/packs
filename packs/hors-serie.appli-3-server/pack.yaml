@@ -1,0 +1,16 @@
+id: hors-serie.appli-3-server
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.appli-world]
+title:
+  fr: "L'Appli · 3. Le serveur décide"
+  en: "The App · 3. The server decides"
+summary:
+  fr: "Côté défense, avec l'équipe de Cabas : retirer la clé et les réglages risqués de la prochaine version, jugés par `verify`, déployer l'API qui contrôle le rôle elle-même, changer la clé déjà livrée, et vérifier de l'extérieur."
+  en: "On the defence side, with the Cabas team: remove the key and the risky settings from the next build, judged by `verify`, deploy the API that checks the role itself, change the key already shipped, and check from outside."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [mobile, defense]
+minutes: 14

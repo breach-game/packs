@@ -1,0 +1,56 @@
+# The App 1: the package is a zip anyone can fetch; its configuration holds a partner key that the
+# API accepts as is. Read only: one request with the key proves it, nothing is ordered.
+order: 1
+stage: recon
+briefing: a1.briefing
+reveal: [magasin, api]
+
+objectives:
+  - { id: apk, text: a1.obj.apk }
+  - { id: key, text: a1.obj.key }
+  - { id: why, text: a1.obj.why }
+
+flags:
+  - { id: key, value: "FLAG{cabas-cle-dans-le-paquet-5e1b}", points: 200, objective: key }
+
+questions:
+  - id: why
+    text: a1.q.why
+    objective: why
+    correct: anyone
+    options:
+      - { id: anyone, text: a1.q.why.anyone }
+      - { id: rooted, text: a1.q.why.rooted, why: a1.q.why.rooted.why }
+      - { id: source, text: a1.q.why.source, why: a1.q.why.source.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: a1.ada.brief
+  - on: { event: HttpRequest, host: magasin, path: /cabas-4.2.0.apk }
+    do:
+      - objective.complete: apk
+      - ada.say: a1.ada.apk
+  - on: { event: ObjectiveCompleted, objective: key }
+    do:
+      - ada.say: a1.ada.key
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: a1.ada.done
+
+guide:
+  apk: a1.ada.g.apk
+  key: a1.ada.g.key
+  why: a1.ada.g.why
+
+hints:
+  apk: [a1.hint.apk.1, a1.hint.apk.2]
+  key: [a1.hint.key.1, a1.hint.key.2]
+  why: [a1.hint.why.1]
+
+debrief:
+  title: a1.debrief.title
+  lesson: a1.debrief.lesson
+  points: [a1.debrief.p1, a1.debrief.p2, a1.debrief.p3]
+  reference: "OWASP Mobile Top 10 · M1 Improper Credential Usage"

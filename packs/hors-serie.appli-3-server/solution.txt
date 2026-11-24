@@ -1,0 +1,12 @@
+# Side series "L'Appli", mission 3: the shortest path, replayed by CI in every language.
+cat appli-4.2.1/assets/config.json
+sed -i "/partner_key/d" appli-4.2.1/assets/config.json
+cat appli-4.2.1/AndroidManifest.xml
+sed -i "s/allowBackup=\"true\"/allowBackup=\"false\"/" appli-4.2.1/AndroidManifest.xml
+sed -i "s/debuggable=\"true\"/debuggable=\"false\"/" appli-4.2.1/AndroidManifest.xml
+verify
+deploy api 4.13.0
+curl -s -H "X-Cabas-Role: staff" https://api.cabas.test/v4/interne/remboursements
+contain rotate cle-partenaire
+curl -s -H "X-Cabas-Cle: cbs-part-live-9d27e1" https://api.cabas.test/v4/partenaires/stock
+answer never

@@ -1,0 +1,16 @@
+id: hors-serie.appli-2-hidden
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [hors-serie.appli-world]
+title:
+  fr: "L'Appli · 2. Le menu caché"
+  en: "The App · 2. The hidden menu"
+summary:
+  fr: "Le code compilé de l'appli connaît une route réservée au personnel, et l'appli décide seule qui est du personnel. Avec `strings`, tu lis ce que le code ne montre pas, puis tu poses la question à l'API sans passer par l'appli."
+  en: "The app's compiled code knows a staff-only route, and the app alone decides who is staff. With `strings` you read what the code does not show, then ask the API directly, without the app."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [mobile, web]
+minutes: 12

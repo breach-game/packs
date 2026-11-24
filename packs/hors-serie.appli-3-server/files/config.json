@@ -1,0 +1,6 @@
+{
+  "api_base": "https://api.cabas.test/v4",
+  "region": "fr-idf",
+  "partner_key": "cbs-part-live-9d27e1",
+  "feature_flags": { "menu_debug": false, "paiement_express": true }
+}

