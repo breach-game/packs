@@ -1,0 +1,16 @@
+id: hors-serie.escale-1-capture
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.escale-world]
+title:
+  fr: "L'Escale · 1. Ce qu'on voit vraiment"
+  en: "L'Escale · 1. What you really see"
+summary:
+  fr: "La directrice a lu qu'« on lit tous vos mots de passe sur le Wi-Fi d'un café » et veut couper le Wi-Fi invités. Tu relis la capture prise avant l'ouverture : les voyageurs ne laissent voir que des noms de sites. Ce qui fuit vraiment, c'est la tablette de fidélité du café."
+  en: "The manager read that \"anyone can read your passwords on a café's Wi-Fi\" and wants to shut the guest Wi-Fi. You read the capture taken before opening: travellers only show the names of sites. What really leaks is the café's own loyalty tablet."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [recon, privacy, defense]
+minutes: 12

@@ -1,0 +1,14 @@
+id: paths.deplacement
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: path
+title:
+  fr: "Parcours : en déplacement"
+  en: "Path: on the road"
+summary:
+  fr: "Tout ce qui se joue loin de chez soi : ce que laisse voir un Wi-Fi partagé, le café de gare et son faux réseau, les QR codes collés partout, puis les messages qui imitent un service connu. Chaque étape se termine par des gestes à refaire en voyage."
+  en: "Everything that happens away from home: what a shared Wi-Fi shows, the station café and its fake network, the QR codes stuck everywhere, then the messages that imitate a service you know. Each step ends with things to do again when travelling."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, social, defense]

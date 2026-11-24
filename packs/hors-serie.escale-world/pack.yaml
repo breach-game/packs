@@ -1,0 +1,12 @@
+id: hors-serie.escale-world
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: world
+title:
+  fr: "L'Escale, café de la gare Sud"
+  en: "L'Escale, South Station café"
+summary:
+  fr: "L'Escale, une chaîne fictive de cafés-coworking installés dans les gares. Le café pilote de la gare Sud a un Wi-Fi invités ouvert, une borne qui gère ses points d'accès, une tablette de fidélité au comptoir, et des voyageurs qui se connectent sans y penser."
+  en: "L'Escale, a fictional chain of café-coworking spaces in railway stations. The pilot café at South Station has an open guest Wi-Fi, a controller that runs its access points, a loyalty tablet on the counter, and travellers who connect without a second thought."
+authors: [BREACH team]
+locales: [fr, en]

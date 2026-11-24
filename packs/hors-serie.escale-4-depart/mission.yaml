@@ -1,0 +1,120 @@
+# L'Escale, mission 4: before the train. The player's own laptop remembers open networks from
+# past trips and joins them on its own: anyone can broadcast those names. `nmcli connection show`
+# lists them, `nmcli connection delete` forgets the ones not needed and `nmcli connection modify …
+# connection.autoconnect no` keeps the café's without auto-joining; checks judge the keyfiles.
+# Forgetting the company network only earns a warning (IT pushes it again). Then what Enhanced Open
+# (OWE) gives (encryption over the air) and does not give (proof of who runs the network), and the
+# chain's guest Wi-Fi policy: a decision with no wrong answer, each option with its cost.
+side: defense
+order: 4
+stage: defense
+startTime: "2029-11-07T08:40:00+01:00"
+briefing: w4.briefing
+reveal: [gw, wlc, portail]
+
+objectives:
+  - { id: list, text: w4.obj.list }
+  - { id: why, text: w4.obj.why }
+  - { id: clean, text: w4.obj.clean }
+  - { id: owe, text: w4.obj.owe }
+  - { id: policy, text: w4.obj.policy }
+
+checks:
+  - id: gare
+    text: w4.check.gare
+    if: { not: { file: "/etc/NetworkManager/system-connections/Gare-WiFi-Gratuit.nmconnection" } }
+    objective: clean
+  - id: hotel
+    text: w4.check.hotel
+    if: { not: { file: "/etc/NetworkManager/system-connections/Hotel-Les-Tilleuls.nmconnection" } }
+    objective: clean
+  - id: escale
+    text: w4.check.escale
+    if: { file: "/etc/NetworkManager/system-connections/Escale-Invites.nmconnection", contains: "autoconnect=false" }
+    objective: clean
+
+questions:
+  - id: why
+    text: w4.q.why
+    objective: why
+    correct: name
+    options:
+      - { id: name, text: w4.q.why.name }
+      - { id: battery, text: w4.q.why.battery, why: w4.q.why.battery.why }
+      - { id: tracked, text: w4.q.why.tracked, why: w4.q.why.tracked.why }
+  - id: owe
+    text: w4.q.owe
+    objective: owe
+    correct: air
+    options:
+      - { id: air, text: w4.q.owe.air }
+      - { id: twin, text: w4.q.owe.twin, why: w4.q.owe.twin.why }
+      - { id: label, text: w4.q.owe.label, why: w4.q.owe.label.why }
+  # A decision: no option is wrong, each one costs something different.
+  - id: policy
+    text: w4.q.policy
+    objective: policy
+    options:
+      - { id: owe, text: w4.q.policy.owe, impact: 1 }
+      - { id: password, text: w4.q.policy.password, impact: 2 }
+      - { id: none, text: w4.q.policy.none, impact: 4 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: w4.ada.brief
+  - on: { event: ConnectionsListed }
+    do:
+      - objective.complete: list
+  - on: { event: ObjectiveCompleted, objective: list }
+    do:
+      - ada.say: w4.ada.list
+      - ada.ask: why
+  - on: { event: FileRemoved, path: { contains: LigneRouge } }
+    do:
+      - ada.warn: w4.ada.company
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: w4.ada.why
+  - on: { event: ObjectiveCompleted, objective: clean }
+    do:
+      - ada.say: w4.ada.clean
+      - ada.ask: owe
+  - on: { event: ObjectiveCompleted, objective: owe }
+    do:
+      - ada.say: w4.ada.owe
+      - ada.ask: policy
+  - on: { event: Answered, question: policy, option: owe }
+    do:
+      - ada.say: w4.ada.policy.owe
+  - on: { event: Answered, question: policy, option: password }
+    do:
+      - ada.say: w4.ada.policy.password
+  - on: { event: Answered, question: policy, option: none }
+    do:
+      - ada.say: w4.ada.policy.none
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: w4.ada.done
+
+guide:
+  list: w4.ada.g.list
+  why: w4.ada.answer
+  clean: w4.ada.g.clean
+  owe: w4.ada.answer
+  policy: w4.ada.answer
+
+hints:
+  list: [w4.hint.list.1]
+  why: [w4.hint.why.1]
+  clean: [w4.hint.clean.1, w4.hint.clean.2]
+  owe: [w4.hint.owe.1]
+
+debrief:
+  title: w4.debrief.title
+  lesson: w4.debrief.lesson
+  points: [w4.debrief.p1, w4.debrief.p2, w4.debrief.p3]
+  reference: "Wi-Fi Alliance · Wi-Fi CERTIFIED Enhanced Open (OWE, RFC 8110)"
+  home:
+    kind: travel
+    points: [w4.home.p1, w4.home.p2, w4.home.p3]

@@ -1,0 +1,11 @@
+# L'Escale, mission 2: the shortest path, replayed by CI in every language.
+cat signalements.txt
+qr decode photos/table-4.png
+soc logs wlc wlan
+answer bssid 02:7a:31:c4:58:0e
+answer password
+contain remove escale-invites-5g
+rule test regles/faux-reseau.yml
+echo "managed: no" >> regles/faux-reseau.yml
+echo "ssid|startswith: Escale" >> regles/faux-reseau.yml
+rule test regles/faux-reseau.yml

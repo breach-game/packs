@@ -1,0 +1,118 @@
+# L'Escale, mission 1: what you really see. A capture taken on the guest Wi-Fi before opening,
+# with the café's test phones and its own devices only. The player reads it with `tshark -r`:
+# HTTPS shows names (DNS, SNI) and sizes, never content; one site even hides its name (ECH). The
+# only thing in clear is the café's own loyalty tablet, which posts a member's points over plain
+# HTTP on the guest network. The fix is the tablet's settings file, judged by `verify`.
+side: defense
+order: 1
+stage: defense
+briefing: w1.briefing
+reveal: [gw, wlc, fidelite]
+
+files:
+  note-directrice.txt: { $file: files/note-directrice.txt }
+  caisse/fidelite.conf: { $file: files/fidelite.conf }
+  captures/invites-0730.pcap:
+    $capture:
+      iface: wlan0
+      packets:
+        - { proto: dhcp, t: 0.1, src: 10.115.0.51, dst: 10.115.0.1, dport: 67, info: "DHCP Request  - Transaction ID 0x1c40e7a2" }
+        - { proto: dns, t: 0.9, src: 10.115.0.51, dst: 10.115.0.1, query: banque-horizon.example, answer: 203.0.113.61 }
+        - { proto: tls, t: 1.0, src: 10.115.0.51, dst: 203.0.113.61, sni: banque-horizon.example, bytes: 18400, records: 5 }
+        - { proto: dns, t: 2.2, src: 10.115.0.52, dst: 10.115.0.1, query: mail.example, answer: 203.0.113.25 }
+        - { proto: tls, t: 2.3, src: 10.115.0.52, dst: 203.0.113.25, sni: mail.example, bytes: 52300, records: 6 }
+        - { proto: quic, t: 3.8, src: 10.115.0.52, dst: 203.0.113.90, sni: video.example, bytes: 7400000, records: 6 }
+        - { proto: tls, t: 5.1, src: 10.115.0.51, dst: 203.0.113.80, sni: cdn-public.example, ech: true, bytes: 9100, records: 3 }
+        - { proto: dns, t: 6.0, src: 10.115.0.20, dst: 10.115.0.1, query: fidelite.escale.test, answer: 10.115.0.30 }
+        - { proto: http, t: 6.1, src: 10.115.0.20, dst: 10.115.0.30, method: POST, host: fidelite.escale.test, path: /api/v2/points, body: "member=ESC-40318&email=membre-40318@client.example&points=120" }
+        - { proto: http, t: 6.2, src: 10.115.0.30, dst: 10.115.0.20, host: fidelite.escale.test, path: /api/v2/points, status: 200 }
+        - { proto: arp, t: 7.4, src: 10.115.0.52, dst: 10.115.0.1, info: "Who has 10.115.0.1? Tell 10.115.0.52" }
+
+objectives:
+  - { id: read, text: w1.obj.read }
+  - { id: seen, text: w1.obj.seen }
+  - { id: clear, text: w1.obj.clear }
+  - { id: fix, text: w1.obj.fix }
+  - { id: verdict, text: w1.obj.verdict }
+
+investigation:
+  - { id: server, text: w1.q.server, value: "fidelite.escale.test", points: 100, objective: clear }
+
+checks:
+  - id: https
+    text: w1.check.https
+    if: { file: "~/caisse/fidelite.conf", contains: "\nserver_url: https://fidelite.escale.test" }
+    objective: fix
+  - id: staff
+    text: w1.check.staff
+    if: { file: "~/caisse/fidelite.conf", contains: "\nnetwork: staff" }
+    objective: fix
+
+questions:
+  - id: seen
+    text: w1.q.seen
+    objective: seen
+    correct: names
+    options:
+      - { id: names, text: w1.q.seen.names }
+      - { id: password, text: w1.q.seen.password, why: w1.q.seen.password.why }
+      - { id: nothing, text: w1.q.seen.nothing, why: w1.q.seen.nothing.why }
+  - id: verdict
+    text: w1.q.verdict
+    objective: verdict
+    correct: keep
+    options:
+      - { id: keep, text: w1.q.verdict.keep }
+      - { id: cut, text: w1.q.verdict.cut, why: w1.q.verdict.cut.why }
+      - { id: vpn, text: w1.q.verdict.vpn, why: w1.q.verdict.vpn.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: w1.ada.brief
+  - on: { event: CaptureRead }
+    do:
+      - objective.complete: read
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: w1.ada.read
+      - ada.ask: seen
+  - on: { event: ObjectiveCompleted, objective: seen }
+    do:
+      - ada.say: w1.ada.seen
+  - on: { event: CaptureRead, filter: { contains: http } }
+    do:
+      - ada.guide: { key: w1.ada.http, for: clear, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: clear }
+    do:
+      - ada.say: w1.ada.clear
+  - on: { event: ObjectiveCompleted, objective: fix }
+    do:
+      - ada.say: w1.ada.fix
+      - ada.ask: verdict
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: w1.ada.done
+
+guide:
+  read: w1.ada.g.read
+  seen: w1.ada.answer
+  clear: w1.ada.g.clear
+  fix: w1.ada.g.fix
+  verdict: w1.ada.answer
+
+hints:
+  read: [w1.hint.read.1]
+  seen: [w1.hint.seen.1]
+  clear: [w1.hint.clear.1, w1.hint.clear.2]
+  fix: [w1.hint.fix.1, w1.hint.fix.2]
+  verdict: [w1.hint.verdict.1]
+
+debrief:
+  title: w1.debrief.title
+  lesson: w1.debrief.lesson
+  points: [w1.debrief.p1, w1.debrief.p2, w1.debrief.p3]
+  reference: "OWASP Top 10 · A02 Cryptographic Failures"
+  home:
+    kind: travel
+    points: [w1.home.p1, w1.home.p2, w1.home.p3]

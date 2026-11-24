@@ -1,0 +1,15 @@
+id: hors-serie.escale
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: series
+requires: [hors-serie.escale-world]
+title:
+  fr: "Hors-série : L'Escale"
+  en: "Side series: L'Escale"
+summary:
+  fr: "Le Wi-Fi d'un café de gare, vu honnêtement. Ce qu'un voisin voit vraiment (des noms, pas du contenu), le faux réseau qui copie le vrai et demande un mot de passe, les autres clients à portée de ton portable, puis tes propres réseaux mémorisés et le choix du Wi-Fi invités de toute une chaîne. Audit et défense seulement."
+  en: "A station café's Wi-Fi, seen honestly. What a neighbour really sees (names, not content), the fake network that copies the real one and asks for a password, the other guests within reach of your laptop, then your own saved networks and the guest Wi-Fi choice for a whole chain. Audit and defence only."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [privacy, defense, recon]

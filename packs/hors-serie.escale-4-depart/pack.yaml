@@ -1,0 +1,16 @@
+id: hors-serie.escale-4-depart
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.escale-world]
+title:
+  fr: "L'Escale · 4. Avant le train"
+  en: "L'Escale · 4. Before the train"
+summary:
+  fr: "Dernier matin. Avant de prendre le train, tu fais le ménage dans les réseaux que ton propre portable rejoint tout seul, puis tu aides la chaîne à choisir son Wi-Fi invités pour tous ses cafés, en sachant ce que le Wi-Fi chiffré apporte et ce qu'il n'apporte pas."
+  en: "Last morning. Before taking the train, you clean up the networks your own laptop joins on its own, then help the chain choose the guest Wi-Fi for all its cafés, knowing what encrypted open Wi-Fi brings and what it does not."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [privacy, defense, mobile]
+minutes: 10

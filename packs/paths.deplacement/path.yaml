@@ -1,0 +1,6 @@
+steps:
+  - { ref: breach.training.t13, note: why.capture }
+  - { ref: hors-serie.escale, note: why.cafe }
+  - { ref: hors-serie.etiquette, note: why.qr }
+  - { ref: breach.training.t04, note: why.mail }
+  - { ref: dossiers.pivert, note: why.texts }

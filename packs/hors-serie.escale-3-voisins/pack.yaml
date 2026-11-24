@@ -1,0 +1,16 @@
+id: hors-serie.escale-3-voisins
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.escale-world]
+title:
+  fr: "L'Escale · 3. Les voisins"
+  en: "L'Escale · 3. The neighbours"
+summary:
+  fr: "Sur le Wi-Fi invités, qui peut parler à qui ? Tu fais la liste de ce qu'on voit depuis une table, tu prouves sur le portable de test du café qu'un dossier partagé est à portée de tous, sans toucher aux appareils des voyageurs, puis tu fermes le passage entre invités et tu dis pourquoi ça ne suffit pas."
+  en: "On the guest Wi-Fi, who can talk to whom? You list what can be seen from a table, prove on the café's test laptop that a shared folder is within everyone's reach, without touching the travellers' devices, then close the path between guests and say why that is not enough."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [recon, privacy, defense]
+minutes: 12
