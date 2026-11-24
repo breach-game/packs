@@ -1,0 +1,16 @@
+id: dossiers.pluvier-2-night
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [dossiers.pluvier-world]
+title:
+  fr: "Dossier 22 · 2. Sans seconde étape"
+  en: "Case file 22 · 2. No second step"
+summary:
+  fr: "Le compte volé sert en ce moment même. Dans le journal d'audit de l'entrepôt, tu vois les copies partir, tu choisis la mesure qui arrête vraiment les voleurs, puis tu écris la règle qui verra la prochaine lecture massive."
+  en: "The stolen account is being used right now. In the warehouse's audit log, you watch the copies leave, choose the measure that really stops the thieves, then write the rule that will see the next bulk read."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [cloud, logs, defense]
+minutes: 12

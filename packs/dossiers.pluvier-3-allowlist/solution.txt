@@ -1,0 +1,9 @@
+# Case file 22, mission 3: the shortest path, replayed by CI in every language.
+cat entrepot/compte.yml
+sed -i "s/second_factor: optional/second_factor: required/" entrepot/compte.yml
+sed -i "s/sign_in: password/sign_in: key-pair/" entrepot/compte.yml
+sed -i "s/rotation: never/rotation: 90d/" entrepot/compte.yml
+sed -i "s/allowed_networks: any/allowed_networks: [10.82.0.25]/" entrepot/compte.yml
+sed -i "s/devices: any/devices: managed/" entrepot/compte.yml
+verify
+answer refuse

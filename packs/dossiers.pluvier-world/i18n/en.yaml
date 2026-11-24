@@ -1,0 +1,5 @@
+file.readme: "Ligne Rouge workstation. Case file: Pluvier. Type `mission` to see your objectives, `hint` if you are stuck."
+ada.outOfScope: "Stop. That target is outside mandate PL-2027-022. Outside the mandate this is no longer a test: it is an offence (article 323-1 of the French Penal Code). Come back within scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE PL-2027-022\nClient: Pluvier Voyages SA, a travel agency. Scope: *.pluvier.test, 10.82.0.0/24.\nPurpose: an anonymous message demands a ransom against the promise not to publish Pluvier's bookings. The data warehouse reported no flaw. Ligne Rouge finds how the thieves got in, stops them and closes the access.\nSet-up agreed: Ligne Rouge analyses the archive a threat intelligence service found on a forum, reads the warehouse's audit log and sets up Pluvier's account. Ligne Rouge does not contact the thieves.\nSigned: Pluvier Voyages' head of IT."

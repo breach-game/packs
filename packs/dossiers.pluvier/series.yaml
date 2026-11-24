@@ -1,0 +1,5 @@
+# Case file 22, in playing order: the archive, the night, the lock.
+missions:
+  - dossiers.pluvier-1-stealer
+  - dossiers.pluvier-2-night
+  - dossiers.pluvier-3-allowlist

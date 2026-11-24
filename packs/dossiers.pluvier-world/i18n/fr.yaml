@@ -1,0 +1,5 @@
+file.readme: "Poste Ligne Rouge. Dossier : Pluvier. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+ada.outOfScope: "Stop. Cette cible est hors du mandat PL-2027-022. Hors mandat, ce n'est plus un test : c'est un délit (article 323-1 du Code pénal). Reviens dans le périmètre."
+ada.noise70: "Tu fais beaucoup de bruit. Ralentis."
+ada.detected: "Repéré. On revient au dernier point de reprise, et ça coûte des points."
+file.mandate: "MANDAT PL-2027-022\nClient : Pluvier Voyages SA, agence de voyages. Périmètre : *.pluvier.test, 10.82.0.0/24.\nObjet : un message anonyme réclame une rançon contre la promesse de ne pas publier les réservations de Pluvier. L'entrepôt de données n'a signalé aucune faille. Ligne Rouge retrouve par où les voleurs sont entrés, les arrête et ferme l'accès.\nDispositif convenu : Ligne Rouge analyse l'archive qu'un service de veille a trouvée sur un forum, lit le journal d'audit de l'entrepôt et règle le compte Pluvier. Ligne Rouge ne contacte pas les voleurs.\nSigné : la directrice des systèmes d'information de Pluvier Voyages."

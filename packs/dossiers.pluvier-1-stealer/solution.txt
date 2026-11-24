@@ -1,0 +1,8 @@
+# Case file 22, mission 1: the shortest path, replayed by CI in every language.
+file analyse/butin.zip
+unzip -l analyse/butin.zip
+unzip -p analyse/butin.zip Passwords.txt
+answer account svc-rapports
+cat analyse/comptes.txt
+answer since 2023-02-09
+answer laptop

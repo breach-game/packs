@@ -1,0 +1,12 @@
+id: dossiers.pluvier-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Pluvier"
+  en: "Pluvier"
+summary:
+  fr: "Pluvier Voyages, agence de voyages fictive. Ses réservations dorment dans un entrepôt de données en ligne, interrogé chaque nuit par un compte de service et, le jour, par des prestataires."
+  en: "Pluvier Voyages, a fictional travel agency. Its bookings sleep in an online data warehouse, queried each night by a service account and, by day, by contractors."
+authors: [BREACH team]
+locales: [fr, en]

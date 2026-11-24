@@ -1,0 +1,66 @@
+# The way in was no flaw: a password stolen by spyware on a contractor's own computer, years ago.
+side: defense
+order: 1
+stage: defense
+briefing: p1.briefing
+reveal: [warehouse]
+
+files:
+  analyse/butin.zip:
+    $archive:
+      format: zip
+      files:
+        System.txt: "Machine: PC-SALON\nUser: t.renard\nOS: Windows 11 Home\nDomain joined: no\nAntivirus: none\nInfected: 2023-02-14 09:51 by Downloads/launcher-jeu-gratuit.exe\n"
+        Passwords.txt: "URL: https://jeux.example/account\nUsername: renard_t\nPassword: [masked by Ligne Rouge]\nSaved: 2021-08-19\n\nURL: https://entrepot.pluvier.test/console\nUsername: svc-rapports\nPassword: [masked by Ligne Rouge]\nSaved: 2023-02-11\n\nURL: https://atelier-lumen.example/login\nUsername: t.renard\nPassword: [masked by Ligne Rouge]\nSaved: 2022-11-04\n"
+        Cookies/firefox.txt: "jeux.example\tTRUE\t/\tTRUE\t0\tsid\t[masked by Ligne Rouge]\n"
+  analyse/comptes.txt: { $file: files/comptes.txt }
+
+objectives:
+  - { id: account, text: p1.obj.account }
+  - { id: since, text: p1.obj.since }
+  - { id: how, text: p1.obj.how }
+
+investigation:
+  - { id: account, text: p1.q.account, value: "svc-rapports", points: 75, objective: account }
+  - { id: since, text: p1.q.since, value: "2023-02-09", points: 75, objective: since }
+
+questions:
+  - id: how
+    text: p1.q.how
+    objective: how
+    correct: laptop
+    options:
+      - { id: laptop, text: p1.q.how.laptop }
+      - { id: warehouse, text: p1.q.how.warehouse, why: p1.q.how.warehouse.why }
+      - { id: guessed, text: p1.q.how.guessed, why: p1.q.how.guessed.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: p1.ada.account
+  - on: { event: ObjectiveCompleted, objective: since }
+    do:
+      - ada.say: p1.ada.since
+      - ada.ask: how
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  account: p1.ada.g.account
+  since: p1.ada.g.since
+  how: p1.ada.answer
+
+hints:
+  account: [p1.hint.account.1, p1.hint.account.2]
+  since: [p1.hint.since.1, p1.hint.since.2]
+  how: [p1.hint.how.1]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

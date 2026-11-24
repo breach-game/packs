@@ -1,0 +1,12 @@
+# Banquise warehouse - account PLUVIER - security settings.
+account:
+  humans:
+    second_factor: optional
+  service_accounts:
+    sign_in: password
+    allowed_networks: any
+  secrets:
+    rotation: never
+  contractors:
+    devices: any
+  audit_log: on
