@@ -1,0 +1,16 @@
+id: dossiers.chouette
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.chouette-world]
+title:
+  fr: "Dossier 32 : le dernier contrôleur"
+  en: "Case file 32: the last controller"
+summary:
+  fr: "Inspiré du programme destructeur de juin 2017 et de l'annuaire d'un transporteur maritime sauvé par une coupure de courant. Joué entièrement côté défense : le compte d'administration qui ouvre tous les serveurs, la vague arrêtée, puis la reconstruction depuis la seule copie restante. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the destructive program of June 2017 and a shipping company's directory saved by a power cut. Played entirely on the defence side: the admin account that opens every server, the wave stopped, then the rebuild from the only copy left. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, crisis, defense]
+incident: 2017

@@ -1,0 +1,12 @@
+id: dossiers.chouette-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Transports Argos"
+  en: "Argos Shipping"
+summary:
+  fr: "Transports Argos, transporteur maritime fictif, fait tout tourner sur un seul annuaire d'entreprise : comptes, serveurs, planning des navires. Un compte d'administration sert partout, et ses administrateurs se connectent où ils en ont besoin."
+  en: "Argos Shipping, a fictional shipping line, runs everything on one company directory: accounts, servers, ship planning. One admin account works everywhere, and its administrators sign in wherever they need to."
+authors: [BREACH team]
+locales: [fr, en]
