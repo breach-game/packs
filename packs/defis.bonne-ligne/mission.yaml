@@ -1,0 +1,47 @@
+# Challenge: a web access log with scanner noise and one real download of the customer export.
+side: defense
+order: 1
+stage: defense
+briefing: d1.briefing
+
+files:
+  journaux/access.log: { $file: files/access.log }
+
+objectives:
+  - { id: ip, text: d1.obj.ip }
+  - { id: account, text: d1.obj.account }
+  - { id: tried, text: d1.obj.tried }
+  - { id: next, text: d1.obj.next }
+
+investigation:
+  - { id: ip, text: d1.q.ip, value: "198.51.100.77", points: 100, objective: ip }
+  - { id: account, text: d1.q.account, value: "agence-nord", points: 100, objective: account }
+  - { id: tried, text: d1.q.tried, value: "8", points: 100, objective: tried }
+
+questions:
+  - id: next
+    text: d1.q.next
+    objective: next
+    correct: cutoff
+    options:
+      - { id: cutoff, text: d1.q.next.cutoff }
+      - { id: scanners, text: d1.q.next.scanners, why: d1.q.next.scanners.why }
+      - { id: file, text: d1.q.next.file, why: d1.q.next.file.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d1.ada.brief
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: ip }, { objective: account }, { objective: tried }] }
+    do:
+      - ada.ask: next
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d1.ada.done
+
+debrief:
+  title: d1.debrief.title
+  lesson: d1.debrief.lesson
+  points: [d1.debrief.p1, d1.debrief.p2, d1.debrief.p3]
+  reference: "OWASP Top 10 · A09 Logging and Monitoring Failures"

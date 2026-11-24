@@ -1,0 +1,17 @@
+id: defis.trois-couches
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · Trois couches"
+  en: "Challenge · Three layers"
+summary:
+  fr: "Un programme inconnu et un certificat, trouvés sur un poste de l'accueil. Retrouve où le programme appelle et quel autre nom son certificat couvre, en ne lisant que les fichiers. Sans aide."
+  en: "An unknown program and a certificate, found on a front-desk computer. Find where the program calls and which other name its certificate covers, by reading the files only. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [crypto, linux, defense]
+minutes: 10

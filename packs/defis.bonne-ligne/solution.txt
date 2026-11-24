@@ -1,0 +1,8 @@
+# Challenge "The right line": the shortest path, replayed by CI in every language.
+grep clients.csv journaux/access.log
+grep clients.csv journaux/access.log | grep " 200 "
+answer ip 198.51.100.77
+answer account agence-nord
+grep clients.csv journaux/access.log | cut -d " " -f 1 | sort -u | wc -l
+answer tried 8
+answer cutoff

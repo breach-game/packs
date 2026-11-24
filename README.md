@@ -21,6 +21,7 @@ packs/
   premiers-pas.*/             first steps: a small bakery world and two one-technique missions
   dossiers.<name>*/           a case file: a world, three or four missions and their series
   hors-serie.<name>*/         a side series: a fictional world and its missions
+  defis.*/                    the challenges: one world and six missions played at Expert only
   paths.<name>/               a path: an order through official and community missions
 ```
 
@@ -85,6 +86,19 @@ Fictional stories with no real incident behind them, each a short series in its 
 | `hors-serie.coffre*` | The Vault | Recognising unsalted fast hashes with `hashid` and why one shared password shows up at once (`openssl dgst`, `grep -c`), decoding a guessable reset token with `base64 -d`, migrating to Argon2id and wrapping old hashes |
 
 A mission can also be played in an official world, NovaMind (`requires: [breach.world.novamind]`) or the world of a season (`breach.world.pelican`, `breach.world.verdure`…), using the hosts, pages and characters it already has.
+
+## Challenges
+
+Six short missions in one fictional world (Polygone Services), each set to `levels: [expert]`: no instruction from Ada, no hint, only the briefing and the objectives. The store files them under Challenges. A challenge needs no `guide` table.
+
+| Folder | Challenge | What it asks |
+| --- | --- | --- |
+| `defis.bonne-ligne` | The right line | Find the one real download of a customer export in a noisy access log (`grep`, `cut`, `sort -u`, `wc -l`) |
+| `defis.facture-voisine` | The invoice next door | Read the witness account's invoice through an API that only checks you are signed in |
+| `defis.trois-couches` | Three layers | Read an unknown program and its certificate without running them (`strings`, `base64 -d`, `openssl x509`) |
+| `defis.trois-lignes` | Three lines | Point out the three faulty lines of a pull request with `review`, every mistake costs points |
+| `defis.pluie-fine` | Fine rain | Password guessing from twelve addresses: write the rule that counts by account and ignores a colleague's typos |
+| `defis.garde-fou` | The guardrail | Write a support agent's refund guardrail that holds on both sides of a threshold (`eval run`) |
 
 ## The rules every pack follows
 

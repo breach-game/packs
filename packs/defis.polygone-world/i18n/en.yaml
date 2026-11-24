@@ -1,0 +1,8 @@
+file.readme: "Ligne Rouge workstation. Challenges: no hint, no instruction, only the briefing and the objectives. Type `mission` to read them again."
+ada.outOfScope: "Stop. That target is outside mandate PG-2027-050. Outside the mandate it is no longer a test, it is an offence (article 323-1 of the French Penal Code). Get back in scope."
+ada.noise70: "You are making a lot of noise. Slow down."
+ada.detected: "Spotted. We go back to the last checkpoint, and it costs points."
+file.mandate: "MANDATE PG-2027-050\nClient: Polygone Services SAS, building maintenance. Scope: *.polygone.test, 10.87.0.0/24.\nPurpose: six short checks, carried out without assistance, on the shop, single sign-on, the support agent and files handed over by the team.\nAgreed approach: the shop has two test accounts, a customer account (session pg-client-2031) and a witness account (invoice 2030), created for this mandate. No real customer is looked at.\nSigned: the chief information officer of Polygone Services."
+page.home.h1: "Polygone Services"
+page.home.p: "Upkeep, cleaning and maintenance of your buildings. Your invoices are in your customer space."
+page.home.footer: "Polygone Services SAS · customer space"

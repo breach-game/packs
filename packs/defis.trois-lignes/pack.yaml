@@ -1,0 +1,17 @@
+id: defis.trois-lignes
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · Trois lignes"
+  en: "Challenge · Three lines"
+summary:
+  fr: "Une demande de fusion « recherche de factures plus rapide », quarante lignes de Python. Trois lignes ne doivent pas partir en production. Chaque erreur coûte 10 points. Sans aide."
+  en: "A pull request \"faster invoice search\", forty lines of Python. Three lines must not reach production. Every mistake costs 10 points. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, defense]
+minutes: 8

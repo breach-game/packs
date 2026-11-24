@@ -1,0 +1,17 @@
+id: defis.facture-voisine
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [defis.polygone-world]
+levels: [expert]
+title:
+  fr: "Défi · La facture d'à côté"
+  en: "Challenge · The invoice next door"
+summary:
+  fr: "Un compte client de test, une API de factures. Le mandat prévoit un compte témoin : montre que tu peux lire sa facture, rapporte son marqueur, puis dis comment l'empêcher. Sans aide."
+  en: "A test customer account, an invoice API. The mandate provides a witness account: show you can read its invoice, report its marker, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, recon]
+minutes: 8

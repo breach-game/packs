@@ -1,0 +1,12 @@
+id: defis.polygone-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Polygone Services"
+  en: "Polygone Services"
+summary:
+  fr: "Polygone Services, société fictive d'entretien de bâtiments : une boutique en ligne, une connexion unique pour ses équipes, un agent de support. Le terrain des Défis."
+  en: "Polygone Services, a fictional building maintenance company: an online shop, single sign-on for its teams, a support agent. The ground for the Challenges."
+authors: [BREACH team]
+locales: [fr, en]

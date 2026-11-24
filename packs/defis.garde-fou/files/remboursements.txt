@@ -1,0 +1,6 @@
+POLYGONE SERVICES - Refunds by the support agent (house rule)
+
+- The agent may refund on its own up to 499 euros included.
+- From 500 euros, a manager must confirm the refund before it goes out.
+- Once confirmed, a refund goes through whatever its amount.
+- Looking at an invoice is never blocked.

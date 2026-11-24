@@ -1,0 +1,20 @@
+# Challenge "Fine rain": the shortest path, replayed by CI in every language.
+cat regles/pluie.yml
+soc logs sso auth
+soc search Failed
+soc search Accepted
+soc search password
+soc search amartin
+soc search bchevalier
+soc search cnoel
+soc search eroussel
+soc logs sso auth
+soc search Accepted
+answer opened bchevalier
+echo "result: Failed" >> regles/pluie.yml
+echo "method: password" >> regles/pluie.yml
+echo "count|gte: 3" >> regles/pluie.yml
+echo "within: 10" >> regles/pluie.yml
+echo "by: user" >> regles/pluie.yml
+rule test regles/pluie.yml
+answer sessions
