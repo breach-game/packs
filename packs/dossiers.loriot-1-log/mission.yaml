@@ -1,0 +1,56 @@
+# Reading public CI logs: a modified action printed the runner's secrets, encoded twice.
+side: defense
+order: 1
+stage: defense
+briefing: l1.briefing
+reveal: [forge]
+
+objectives:
+  - { id: run, text: l1.obj.run }
+  - { id: secret, text: l1.obj.secret }
+  - { id: public, text: l1.obj.public }
+
+investigation:
+  - { id: run, text: l1.q.run, value: "812", points: 50, objective: run }
+  - { id: secret, text: l1.q.secret, value: "NPM_TOKEN", points: 75, objective: secret }
+
+questions:
+  - id: public
+    text: l1.q.public
+    objective: public
+    correct: anyone
+    options:
+      - { id: anyone, text: l1.q.public.anyone }
+      - { id: encoded, text: l1.q.public.encoded, why: l1.q.public.encoded.why }
+      - { id: expired, text: l1.q.public.expired, why: l1.q.public.expired.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: run }
+    do:
+      - ada.say: l1.ada.run
+  - on: { event: ObjectiveCompleted, objective: secret }
+    do:
+      - ada.say: l1.ada.secret
+      - ada.ask: public
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l1.ada.done
+
+guide:
+  run: l1.ada.g.run
+  secret: l1.ada.g.secret
+  public: l1.ada.answer
+
+hints:
+  run: [l1.hint.run.1, l1.hint.run.2]
+  secret: [l1.hint.secret.1, l1.hint.secret.2, l1.hint.secret.3]
+  public: [l1.hint.public.1]
+
+debrief:
+  title: l1.debrief.title
+  lesson: l1.debrief.lesson
+  points: [l1.debrief.p1, l1.debrief.p2, l1.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

@@ -1,0 +1,7 @@
+# Case file 19, mission 2: the shortest path, replayed by CI in every language.
+cat depot/ci.yml
+cat dossier/etiquette-v45.txt
+sed -i "s/fichiers-modifies@v45/fichiers-modifies@9b1e4c07d2a35f6e8c01b7a49d3e2f5a6c8b0d14/" depot/ci.yml
+sed -i "s/permissions: write-all/permissions: read-all/" depot/ci.yml
+verify
+answer moves

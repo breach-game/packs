@@ -1,0 +1,11 @@
+2027-11-03T17:40:11Z ##[group]Run forge/checkout@v4
+2027-11-03T17:40:13Z Syncing repository: loriot/loriot-ui
+2027-11-03T17:40:14Z ##[endgroup]
+2027-11-03T17:40:14Z ##[group]Run actions-communes/fichiers-modifies@v45
+2027-11-03T17:40:15Z Using merge base 2b9d04a for comparison
+2027-11-03T17:40:15Z Changed files: docs/readme.md
+2027-11-03T17:40:15Z ##[endgroup]
+2027-11-03T17:40:16Z ##[group]Run npm test
+2027-11-03T17:40:40Z 214 passing (24s)
+2027-11-03T17:40:40Z ##[endgroup]
+2027-11-03T17:40:41Z Job completed. Token FORGE_TOKEN revoked.

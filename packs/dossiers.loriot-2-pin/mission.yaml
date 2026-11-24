@@ -1,0 +1,74 @@
+# Repair the workflow on a copy: pin by full commit hash, least privilege for the forge token.
+side: defense
+order: 2
+stage: defense
+briefing: l2.briefing
+
+files:
+  depot/ci.yml: { $file: files/ci.yml }
+  dossier/etiquette-v45.txt: { $file: files/etiquette-v45.txt }
+
+objectives:
+  - { id: pin, text: l2.obj.pin }
+  - { id: perms, text: l2.obj.perms }
+  - { id: why, text: l2.obj.why }
+
+checks:
+  - id: pin
+    text: l2.check.pin
+    if: { all: [{ file: "~/depot/ci.yml", lacks: "fichiers-modifies@v45" }, { file: "~/depot/ci.yml", contains: "fichiers-modifies@9b1e4c07d2a35f6e8c01b7a49d3e2f5a6c8b0d14" }] }
+    objective: pin
+  - id: perms
+    text: l2.check.perms
+    if: { all: [{ file: "~/depot/ci.yml", lacks: "write-all" }, { file: "~/depot/ci.yml", contains: "permissions: read-all" }] }
+    objective: perms
+  - id: works
+    text: l2.check.works
+    if: { all: [{ file: "~/depot/ci.yml", contains: "forge/checkout@" }, { file: "~/depot/ci.yml", contains: "run: npm test" }] }
+
+questions:
+  - id: why
+    text: l2.q.why
+    objective: why
+    correct: moves
+    options:
+      - { id: moves, text: l2.q.why.moves }
+      - { id: newer, text: l2.q.why.newer, why: l2.q.why.newer.why }
+      - { id: faster, text: l2.q.why.faster, why: l2.q.why.faster.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: l2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: pin }
+    do:
+      - ada.say: l2.ada.pin
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: pin }, { objective: perms }] } }
+    once: false
+    do:
+      - ada.say: l2.ada.almost
+  - on: { event: Verified }
+    if: { all: [{ objective: pin }, { objective: perms }] }
+    do:
+      - ada.say: l2.ada.fixed
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: l2.ada.done
+
+guide:
+  pin: l2.ada.g.pin
+  perms: l2.ada.g.perms
+  why: l2.ada.answer
+
+hints:
+  pin: [l2.hint.pin.1, l2.hint.pin.2]
+  perms: [l2.hint.perms.1, l2.hint.perms.2]
+  why: [l2.hint.why.1]
+
+debrief:
+  title: l2.debrief.title
+  lesson: l2.debrief.lesson
+  points: [l2.debrief.p1, l2.debrief.p2, l2.debrief.p3]
+  reference: "OWASP Top 10 · A08 Software and Data Integrity Failures"

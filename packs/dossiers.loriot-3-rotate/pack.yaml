@@ -1,0 +1,16 @@
+id: dossiers.loriot-3-rotate
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.loriot-world]
+title:
+  fr: "Dossier 19 · 3. Changer les clés"
+  en: "Case file 19 · 3. Changing the keys"
+summary:
+  fr: "Ce qui est sorti dans le journal doit cesser de marcher. Tu remplaces les secrets exposés, tu effaces les journaux bavards, tu dis lequel n'a pas besoin d'être changé, puis tu décides quoi dire aux 3 400 projets qui dépendent de loriot-ui. La dernière mission raconte les faits, sources à l'appui."
+  en: "What came out in the log must stop working. You replace the exposed secrets, delete the talkative logs, say which one does not need changing, then decide what to tell the 3,400 projects that depend on loriot-ui. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense, crisis]
+minutes: 12

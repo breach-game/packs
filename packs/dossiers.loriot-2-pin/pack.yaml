@@ -1,0 +1,16 @@
+id: dossiers.loriot-2-pin
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [dossiers.loriot-world]
+title:
+  fr: "Dossier 19 · 2. L'étiquette qui a bougé"
+  en: "Case file 19 · 2. The tag that moved"
+summary:
+  fr: "Une étiquette de version n'est qu'un panneau qu'on peut déplacer. Tu épingles l'action sur l'empreinte complète du bon commit, tu réduis ce que le jeton de la forge a le droit de faire, et tu expliques pourquoi."
+  en: "A version tag is only a sign that can be moved. You pin the action to the full hash of the right commit, reduce what the forge token is allowed to do, and explain why."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense]
+minutes: 10

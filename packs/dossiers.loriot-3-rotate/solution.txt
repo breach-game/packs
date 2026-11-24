@@ -1,0 +1,8 @@
+# Case file 19, mission 3: the shortest path, replayed by CI in every language.
+cat dossier/secrets.yml
+sed -i "s/npm_token: old/npm_token: rotated/" dossier/secrets.yml
+sed -i "s/deploy_key: old/deploy_key: rotated/" dossier/secrets.yml
+sed -i "s/run_812_log: public/run_812_log: deleted/" dossier/secrets.yml
+verify
+answer expired
+answer advisory

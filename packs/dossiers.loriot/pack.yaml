@@ -1,0 +1,16 @@
+id: dossiers.loriot
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: series
+requires: [dossiers.loriot-world]
+title:
+  fr: "Dossier 19 : l'étiquette qui a bougé"
+  en: "Case file 19: the tag that moved"
+summary:
+  fr: "Inspiré de l'action d'intégration continue détournée qui a affiché les secrets de milliers de dépôts dans leurs journaux, en 2025. Sous mandat, tu trouves et décodes la ligne de trop dans un journal public, tu épingles l'action sur l'empreinte d'un commit, puis tu remplaces ce qui est sorti et tu préviens ceux qui dépendent de la bibliothèque. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the hijacked continuous integration action that printed thousands of repositories' secrets in their logs, in 2025. Under mandate, you find and decode the extra line in a public log, pin the action to a commit's hash, then replace what came out and warn those who depend on the library. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, crypto, defense, crisis]
+incident: 2025

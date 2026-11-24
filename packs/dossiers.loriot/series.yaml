@@ -1,0 +1,5 @@
+# Case file 19, in playing order: the public log read, the action pinned, the keys changed.
+missions:
+  - dossiers.loriot-1-log
+  - dossiers.loriot-2-pin
+  - dossiers.loriot-3-rotate

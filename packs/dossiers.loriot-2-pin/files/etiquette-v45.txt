@@ -1,0 +1,8 @@
+actions-communes/fichiers-modifies - tag v45, as seen by the forge
+
+date (UTC)            v45 points to                              signed   in a branch
+2027-09-30 10:02      9b1e4c07d2a35f6e8c01b7a49d3e2f5a6c8b0d14   yes      main
+2027-11-04 01:47      0e5f7a2c91d84b36e7a0c5d2f1b9e8a3c4d6f702   no       none
+
+The maintainers' advisory: "v45 was moved by someone using a stolen access token.
+The last good commit is the one published on 30 September."
