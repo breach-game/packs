@@ -1,0 +1,106 @@
+# Case file 29, mission 2: the second stage. The resolver's exported answers show the one CNAME that
+# sent Vigie to a second server; `last` on the directory shows Vigie's own account at 03:41 on a
+# Sunday instead of its daily 14:00 poll. The player rotates that account, says why it mattered,
+# and puts the story in order. The last debrief tells what really happened, with its sources.
+side: defense
+order: 2
+stage: report
+startTime: "2027-12-15T09:30:00+01:00"
+briefing: g2.briefing
+reveal: [supervision, dns, annuaire]
+
+config:
+  gr.isolated: true
+
+files:
+  traces/reponses-dns.txt: { $file: files/reponses-dns.txt }
+
+containment:
+  - id: rotate
+    action: rotate
+    target: svcvigie
+    text: g2.contain.rotate
+    sets: { gr.rotated: true }
+    impact: 1
+
+objectives:
+  - { id: cname, text: g2.obj.cname }
+  - { id: account, text: g2.obj.account }
+  - { id: reach, text: g2.obj.reach }
+  - { id: rotate, text: g2.obj.rotate }
+  - { id: story, text: g2.obj.story }
+
+investigation:
+  - { id: cname, text: g2.q.cname, value: "relais.ombre-cdn.example", points: 75, objective: cname }
+  - { id: account, text: g2.q.account, value: "svcvigie", points: 100, objective: account }
+
+questions:
+  - id: reach
+    text: g2.q.reach
+    objective: reach
+    correct: everywhere
+    options:
+      - { id: everywhere, text: g2.q.reach.everywhere }
+      - { id: human, text: g2.q.reach.human, why: g2.q.reach.human.why }
+      - { id: exposed, text: g2.q.reach.exposed, why: g2.q.reach.exposed.why }
+
+timelines:
+  - id: histoire
+    text: g2.tl.text
+    objective: story
+    events:
+      - { id: chain, text: g2.tl.chain }
+      - { id: signed, text: g2.tl.signed }
+      - { id: installed, text: g2.tl.installed }
+      - { id: beacons, text: g2.tl.beacons }
+      - { id: cname, text: g2.tl.cname }
+      - { id: login, text: g2.tl.login }
+      - { id: advisory, text: g2.tl.advisory }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: cname }
+    do:
+      - ada.say: g2.ada.cname
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: g2.ada.account
+      - ada.ask: reach
+  - on: { event: ObjectiveCompleted, objective: reach }
+    do:
+      - ada.say: g2.ada.reach
+  - on: { event: Contained, containment: rotate }
+    do:
+      - objective.complete: rotate
+      - ada.say: g2.ada.rotate
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g2.ada.done
+
+guide:
+  cname: g2.ada.g.cname
+  account: g2.ada.g.account
+  reach: g2.ada.g.reach
+  rotate: g2.ada.g.rotate
+  story: g2.ada.g.story
+
+hints:
+  cname: [g2.hint.cname.1, g2.hint.cname.2]
+  account: [g2.hint.account.1, g2.hint.account.2]
+  rotate: [g2.hint.rotate.1]
+  story: [g2.hint.story.1, g2.hint.story.2]
+
+debrief:
+  title: g2.debrief.title
+  lesson: g2.debrief.lesson
+  points: [g2.debrief.p1, g2.debrief.p2, g2.debrief.p3]
+  reference: "Mandiant · SUNBURST backdoor analysis (December 2020)"
+  facts:
+    title: g2.facts.title
+    points: [g2.facts.p1, g2.facts.p2, g2.facts.p3, g2.facts.p4, g2.facts.p5]
+    sources:
+      - { label: "CISA, Alert AA20-352A: APT Compromise of Government Agencies, Critical Infrastructure and Private Sector (December 2020)", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-352a" }
+      - { label: "Mandiant (FireEye), Highly Evasive Attacker Leverages SolarWinds Supply Chain, SUNBURST Backdoor (December 2020)", url: "https://cloud.google.com/blog/topics/threat-intelligence/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor" }
+      - { label: "CISA, Emergency Directive 21-01: Mitigate SolarWinds Orion Code Compromise", url: "https://www.cisa.gov/news-events/directives/ed-21-01-mitigate-solarwinds-orion-code-compromise" }

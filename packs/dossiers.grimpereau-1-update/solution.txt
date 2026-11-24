@@ -1,0 +1,12 @@
+# Case file 29, mission 1: the shortest path, replayed by CI in every language.
+cat traces/avis-sentinelle.txt
+ssh ir@vigie.altair.test
+cat /opt/vigie/VERSION
+strings /opt/vigie/lib/Vigie.Coeur.so
+exit
+answer version 2027.2.0.4411
+soc logs dns dns
+echo "name|endswith: .nuage-vigie.example" >> regles/balise-vigie.yml
+rule test regles/balise-vigie.yml
+contain isolate supervision
+answer chain

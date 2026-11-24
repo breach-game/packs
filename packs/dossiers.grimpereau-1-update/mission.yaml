@@ -1,0 +1,107 @@
+# Case file 29, mission 1: the vendor's advisory. The player reads the installed build on the
+# monitoring server, sees the vendor's beacon domain in its library, writes the DNS rule against the
+# resolver's ordinary traffic, isolates the server, then says how a signed file can carry a backdoor.
+side: defense
+order: 1
+stage: defense
+briefing: g1.briefing
+reveal: [supervision, dns]
+
+files:
+  traces/avis-sentinelle.txt: { $file: files/avis-sentinelle.txt }
+  regles/balise-vigie.yml: |
+    title: The Vigie server talks to the vendor's beacon domain
+    source: dns
+
+adversary:
+  id: beacon
+  name: vigie
+  from: supervision
+  pace: 1
+  delay: 0
+  steps:
+    - { id: b1, host: dns, source: dns, fields: { src: 10.99.0.20, name: f4k9q2.eu-ouest.nuage-vigie.example, rtype: A } }
+    - { id: b2, host: dns, source: dns, fields: { src: 10.99.0.20, name: x1m7c3.eu-ouest.nuage-vigie.example, rtype: A } }
+    - { id: b3, host: dns, source: dns, fields: { src: 10.99.0.20, name: r6t2w8.eu-ouest.nuage-vigie.example, rtype: A }, blockedIf: { config: gr.isolated, eq: true } }
+    - { id: b4, host: dns, source: dns, fields: { src: 10.99.0.20, name: h3z5n0.eu-ouest.nuage-vigie.example, rtype: A }, blockedIf: { config: gr.isolated, eq: true } }
+
+# Ordinary lookups: Vigie checking the vendor's real update server and the machines it watches,
+# and the staff's own workstations.
+background:
+  - { host: dns, source: dns, every: 2, offset: 0, fields: { src: 10.99.0.20, name: annuaire.altair.test, rtype: A } }
+  - { host: dns, source: dns, every: 3, offset: 1, fields: { src: 10.99.0.20, name: maj.sentinelle-logiciels.example, rtype: A } }
+  - { host: dns, source: dns, every: 3, offset: 2, fields: { src: 10.99.0.31, name: vigie.altair.test, rtype: A } }
+  - { host: dns, source: dns, every: 4, offset: 1, fields: { src: 10.99.0.140, name: extranet.assureurs.example, rtype: A } }
+
+containment:
+  - id: isolate
+    action: isolate
+    target: supervision
+    text: g1.contain.isolate
+    sets: { gr.isolated: true }
+    impact: 2
+
+objectives:
+  - { id: version, text: g1.obj.version }
+  - { id: rule, text: g1.obj.rule }
+  - { id: isolate, text: g1.obj.isolate }
+  - { id: trust, text: g1.obj.trust }
+
+investigation:
+  - { id: version, text: g1.q.version, value: "2027.2.0.4411", points: 75, objective: version }
+
+hunts:
+  - id: beacon
+    file: regles/balise-vigie.yml
+    catch: { source: dns, where: { name: { glob: "*.nuage-vigie.example" } } }
+    objective: rule
+
+questions:
+  - id: trust
+    text: g1.q.trust
+    objective: trust
+    correct: chain
+    options:
+      - { id: chain, text: g1.q.trust.chain }
+      - { id: mirror, text: g1.q.trust.mirror, why: g1.q.trust.mirror.why }
+      - { id: insider, text: g1.q.trust.insider, why: g1.q.trust.insider.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: g1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: version }
+    do:
+      - ada.say: g1.ada.version
+  - on: { event: RuleTested, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: g1.ada.again, for: rule, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: g1.ada.rule
+  - on: { event: Contained, containment: isolate }
+    do:
+      - objective.complete: isolate
+      - ada.say: g1.ada.isolate
+      - ada.ask: trust
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: g1.ada.done
+
+guide:
+  version: g1.ada.g.version
+  rule: g1.ada.g.rule
+  isolate: g1.ada.g.isolate
+  trust: g1.ada.g.trust
+
+hints:
+  version: [g1.hint.version.1, g1.hint.version.2]
+  rule: [g1.hint.rule.1, g1.hint.rule.2]
+  isolate: [g1.hint.isolate.1]
+
+debrief:
+  title: g1.debrief.title
+  lesson: g1.debrief.lesson
+  points: [g1.debrief.p1, g1.debrief.p2, g1.debrief.p3]
+  reference: "CISA · Emergency Directive 21-01 and alert AA20-352A"

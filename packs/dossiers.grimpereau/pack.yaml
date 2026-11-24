@@ -1,0 +1,16 @@
+id: dossiers.grimpereau
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: series
+requires: [dossiers.grimpereau-world]
+title:
+  fr: "Dossier 29 : la mise à jour signée"
+  en: "Case file 29: the signed update"
+summary:
+  fr: "Inspiré de la mise à jour piégée d'un logiciel de supervision, en 2020. Joué entièrement côté défense, depuis la place d'un client : la version installée, les balises DNS, l'isolement, puis la réponse qui a ouvert la suite et le compte qui entrait partout. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the trapped update of a monitoring product in 2020. Played entirely on the defence side, from a customer's seat: the installed build, the DNS beacons, the isolation, then the answer that opened the next stage and the account that got in everywhere. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+incident: 2020

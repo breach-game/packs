@@ -1,0 +1,127 @@
+# Case file 29 "Grimpereau". Inspired by the compromised build of a monitoring product in 2020.
+# Played on the defence side only, from a customer's seat: the signed update, its beacons, the
+# isolation, then the second stage and the over-privileged service account. The product (Vigie),
+# its vendor and every company are fictional; beacon names use reserved .example domains and
+# carry no real encoding.
+startTime: "2027-12-14T08:30:00+01:00"
+mandate: AT-2027-130
+scope:
+  domains: ["*.altair.test"]
+  networks: ["10.99.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.99.0.2
+
+config:
+  gr.isolated: false
+  gr.rotated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.99.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [supervision, dns, annuaire]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AT-2027-130.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The monitoring server: it polls every machine with an account allowed everywhere.
+  - id: supervision
+    hostname: vigie.altair.test
+    ip: 10.99.0.20
+    os: Linux 5.15 (Ubuntu 22.04)
+    map: { x: 200, z: -80, h: 120 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 8.9p1 Ubuntu }
+      - { port: 443, name: https, product: Vigie 2027.2 }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "vigie\n"
+      home:
+        ir:
+          LISEZMOI.txt: { $t: file.ir.readme }
+      opt:
+        vigie:
+          VERSION: "Vigie 2027.2 (build 2027.2.0.4411), installed 2027-11-24\n"
+          lib:
+            Vigie.Coeur.so:
+              $binary: { format: elf, strings: ["Vigie.Coeur 2027.2.0.4411", "Signed: Sentinelle Logiciels SAS", "VigieUpdateCheck.Poll", "nuage-vigie.example"] }
+            Vigie.Rapports.so:
+              $binary: { format: elf, strings: ["Vigie.Rapports 2027.2.0.4411", "Signed: Sentinelle Logiciels SAS"] }
+
+  - id: dns
+    hostname: dns.altair.test
+    ip: 10.99.0.2
+    os: Linux 5.15 (Debian 12)
+    map: { x: 60, z: 140, h: 80 }
+    services:
+      - { port: 53, name: domain, product: BIND 9.18 }
+
+  # The directory: Vigie's account can sign in here too.
+  - id: annuaire
+    hostname: annuaire.altair.test
+    ip: 10.99.0.10
+    os: Linux 5.15 (Debian 12)
+    map: { x: 360, z: 40, h: 120 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+      - { port: 389, name: ldap, product: OpenLDAP 2.5 }
+    users:
+      - { name: ir, home: /home/ir }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "annuaire\n"
+    system:
+      logins:
+        - { user: ir, from: 10.99.0.66, at: "Wed Dec 15 09:12" }
+        - { user: svcvigie, from: 10.99.0.20, at: "Sun Dec 12 03:41", until: "04:28  (00:47)" }
+        - { user: adm-dsi, from: 10.99.0.31, at: "Fri Dec 10 17:02", until: "17:20  (00:18)" }
+        - { user: svcvigie, from: 10.99.0.20, at: "Fri Dec 10 14:00", until: "14:00  (00:00)" }
+        - { user: svcvigie, from: 10.99.0.20, at: "Thu Dec  9 14:00", until: "14:00  (00:00)" }
+
+  - id: outside
+    hostname: inconnu.altair.test
+    ip: 10.99.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: 460, z: 200, h: 40 }
+
+dns:
+  altair.test: { A: ["10.99.0.10"] }
+  vigie.altair.test: { A: ["10.99.0.20"] }
+  dns.altair.test: { A: ["10.99.0.2"] }
+  annuaire.altair.test: { A: ["10.99.0.10"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

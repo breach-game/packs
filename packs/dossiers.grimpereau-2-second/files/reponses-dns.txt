@@ -1,0 +1,16 @@
+; Answers the Altaïr resolver gave to the Vigie server, 8 to 13 December 2027.
+; Exported from the resolver's query log (dns.altair.test). Times in CET.
+;
+; time              query                                     type   answer
+2027-12-08 14:00:07 q0b1h7.eu-ouest.nuage-vigie.example        A      192.0.2.10
+2027-12-08 17:00:11 v8e2k4.eu-ouest.nuage-vigie.example        A      192.0.2.10
+2027-12-09 14:00:05 m3c9x1.eu-ouest.nuage-vigie.example        A      192.0.2.10
+2027-12-09 20:00:09 t7a4d2.eu-ouest.nuage-vigie.example        A      192.0.2.10
+2027-12-10 14:00:06 p2w6n8.eu-ouest.nuage-vigie.example        A      192.0.2.10
+2027-12-11 02:00:13 k5r1z9.eu-ouest.nuage-vigie.example        CNAME  relais.ombre-cdn.example.
+2027-12-11 02:00:13 relais.ombre-cdn.example                   A      198.51.100.77
+2027-12-12 03:39:58 relais.ombre-cdn.example                   A      198.51.100.77
+2027-12-13 14:00:04 j9f3b6.eu-ouest.nuage-vigie.example        A      192.0.2.10
+;
+; Note from Sentinelle (advisory SL-2027-031, appendix): the answer 192.0.2.10
+; means "stay silent". A CNAME means "go and talk to this server instead".

@@ -1,0 +1,27 @@
+SENTINELLE LOGICIELS SAS - SECURITY ADVISORY SL-2027-031
+Published: Monday 13 December 2027, 22:10 CET
+
+Summary
+  Some Vigie updates published between October and December 2027 contain code
+  that Sentinelle did not write. The code was added inside our build system,
+  before signing. The affected files carry our valid signature.
+
+Affected builds
+  Vigie 2027.1 HF3    builds 2027.1.3.3970 to 2027.1.3.4102
+  Vigie 2027.2        build  2027.2.0.4411
+  Vigie 2027.2.1      build  2027.2.1.4460
+
+Not affected
+  Vigie 2027.1 HF2 and earlier, Vigie 2027.2.2 (build 2027.2.2.4515)
+
+What the code does
+  After installation it stays silent for about two weeks. It then sends DNS
+  queries for names under nuage-vigie.example, which look like ordinary
+  telemetry. Most answers tell it to stay quiet. For a few customers, an answer
+  points it to a second server.
+
+What to do now
+  1. Find your build: /opt/vigie/VERSION on the Vigie server.
+  2. Look for DNS queries to nuage-vigie.example in your resolver logs.
+  3. If affected, isolate the Vigie server from the network.
+  4. Treat every account Vigie uses as exposed.

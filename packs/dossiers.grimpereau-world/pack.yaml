@@ -1,0 +1,12 @@
+id: dossiers.grimpereau-world
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: world
+title:
+  fr: "Groupe Altaïr"
+  en: "Altaïr Group"
+summary:
+  fr: "Le Groupe Altaïr, assureur fictif, surveille tout son réseau avec Vigie, un logiciel de supervision acheté à un éditeur fictif. Pour tout voir, Vigie a un compte qui a le droit d'entrer partout."
+  en: "Altaïr Group, a fictional insurer, monitors its whole network with Vigie, a monitoring product bought from a fictional vendor. To see everything, Vigie has an account allowed in everywhere."
+authors: [BREACH team]
+locales: [fr, en]
