@@ -1,7 +1,7 @@
-Navette Transfer - Critical security advisory NAV-2027-0531 - 31 May 2027, 21:00
+Navette Transfer - Critical security advisory NAV-2027-0602 - 2 June 2027, 21:00
 
 A flaw in the Navette Transfer web interface lets an unauthenticated visitor
-reach the database. It is being exploited in the wild since at least 27 May.
+reach the database. It is being exploited in the wild since at least 29 May.
 
 Check NOW:
   1. Files in the web root (www/) that are not in the MANIFESTE.txt of your version.

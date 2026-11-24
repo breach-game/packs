@@ -1,4 +1,4 @@
-e2.briefing: "Monday 5 June. The page is removed, the account disabled, Navette patched. This morning, management received a message. Before answering it, you need to know exactly what left. Navette's audit log and the message are in `traces/`."
+e2.briefing: "Monday 7 June. The page is removed, the account disabled, Navette patched. This morning, management received a message. Before answering it, you need to know exactly what left. Navette's audit log and the message are in `traces/`."
 e2.obj.clients: "Count the clients whose files left"
 e2.obj.people: "Count the employees concerned"
 e2.obj.notify: "Say who must tell whom"

@@ -1,4 +1,4 @@
-e2.briefing: "Lundi 5 juin. La page est retirée, le compte désactivé, Navette corrigé. Ce matin, la direction a reçu un message. Avant d'y répondre, il faut savoir exactement ce qui est sorti. Le journal d'audit de Navette et le message sont dans `traces/`."
+e2.briefing: "Lundi 7 juin. La page est retirée, le compte désactivé, Navette corrigé. Ce matin, la direction a reçu un message. Avant d'y répondre, il faut savoir exactement ce qui est sorti. Le journal d'audit de Navette et le message sont dans `traces/`."
 e2.obj.clients: "Compter les clients dont les fichiers sont sortis"
 e2.obj.people: "Compter les salariés concernés"
 e2.obj.notify: "Dire qui doit prévenir qui"

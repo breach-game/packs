@@ -9,7 +9,7 @@ briefing: e1.briefing
 reveal: [navette, base]
 
 files:
-  bulletin/NAV-2027-0531.txt: { $file: files/bulletin.txt }
+  bulletin/NAV-2027-0602.txt: { $file: files/bulletin.txt }
   regles/page-inconnue.yml: |
     title: Requests to a page Navette never shipped
     source: access

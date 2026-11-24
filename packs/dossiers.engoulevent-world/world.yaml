@@ -2,7 +2,7 @@
 # May and June 2023. Played on the defence side only: the extra page, the account, the rule, the
 # patch, then the list of what left and who must be told. The product (Navette), its vendor and
 # every company are fictional; no injection appears anywhere, only its effects.
-startTime: "2027-06-01T09:00:00+02:00"
+startTime: "2027-06-03T09:00:00+02:00"
 mandate: HP-2027-071
 scope:
   domains: ["*.horizon.test"]

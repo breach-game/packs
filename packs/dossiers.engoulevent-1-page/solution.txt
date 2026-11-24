@@ -1,5 +1,5 @@
 # Case file 27, mission 1: the shortest path, replayed by CI in every language.
-cat bulletin/NAV-2027-0531.txt
+cat bulletin/NAV-2027-0602.txt
 ssh ir@navette.horizon.test
 cat /srv/navette/MANIFESTE.txt
 ls /srv/navette/www

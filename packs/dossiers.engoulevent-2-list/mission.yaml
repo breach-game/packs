@@ -5,7 +5,7 @@
 side: defense
 order: 2
 stage: report
-startTime: "2027-06-05T09:30:00+02:00"
+startTime: "2027-06-07T09:30:00+02:00"
 briefing: e2.briefing
 reveal: [navette, base]
 
