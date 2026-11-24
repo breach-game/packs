@@ -1,0 +1,7 @@
+ORME - catalogue of standards the team works with (extract, fictional references)
+NF-CUVE 2210   Stainless tanks - materials
+NF-CUVE 2214   Stainless tanks - welding
+NF-CUVE 3052   Stainless tanks - wall thickness by volume
+NF-CUVE 3060   Stainless tanks - pressure tests
+NF-TUYAU 1108  Pipework - flanges
+NF-TUYAU 1140  Pipework - supports

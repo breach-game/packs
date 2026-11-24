@@ -1,0 +1,16 @@
+id: hors-serie.poids-2-page
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.poids-world]
+title:
+  fr: "Les Poids · 2. La page piégée"
+  en: "The Weights · 2. The booby-trapped page"
+summary:
+  fr: "L'agent navigateur d'Orme devait résumer un comparatif. Il a aussi envoyé les notes de son utilisateur à une adresse inconnue. Tu lis son journal, tu trouves dans la source de la page la phrase qu'il a prise pour une consigne, tu dis pourquoi il a obéi, puis tu écris le garde-fou, jugé par `eval run`."
+  en: "Orme's browsing agent was meant to summarise a comparison page. It also sent its user's notes to an unknown address. You read its log, find in the page source the sentence it took for an instruction, say why it obeyed, then write the guardrail, judged by `eval run`."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, defense, web]
+minutes: 12

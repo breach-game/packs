@@ -1,0 +1,13 @@
+# The Weights, mission 3: the shortest path, replayed by CI in every language.
+cut -d, -f2 api/usage.csv | sort | uniq -c
+answer key cle-demo-site
+cat api/limites.yml
+sed -i "s/requests_per_minute: unlimited/requests_per_minute: 30-per-key/" api/limites.yml
+sed -i "s/max_output_tokens: unlimited/max_output_tokens: 2000/" api/limites.yml
+sed -i "s/monthly_budget: none/monthly_budget: alert-at-80-percent-stop-at-100/" api/limites.yml
+sed -i "s/demo_key: same-rights-as-production/demo_key: separate-small-quota/" api/limites.yml
+verify
+cat devis/reponse.txt
+grep -c "4471" devis/catalogue-normes.txt
+answer invented 0
+answer checked

@@ -1,0 +1,16 @@
+id: hors-serie.poids-1-bucket
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.poids-world]
+title:
+  fr: "Les Poids · 1. Le seau ouvert"
+  en: "The Weights · 1. The open bucket"
+summary:
+  fr: "Le modèle d'Orme est rangé dans un seau que n'importe qui peut lire. Tu regardes ce que le seau montre, tu comptes dans son journal qui a emporté le fichier, tu dis ce qui part avec des poids, tu fermes le seau et tu vérifies qu'il l'est."
+  en: "Orme's model sits in a bucket anyone can read. You look at what the bucket shows, count in its log who took the file, say what leaves along with weights, close the bucket and check that it is closed."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [llm, cloud, defense]
+minutes: 12

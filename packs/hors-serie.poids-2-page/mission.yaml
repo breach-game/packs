@@ -1,0 +1,84 @@
+# The Weights, mission 2: the booby-trapped page. The agent's call log shows two calls whose
+# origin is the page, not the user. The page source holds a hidden note addressed to AI
+# assistants (a `comment` block: a plain sentence, the class of indirect prompt injection, not a
+# working payload). The player names the collecting server, says why the agent obeyed, and
+# rewrites the guardrail so that nothing a page says is carried out (`eval run`). The draft
+# blocks every send, which breaks what users ask for and still lets the page read the notes.
+side: defense
+order: 2
+stage: defense
+startTime: "2029-09-18T09:00:00+02:00"
+briefing: p2.briefing
+reveal: [agent, guide]
+
+config:
+  po.bucket_private: true
+
+files:
+  agent/appels.csv: { $file: files/appels.csv }
+  garde-fous/fougere.yml: "# Garde-fou de l'agent Fougere : un appel d'outil est bloque quand il remplit TOUTES les conditions.\n# Champs : origine (utilisateur | page), action (lire | envoyer), destination (interne | externe)\naction: envoyer\n"
+
+objectives:
+  - { id: hidden, text: p2.obj.hidden }
+  - { id: why, text: p2.obj.why }
+  - { id: guard, text: p2.obj.guard }
+
+investigation:
+  - { id: hidden, text: p2.q.hidden, value: "collecte.comparatif-outils.test", points: 100, objective: hidden }
+
+questions:
+  - id: why
+    text: p2.q.why
+    objective: why
+    correct: same
+    options:
+      - { id: same, text: p2.q.why.same }
+      - { id: stolen, text: p2.q.why.stolen, why: p2.q.why.stolen.why }
+      - { id: swapped, text: p2.q.why.swapped, why: p2.q.why.swapped.why }
+
+evals:
+  - id: fougere
+    file: garde-fous/fougere.yml
+    objective: guard
+    cases:
+      - { id: exfil, text: p2.case.exfil, fields: { origine: page, action: envoyer, destination: externe }, expect: block }
+      - { id: notes, text: p2.case.notes, fields: { origine: page, action: lire, destination: interne }, expect: block }
+      - { id: letter, text: p2.case.letter, fields: { origine: page, action: envoyer, destination: externe }, expect: block }
+      - { id: summary, text: p2.case.summary, fields: { origine: utilisateur, action: lire, destination: externe }, expect: allow }
+      - { id: reply, text: p2.case.reply, fields: { origine: utilisateur, action: envoyer, destination: interne }, expect: allow }
+      - { id: customer, text: p2.case.customer, fields: { origine: utilisateur, action: envoyer, destination: externe }, expect: allow }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: hidden }
+    do:
+      - ada.say: p2.ada.hidden
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: p2.ada.why
+  - on: { event: EvalRun, passed: false }
+    once: false
+    do:
+      - ada.guide: { key: p2.ada.again, for: guard, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  hidden: p2.ada.g.hidden
+  why: p2.ada.g.why
+  guard: p2.ada.g.guard
+
+hints:
+  hidden: [p2.hint.hidden.1, p2.hint.hidden.2]
+  why: [p2.hint.why.1]
+  guard: [p2.hint.guard.1, p2.hint.guard.2]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM01 Prompt Injection"

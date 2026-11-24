@@ -1,0 +1,12 @@
+id: hors-serie.poids-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Orme"
+  en: "Orme"
+summary:
+  fr: "Orme, jeune pousse fictive de douze personnes. Son modèle lit des cahiers des charges techniques et aide à rédiger des devis. Tout ce qu'elle possède tient dans un fichier de treize gigaoctets."
+  en: "Orme, a fictional twelve-person start-up. Its model reads technical specifications and helps write quotes. Everything it owns fits in one thirteen-gigabyte file."
+authors: [BREACH team]
+locales: [fr, en]

@@ -1,0 +1,103 @@
+# The Weights, mission 3: no cap. The API usage log shows the public demo key generating the
+# longest possible answers twice a minute all night (unbounded consumption, with no intruder
+# needed: the key is on the public site and has no quota). The player names the key and sets
+# limits (`verify`). Then a confident wrong answer: the model cited a standard that is not in
+# the catalogue, and the answer went into a quote. The player checks the reference and says
+# what must change. All standard references are fictional.
+side: defense
+order: 3
+stage: report
+startTime: "2029-09-19T09:00:00+02:00"
+briefing: p3.briefing
+reveal: [api, agent]
+
+config:
+  po.bucket_private: true
+
+files:
+  api/usage.csv: { $file: files/usage.csv }
+  api/limites.yml: { $file: files/limites.yml }
+  devis/reponse.txt: { $file: files/reponse.txt }
+  devis/catalogue-normes.txt: { $file: files/catalogue-normes.txt }
+
+objectives:
+  - { id: key, text: p3.obj.key }
+  - { id: caps, text: p3.obj.caps }
+  - { id: invented, text: p3.obj.invented }
+  - { id: sure, text: p3.obj.sure }
+
+investigation:
+  - { id: key, text: p3.q.key, value: "cle-demo-site", points: 100, objective: key }
+  - { id: invented, text: p3.q.invented, value: "0", points: 100, objective: invented }
+
+questions:
+  - id: sure
+    text: p3.q.sure
+    objective: sure
+    correct: checked
+    options:
+      - { id: checked, text: p3.q.sure.checked }
+      - { id: bolder, text: p3.q.sure.bolder, why: p3.q.sure.bolder.why }
+      - { id: ban, text: p3.q.sure.ban, why: p3.q.sure.ban.why }
+
+checks:
+  - id: rate
+    text: p3.check.rate
+    if: { file: "~/api/limites.yml", contains: "requests_per_minute: 30-per-key" }
+    objective: caps
+  - id: tokens
+    text: p3.check.tokens
+    if: { file: "~/api/limites.yml", contains: "max_output_tokens: 2000" }
+    objective: caps
+  - id: budget
+    text: p3.check.budget
+    if: { file: "~/api/limites.yml", contains: "monthly_budget: alert-at-80-percent-stop-at-100" }
+    objective: caps
+  - id: demo
+    text: p3.check.demo
+    if: { file: "~/api/limites.yml", contains: "demo_key: separate-small-quota" }
+    objective: caps
+  - id: works
+    text: p3.check.works
+    if: { file: "~/api/limites.yml", contains: "api: open-to-customers" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: key }
+    do:
+      - ada.say: p3.ada.key
+  - on: { event: Verified }
+    if: { not: { objective: caps } }
+    once: false
+    do:
+      - ada.say: p3.ada.almost
+  - on: { event: ObjectiveCompleted, objective: caps }
+    do:
+      - ada.say: p3.ada.caps
+  - on: { event: ObjectiveCompleted, objective: invented }
+    do:
+      - ada.say: p3.ada.invented
+      - ada.ask: sure
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p3.ada.done
+
+guide:
+  key: p3.ada.g.key
+  caps: p3.ada.g.caps
+  invented: p3.ada.g.invented
+  sure: p3.ada.g.sure
+
+hints:
+  key: [p3.hint.key.1, p3.hint.key.2]
+  caps: [p3.hint.caps.1, p3.hint.caps.2]
+  invented: [p3.hint.invented.1, p3.hint.invented.2]
+  sure: [p3.hint.sure.1]
+
+debrief:
+  title: p3.debrief.title
+  lesson: p3.debrief.lesson
+  points: [p3.debrief.p1, p3.debrief.p2, p3.debrief.p3]
+  reference: "OWASP LLM Top 10 · LLM09 Misinformation, LLM10 Unbounded Consumption"
