@@ -16,7 +16,8 @@ files:
 containment:
   - id: badge
     action: revoke
-    target: B-0099
+    # A neutral target, so that `contain` alone does not give the `lost` answer.
+    target: badge-perdu
     text: b1.contain.badge
     sets: { ga.badge_off: true }
     impact: 0
@@ -57,8 +58,8 @@ rules:
       - ada.say: b1.ada.lost
   - on: { event: Contained, containment: badge }
     do:
-      - objective.complete: cut
       - ada.say: b1.ada.cut
+      - objective.complete: cut
   - on: { event: MissionCompleted }
     do:
       - ada.say: b1.ada.done

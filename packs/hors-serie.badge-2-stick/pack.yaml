@@ -1,5 +1,5 @@
 id: hors-serie.badge-2-stick
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.17 <1"
 kind: mission
 requires: [hors-serie.badge-world]

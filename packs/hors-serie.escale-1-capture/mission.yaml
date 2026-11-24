@@ -25,7 +25,6 @@ files:
         - { proto: tls, t: 5.1, src: 10.115.0.51, dst: 203.0.113.80, sni: cdn-public.example, ech: true, bytes: 9100, records: 3 }
         - { proto: dns, t: 6.0, src: 10.115.0.20, dst: 10.115.0.1, query: fidelite.escale.test, answer: 10.115.0.30 }
         - { proto: http, t: 6.1, src: 10.115.0.20, dst: 10.115.0.30, method: POST, host: fidelite.escale.test, path: /api/v2/points, body: "member=ESC-40318&email=membre-40318@client.example&points=120" }
-        - { proto: http, t: 6.2, src: 10.115.0.30, dst: 10.115.0.20, host: fidelite.escale.test, path: /api/v2/points, status: 200 }
         - { proto: arp, t: 7.4, src: 10.115.0.52, dst: 10.115.0.1, info: "Who has 10.115.0.1? Tell 10.115.0.52" }
 
 objectives:

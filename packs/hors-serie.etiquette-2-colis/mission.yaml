@@ -94,8 +94,24 @@ rules:
   - on: { event: ObjectiveCompleted, objective: read }
     do:
       - ada.say: e2.ada.read
+  # The manifest can be read three ways: `unzip -p`, `cat` after `unzip -d`, or `strings` on the
+  # whole app. Each one asks the question; the var keeps Ada from saying it twice.
   - on: { event: CommandRun, command: unzip, args: { contains: AndroidManifest } }
+    if: { not: { var: manifest, eq: 1 } }
     do:
+      - var.set: { name: manifest, value: 1 }
+      - ada.say: e2.ada.manifest
+      - ada.ask: perms
+  - on: { event: FileRead, path: { contains: AndroidManifest } }
+    if: { not: { var: manifest, eq: 1 } }
+    do:
+      - var.set: { name: manifest, value: 1 }
+      - ada.say: e2.ada.manifest
+      - ada.ask: perms
+  - on: { event: CommandRun, command: strings, args: { contains: SuiviColis } }
+    if: { not: { var: manifest, eq: 1 } }
+    do:
+      - var.set: { name: manifest, value: 1 }
       - ada.say: e2.ada.manifest
       - ada.ask: perms
   - on: { event: ObjectiveCompleted, objective: perms }
@@ -104,6 +120,8 @@ rules:
   - on: { event: ObjectiveCompleted, objective: server }
     do:
       - ada.say: e2.ada.server
+      # Safety net: whoever found the server has opened the app, so the permissions question is due.
+      - ada.ask: perms
   - on: { event: Contained, containment: dns }
     do:
       - objective.complete: block

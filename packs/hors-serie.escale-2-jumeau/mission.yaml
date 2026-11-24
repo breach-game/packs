@@ -26,7 +26,8 @@ adversary:
   id: twin
   name: Escale-Invites-5G
   from: outside
-  pace: 1
+  # One event every two commands: a player who reads quickly still stops a few associations.
+  pace: 2
   delay: 0
   steps:
     - id: b1
@@ -119,8 +120,8 @@ rules:
       - ada.say: w2.ada.portal
   - on: { event: Contained, containment: box }
     do:
-      - objective.complete: remove
       - ada.say: w2.ada.remove
+      - objective.complete: remove
   - on: { event: AdversaryStep, step: a3, blocked: false }
     do:
       - ada.warn: w2.ada.more

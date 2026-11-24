@@ -14,7 +14,7 @@ e4.ada.read: "Not `brumevaux.test`: `go.vallon-liens.example`, a link shortener.
 e4.ada.g.owner: "Look up the domain in the public register: `whois vallon-liens.example`."
 e4.ada.g.owner.standard: "Find out who holds the shortener's domain today, with a public lookup."
 e4.ada.owner: "Read the dates. Deleted on 19 August, registered again on 3 September by a holder who hides their name, name servers of a parking-pages company. Answer my question."
-e4.ada.why: "Exactly. The code holds a name, and the name changed hands. Nobody needed to touch the posters. Now, how many are out there?"
+e4.ada.why: "Exactly. The code holds a name, and the name changed hands. Nobody needed to touch the posters."
 e4.ada.g.copies: "The inventory gives the copies printed for each poster: `cat com/inventaire.csv`. Read all the posters, `zbarimg affiches/A1.png affiches/A2.png affiches/A3.png affiches/A4.png affiches/A5.png`, and add up the copies of those that go through the shortener. Answer with `answer copies <number>`."
 e4.ada.g.copies.standard: "Find which posters go through the shortener and add up their printed copies. Answer with `answer copies`."
 e4.ada.copies: "A1, A3 and A5: 830 copies around town. Now the charter, so that it never happens again."

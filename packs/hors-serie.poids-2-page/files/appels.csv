@@ -1,5 +1,5 @@
 time,origine,action,cible,destination,result
 10:02,utilisateur,lire,guide.comparatif-outils.test/,externe,done
 10:02,page,lire,notes-de-l-utilisateur,interne,done
-10:03,page,envoyer,collecte.comparatif-outils.test/depot,externe,done
+10:03,page,envoyer,adresse-non-journalisee,externe,done
 10:03,utilisateur,envoyer,resume-pour-l-utilisateur,interne,done
