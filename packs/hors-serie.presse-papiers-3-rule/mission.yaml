@@ -1,0 +1,103 @@
+# The site loads a hijacked statistics widget. The player removes it from the widget list and the
+# Content-Security-Policy (judged by `verify`, payment and seat map must keep working), checks the
+# concert page is clean (the route's `fixed` variant follows the player's file), then decides the
+# box office policy and picks the sentence for the poster. Facts card: Microsoft on ClickFix, 2025.
+side: defense
+order: 3
+stage: report
+briefing: p3.briefing
+reveal: [www]
+
+files:
+  site/widgets.conf: "# Third-party scripts loaded by every page of www.contremarque.test\n# one per line: name  url\npayment     https://paiement.contremarque.test/sdk.js\nseatmap     https://plan-salle.contremarque.test/v2.js\nstats       https://stats-billet.example/w.js\n"
+  site/csp.conf: "# Response header sent with every page\nContent-Security-Policy: default-src 'self'; script-src 'self' https://paiement.contremarque.test https://plan-salle.contremarque.test https://stats-billet.example; frame-ancestors 'none'\n"
+
+objectives:
+  - { id: widget, text: p3.obj.widget }
+  - { id: csp, text: p3.obj.csp }
+  - { id: page, text: p3.obj.page }
+  - { id: policy, text: p3.obj.policy }
+  - { id: sentence, text: p3.obj.sentence }
+
+checks:
+  - id: widget
+    text: p3.check.widget
+    if: { file: "~/site/widgets.conf", lacks: "stats-billet.example" }
+    objective: widget
+  - id: csp
+    text: p3.check.csp
+    if: { file: "~/site/csp.conf", lacks: "stats-billet.example" }
+    objective: csp
+  - id: works
+    text: p3.check.works
+    if:
+      all:
+        - { file: "~/site/widgets.conf", contains: "https://paiement.contremarque.test/sdk.js" }
+        - { file: "~/site/widgets.conf", contains: "https://plan-salle.contremarque.test/v2.js" }
+        - { file: "~/site/csp.conf", contains: "script-src 'self' https://paiement.contremarque.test https://plan-salle.contremarque.test" }
+
+questions:
+  - id: policy
+    text: p3.q.policy
+    objective: policy
+    options:
+      - { id: terminal, text: p3.q.policy.terminal, why: p3.q.policy.terminal.why, impact: 2 }
+      - { id: warn, text: p3.q.policy.warn, why: p3.q.policy.warn.why, impact: 1 }
+      - { id: both, text: p3.q.policy.both, why: p3.q.policy.both.why, impact: 3 }
+  - id: sentence
+    text: p3.q.sentence
+    objective: sentence
+    correct: never
+    options:
+      - { id: never, text: p3.q.sentence.never }
+      - { id: robot, text: p3.q.sentence.robot, why: p3.q.sentence.robot.why }
+      - { id: manager, text: p3.q.sentence.manager, why: p3.q.sentence.manager.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p3.ada.brief
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: widget }, { objective: csp }] }
+    do:
+      - ada.say: p3.ada.fixed
+  - on: { event: HttpRequest, host: www, path: /concerts/nuit-blanche, variant: fixed }
+    do:
+      - objective.complete: page
+  - on: { event: ObjectiveCompleted, objective: page }
+    do:
+      - ada.say: p3.ada.page
+      - ada.ask: policy
+  - on: { event: Answered, question: policy }
+    do:
+      - ada.ask: sentence
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p3.ada.done
+
+guide:
+  widget: p3.ada.g.widget
+  csp: p3.ada.g.csp
+  page: p3.ada.g.page
+  policy: p3.ada.g.policy
+  sentence: p3.ada.g.sentence
+
+hints:
+  widget: [p3.hint.widget.1, p3.hint.widget.2]
+  csp: [p3.hint.csp.1, p3.hint.csp.2]
+  page: [p3.hint.page.1]
+  policy: [p3.hint.policy.1]
+  sentence: [p3.hint.sentence.1]
+
+debrief:
+  title: p3.debrief.title
+  lesson: p3.debrief.lesson
+  points: [p3.debrief.p1, p3.debrief.p2, p3.debrief.p3]
+  reference: "MITRE ATT&CK · T1204.004 User Execution: Malicious Copy and Paste"
+  home:
+    points: [p3.home.p1, p3.home.p2, p3.home.p3]
+  facts:
+    title: p3.facts.title
+    points: [p3.facts.p1, p3.facts.p2, p3.facts.p3, p3.facts.p4]
+    sources:
+      - { label: "Microsoft Threat Intelligence, Think before you Click(Fix) (21 August 2025)", url: "https://www.microsoft.com/en-us/security/blog/2025/08/21/think-before-you-clickfix-analyzing-the-clickfix-social-engineering-technique/" }

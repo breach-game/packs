@@ -1,0 +1,15 @@
+id: hors-serie.presse-papiers
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [hors-serie.presse-papiers-world]
+title:
+  fr: "Hors-série : Le Presse-papiers"
+  en: "Side series: The Clipboard"
+summary:
+  fr: "Une billetterie en ligne, une fausse case « Je ne suis pas un robot », et une ligne que la page met dans le presse-papiers en demandant de la coller dans un terminal. Côté défense : tu lis ce que le bouton copie sans jamais le lancer, tu retrouves sur le poste d'une guichetière ce que la ligne a démarré, puis tu fermes la porte du site et tu écris la règle de la maison."
+  en: "An online ticket office, a fake \"I am not a robot\" box, and a line the page puts on the clipboard while asking you to paste it into a terminal. On the defence side: you read what the button copies without ever running it, find on a box office workstation what the line started, then close the site's door and write the house rule."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, web, linux, defense]

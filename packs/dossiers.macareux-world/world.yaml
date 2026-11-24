@@ -1,0 +1,72 @@
+# Case file 41 "Macareux". Inspired by the 2025 theft of CRM data through a chat integration's
+# OAuth tokens, stolen at the integration's vendor. Played on the defence side only: the player
+# reads the CRM API log and an export, never the attacker's side.
+startTime: "2027-09-14T08:30:00+02:00"
+mandate: AR-2027-141
+scope:
+  domains: ["*.ardoise.test"]
+  networks: ["10.117.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.117.0.2
+
+config:
+  ar.token_revoked: false
+  ar.keys_rotated: false
+  ar.db_rotated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.117.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [crm]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            AR-2027-141.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: crm
+    hostname: registre.ardoise.test
+    ip: 10.117.0.20
+    os: Linux
+    map: { x: 120, z: -60, h: 140 }
+    services:
+      - { port: 443, name: https, product: Registre CRM API }
+
+  - id: outside
+    hostname: inconnu.ardoise.test
+    ip: 10.117.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  ardoise.test: { A: ["10.117.0.20"] }
+  registre.ardoise.test: { A: ["10.117.0.20"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

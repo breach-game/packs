@@ -1,0 +1,43 @@
+Sep 22 09:00:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Devis 2027-300" status=sent
+Sep 22 10:07:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-301" status=sent
+Sep 22 11:14:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Facture 2027-302" status=sent
+Sep 22 12:21:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-303" status=sent
+Sep 22 13:28:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-304" status=sent
+Sep 22 14:00:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 0" status=sent
+Sep 22 14:35:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-305" status=sent
+Sep 23 09:56:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Facture 2027-308" status=sent
+Sep 23 10:03:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-309" status=sent
+Sep 23 11:10:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-310" status=sent
+Sep 23 12:17:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-311" status=sent
+Sep 23 14:05:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 1" status=sent
+Sep 23 15:42:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Devis 2027-306" status=sent
+Sep 23 16:49:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-307" status=sent
+Sep 24 09:52:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-316" status=sent
+Sep 24 10:59:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-317" status=sent
+Sep 24 13:24:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Devis 2027-312" status=sent
+Sep 24 14:10:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 2" status=sent
+Sep 24 14:31:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-313" status=sent
+Sep 24 15:38:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Facture 2027-314" status=sent
+Sep 24 16:45:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-315" status=sent
+Sep 25 11:06:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Devis 2027-318" status=sent
+Sep 25 12:13:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-319" status=sent
+Sep 25 13:20:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Facture 2027-320" status=sent
+Sep 25 14:15:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 3" status=sent
+Sep 25 14:27:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-321" status=sent
+Sep 25 15:34:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-322" status=sent
+Sep 25 16:41:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-323" status=sent
+Sep 26 09:48:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Devis 2027-324" status=sent
+Sep 26 10:55:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-325" status=sent
+Sep 26 11:02:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Facture 2027-326" status=sent
+Sep 26 12:09:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-327" status=sent
+Sep 26 13:16:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-328" status=sent
+Sep 26 14:20:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 4" status=sent
+Sep 26 14:23:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-329" status=sent
+Sep 27 09:44:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-cormier.test> bcc=<copie@relais-archive.example> subject="Facture 2027-332" status=sent
+Sep 27 10:51:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-dune.test> bcc=<copie@relais-archive.example> subject="Rappel 2027-333" status=sent
+Sep 27 11:58:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-erable.test> bcc=<copie@relais-archive.example> subject="Liste des participants 2027-334" status=sent
+Sep 27 12:05:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Acces inscription 2027-335" status=sent
+Sep 27 14:25:40 mx postfix/smtp: from=<claire@lanterne.test> to=<traiteur@saveurs.test> subject="Menu 5" status=sent
+Sep 27 15:30:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-aurore.test> bcc=<copie@relais-archive.example> subject="Devis 2027-330" status=sent
+Sep 27 16:37:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Contrat 2027-331" status=sent
+Sep 28 13:12:12 mx postfix/smtp: from=<assistant@lanterne.test> to=<contact@client-bastide.test> bcc=<copie@relais-archive.example> subject="Devis 2027-336" status=sent

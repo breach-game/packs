@@ -368,6 +368,30 @@ Packet kinds: `dns`, `tls`, `quic`, `http`, `arp`, `dhcp`, `smb`, `tcp`, `udp`. 
 
 Log source `wlan` is a wireless controller: `event` (`beacon` or `assoc`), `ssid`, `bssid`, `channel`, `security`, `rssi`, `managed` (`yes` for its own access points); an `assoc` line has `sta` and `src`. The `mail` source also takes `attach` (an attachment name, or `-`). Stay on the defence side: no fake access point built by the player, no disconnection, no key cracking.
 
+### Clipboard, photos, caches and parallel requests
+
+Four more tools, for fake-check pages, profile photos, shared caches and race conditions. They need engine 0.19 (`engine: ">=0.19 <1"`). See `packs/hors-serie.presse-papiers*`, `packs/dossiers.torcol*` and `packs/defis.vitrine-world`.
+
+```yaml
+# A page block that puts a text in the game's clipboard (never the real one). `clip` shows it, without running it.
+- copy: { button: page.check.button, text: page.check.text, note: page.check.note }
+
+# A photo, as data: `exiftool` reads its tags, `-gps:all=` removes the position, `-all=` everything.
+rh/photo.jpg:
+  $image: { format: jpeg, width: 800, height: 800, exif: { Software: "FaceBlend AI 2.4" } }
+
+# A host cache: responses whose path ends with one of these extensions are kept (x-cache: HIT|MISS|BYPASS).
+cdn: { ext: [css, js, png, jpg] }
+# On a route: it also answers below its own path (/account/x.css), the web cache deception class.
+loose: true
+
+# On a character: parallel requests (`curl -Z -d … URL URL`) are all decided on the same state,
+# unless this condition holds (the lock that closes the race).
+serial: { config: shop.lock, eq: true }
+```
+
+The text in a `copy` block must be a fictional tool of the world: `breach-pack check` refuses shells, downloads, encodings and pipes there. Never put a real command a reader could paste. Rules react to `ClipboardSet`, `ClipboardRead`, `ExifRead { file, tags, gps }` and `CacheStored`. A route's `loose` can also be a condition, so a fix closes it. Log source `signin` is an identity provider (`user`, `app`, `app_id`, `flow` such as `password`, `device_code` or `client_credentials`, `mfa`, `result`, `tenant`, `scope`), and the `mail` source also takes `bcc`.
+
 ### Series: several missions in a row
 
 One long mission is tiring; a story in two or three short ones (the way in, the next step, the fix) works better. A **series** is a third kind of pack that lists missions of one world, as in `packs/example.atelier-pixel/`:
@@ -772,7 +796,7 @@ A guardrail file has one condition per line, with the same modifiers and no `sou
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `nmcli device wifi list`, `nmcli connection`, `tshark -r`, `qr decode`, `qr show`, `zbarimg`, `sms`, `call`, `file`, `strings`, `unzip`, `tar`, `openssl x509`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-i`, `-d`, `-F`, `-b` for a cookie, `-H` for a header, `-Z` with two to five identical URLs for parallel requests), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `nmcli device wifi list`, `nmcli connection`, `tshark -r`, `clip` (and `xclip -o`, `xsel -b -o`, `pbpaste`, `wl-paste`), `exiftool`, `qr decode`, `qr show`, `zbarimg`, `sms`, `call`, `file`, `strings`, `unzip`, `tar`, `openssl x509`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 

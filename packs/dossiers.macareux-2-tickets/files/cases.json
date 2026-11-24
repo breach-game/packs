@@ -1,0 +1,12 @@
+[
+  {"Id": "5003X01", "Subject": "Invoice PDF shows the wrong VAT rate", "Description": "Customer says the 2027-08 invoice uses 10% instead of 20%. Screenshot attached."},
+  {"Id": "5003X02", "Subject": "Cannot add a second admin", "Description": "The invite email never arrives. Checked spam."},
+  {"Id": "5003X03", "Subject": "Export to accounting fails", "Description": "Customer pasted their config so we can reproduce:\nbucket=ardoise-exports-cust118\naws_access_key_id=AKIAEXAMPLEARDOISE01\naws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\nregion=eu-west-3"},
+  {"Id": "5003X04", "Subject": "Question about the API rate limit", "Description": "How many calls per minute on the Pro plan?"},
+  {"Id": "5003X05", "Subject": "Webhook signature mismatch", "Description": "Support engineer note: reproduced on staging with our own key. See internal doc."},
+  {"Id": "5003X06", "Subject": "Sync with the data warehouse stopped", "Description": "Engineer note: the nightly job lost its password after the migration. Reset it to db_password=Ardoise-Warehouse-2027! and it works again. Ticket CS-1188."},
+  {"Id": "5003X07", "Subject": "Logo too small on invoices", "Description": "Customer wants a bigger logo."},
+  {"Id": "5003X08", "Subject": "Backup to S3 failing", "Description": "Our deploy script for the backup, as requested:\nexport AWS_ACCESS_KEY_ID=AKIAEXAMPLETICKET042\nexport AWS_DEFAULT_REGION=eu-west-3"},
+  {"Id": "5003X09", "Subject": "Password reset link expired", "Description": "Sent a new one, customer confirmed."},
+  {"Id": "5003X10", "Subject": "Dark mode request", "Description": "Feature request, added to the board."}
+]

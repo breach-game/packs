@@ -1,0 +1,9 @@
+# Case file 41, mission 1: the shortest path, replayed by CI in every language.
+cat avis-converso.txt
+soc logs crm access
+soc search converso-sync
+answer src 203.0.113.140
+soc search 203.0.113.140
+answer object Case
+contain revoke converso
+answer token

@@ -1,0 +1,7 @@
+file.readme: "Poste Ligne Rouge. Dossier : Traquet. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.mandate: "MANDAT PA-2027-145\nClient : Passerelle, association. Périmètre : *.passerelle.test, 10.121.0.0/24.\nObjet : une salariée a suivi une invitation à une visio qui lui demandait de taper un code. Ligne Rouge aide Passerelle à mesurer ce qui a été ouvert, à fermer et à empêcher que ça recommence.\nCadre convenu : défense seulement. Lecture du téléphone de la salariée (avec son accord) et des journaux du fournisseur d'identité, mesures passées par `contain`.\nSigné : la coordinatrice de Passerelle."
+ada.outOfScope: "Stop. Cette cible est hors du mandat PA-2027-145. Même pour défendre, hors mandat c'est un délit (article 323-1 du Code pénal)."
+page.device.title: "Passerelle · connexion d'un appareil"
+page.device.h1: "Connecter un appareil"
+page.device.p: "Saisissez le code affiché sur l'appareil que vous voulez connecter à votre compte Passerelle. Ne saisissez jamais un code que vous n'avez pas vu s'afficher sur votre propre appareil."
+page.device.footer: "Passerelle · fournisseur d'identité"

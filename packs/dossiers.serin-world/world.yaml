@@ -1,0 +1,135 @@
+# Case file 43 "Serin". Inspired by the 2025 exposure of a hiring chatbot vendor's admin portal:
+# a test account with a trivial password, still open years later, and applicant records reached by
+# changing a number. Attack side under mandate, proof on a planted test application only.
+startTime: "2027-07-01T14:00:00+02:00"
+mandate: CO-2027-143
+scope:
+  domains: ["*.cordee.test"]
+  networks: ["10.119.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.119.0.2
+
+config:
+  co.test_closed: false
+  co.owner_check: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.119.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [admin]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            CO-2027-143.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The chatbot vendor's admin portal, for franchise managers and Cordée's own staff.
+  - id: admin
+    hostname: admin.cordee.test
+    ip: 10.119.0.20
+    os: Linux
+    map: { x: 120, z: -60, h: 140 }
+    services:
+      - { port: 443, name: https, product: nginx 1.24 }
+    web:
+      "/":
+        page:
+          title: page.admin.title
+          blocks:
+            - { h1: page.admin.h1 }
+            - { p: page.admin.p }
+            - form: { to: login, label: page.admin.label, button: page.admin.button, name: user }
+            - { comment: page.admin.comment }
+            - { footer: page.admin.footer }
+      "/login":
+        chat: login
+        body: "post your user name and password here\n"
+      "/dashboard":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first\"}\n"
+        variants:
+          - id: recette
+            cookie: "session=cd-recette-0042"
+            if: { config: co.test_closed, eq: false }
+            headers: { content-type: application/json }
+            body: "{\"account\": \"123456\", \"role\": \"store_admin\", \"store\": \"Fournil 0042 (TEST, created 2019-03)\", \"last_login\": \"2019-06-11\", \"applications\": [{\"id\": 64185402, \"name\": \"Test Candidat\", \"status\": \"test\"}], \"witness_marker\": \"FLAG{serin-recette-2019-a7c4}\"}\n"
+      "/api/applications/64185402":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first\"}\n"
+        variants:
+          - id: own
+            cookie: "session=cd-recette-0042"
+            if: { config: co.test_closed, eq: false }
+            headers: { content-type: application/json }
+            body: "{\"id\": 64185402, \"store\": \"Fournil 0042 (TEST)\", \"name\": \"Test Candidat\", \"email\": \"test.candidat@cordee.test\", \"phone\": \"+33 6 39 98 00 42\", \"chat\": [\"Bonjour, je suis Margot, l'assistante recrutement.\", \"Test Candidat: je veux le poste de boulanger\"], \"personality_test\": \"completed\"}\n"
+      "/api/applications/64185401":
+        status: 401
+        headers: { content-type: application/json }
+        body: "{\"error\": \"sign in first\"}\n"
+        variants:
+          - id: other
+            cookie: "session=cd-recette-0042"
+            if: { all: [{ config: co.test_closed, eq: false }, { config: co.owner_check, eq: false }] }
+            headers: { content-type: application/json }
+            body: "{\"id\": 64185401, \"store\": \"Fournil 0317\", \"name\": \"(real applicant - redacted by the game)\", \"email\": \"(redacted)\", \"phone\": \"(redacted)\", \"chat\": [\"(redacted)\"], \"personality_test\": \"completed\"}\n"
+          - id: refused
+            cookie: "session=cd-recette-0042"
+            status: 403
+            headers: { content-type: application/json }
+            body: "{\"error\": \"this application belongs to another store\"}\n"
+
+  - id: outside
+    hostname: inconnu.cordee.test
+    ip: 10.119.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  cordee.test: { A: ["10.119.0.20"] }
+  admin.cordee.test: { A: ["10.119.0.20"] }
+
+npcs:
+  - id: login
+    name: connexion
+    role: npc.login.role
+    intents:
+      - id: closed
+        words: ["123456"]
+        if: { config: co.test_closed, eq: true }
+        reply: [npc.login.refused]
+      - id: recette
+        words: ["123456"]
+        literal: true
+        reply: [npc.login.ok]
+    fallback: [npc.login.refused]
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

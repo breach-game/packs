@@ -1,0 +1,10 @@
+Courrielo - developer documentation - Connect an AI assistant
+
+Courrielo publishes ONE MCP server, maintained by our team:
+  package:    @courrielo/mcp-server
+  publisher:  courrielo (verified)
+  source:     https://git.courrielo.test/courrielo/mcp-server
+  latest:     2.3.1
+
+We do not publish any package named "relais-mcp" or similar.
+Pin the exact version in package.json, e.g. "@courrielo/mcp-server": "2.3.1".

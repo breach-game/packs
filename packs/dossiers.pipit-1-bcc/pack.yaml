@@ -1,0 +1,16 @@
+id: dossiers.pipit-1-bcc
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.pipit-world]
+title:
+  fr: "Dossier 42 · 1. La copie cachée"
+  en: "Case file 42 · 1. The hidden copy"
+summary:
+  fr: "Un client a reçu la réponse à un mail qu'il n'avait envoyé qu'à Lanterne. Tu trouves dans le journal de la passerelle l'adresse en copie cachée, puis dans le code de l'outil d'envoi la ligne qui l'ajoute et la version qui l'a apportée, et tu arrêtes l'outil."
+  en: "A customer received the reply to an email they had only sent to Lanterne. You find the blind copy address in the gateway log, then the line in the sending tool's code that adds it and the version that brought it, and you stop the tool."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+minutes: 14

@@ -1,0 +1,10 @@
+# Case file 41, mission 2: the shortest path, replayed by CI in every language.
+jq length export/cases.json
+grep -o "AKIA[A-Z0-9]*" export/cases.json
+answer keys 2
+grep -n password export/cases.json
+jq -r ".[5].Id" export/cases.json
+answer ticket 5003X06
+contain rotate aws-keys
+contain rotate warehouse-password
+answer scan

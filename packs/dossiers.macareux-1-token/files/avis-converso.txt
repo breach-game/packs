@@ -1,0 +1,11 @@
+From: security@converso.example
+Date: Tue, 14 Sep 2027 07:52 +0200
+Subject: Security notice - integration tokens
+
+Dear customer,
+We have found that an unauthorised party obtained OAuth tokens that our
+integration uses to reach the CRMs of some customers. Our own connector only
+ever calls your CRM from 198.51.100.24, with the user agent converso-sync/4.1.
+Please review your CRM API logs since 7 September and revoke the token of the
+Converso connected app. We are sorry for the trouble.
+Converso Security Team

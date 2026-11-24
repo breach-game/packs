@@ -1,0 +1,12 @@
+id: dossiers.serin-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Cordée"
+  en: "Cordée"
+summary:
+  fr: "Cordée, éditeur fictif d'un chatbot de recrutement. Margot, son assistante, fait passer les premiers entretiens des boulangeries Fournil : questions, test de personnalité, rendez-vous. Les gérants suivent les candidatures sur un portail."
+  en: "Cordée, a fictional hiring chatbot vendor. Margot, its assistant, runs the first interviews for the Fournil bakeries: questions, personality test, appointments. Store managers follow applications on a portal."
+authors: [BREACH team]
+locales: [fr, en]

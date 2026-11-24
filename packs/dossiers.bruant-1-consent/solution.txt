@@ -1,0 +1,8 @@
+# Case file 46, mission 1: the shortest path, replayed by CI in every language.
+mailhdr boite/avis-magasin.eml
+answer sender notices-extstore.example
+soc logs store access
+soc search client_id
+answer client privacy-policy-ext
+contain revoke privacy-policy-ext
+answer consent

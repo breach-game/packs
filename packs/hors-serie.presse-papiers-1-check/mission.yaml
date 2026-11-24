@@ -1,0 +1,80 @@
+# The concert page shows a fake human check. Its button puts a line on the clipboard and the note
+# asks to paste it into a terminal. The player reads the line (`clip` after clicking, or the page
+# source with curl) without running it, names the server it fetches from and the widget that
+# injected the block, then says what makes the trap work.
+side: defense
+order: 1
+stage: triage
+briefing: p1.briefing
+reveal: [www]
+
+files:
+  tickets/2291.txt: { $file: files/ticket.txt }
+
+objectives:
+  - { id: look, text: p1.obj.look }
+  - { id: server, text: p1.obj.server }
+  - { id: widget, text: p1.obj.widget }
+  - { id: trick, text: p1.obj.trick }
+
+investigation:
+  - { id: server, text: p1.q.server, value: "maj.contremarque-billet.example", points: 75, objective: server }
+  - { id: widget, text: p1.q.widget, value: "stats-billet.example", points: 75, objective: widget }
+
+questions:
+  - id: trick
+    text: p1.q.trick
+    objective: trick
+    correct: hands
+    options:
+      - { id: hands, text: p1.q.trick.hands }
+      - { id: browser, text: p1.q.trick.browser, why: p1.q.trick.browser.why }
+      - { id: captcha, text: p1.q.trick.captcha, why: p1.q.trick.captcha.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: HttpRequest, host: www, path: /concerts/nuit-blanche }
+    do:
+      - objective.complete: look
+  - on: { event: ObjectiveCompleted, objective: look }
+    do:
+      - ada.say: p1.ada.look
+  - on: { event: ClipboardSet }
+    do:
+      - ada.say: p1.ada.copied
+  - on: { event: ClipboardRead }
+    do:
+      - ada.say: p1.ada.read
+  - on: { event: ObjectiveCompleted, objective: server }
+    do:
+      - ada.say: p1.ada.server
+  - on: { event: ObjectiveCompleted, objective: widget }
+    do:
+      - ada.say: p1.ada.widget
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: server }, { objective: widget }] }
+    do:
+      - ada.ask: trick
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  look: p1.ada.g.look
+  server: p1.ada.g.server
+  widget: p1.ada.g.widget
+  trick: p1.ada.g.trick
+
+hints:
+  look: [p1.hint.look.1]
+  server: [p1.hint.server.1, p1.hint.server.2]
+  widget: [p1.hint.widget.1, p1.hint.widget.2]
+  trick: [p1.hint.trick.1]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "MITRE ATT&CK · T1204.004 User Execution: Malicious Copy and Paste"

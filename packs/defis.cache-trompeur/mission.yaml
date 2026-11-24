@@ -1,0 +1,40 @@
+# Challenge: web cache deception. The account page answers below its own path, the edge cache keeps
+# anything ending in .css. A request with the witness session to /compte/x.css is cached; the same
+# address without a cookie returns the witness page from the cache.
+order: 1
+stage: exploitation
+briefing: c.briefing
+
+objectives:
+  - { id: marker, text: c.obj.marker }
+  - { id: fix, text: c.obj.fix }
+
+flags:
+  - { id: marker, value: "FLAG{vitrine-cache-trompeur-4b8e}", points: 250, objective: marker }
+
+questions:
+  - id: fix
+    text: c.q.fix
+    objective: fix
+    correct: strict
+    options:
+      - { id: strict, text: c.q.fix.strict }
+      - { id: https, text: c.q.fix.https, why: c.q.fix.https.why }
+      - { id: short, text: c.q.fix.short, why: c.q.fix.short.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c.ada.brief
+  - on: { event: ObjectiveCompleted, objective: marker }
+    do:
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c.ada.done
+
+debrief:
+  title: c.debrief.title
+  lesson: c.debrief.lesson
+  points: [c.debrief.p1, c.debrief.p2, c.debrief.p3]
+  reference: "PortSwigger Web Security Academy · Web cache deception"

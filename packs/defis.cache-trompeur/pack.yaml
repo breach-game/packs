@@ -1,0 +1,17 @@
+id: defis.cache-trompeur
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [defis.vitrine-world]
+levels: [expert]
+title:
+  fr: "Défi · Le cache trompeur"
+  en: "Challenge · The deceived cache"
+summary:
+  fr: "Une page de compte privée, un cache qui garde tout ce qui finit par .css. Fais garder au cache la page du compte témoin, relis-la sans cookie, rapporte son marqueur, puis dis comment l'empêcher. Sans aide."
+  en: "A private account page, a cache that keeps anything ending in .css. Get the cache to keep the witness account's page, read it back without a cookie, report its marker, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web, recon]
+minutes: 10

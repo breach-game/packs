@@ -1,0 +1,93 @@
+# Case file 43, mission 2: the fix. The player edits the portal's account list (the test account
+# disabled) and the API rules (read only within the owner's store), judged by `verify`, then the
+# containments apply them to the live portal and a retest shows the door shut. A decision on whom
+# to warn closes it. Facts card: Krebs and BleepingComputer on McHire / Paradox, 2025.
+side: defense
+order: 2
+stage: report
+briefing: s2.briefing
+reveal: [admin]
+
+files:
+  portail/comptes.yml: "# Accounts of the managers' portal (excerpt), one per line\naccounts:\n  - { user: f0317.gerant, role: store_admin, store: \"0317\", mfa: on, active: yes }\n  - { user: \"123456\", role: store_admin, store: \"0042\", mfa: off, active: yes }\n  - { user: f0128.gerant, role: store_admin, store: \"0128\", mfa: on, active: yes }\n"
+  portail/api.yml: "# Access rules of the applications API\napplications:\n  read: any_signed_in\n  ids: sequential\n  log_reads: on\n"
+
+containment:
+  - id: deploy
+    action: disable
+    target: portail
+    text: s2.contain.deploy
+    sets: { co.test_closed: true, co.owner_check: true }
+    impact: 0
+
+objectives:
+  - { id: account, text: s2.obj.account }
+  - { id: owner, text: s2.obj.owner }
+  - { id: retest, text: s2.obj.retest }
+  - { id: warn, text: s2.obj.warn }
+
+checks:
+  - id: account
+    text: s2.check.account
+    if: { file: "~/portail/comptes.yml", lacks: "123456" }
+    objective: account
+  - id: owner
+    text: s2.check.owner
+    if: { all: [{ file: "~/portail/api.yml", lacks: "read: any_signed_in" }, { file: "~/portail/api.yml", contains: "read: own_store" }] }
+    objective: owner
+  - id: others
+    text: s2.check.others
+    if: { all: [{ file: "~/portail/comptes.yml", contains: "user: f0317.gerant" }, { file: "~/portail/comptes.yml", contains: "user: f0128.gerant" }, { file: "~/portail/api.yml", contains: "log_reads: on" }] }
+
+questions:
+  - id: warn
+    text: s2.q.warn
+    objective: warn
+    options:
+      - { id: all, text: s2.q.warn.all, why: s2.q.warn.all.why, impact: 3 }
+      - { id: logs, text: s2.q.warn.logs, why: s2.q.warn.logs.why, impact: 1 }
+      - { id: none, text: s2.q.warn.none, why: s2.q.warn.none.why, impact: 8 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: s2.ada.brief
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: account }, { objective: owner }] }
+    do:
+      - ada.say: s2.ada.fixed
+  - on: { event: ChatReply, npc: login, intent: closed }
+    if: { config: co.test_closed, eq: true }
+    do:
+      - objective.complete: retest
+  - on: { event: ObjectiveCompleted, objective: retest }
+    do:
+      - ada.say: s2.ada.retest
+      - ada.ask: warn
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: s2.ada.done
+
+guide:
+  account: s2.ada.g.account
+  owner: s2.ada.g.owner
+  retest: s2.ada.g.retest
+  warn: s2.ada.g.warn
+
+hints:
+  account: [s2.hint.account.1, s2.hint.account.2]
+  owner: [s2.hint.owner.1, s2.hint.owner.2]
+  retest: [s2.hint.retest.1]
+  warn: [s2.hint.warn.1]
+
+debrief:
+  title: s2.debrief.title
+  lesson: s2.debrief.lesson
+  points: [s2.debrief.p1, s2.debrief.p2, s2.debrief.p3]
+  reference: "OWASP API Security Top 10 · API1 Broken Object Level Authorization"
+  facts:
+    title: s2.facts.title
+    points: [s2.facts.p1, s2.facts.p2, s2.facts.p3, s2.facts.p4]
+    sources:
+      - { label: "Krebs on Security, Poor Passwords Tattle on AI Hiring Bot Maker Paradox (17 July 2025)", url: "https://krebsonsecurity.com/2025/07/poor-passwords-tattle-on-ai-hiring-bot-maker-paradox-ai/" }
+      - { label: "BleepingComputer, '123456' password exposed chats for 64 million McDonald's job chatbot applications (11 July 2025)", url: "https://www.bleepingcomputer.com/news/security/123456-password-exposed-chats-for-64-million-mcdonalds-job-chatbot-applications/" }

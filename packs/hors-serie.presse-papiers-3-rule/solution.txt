@@ -1,0 +1,9 @@
+# Side series "Le Presse-papiers", mission 3: the shortest path, replayed by CI in every language.
+cat site/widgets.conf
+cat site/csp.conf
+sed -i '/stats-billet/d' site/widgets.conf
+sed -i 's| https://stats-billet.example||' site/csp.conf
+verify
+curl -s https://www.contremarque.test/concerts/nuit-blanche
+answer warn
+answer never

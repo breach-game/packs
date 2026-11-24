@@ -1,0 +1,98 @@
+# Case file 41, mission 1: the token. The CRM API log shows the chat connector's user agent, from
+# the vendor's usual address (small writes of leads) and from an unknown one (counts, then a bulk
+# query of every support case, then the query job deleted). The player names the address and the
+# object, revokes the connected app's token, and says why the CRM accepted it all.
+side: defense
+order: 1
+stage: defense
+briefing: m1.briefing
+reveal: [crm]
+
+files:
+  avis-converso.txt: { $file: files/avis-converso.txt }
+
+adversary:
+  id: thief
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: a1, host: crm, source: access, fields: { src: 203.0.113.140, method: GET, path: "/services/data/v61/query?q=SELECT+COUNT()+FROM+Account", status: 200, bytes: 212, ua: converso-sync/4.1 } }
+    - { id: a2, host: crm, source: access, fields: { src: 203.0.113.140, method: GET, path: "/services/data/v61/query?q=SELECT+Id,Name,Email,Phone+FROM+User", status: 200, bytes: 88130, ua: converso-sync/4.1 } }
+    - { id: a3, host: crm, source: access, fields: { src: 203.0.113.140, method: GET, path: "/services/data/v61/query?q=SELECT+Id,Subject,Description+FROM+Case", status: 200, bytes: 48211903, ua: converso-sync/4.1 } }
+    - { id: a4, host: crm, source: access, fields: { src: 203.0.113.140, method: DELETE, path: "/services/data/v61/jobs/query/750Q1", status: 204, bytes: 0, ua: converso-sync/4.1 } }
+    - { id: a5, host: crm, source: access, fields: { src: 203.0.113.140, method: GET, path: "/services/data/v61/query?q=SELECT+Id,Name,Amount+FROM+Opportunity", status: 200, bytes: 9120044, ua: converso-sync/4.1 }, blockedIf: { config: ar.token_revoked, eq: true } }
+    - { id: a6, host: crm, source: access, fields: { src: 203.0.113.140, method: GET, path: "/services/data/v61/query?q=SELECT+Id,Body+FROM+Note", status: 200, bytes: 15550210, ua: converso-sync/4.1 }, blockedIf: { config: ar.token_revoked, eq: true } }
+
+background:
+  - { host: crm, source: access, every: 2, offset: 0, fields: { src: 198.51.100.24, method: POST, path: /services/data/v61/sobjects/Lead, status: 201, bytes: 310, ua: converso-sync/4.1 } }
+  - { host: crm, source: access, every: 3, offset: 1, fields: { src: 10.117.0.51, method: GET, path: /lightning/r/Case/5003X01/view, status: 200, ua: "Mozilla/5.0 (Macintosh)" } }
+  - { host: crm, source: access, every: 5, offset: 2, fields: { src: 10.117.0.58, method: GET, path: /lightning/o/Opportunity/list, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0)" } }
+
+containment:
+  - id: token
+    action: revoke
+    target: converso
+    text: m1.contain.token
+    sets: { ar.token_revoked: true }
+    impact: 1
+
+objectives:
+  - { id: src, text: m1.obj.src }
+  - { id: object, text: m1.obj.object }
+  - { id: revoke, text: m1.obj.revoke }
+  - { id: why, text: m1.obj.why }
+
+investigation:
+  - { id: src, text: m1.q.src, value: "203.0.113.140", points: 75, objective: src }
+  - { id: object, text: m1.q.object, value: "Case", points: 75, objective: object }
+
+questions:
+  - id: why
+    text: m1.q.why
+    objective: why
+    correct: token
+    options:
+      - { id: token, text: m1.q.why.token }
+      - { id: password, text: m1.q.why.password, why: m1.q.why.password.why }
+      - { id: flaw, text: m1.q.why.flaw, why: m1.q.why.flaw.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: m1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: src }
+    do:
+      - ada.say: m1.ada.src
+  - on: { event: ObjectiveCompleted, objective: object }
+    do:
+      - ada.say: m1.ada.object
+  - on: { event: Contained, containment: token }
+    do:
+      - objective.complete: revoke
+  - on: { event: ObjectiveCompleted, objective: revoke }
+    do:
+      - ada.say: m1.ada.revoke
+      - ada.ask: why
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: m1.ada.done
+
+guide:
+  src: m1.ada.g.src
+  object: m1.ada.g.object
+  revoke: m1.ada.g.revoke
+  why: m1.ada.g.why
+
+hints:
+  src: [m1.hint.src.1, m1.hint.src.2]
+  object: [m1.hint.object.1, m1.hint.object.2]
+  revoke: [m1.hint.revoke.1]
+  why: [m1.hint.why.1]
+
+debrief:
+  title: m1.debrief.title
+  lesson: m1.debrief.lesson
+  points: [m1.debrief.p1, m1.debrief.p2, m1.debrief.p3]
+  reference: "MITRE ATT&CK · T1550.001 Application Access Token"

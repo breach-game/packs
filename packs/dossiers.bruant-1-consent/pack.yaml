@@ -1,0 +1,16 @@
+id: dossiers.bruant-1-consent
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.bruant-world]
+title:
+  fr: "Dossier 46 · 1. L'avis du magasin"
+  en: "Case file 46 · 1. The store's notice"
+summary:
+  fr: "Le soir de Noël, un mail du « support du magasin » menace de retirer l'extension. Le développeur clique, accepte une autorisation, et une version inconnue est publiée dans la nuit. Tu lis le mail avec `mailhdr`, tu trouves dans le journal du magasin qui a publié, tu retires l'autorisation et tu dis pourquoi le second facteur n'a pas suffi."
+  en: "On Christmas Eve, an email from \"store support\" threatens to remove the extension. The developer clicks, accepts a permission, and an unknown version is published overnight. You read the email with `mailhdr`, find in the store's log who published, remove the permission and say why the second factor was not enough."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, supply, defense]
+minutes: 12

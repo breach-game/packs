@@ -1,0 +1,8 @@
+# Case file 44, mission 2: the shortest path, replayed by CI in every language.
+cat rh/dossier-morel.txt
+exiftool rh/photo-profil.jpg
+answer photo FaceBlend AI 2.4
+cat logistique/expedition-2027-0311-07.txt
+answer address Lomme
+timeline hiring interviews idscan check redirect delivered alert
+answer shipping

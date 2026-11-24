@@ -1,0 +1,122 @@
+# Case file 44 "Torcol". Inspired by the 2024 account of a security company that hired a fake
+# remote IT worker: an edited stock photo, a stolen identity, a laptop shipped to another address,
+# malware loaded on day one and caught by the endpoint agent. Defence side only.
+startTime: "2027-03-15T21:58:00+01:00"
+mandate: HU-2027-144
+scope:
+  domains: ["*.hublot.test"]
+  networks: ["10.120.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.120.0.2
+
+config:
+  hu.isolated: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.120.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [ws0412]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            HU-2027-144.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  # The new engineer's laptop, delivered on Friday, switched on tonight.
+  - id: ws0412
+    hostname: ws-0412.hublot.test
+    ip: 10.120.0.112
+    os: Linux 6.1 (Debian 12)
+    map: { x: 120, z: 60, h: 110 }
+    services:
+      - { port: 22, name: ssh, product: OpenSSH 9.2p1 Debian }
+    users:
+      - { name: ir, home: /home/ir }
+      - { name: amorel, home: /home/amorel }
+    ssh:
+      - { user: ir, from: [kestrel] }
+    fs:
+      etc:
+        hostname: "ws-0412\n"
+      home:
+        amorel:
+          Telechargements:
+            outils-dev.tar.gz: { $archive: { format: tgz, files: { "install.sh": "#!/bin/sh\ncp sysmond ~/.local/bin/\n~/.local/bin/sysmond --bg &\n", "sysmond": "binary\n" } } }
+          .local:
+            bin:
+              sysmond:
+                $binary:
+                  format: elf
+                  strings:
+                    - "sysmond 1.2"
+                    - "collect=~/.mozilla/firefox/*/logins.json,~/.ssh/*,~/.bash_history"
+                    - "send=https://relay.cloud-sync.example/u"
+                    - "wipe_history=1"
+    system:
+      processes:
+        - { pid: 1, ppid: 0, user: root, start: "21:40", cmd: /sbin/init }
+        - { pid: 611, ppid: 1, user: root, start: "21:40", cmd: "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups" }
+        - { pid: 702, ppid: 1, user: root, start: "21:40", cmd: "/opt/edr/edr-agent --managed" }
+        - { pid: 1450, ppid: 1, user: amorel, start: "21:52", cmd: "/usr/bin/gnome-terminal" }
+        - { pid: 1461, ppid: 1450, user: amorel, start: "21:52", cmd: "bash" }
+        - { pid: 1530, ppid: 1, user: amorel, start: "21:54", cmd: "/home/amorel/.local/bin/sysmond --bg", if: { config: hu.isolated, eq: false } }
+      sockets:
+        - { local: "0.0.0.0:22", pid: 611 }
+        - { state: ESTAB, local: "10.120.0.112:41022", peer: "10.120.0.5:443", pid: 702 }
+        - { state: ESTAB, local: "10.120.0.112:51877", peer: "203.0.113.188:443", pid: 1530, if: { config: hu.isolated, eq: false } }
+      journal:
+        - { at: "Mar 15 21:40:02", unit: edr-agent, pid: 702, text: "agent started, policy hublot-standard" }
+        - { at: "Mar 15 21:53:41", unit: edr-agent, pid: 702, text: "file created: /home/amorel/Telechargements/outils-dev.tar.gz" }
+        - { at: "Mar 15 21:54:10", unit: edr-agent, pid: 702, text: "process started: /home/amorel/.local/bin/sysmond --bg (parent bash 1461)" }
+        - { at: "Mar 15 21:55:03", unit: edr-agent, pid: 702, text: "ALERT high: sysmond read browser saved logins" }
+        - { at: "Mar 15 21:55:04", unit: edr-agent, pid: 702, text: "ALERT high: sysmond truncated ~/.bash_history" }
+        - { at: "Mar 15 21:56:30", unit: edr-agent, pid: 702, text: "ALERT medium: outbound connection 203.0.113.188:443 by sysmond" }
+        - { at: "Mar 15 22:01:12", unit: edr-agent, pid: 702, text: "network isolation applied by SOC", if: { config: hu.isolated, eq: true } }
+      logins:
+        - { user: ir, from: 10.120.0.66, at: "Mon Mar 15 21:58" }
+        - { user: amorel, tty: tty1, from: ":0", at: "Mon Mar 15 21:41" }
+
+  - id: fw
+    hostname: fw.hublot.test
+    ip: 10.120.0.1
+    os: Linux
+    map: { x: 260, z: -40, h: 90 }
+
+  - id: outside
+    hostname: inconnu.hublot.test
+    ip: 10.120.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  hublot.test: { A: ["10.120.0.5"] }
+  ws-0412.hublot.test: { A: ["10.120.0.112"] }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

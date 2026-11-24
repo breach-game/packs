@@ -1,0 +1,8 @@
+Ticket #2291 - Fri 3 Dec 2027 09:41 - from: Ines, box office 02 (Salle des Tanneurs)
+Subject: robot check on the Nuit Blanche page??
+
+Hi, since Wednesday the Nuit Blanche page asks for a "security check" before
+booking. Wednesday afternoon I ticked the box, it said to open a terminal and
+paste, so I did, it is our cm-verif tool after all. Nothing happened on screen.
+This morning two customers called about the same page, one of them on a Mac.
+Is it normal? Ines

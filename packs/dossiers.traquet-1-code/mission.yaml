@@ -1,0 +1,94 @@
+# Case file 45, mission 1: the code. The phone holds an invitation with a link to the real
+# device sign-in page and a code. The sign-in log shows, two minutes later, the employee's account
+# signed in through the device code flow from an outside address, MFA satisfied by her own sign-in;
+# then the mail API is read. The player names the account, revokes its sessions, says why.
+side: defense
+order: 1
+stage: defense
+briefing: q1.briefing
+reveal: [idp, mail]
+
+sms:
+  - { id: bank, from: Ruisseau, at: "2027-02-10 18:02", text: q1.sms.bank }
+  - { id: invite, from: "+33 6 39 98 41 07", at: "2027-02-11 09:41", text: q1.sms.invite }
+  - { id: thanks, from: "+33 6 39 98 41 07", at: "2027-02-11 09:46", text: q1.sms.thanks }
+
+adversary:
+  id: device
+  name: unknown
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: d1, host: idp, source: signin, fields: { user: s.benali, app: Visio, flow: device_code, src: 203.0.113.71, mfa: satisfied, result: success, scope: "mail.read files.read offline_access" } }
+    - { id: d2, host: mail, source: access, fields: { src: 203.0.113.71, method: GET, path: "/v1.0/me/messages?$top=500", status: 200, bytes: 2210933, ua: "python-requests/2.32" } }
+    - { id: d3, host: mail, source: access, fields: { src: 203.0.113.71, method: GET, path: "/v1.0/me/drive/root/children", status: 200, bytes: 48120, ua: "python-requests/2.32" }, blockedIf: { config: pa.revoked, eq: true } }
+    - { id: d4, host: idp, source: signin, fields: { user: s.benali, app: Visio, flow: refresh_token, src: 203.0.113.71, mfa: satisfied, result: success }, blockedIf: { config: pa.revoked, eq: true } }
+    - { id: d5, host: mail, source: access, fields: { src: 203.0.113.71, method: GET, path: "/v1.0/me/messages?$search=passeport", status: 200, bytes: 311207, ua: "python-requests/2.32" }, blockedIf: { config: pa.revoked, eq: true } }
+
+containment:
+  - id: revoke
+    action: revoke
+    target: s.benali
+    text: q1.contain.revoke
+    sets: { pa.revoked: true }
+    impact: 1
+
+objectives:
+  - { id: link, text: q1.obj.link }
+  - { id: account, text: q1.obj.account }
+  - { id: revoke, text: q1.obj.revoke }
+  - { id: mfa, text: q1.obj.mfa }
+
+investigation:
+  - { id: link, text: q1.q.link, value: "connexion.passerelle.test", points: 50, objective: link }
+  - { id: account, text: q1.q.account, value: "s.benali", points: 75, objective: account }
+
+questions:
+  - id: mfa
+    text: q1.q.mfa
+    objective: mfa
+    correct: herself
+    options:
+      - { id: herself, text: q1.q.mfa.herself }
+      - { id: stolen, text: q1.q.mfa.stolen, why: q1.q.mfa.stolen.why }
+      - { id: fake, text: q1.q.mfa.fake, why: q1.q.mfa.fake.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: q1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: link }
+    do:
+      - ada.say: q1.ada.link
+  - on: { event: ObjectiveCompleted, objective: account }
+    do:
+      - ada.say: q1.ada.account
+  - on: { event: Contained, containment: revoke }
+    do:
+      - objective.complete: revoke
+  - on: { event: ObjectiveCompleted, objective: revoke }
+    do:
+      - ada.say: q1.ada.revoke
+      - ada.ask: mfa
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: q1.ada.done
+
+guide:
+  link: q1.ada.g.link
+  account: q1.ada.g.account
+  revoke: q1.ada.g.revoke
+  mfa: q1.ada.g.mfa
+
+hints:
+  link: [q1.hint.link.1, q1.hint.link.2]
+  account: [q1.hint.account.1, q1.hint.account.2]
+  revoke: [q1.hint.revoke.1]
+  mfa: [q1.hint.mfa.1]
+
+debrief:
+  title: q1.debrief.title
+  lesson: q1.debrief.lesson
+  points: [q1.debrief.p1, q1.debrief.p2, q1.debrief.p3]
+  reference: "MITRE ATT&CK · T1528 Steal Application Access Token"

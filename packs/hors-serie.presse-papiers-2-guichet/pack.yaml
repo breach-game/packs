@@ -1,0 +1,16 @@
+id: hors-serie.presse-papiers-2-guichet
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [hors-serie.presse-papiers-world]
+title:
+  fr: "Le Presse-papiers · 2. Le guichet d'après"
+  en: "The Clipboard · 2. The box office after"
+summary:
+  fr: "Sur le poste du guichet 02, la ligne collée mercredi tourne encore. Tu remontes l'arbre des processus avec `ps -ef`, tu lis ce que le programme emporte et ce qui le relance, tu isoles et tu nettoies, puis tu écris la règle qui voit les autres guichets coller la même ligne."
+  en: "On the box office 02 workstation, the line pasted on Wednesday is still running. You climb the process tree with `ps -ef`, read what the program takes and what restarts it, isolate and clean, then write the rule that sees the other box offices paste the same line."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [linux, logs, defense]
+minutes: 15

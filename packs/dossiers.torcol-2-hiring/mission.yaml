@@ -1,0 +1,99 @@
+# Case file 44, mission 2: the hiring. The profile photo's tags show an edited stock picture
+# (exiftool), the laptop went to a forwarding warehouse instead of the identity document's address,
+# the steps are put back in order (timeline), then a decision on the hiring process.
+# Facts card: KnowBe4's own account, July 2024.
+side: defense
+order: 2
+stage: report
+briefing: t2.briefing
+reveal: [ws0412]
+
+files:
+  rh/dossier-morel.txt: "HR file - Alexandre Morel - Senior engineer (remote)\nIdentity document checked: yes (scan received by email, 2027-02-08)\nAddress on identity document: 14 rue des Cordiers, 33000 Bordeaux\nBackground check: passed (2027-02-12) - identity valid, no record\nInterviews: 4 video calls (2027-01-20, 01-27, 02-02, 02-05), camera on\nReferences: 2 (phone, 2027-02-09)\nStart date: 2027-03-15\n"
+  logistique/expedition-2027-0311-07.txt: "Hublot logistics - shipment 2027-0311-07\nItem: laptop ws-0412 + screen\nRequested by: new employee, by email, 2027-03-08\n\"Please ship to the address below, I am staying there during the move\"\nDelivery address: Entrepot Relais 7, 12 zone des Pins, 59160 Lomme\nDelivered: 2027-03-12 10:41, signed \"A. M.\"\n"
+  rh/photo-profil.jpg:
+    $image:
+      format: jpeg
+      width: 800
+      height: 800
+      exif:
+        Software: "FaceBlend AI 2.4"
+        Image Description: "stock portrait 44817, face retouched"
+        Artist: "Stockfolio"
+        Copyright: "Stockfolio standard licence"
+        Date/Time Original: "2023:04:02 11:20:13"
+
+objectives:
+  - { id: photo, text: t2.obj.photo }
+  - { id: address, text: t2.obj.address }
+  - { id: order, text: t2.obj.order }
+  - { id: process, text: t2.obj.process }
+
+investigation:
+  - { id: photo, text: t2.q.photo, value: "FaceBlend AI 2.4", points: 50, objective: photo }
+  - { id: address, text: t2.q.address, value: "Lomme", points: 75, objective: address }
+
+timelines:
+  - id: hiring
+    text: t2.tl.text
+    objective: order
+    events:
+      - { id: interviews, text: t2.tl.interviews }
+      - { id: idscan, text: t2.tl.idscan }
+      - { id: check, text: t2.tl.check }
+      - { id: redirect, text: t2.tl.redirect }
+      - { id: delivered, text: t2.tl.delivered }
+      - { id: alert, text: t2.tl.alert }
+
+questions:
+  - id: process
+    text: t2.q.process
+    objective: process
+    options:
+      - { id: inperson, text: t2.q.process.inperson, why: t2.q.process.inperson.why, impact: 3 }
+      - { id: shipping, text: t2.q.process.shipping, why: t2.q.process.shipping.why, impact: 1 }
+      - { id: probation, text: t2.q.process.probation, why: t2.q.process.probation.why, impact: 2 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: t2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: photo }
+    do:
+      - ada.say: t2.ada.photo
+  - on: { event: ObjectiveCompleted, objective: address }
+    do:
+      - ada.say: t2.ada.address
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: t2.ada.order
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: photo }, { objective: address }, { objective: order }] }
+    do:
+      - ada.ask: process
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: t2.ada.done
+
+guide:
+  photo: t2.ada.g.photo
+  address: t2.ada.g.address
+  order: t2.ada.g.order
+  process: t2.ada.g.process
+
+hints:
+  photo: [t2.hint.photo.1, t2.hint.photo.2]
+  address: [t2.hint.address.1, t2.hint.address.2]
+  order: [t2.hint.order.1, t2.hint.order.2]
+  process: [t2.hint.process.1]
+
+debrief:
+  title: t2.debrief.title
+  lesson: t2.debrief.lesson
+  points: [t2.debrief.p1, t2.debrief.p2, t2.debrief.p3]
+  reference: "MITRE ATT&CK · T1078 Valid Accounts"
+  facts:
+    title: t2.facts.title
+    points: [t2.facts.p1, t2.facts.p2, t2.facts.p3, t2.facts.p4]
+    sources:
+      - { label: "KnowBe4, How a North Korean Fake IT Worker Tried to Infiltrate Us (23 July 2024)", url: "https://blog.knowbe4.com/how-a-north-korean-fake-it-worker-tried-to-infiltrate-us" }

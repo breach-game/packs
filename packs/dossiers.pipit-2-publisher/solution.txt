@@ -1,0 +1,10 @@
+# Case file 42, mission 2: the shortest path, replayed by CI in every language.
+sbom assistant --vuln
+answer advisory BRX-2027-0318
+grep -c relais-archive exports/bcc.log
+answer count 37
+cat assistant/node_modules/relais-mcp/package.json
+cat docs/courrielo-mcp.txt
+sed -i 's|"relais-mcp".*"|"@courrielo/mcp-server": "2.3.1"|' assistant/package.json
+verify
+answer vendor

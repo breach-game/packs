@@ -1,0 +1,12 @@
+id: hors-serie.presse-papiers-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Contremarque"
+  en: "Contremarque"
+summary:
+  fr: "Contremarque, billetterie fictive de concerts et de festivals. Un site public, six guichets dans les salles, et un outil maison que les guichetières connaissent par cœur : `cm-verif`."
+  en: "Contremarque, a fictional concert and festival ticket office. A public website, six box offices in the venues, and an in-house tool the box office staff know by heart: `cm-verif`."
+authors: [BREACH team]
+locales: [fr, en]

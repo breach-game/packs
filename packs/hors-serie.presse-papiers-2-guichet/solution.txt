@@ -1,0 +1,14 @@
+# Side series "Le Presse-papiers", mission 2: the shortest path, replayed by CI in every language.
+ssh ir@guichet02.contremarque.test
+ps -ef
+answer parent 2231
+strings /home/ines/.cache/syncd-helper
+answer sessions
+crontab -l -u ines
+exit
+contain isolate guichet02
+contain remove syncd-helper
+soc logs guichet05 audit
+cat regles/collage.yml
+echo "cmd|contains: --from" >> regles/collage.yml
+rule test regles/collage.yml

@@ -1,0 +1,16 @@
+id: dossiers.traquet
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.traquet-world]
+title:
+  fr: "Dossier 45 : le code de la réunion"
+  en: "Case file 45: the meeting's code"
+summary:
+  fr: "Inspiré de la campagne d'hameçonnage par « code d'appareil » décrite début 2025. Joué côté défense : une fausse invitation à une visio demande de taper un code sur la vraie page de connexion, et la personne ouvre elle-même sa session à l'attaquant, second facteur compris. Tu lis le message et le journal des connexions, tu fermes les sessions, puis tu écris la règle qui voit ce flux et tu choisis où le couper. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the \"device code\" phishing campaign described in early 2025. Played on the defence side: a fake video call invitation asks to type a code on the real sign-in page, and the person opens their own session to the attacker, second factor included. You read the message and the sign-in log, close the sessions, then write the rule that sees this flow and choose where to cut it. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, logs, defense]
+incident: 2025

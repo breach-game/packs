@@ -1,0 +1,12 @@
+id: dossiers.torcol-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Hublot"
+  en: "Hublot"
+summary:
+  fr: "Hublot, éditeur fictif de logiciels de navigation pour la plaisance. Une équipe d'ingénieurs entièrement à distance, des embauches par visio, et des portables expédiés à domicile la veille du premier jour."
+  en: "Hublot, a fictional publisher of navigation software for leisure boats. A fully remote engineering team, hiring by video call, and laptops shipped home the day before the first day."
+authors: [BREACH team]
+locales: [fr, en]

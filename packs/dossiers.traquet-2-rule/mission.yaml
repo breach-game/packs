@@ -1,0 +1,85 @@
+# Case file 45, mission 2: the rule. Two more staff type the code during the mission. The player
+# writes a signin rule: device_code flow for the Visio app (meeting rooms use their own app), tested
+# with `rule test` against the rooms' ordinary device code sign-ins. Then a decision on the flow.
+# Facts card: Microsoft Threat Intelligence on Storm-2372, February 2025.
+side: defense
+order: 2
+stage: hunt
+briefing: q2.briefing
+reveal: [idp]
+
+files:
+  regles/code-appareil.yml: "title: Device code sign-in outside meeting rooms\nsource: signin\n"
+
+adversary:
+  id: device2
+  name: unknown
+  from: outside
+  pace: 2
+  delay: 0
+  steps:
+    - { id: e1, host: idp, source: signin, fields: { user: j.okafor, app: Visio, flow: device_code, src: 203.0.113.72, mfa: satisfied, result: success, scope: "mail.read files.read offline_access" } }
+    - { id: e2, host: idp, source: signin, fields: { user: l.marchetti, app: Visio, flow: device_code, src: 203.0.113.71, mfa: satisfied, result: success, scope: "mail.read files.read offline_access" } }
+
+hunts:
+  - id: device
+    file: regles/code-appareil.yml
+    catch: { source: signin, where: { flow: device_code, app: Visio } }
+    objective: rule
+
+objectives:
+  - { id: who, text: q2.obj.who }
+  - { id: rule, text: q2.obj.rule }
+  - { id: policy, text: q2.obj.policy }
+
+investigation:
+  - { id: who, text: q2.q.who, value: "2", points: 75, objective: who }
+
+questions:
+  - id: policy
+    text: q2.q.policy
+    objective: policy
+    correct: rooms
+    options:
+      - { id: rooms, text: q2.q.policy.rooms }
+      - { id: mfa, text: q2.q.policy.mfa, why: q2.q.policy.mfa.why }
+      - { id: apps, text: q2.q.policy.apps, why: q2.q.policy.apps.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: q2.ada.brief
+  - on: { event: AdversaryStep, step: e2 }
+    do:
+      - ada.warn: q2.ada.second
+  - on: { event: ObjectiveCompleted, objective: who }
+    do:
+      - ada.say: q2.ada.who
+  - on: { event: ObjectiveCompleted, objective: rule }
+    do:
+      - ada.say: q2.ada.rule
+      - ada.ask: policy
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: q2.ada.done
+
+guide:
+  who: q2.ada.g.who
+  rule: q2.ada.g.rule
+  policy: q2.ada.g.policy
+
+hints:
+  who: [q2.hint.who.1, q2.hint.who.2]
+  rule: [q2.hint.rule.1, q2.hint.rule.2]
+  policy: [q2.hint.policy.1]
+
+debrief:
+  title: q2.debrief.title
+  lesson: q2.debrief.lesson
+  points: [q2.debrief.p1, q2.debrief.p2, q2.debrief.p3]
+  reference: "MITRE ATT&CK · T1566.002 Spearphishing Link"
+  facts:
+    title: q2.facts.title
+    points: [q2.facts.p1, q2.facts.p2, q2.facts.p3, q2.facts.p4]
+    sources:
+      - { label: "Microsoft Threat Intelligence, Storm-2372 conducts device code phishing campaign (13 February 2025)", url: "https://www.microsoft.com/en-us/security/blog/2025/02/13/storm-2372-conducts-device-code-phishing-campaign/" }

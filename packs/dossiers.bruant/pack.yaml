@@ -1,0 +1,16 @@
+id: dossiers.bruant
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: series
+requires: [dossiers.bruant-world]
+title:
+  fr: "Dossier 46 : l'extension de Noël"
+  en: "Case file 46: the Christmas extension"
+summary:
+  fr: "Inspiré des extensions de navigateur détournées à Noël 2024. Joué côté défense : un faux mail du magasin d'extensions obtient d'un développeur un accès à son compte, et une nouvelle version de l'extension part chez tous les utilisateurs. Tu lis le mail et le journal du magasin, tu retires l'accès, puis tu ouvres la version piégée pour voir ce qu'elle emporte et tu publies la correction. La dernière mission raconte les faits, sources à l'appui."
+  en: "Inspired by the browser extensions hijacked at Christmas 2024. Played on the defence side: a fake email from the extension store gets a developer to grant access to their account, and a new version of the extension ships to every user. You read the email and the store's log, remove the access, then open the trapped version to see what it takes and publish the fix. The last mission tells the facts, with its sources."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, social, defense]
+incident: 2024

@@ -1,0 +1,16 @@
+id: dossiers.torcol-2-hiring
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.torcol-world]
+title:
+  fr: "Dossier 44 · 2. L'embauche, à l'envers"
+  en: "Case file 44 · 2. The hiring, backwards"
+summary:
+  fr: "Le lendemain, tu reprends l'embauche avec les ressources humaines. La photo du profil, l'adresse de livraison, l'ordre des étapes : tu trouves ce qui clochait à chaque fois, puis tu choisis ce qui change dans le processus."
+  en: "The next day, you go back over the hiring with HR. The profile photo, the delivery address, the order of the steps: you find what was off each time, then choose what changes in the process."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, privacy, defense]
+minutes: 14

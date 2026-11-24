@@ -1,0 +1,98 @@
+# Case file 46, mission 1: the consent. The phishing email comes from a look-alike domain and
+# links to the store's real consent page for an app named "Privacy Policy Extension". The store's
+# developer API log shows that app's token uploading and publishing version 3.10.4 overnight. The
+# player names the app id, revokes it, and says why the developer's second factor did not help.
+side: defense
+order: 1
+stage: defense
+briefing: b1.briefing
+reveal: [store]
+
+files:
+  boite/avis-magasin.eml: { $file: files/avis.eml }
+
+adversary:
+  id: app
+  name: privacy-policy-ext
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - { id: u1, host: store, source: access, fields: { src: 203.0.113.91, method: PUT, path: "/upload/items/garde-notes?version=3.10.4&client_id=privacy-policy-ext", status: 200, bytes: 412, ua: "privacy-policy-ext/1.0" } }
+    - { id: u2, host: store, source: access, fields: { src: 203.0.113.91, method: POST, path: "/items/garde-notes/publish?client_id=privacy-policy-ext", status: 200, bytes: 96, ua: "privacy-policy-ext/1.0" } }
+    - { id: u3, host: store, source: access, fields: { src: 203.0.113.91, method: GET, path: "/items?client_id=privacy-policy-ext", status: 200, bytes: 2210, ua: "privacy-policy-ext/1.0" }, blockedIf: { config: om.revoked, eq: true } }
+    - { id: u4, host: store, source: access, fields: { src: 203.0.113.91, method: PUT, path: "/upload/items/garde-notes-pro?version=1.4.9&client_id=privacy-policy-ext", status: 200, bytes: 409, ua: "privacy-policy-ext/1.0" }, blockedIf: { config: om.revoked, eq: true } }
+
+background:
+  - { host: store, source: access, every: 3, offset: 0, fields: { src: 10.122.0.51, method: GET, path: /items/garde-notes/stats, status: 200, ua: "Mozilla/5.0 (X11; Linux x86_64)" } }
+  - { host: store, source: access, every: 4, offset: 1, fields: { src: 10.122.0.52, method: GET, path: /items/garde-notes/reviews, status: 200, ua: "Mozilla/5.0 (Macintosh)" } }
+
+containment:
+  - id: revoke
+    action: revoke
+    target: privacy-policy-ext
+    text: b1.contain.revoke
+    sets: { om.revoked: true }
+    impact: 0
+
+objectives:
+  - { id: sender, text: b1.obj.sender }
+  - { id: client, text: b1.obj.client }
+  - { id: revoke, text: b1.obj.revoke }
+  - { id: mfa, text: b1.obj.mfa }
+
+investigation:
+  - { id: sender, text: b1.q.sender, value: "notices-extstore.example", points: 50, objective: sender }
+  - { id: client, text: b1.q.client, value: "privacy-policy-ext", points: 75, objective: client }
+
+questions:
+  - id: mfa
+    text: b1.q.mfa
+    objective: mfa
+    correct: consent
+    options:
+      - { id: consent, text: b1.q.mfa.consent }
+      - { id: password, text: b1.q.mfa.password, why: b1.q.mfa.password.why }
+      - { id: insider, text: b1.q.mfa.insider, why: b1.q.mfa.insider.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: sender }
+    do:
+      - ada.say: b1.ada.sender
+  - on: { event: ObjectiveCompleted, objective: client }
+    do:
+      - ada.say: b1.ada.client
+  - on: { event: AdversaryStep, step: u4 }
+    do:
+      - ada.warn: b1.ada.second
+  - on: { event: Contained, containment: revoke }
+    do:
+      - objective.complete: revoke
+  - on: { event: ObjectiveCompleted, objective: revoke }
+    do:
+      - ada.say: b1.ada.revoke
+      - ada.ask: mfa
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b1.ada.done
+
+guide:
+  sender: b1.ada.g.sender
+  client: b1.ada.g.client
+  revoke: b1.ada.g.revoke
+  mfa: b1.ada.g.mfa
+
+hints:
+  sender: [b1.hint.sender.1, b1.hint.sender.2]
+  client: [b1.hint.client.1, b1.hint.client.2]
+  revoke: [b1.hint.revoke.1]
+  mfa: [b1.hint.mfa.1]
+
+debrief:
+  title: b1.debrief.title
+  lesson: b1.debrief.lesson
+  points: [b1.debrief.p1, b1.debrief.p2, b1.debrief.p3]
+  reference: "MITRE ATT&CK · T1528 Steal Application Access Token"

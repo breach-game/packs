@@ -1,0 +1,12 @@
+id: dossiers.pipit-world
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: world
+title:
+  fr: "Lanterne"
+  en: "Lanterne"
+summary:
+  fr: "Lanterne, agence fictive d'événements d'entreprise. Son assistant IA rédige et envoie les devis, les contrats et les rappels, grâce à un outil d'envoi de mails branché par le protocole MCP."
+  en: "Lanterne, a fictional corporate events agency. Its AI assistant drafts and sends quotes, contracts and reminders, through a mail-sending tool plugged in with the MCP protocol."
+authors: [BREACH team]
+locales: [fr, en]

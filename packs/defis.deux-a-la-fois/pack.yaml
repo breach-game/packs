@@ -1,0 +1,17 @@
+id: defis.deux-a-la-fois
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [defis.vitrine-world]
+levels: [expert]
+title:
+  fr: "Défi · Deux à la fois"
+  en: "Challenge · Two at once"
+summary:
+  fr: "Une carte cadeau de test de 40 euros, utilisable une fois. Fais-la créditer deux fois en envoyant les demandes en même temps, puis dis comment l'empêcher. Sans aide."
+  en: "A 40 euro test gift card, usable once. Get it credited twice by sending the requests at the same time, then say how to prevent it. No help."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 3
+skills: [web]
+minutes: 8

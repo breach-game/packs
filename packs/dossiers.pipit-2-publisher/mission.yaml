@@ -1,0 +1,87 @@
+# Case file 42, mission 2: the publisher. The package named itself after the mail provider but was
+# published by someone else; the provider's own server exists under another name. The player
+# confirms the advisory with sbom, counts the copied emails in the gateway export, swaps the
+# dependency for the official one with an exact version (judged by `verify`), and picks a rule.
+# Facts card: The Hacker News on the postmark-mcp package, September 2025.
+side: defense
+order: 2
+stage: report
+briefing: p2.briefing
+reveal: [mx]
+
+files:
+  assistant/package.json: "{\n  \"name\": \"lanterne-assistant\",\n  \"version\": \"3.2.0\",\n  \"private\": true,\n  \"dependencies\": {\n    \"relais-mcp\": \"^1.0.0\",\n    \"calendrier-mcp\": \"2.1.4\"\n  }\n}\n"
+  assistant/package-lock.json: "{\n  \"name\": \"lanterne-assistant\",\n  \"version\": \"3.2.0\",\n  \"lockfileVersion\": 3,\n  \"packages\": {\n    \"\": { \"name\": \"lanterne-assistant\", \"version\": \"3.2.0\" },\n    \"node_modules/relais-mcp\": { \"version\": \"1.0.16\" },\n    \"node_modules/calendrier-mcp\": { \"version\": \"2.1.4\" }\n  }\n}\n"
+  assistant/node_modules/relais-mcp/package.json: "{\n  \"name\": \"relais-mcp\",\n  \"version\": \"1.0.16\",\n  \"description\": \"MCP server to send email through Courrielo\",\n  \"author\": \"relais-dev <relais-dev@mailbox.example>\",\n  \"repository\": \"https://forge.example/relais-dev/relais-mcp\",\n  \"keywords\": [\"mcp\", \"courrielo\", \"email\", \"assistant\"]\n}\n"
+  exports/bcc.log: { $file: files/bcc.log }
+  docs/courrielo-mcp.txt: { $file: files/courrielo-docs.txt }
+
+objectives:
+  - { id: advisory, text: p2.obj.advisory }
+  - { id: count, text: p2.obj.count }
+  - { id: swap, text: p2.obj.swap }
+  - { id: habit, text: p2.obj.habit }
+
+investigation:
+  - { id: advisory, text: p2.q.advisory, value: "BRX-2027-0318", points: 50, objective: advisory }
+  - { id: count, text: p2.q.count, value: "37", points: 75, objective: count }
+
+checks:
+  - id: swap
+    text: p2.check.swap
+    if: { all: [{ file: "~/assistant/package.json", lacks: "relais-mcp" }, { file: "~/assistant/package.json", contains: '"@courrielo/mcp-server": "2.3.1"' }] }
+    objective: swap
+  - id: calendar
+    text: p2.check.calendar
+    if: { file: "~/assistant/package.json", contains: '"calendrier-mcp": "2.1.4"' }
+
+questions:
+  - id: habit
+    text: p2.q.habit
+    objective: habit
+    correct: vendor
+    options:
+      - { id: vendor, text: p2.q.habit.vendor }
+      - { id: popular, text: p2.q.habit.popular, why: p2.q.habit.popular.why }
+      - { id: model, text: p2.q.habit.model, why: p2.q.habit.model.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: advisory }
+    do:
+      - ada.say: p2.ada.advisory
+  - on: { event: ObjectiveCompleted, objective: count }
+    do:
+      - ada.say: p2.ada.count
+  - on: { event: ObjectiveCompleted, objective: swap }
+    do:
+      - ada.say: p2.ada.swap
+      - ada.ask: habit
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p2.ada.done
+
+guide:
+  advisory: p2.ada.g.advisory
+  count: p2.ada.g.count
+  swap: p2.ada.g.swap
+  habit: p2.ada.g.habit
+
+hints:
+  advisory: [p2.hint.advisory.1]
+  count: [p2.hint.count.1, p2.hint.count.2]
+  swap: [p2.hint.swap.1, p2.hint.swap.2]
+  habit: [p2.hint.habit.1]
+
+debrief:
+  title: p2.debrief.title
+  lesson: p2.debrief.lesson
+  points: [p2.debrief.p1, p2.debrief.p2, p2.debrief.p3]
+  reference: "OWASP Top 10 for LLM Applications · LLM03 Supply Chain"
+  facts:
+    title: p2.facts.title
+    points: [p2.facts.p1, p2.facts.p2, p2.facts.p3, p2.facts.p4]
+    sources:
+      - { label: "The Hacker News, First Malicious MCP Server Found Stealing Emails in Rogue Postmark-MCP Package (29 September 2025)", url: "https://thehackernews.com/2025/09/first-malicious-mcp-server-found.html" }

@@ -1,0 +1,16 @@
+id: dossiers.serin-2-owner
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.serin-world]
+title:
+  fr: "Dossier 43 · 2. À qui est ce dossier"
+  en: "Case file 43 · 2. Whose file is this"
+summary:
+  fr: "Cordée corrige le jour même. Tu fermes le compte de test dans la configuration du portail, tu fais vérifier que chaque candidature appartient au magasin qui la demande, tu confirmes que la porte est fermée, puis tu choisis qui prévenir."
+  en: "Cordée fixes it the same day. You close the test account in the portal's configuration, have it check that each application belongs to the store asking for it, confirm the door is shut, then choose whom to warn."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, defense]
+minutes: 12

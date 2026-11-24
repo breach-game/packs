@@ -1,0 +1,52 @@
+# Challenge: a race condition. The gift card desk checks "already used" then credits, without a lock.
+# Two requests sent at once (`curl -Z`) are both decided before either marks the card as used.
+order: 2
+stage: exploitation
+briefing: r.briefing
+
+objectives:
+  - { id: twice, text: r.obj.twice }
+  - { id: fix, text: r.obj.fix }
+
+questions:
+  - id: fix
+    text: r.q.fix
+    objective: fix
+    correct: atomic
+    options:
+      - { id: atomic, text: r.q.fix.atomic }
+      - { id: captcha, text: r.q.fix.captcha, why: r.q.fix.captcha.why }
+      - { id: delay, text: r.q.fix.delay, why: r.q.fix.delay.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: r.ada.brief
+  # The card was already credited when another "redeemed" answer comes: two credits for one card.
+  - id: second
+    on: { event: ChatReply, npc: cadeau, intent: redeem }
+    if: { var: credited, eq: true }
+    do:
+      - objective.complete: twice
+  - id: first
+    once: false
+    on: { event: ChatReply, npc: cadeau, intent: redeem }
+    do:
+      - var.set: { name: credited, value: true }
+  - on: { event: ChatReply, npc: cadeau, intent: reset }
+    once: false
+    do:
+      - var.set: { name: credited, value: false }
+  - on: { event: ObjectiveCompleted, objective: twice }
+    do:
+      - ada.say: r.ada.twice
+      - ada.ask: fix
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: r.ada.done
+
+debrief:
+  title: r.debrief.title
+  lesson: r.debrief.lesson
+  points: [r.debrief.p1, r.debrief.p2, r.debrief.p3]
+  reference: "OWASP · Business Logic Vulnerability: race conditions"

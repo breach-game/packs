@@ -1,0 +1,3 @@
+file.readme: "Poste Ligne Rouge. Dossier : Bruant. Tape `mission` pour voir tes objectifs, `hint` si tu bloques."
+file.mandate: "MANDAT OM-2027-146\nClient : Ombrelle, éditeur de l'extension Garde-Notes. Périmètre : *.ombrelle.test, 10.122.0.0/24.\nObjet : une version de Garde-Notes que personne chez Ombrelle n'a publiée est en ligne depuis la nuit. Ligne Rouge aide Ombrelle à comprendre, retirer l'accès, publier la correction et prévenir.\nCadre convenu : défense seulement. Lecture de la boîte du développeur, du journal du magasin et des archives des versions, mesures passées par `contain`.\nSigné : la fondatrice d'Ombrelle."
+ada.outOfScope: "Stop. Cette cible est hors du mandat OM-2027-146. Même pour défendre, hors mandat c'est un délit (article 323-1 du Code pénal)."

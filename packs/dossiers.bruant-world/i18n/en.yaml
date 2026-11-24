@@ -1,0 +1,3 @@
+file.readme: "Ligne Rouge workstation. Case file: Bruant. Type `mission` to see your objectives, `hint` if you get stuck."
+file.mandate: "MANDATE OM-2027-146\nClient: Ombrelle, publisher of the Garde-Notes extension. Scope: *.ombrelle.test, 10.122.0.0/24.\nPurpose: a Garde-Notes version that nobody at Ombrelle published has been online since last night. Ligne Rouge helps Ombrelle understand, remove the access, publish the fix and warn.\nAgreed setup: defence only. Reading the developer's mailbox, the store's log and the version archives, measures ordered through `contain`.\nSigned: Ombrelle's founder."
+ada.outOfScope: "Stop. This target is outside mandate OM-2027-146. Even to defend, outside the mandate it is an offence (article 323-1 of the French Penal Code)."

@@ -1,0 +1,16 @@
+id: dossiers.bruant-2-version
+version: 1.0.0
+engine: ">=0.19 <1"
+kind: mission
+requires: [dossiers.bruant-world]
+title:
+  fr: "Dossier 46 · 2. La version 3.10.4"
+  en: "Case file 46 · 2. Version 3.10.4"
+summary:
+  fr: "Tu ouvres la version piégée avec `unzip`, tu compares son manifeste à la précédente, tu trouves le fichier ajouté et où il envoie ce qu'il lit, puis tu publies la correction et tu choisis quoi dire aux utilisateurs."
+  en: "You open the trapped version with `unzip`, compare its manifest with the previous one, find the added file and where it sends what it reads, then publish the fix and choose what to tell users."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, defense]
+minutes: 14

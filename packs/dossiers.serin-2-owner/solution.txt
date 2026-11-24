@@ -1,0 +1,9 @@
+# Case file 43, mission 2: the shortest path, replayed by CI in every language.
+cat portail/comptes.yml
+cat portail/api.yml
+sed -i '/123456/d' portail/comptes.yml
+sed -i 's/read: any_signed_in/read: own_store/' portail/api.yml
+verify
+contain disable portail
+curl -d "user=123456 password=123456" https://admin.cordee.test/login
+answer logs

@@ -1,0 +1,94 @@
+# Case file 45 "Traquet". Inspired by the 2025 device code phishing campaign: a fake meeting
+# invitation carries a code to enter on the real sign-in page, which signs the attacker's
+# device in with the victim's session. Defence side only: messages and sign-in logs.
+startTime: "2027-02-11T10:05:00+01:00"
+mandate: PA-2027-145
+scope:
+  domains: ["*.passerelle.test"]
+  networks: ["10.121.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.121.0.2
+
+config:
+  pa.revoked: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.121.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [idp, mail]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            PA-2027-145.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: idp
+    hostname: connexion.passerelle.test
+    ip: 10.121.0.20
+    os: Linux
+    map: { x: 100, z: -80, h: 130 }
+    services:
+      - { port: 443, name: https, product: Identity provider }
+    web:
+      "/device":
+        page:
+          title: page.device.title
+          blocks:
+            - { h1: page.device.h1 }
+            - { p: page.device.p }
+            - { footer: page.device.footer }
+
+  - id: mail
+    hostname: mail.passerelle.test
+    ip: 10.121.0.25
+    os: Linux
+    map: { x: 260, z: 40, h: 110 }
+    services:
+      - { port: 443, name: https, product: Mail API }
+
+  - id: outside
+    hostname: inconnu.passerelle.test
+    ip: 10.121.0.200
+    kind: unknown
+    hidden: true
+    os: unknown
+    map: { x: -200, z: 220, h: 40 }
+
+dns:
+  passerelle.test: { A: ["10.121.0.20"] }
+  connexion.passerelle.test: { A: ["10.121.0.20"] }
+  mail.passerelle.test: { A: ["10.121.0.25"] }
+
+telemetry:
+  background:
+    - { host: idp, source: signin, every: 2, offset: 0, fields: { user: c.laurent, app: Visio, flow: password, src: 10.121.0.51, mfa: satisfied, result: success } }
+    - { host: idp, source: signin, every: 3, offset: 1, fields: { user: salle-agora, app: "Salle de reunion", flow: device_code, src: 10.121.0.80, mfa: not_required, result: success } }
+    - { host: idp, source: signin, every: 4, offset: 2, fields: { user: m.diallo, app: Messagerie, flow: password, src: 10.121.0.57, mfa: satisfied, result: success } }
+    - { host: idp, source: signin, every: 5, offset: 3, fields: { user: salle-forum, app: "Salle de reunion", flow: device_code, src: 10.121.0.81, mfa: not_required, result: success } }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
