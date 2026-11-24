@@ -1,0 +1,136 @@
+# Side series "L'Étiquette". QR code scams seen from the defence side: a sticker over a parking
+# meter, an unordered parcel, a mail whose only link is a picture, and the town's own printed codes
+# pointing at a domain it let go. The player reads codes (`qr decode`, `zbarimg`), never follows
+# them: every address is a reserved name, the fake pages are never built, and no payment form exists.
+startTime: "2029-10-08T08:30:00+02:00"
+mandate: BV-2029-114
+scope:
+  domains: ["*.brumevaux.test", "vallon-liens.example"]
+  networks: ["10.114.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.114.0.2
+
+config:
+  bv.colis_blocked: false
+  bv.mails_purged: false
+  bv.sender_blocked: false
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.114.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -320, z: 40, h: 70 }
+    links: [www, mx, dns]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            BV-2029-114.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: dns
+    hostname: dns.brumevaux.test
+    ip: 10.114.0.2
+    os: Linux
+    map: { x: -60, z: -150, h: 70 }
+    services: [{ port: 53, name: domain, product: Town resolver }]
+
+  - id: www
+    hostname: www.brumevaux.test
+    ip: 10.114.0.10
+    os: Linux
+    map: { x: 120, z: -60, h: 110 }
+    services: [{ port: 443, name: https, product: nginx }]
+    web:
+      "/":
+        page:
+          title: www.title
+          blocks:
+            - h1: www.h1
+            - p: www.p1
+            - nav: [{ href: /stationnement, label: www.nav.parking }, { href: /agenda, label: www.nav.agenda }]
+            - footer: www.footer
+      "/stationnement":
+        page:
+          title: park.title
+          blocks:
+            - h1: park.h1
+            - p: park.p1
+            - list: [park.l1, park.l2, park.l3]
+            - p: park.p2
+            - footer: www.footer
+      "/agenda":
+        page:
+          title: agenda.title
+          blocks:
+            - h1: agenda.h1
+            - list: [agenda.l1, agenda.l2, agenda.l3]
+            - footer: www.footer
+
+  - id: mx
+    hostname: mx.brumevaux.test
+    ip: 10.114.0.20
+    os: Linux
+    map: { x: 260, z: 90, h: 90 }
+    services: [{ port: 25, name: smtp, product: Mail gateway }]
+
+  - id: outside
+    hostname: outside.example
+    ip: 203.0.113.140
+    hidden: true
+    map: { x: 420, z: -200, h: 40 }
+
+dns:
+  brumevaux.test: { A: ["10.114.0.10"] }
+  www.brumevaux.test: { A: ["10.114.0.10"] }
+  mx.brumevaux.test: { A: ["10.114.0.20"] }
+  dns.brumevaux.test: { A: ["10.114.0.2"] }
+
+whois:
+  vallon-liens.example: |
+    Domain Name: VALLON-LIENS.EXAMPLE
+    Registry Domain ID: 88412093_DOMAIN_EXAMPLE
+    Registrar: Fictional Registrar SAS
+    Updated Date: 2029-09-03T22:14:07Z
+    Creation Date: 2029-09-03T22:14:07Z
+    Registry Expiry Date: 2030-09-03T22:14:07Z
+    Registrant Organization: REDACTED FOR PRIVACY
+    Registrant Country: REDACTED FOR PRIVACY
+    Name Server: NS1.PARKING-PAGES.EXAMPLE
+    Name Server: NS2.PARKING-PAGES.EXAMPLE
+    >>> Last update of WHOIS database: 2029-10-11T07:58:00Z <<<
+
+    NOTICE: this domain was deleted on 2029-08-19 after its previous registration
+    expired, and registered again by a new holder on 2029-09-03.
+
+# The town's mail on an ordinary day: newsletters, suppliers, colleagues sharing a picture.
+telemetry:
+  background:
+    - { host: mx, source: mail, every: 4, offset: 0, fields: { from: "lettre@departement.example", to: "accueil@brumevaux.test", subject: "La lettre du département", link: "departement.example", attach: "-", verdict: delivered } }
+    - { host: mx, source: mail, every: 5, offset: 1, fields: { from: "factures@papeterie-lebon.example", to: "compta@brumevaux.test", subject: "Facture octobre", link: "-", attach: "facture-1029.pdf", verdict: delivered } }
+    - { host: mx, source: mail, every: 6, offset: 2, fields: { from: "s.ferrand@brumevaux.test", to: "services@brumevaux.test", subject: "Plan de la salle des fêtes", link: "-", attach: "plan-salle.png", verdict: delivered } }
+    - { host: mx, source: mail, every: 7, offset: 3, fields: { from: "info@cinema-lumen.example", to: "culture@brumevaux.test", subject: "Programme et affiche", link: "cinema-lumen.example", attach: "affiche.png", verdict: delivered } }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope

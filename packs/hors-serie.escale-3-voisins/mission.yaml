@@ -1,0 +1,100 @@
+# L'Escale, mission 3: the neighbours. A ping scan of the guest network (`nmap -sn`) shows what
+# any guest sees: the café's equipment, its test laptop and three travellers. The proof is made on
+# the test laptop only (its file sharing answers on 139 and 445); scanning a traveller's ports
+# costs noise. The fix is the controller's settings (client isolation, guests kept off the staff
+# network), judged by `verify`. The debrief cites the 2026 research showing that client isolation
+# can be bypassed, without any of its techniques: the device must defend itself too.
+side: defense
+order: 3
+stage: defense
+startTime: "2029-11-06T09:30:00+01:00"
+briefing: w3.briefing
+reveal: [gw, wlc, portail, pctest, invite101, invite102, invite103]
+
+files:
+  note-it.txt: { $file: files/note-it.txt }
+  borne/reglages.conf: { $file: files/reglages.conf }
+
+objectives:
+  - { id: scan, text: w3.obj.scan }
+  - { id: guests, text: w3.obj.guests }
+  - { id: proof, text: w3.obj.proof }
+  - { id: fix, text: w3.obj.fix }
+  - { id: enough, text: w3.obj.enough }
+
+investigation:
+  - { id: guests, text: w3.q.guests, value: "3", points: 100, objective: guests }
+
+checks:
+  - id: isolation
+    text: w3.check.isolation
+    if: { file: "~/borne/reglages.conf", contains: "\nclient_isolation: on" }
+    objective: fix
+  - id: staff
+    text: w3.check.staff
+    if: { file: "~/borne/reglages.conf", contains: "\nguest_to_staff: deny" }
+    objective: fix
+
+questions:
+  - id: enough
+    text: w3.q.enough
+    objective: enough
+    correct: device
+    options:
+      - { id: device, text: w3.q.enough.device }
+      - { id: done, text: w3.q.enough.done, why: w3.q.enough.done.why }
+      - { id: owe, text: w3.q.enough.owe, why: w3.q.enough.owe.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: w3.ada.brief
+  - on: { event: HostDiscovered, host: invite101 }
+    do:
+      - objective.complete: scan
+  - on: { event: ObjectiveCompleted, objective: scan }
+    do:
+      - ada.say: w3.ada.scan
+  - on: { event: ObjectiveCompleted, objective: guests }
+    do:
+      - ada.say: w3.ada.guests
+  - on: { event: ServiceDiscovered, host: pctest, port: 445 }
+    do:
+      - objective.complete: proof
+  - on: { event: ObjectiveCompleted, objective: proof }
+    do:
+      - ada.say: w3.ada.proof
+  - on: { event: ServiceDiscovered, host: invite101 }
+    do:
+      - noise.add: { points: 15, as: w3.noise.guest }
+      - ada.warn: w3.ada.guest
+  - on: { event: ObjectiveCompleted, objective: fix }
+    do:
+      - ada.say: w3.ada.fix
+      - ada.ask: enough
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: w3.ada.done
+
+guide:
+  scan: w3.ada.g.scan
+  guests: w3.ada.g.guests
+  proof: w3.ada.g.proof
+  fix: w3.ada.g.fix
+  enough: w3.ada.answer
+
+hints:
+  scan: [w3.hint.scan.1]
+  guests: [w3.hint.guests.1, w3.hint.guests.2]
+  proof: [w3.hint.proof.1]
+  fix: [w3.hint.fix.1, w3.hint.fix.2]
+  enough: [w3.hint.enough.1]
+
+debrief:
+  title: w3.debrief.title
+  lesson: w3.debrief.lesson
+  points: [w3.debrief.p1, w3.debrief.p2, w3.debrief.p3]
+  reference: "CIS Controls v8 · 4.5 Host-based firewall"
+  home:
+    kind: travel
+    points: [w3.home.p1, w3.home.p2, w3.home.p3]

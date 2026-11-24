@@ -1,0 +1,7 @@
+Isolated bench - notes
+
+2029-10-09 10:12  QR code of colis/carte.png read with zbarimg (not opened on a phone).
+2029-10-09 10:20  The address offers an Android app to install from outside the app store.
+                  Downloaded on the isolated bench (no SIM card, no account, no network
+                  afterwards) as banc/SuiviColis.apk. NOT installed, NOT run.
+2029-10-09 10:31  To look inside: unzip -l, unzip -p <member>, strings.

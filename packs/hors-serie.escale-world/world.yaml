@@ -1,0 +1,159 @@
+# Side series "L'Escale". Public Wi-Fi seen honestly: what a neighbour really sees on a café's
+# network (names, not content, except what an app still sends in clear), the fake network that
+# copies the real one and asks for a password, the other guests on the same network, and the
+# traveller's own habits. Defence and audit only: nothing is captured live, no access point is
+# imitated, no client is disconnected, no key is cracked. Every name is reserved, every address
+# private, every hardware address locally administered.
+startTime: "2029-11-05T08:00:00+01:00"
+mandate: ES-2029-31
+scope:
+  domains: ["*.escale.test"]
+  networks: ["10.115.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.115.0.1
+
+config:
+  es.rogue_removed: false
+
+hosts:
+  # The Ligne Rouge laptop. Its saved networks are real keyfiles that `nmcli connection` reads.
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.115.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -330, z: 50, h: 70 }
+    links: [gw, wlc, portail]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            ES-2029-31.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+        NetworkManager:
+          system-connections:
+            Escale-Invites.nmconnection: "[connection]\nid=Escale-Invites\nuuid=5b0e8a52-3c1d-4f7a-9e60-1a2b3c4d5e01\ntype=wifi\n\n[wifi]\nmode=infrastructure\nssid=Escale-Invites\n\n[ipv4]\nmethod=auto\n"
+            Gare-WiFi-Gratuit.nmconnection: "[connection]\nid=Gare-WiFi-Gratuit\nuuid=5b0e8a52-3c1d-4f7a-9e60-1a2b3c4d5e02\ntype=wifi\n\n[wifi]\nmode=infrastructure\nssid=Gare-WiFi-Gratuit\n\n[ipv4]\nmethod=auto\n"
+            Hotel-Les-Tilleuls.nmconnection: "[connection]\nid=Hotel-Les-Tilleuls\nuuid=5b0e8a52-3c1d-4f7a-9e60-1a2b3c4d5e03\ntype=wifi\n\n[wifi]\nmode=infrastructure\nssid=Hotel-Les-Tilleuls\n\n[ipv4]\nmethod=auto\n"
+            LigneRouge.nmconnection: "[connection]\nid=LigneRouge\nuuid=5b0e8a52-3c1d-4f7a-9e60-1a2b3c4d5e04\ntype=wifi\n\n[wifi]\nmode=infrastructure\nssid=LigneRouge\n\n[wifi-security]\nkey-mgmt=wpa-eap\n\n[802-1x]\neap=tls\nidentity=kestrel\n\n[ipv4]\nmethod=auto\n"
+            Partage-Kestrel.nmconnection: "[connection]\nid=Partage-Kestrel\nuuid=5b0e8a52-3c1d-4f7a-9e60-1a2b3c4d5e05\ntype=wifi\n\n[wifi]\nmode=infrastructure\nssid=Partage-Kestrel\n\n[wifi-security]\nkey-mgmt=sae\n\n[ipv4]\nmethod=auto\n"
+
+  # The café's router: the guests' gateway and resolver.
+  - id: gw
+    hostname: gw.gare-sud.escale.test
+    ip: 10.115.0.1
+    os: Linux
+    map: { x: -90, z: -40, h: 110 }
+    links: [wlc, portail, fidelite]
+    services: [{ port: 53, name: domain, product: dnsmasq 2.90 }]
+
+  # The wireless controller: it runs the café's two access points and hears every network around.
+  - id: wlc
+    hostname: wlc.gare-sud.escale.test
+    ip: 10.115.0.2
+    os: Escale WLC 5.1
+    map: { x: 80, z: -190, h: 120 }
+    services: [{ port: 443, name: https, product: Escale WLC admin }]
+
+  # The captive portal: one page, the terms, one button. It never asks for an account.
+  - id: portail
+    hostname: portail.escale.test
+    ip: 10.115.0.3
+    os: Linux
+    map: { x: 120, z: 40, h: 90 }
+    services: [{ port: 443, name: https, product: nginx }]
+    web:
+      "/":
+        page:
+          title: portal.title
+          blocks:
+            - h1: portal.h1
+            - p: portal.p1
+            - list: [portal.l1, portal.l2, portal.l3]
+            - p: portal.p2
+            - footer: portal.footer
+
+  # The chain's loyalty server.
+  - id: fidelite
+    hostname: fidelite.escale.test
+    ip: 10.115.0.30
+    os: Linux
+    map: { x: 260, z: -80, h: 90 }
+    services:
+      - { port: 80, name: http, product: nginx }
+      - { port: 443, name: https, product: nginx }
+
+  # Devices on the guest network on Tuesday morning: the café's test laptop and three travellers.
+  # Hidden until the mission that looks at the neighbours.
+  - id: pctest
+    hostname: pc-test.gare-sud.escale.test
+    ip: 10.115.0.50
+    hidden: true
+    os: Windows 11 (test laptop of the café)
+    map: { x: 200, z: 190, h: 70 }
+    services:
+      - { port: 139, name: netbios-ssn, product: Microsoft Windows netbios-ssn }
+      - { port: 445, name: microsoft-ds, product: Microsoft Windows file sharing }
+  - id: invite101
+    hostname: invite-101.gare-sud.escale.test
+    ip: 10.115.0.101
+    hidden: true
+    os: Windows 11
+    map: { x: 330, z: 150, h: 60 }
+    services:
+      - { port: 445, name: microsoft-ds, product: Microsoft Windows file sharing }
+  - id: invite102
+    hostname: invite-102.gare-sud.escale.test
+    ip: 10.115.0.102
+    hidden: true
+    os: Android
+    map: { x: 380, z: 40, h: 50 }
+  - id: invite103
+    hostname: invite-103.gare-sud.escale.test
+    ip: 10.115.0.103
+    hidden: true
+    os: macOS
+    map: { x: 340, z: -60, h: 60 }
+
+  - id: outside
+    hostname: outside.example
+    ip: 203.0.113.150
+    hidden: true
+    map: { x: 460, z: -220, h: 40 }
+
+dns:
+  portail.escale.test: { A: ["10.115.0.3"] }
+  fidelite.escale.test: { A: ["10.115.0.30"] }
+  wlc.gare-sud.escale.test: { A: ["10.115.0.2"] }
+  gw.gare-sud.escale.test: { A: ["10.115.0.1"] }
+
+# What a phone sees from the café's tables. Hardware addresses are locally administered (02:…).
+wifi:
+  - { ssid: Escale-Invites, bssid: "02:E5:CA:00:01:01", channel: 1, signal: 82, security: open, inUse: true }
+  - { ssid: Escale-Equipe, bssid: "02:E5:CA:00:01:02", channel: 36, signal: 74, security: WPA3 }
+  - { ssid: Boulangerie-Gare, bssid: "02:B0:42:11:20:07", channel: 6, signal: 41, security: WPA2 }
+  - { ssid: Gare-Sud-Infos, bssid: "02:5D:00:9A:10:33", channel: 11, signal: 35, security: open }
+
+# An ordinary morning in the controller's log: its own access points, the neighbours, guests joining.
+telemetry:
+  background:
+    - { host: wlc, source: wlan, every: 3, offset: 0, fields: { event: beacon, ssid: Escale-Invites, bssid: "02:E5:CA:00:01:01", channel: "1", security: open, rssi: "-41", managed: "yes" } }
+    - { host: wlc, source: wlan, every: 4, offset: 1, fields: { event: beacon, ssid: Escale-Equipe, bssid: "02:E5:CA:00:01:02", channel: "36", security: wpa3, rssi: "-44", managed: "yes" } }
+    - { host: wlc, source: wlan, every: 5, offset: 2, fields: { event: beacon, ssid: Boulangerie-Gare, bssid: "02:B0:42:11:20:07", channel: "6", security: wpa2, rssi: "-71", managed: "no" } }
+    - { host: wlc, source: wlan, every: 6, offset: 3, fields: { event: beacon, ssid: Gare-Sud-Infos, bssid: "02:5D:00:9A:10:33", channel: "11", security: open, rssi: "-77", managed: "no" } }
+    - { host: wlc, source: wlan, every: 4, offset: 2, fields: { event: assoc, ssid: Escale-Invites, bssid: "02:E5:CA:00:01:01", sta: "0a:3c:51:8e:22:10", src: "10.115.0.112" } }
+
+noise:
+  nmap:
+    base: 0
+    flags: {}
+  dig: 0
+  curl: 0
+  browse: 0
+  ssh: 0

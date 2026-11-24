@@ -1,0 +1,162 @@
+# The Sticker, mission 3: the mail with no link. A campaign of mails from a look-alike domain
+# carries no clickable link, only a picture of a QR code, so the gateway's link check sees nothing.
+# SPF, DKIM and DMARC all pass: the domain is the attacker's own. The player reads the headers
+# and the code without opening it, blocks the sender (the next mails are refused), pulls the
+# mails already delivered, and writes a rule on the mail log (`attach` field) that catches the
+# campaign and not the colleague who shares a picture.
+side: defense
+order: 3
+stage: defense
+startTime: "2029-10-10T08:15:00+02:00"
+briefing: e3.briefing
+reveal: [www, mx, dns]
+
+files:
+  courrier/acces-messagerie.eml: { $file: files/acces-messagerie.eml }
+  courrier/acces-messagerie.png: { $qr: { text: "https://mairie-brumevaux-acces.example/connexion?u=compta" } }
+  regles/qr-courrier.yml: "# Detection rule, to try with: rule test regles/qr-courrier.yml\n# One condition per line. Mail log fields: from, to, subject, link, attach, verdict.\n# Modifiers: |contains, |startswith, |endswith.\ntitle: Mail with a QR code picture and no link\nsource: mail\nattach|endswith: .png\nlink: \"-\"\n"
+
+adversary:
+  id: quish
+  name: brumevaux-mairie.example
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    # Two mails are already delivered when the accounting department calls.
+    - id: mail1
+      host: mx
+      source: mail
+      fields: { from: "support@brumevaux-mairie.example", to: "compta@brumevaux.test", subject: "Votre acces messagerie expire aujourd'hui", link: "-", attach: "acces-messagerie.png", verdict: delivered }
+    - id: mail2
+      host: mx
+      source: mail
+      fields: { from: "support@brumevaux-mairie.example", to: "urbanisme@brumevaux.test", subject: "Votre acces messagerie expire aujourd'hui", link: "-", attach: "acces-messagerie.png", verdict: delivered }
+    - id: mail3
+      host: mx
+      source: mail
+      fields: { from: "support@brumevaux-mairie.example", to: "accueil@brumevaux.test", subject: "Votre acces messagerie expire aujourd'hui", link: "-", attach: "acces-messagerie.png", verdict: delivered }
+      blockedIf: { config: bv.sender_blocked, eq: true }
+      continueIfBlocked: true
+    - id: mail4
+      host: mx
+      source: mail
+      fields: { from: "support@brumevaux-mairie.example", to: "culture@brumevaux.test", subject: "Dernier rappel : acces messagerie", link: "-", attach: "acces-messagerie.png", verdict: delivered }
+      blockedIf: { config: bv.sender_blocked, eq: true }
+      continueIfBlocked: true
+    - id: mail5
+      host: mx
+      source: mail
+      fields: { from: "support@brumevaux-mairie.example", to: "rh@brumevaux.test", subject: "Dernier rappel : acces messagerie", link: "-", attach: "acces-messagerie.png", verdict: delivered }
+      blockedIf: { config: bv.sender_blocked, eq: true }
+      continueIfBlocked: true
+
+containment:
+  - id: sender
+    action: block
+    target: brumevaux-mairie.example
+    text: e3.contain.sender
+    sets: { bv.sender_blocked: true }
+    impact: 0
+  - id: purge
+    action: remove
+    target: campagne-qr
+    text: e3.contain.purge
+    sets: { bv.mails_purged: true }
+    impact: 0
+
+objectives:
+  - { id: read, text: e3.obj.read }
+  - { id: sender, text: e3.obj.sender }
+  - { id: why, text: e3.obj.why }
+  - { id: block, text: e3.obj.block }
+  - { id: purge, text: e3.obj.purge }
+  - { id: detect, text: e3.obj.detect }
+
+investigation:
+  - { id: sender, text: e3.q.sender, value: "brumevaux-mairie.example", points: 100, objective: sender }
+
+hunts:
+  - id: quish
+    file: regles/qr-courrier.yml
+    catch: { source: mail, where: { from: { contains: brumevaux-mairie } } }
+    objective: detect
+
+questions:
+  - id: why
+    text: e3.q.why
+    objective: why
+    correct: image
+    options:
+      - { id: image, text: e3.q.why.image }
+      - { id: spf, text: e3.q.why.spf, why: e3.q.why.spf.why }
+      - { id: off, text: e3.q.why.off, why: e3.q.why.off.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: e3.ada.brief
+  - on: { event: QrDecoded, text: { contains: mairie-brumevaux-acces } }
+    do:
+      - objective.complete: read
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: e3.ada.read
+  - on: { event: CommandRun, command: mailhdr }
+    do:
+      - ada.guide: { key: e3.ada.headers, for: sender, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: sender }
+    do:
+      - ada.say: e3.ada.sender
+      - ada.ask: why
+  - on: { event: ObjectiveCompleted, objective: why }
+    do:
+      - ada.say: e3.ada.why
+  - on: { event: Contained, containment: sender }
+    do:
+      - objective.complete: block
+      - ada.say: e3.ada.block
+  - on: { event: Contained, containment: purge }
+    do:
+      - objective.complete: purge
+      - ada.say: e3.ada.purge
+  - on: { event: AdversaryStep, step: mail4, blocked: false }
+    do:
+      - ada.warn: e3.ada.more
+  - on: { event: RuleTested, hunt: quish, passed: false, caught: { gte: 1 }, falsePositives: { gte: 1 } }
+    do:
+      - ada.guide: { key: e3.ada.g.false, for: detect, step: 1 }
+  - on: { event: RuleTested, hunt: quish, passed: false, falsePositives: 0, missed: { gte: 1 } }
+    do:
+      - ada.guide: { key: e3.ada.g.missed, for: detect, step: 1 }
+  - on: { event: RuleTested, hunt: quish, passed: true }
+    do:
+      - ada.say: e3.ada.detect
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: e3.ada.done
+
+guide:
+  read: e3.ada.g.read
+  sender: e3.ada.g.sender
+  why: e3.ada.answer
+  block: e3.ada.g.block
+  purge: e3.ada.g.purge
+  detect: e3.ada.g.detect
+
+hints:
+  read: [e3.hint.read.1]
+  sender: [e3.hint.sender.1, e3.hint.sender.2]
+  why: [e3.hint.why.1]
+  block: [e3.hint.block.1]
+  purge: [e3.hint.purge.1]
+  detect: [e3.hint.detect.1, e3.hint.detect.2, e3.hint.detect.3]
+
+debrief:
+  title: e3.debrief.title
+  lesson: e3.debrief.lesson
+  points: [e3.debrief.p1, e3.debrief.p2, e3.debrief.p3]
+  reference: "MITRE ATT&CK · T1566.001 Spearphishing Attachment · quishing"
+  home:
+    kind: travel
+    points: [e3.home.p1, e3.home.p2]

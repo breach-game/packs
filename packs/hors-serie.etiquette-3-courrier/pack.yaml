@@ -1,0 +1,16 @@
+id: hors-serie.etiquette-3-courrier
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.etiquette-world]
+title:
+  fr: "L'Étiquette · 3. Le mail sans lien"
+  en: "The Sticker · 3. The mail with no link"
+summary:
+  fr: "« Votre accès à la messagerie expire : scannez pour le renouveler. » Le mail n'a aucun lien, juste une image, et le filtre l'a laissé passer. Tu lis ses en-têtes et son code sans l'ouvrir, tu bloques l'expéditeur, tu retires les mails déjà livrés, et tu écris la règle qui voit la suite."
+  en: "\"Your mailbox access expires: scan to renew it.\" The mail has no link, just a picture, and the filter let it through. You read its headers and its code without opening it, block the sender, pull the mails already delivered, and write the rule that spots the next ones."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, defense, logs]
+minutes: 15

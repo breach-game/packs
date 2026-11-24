@@ -1,0 +1,10 @@
+# L'Escale, mission 1: the shortest path, replayed by CI in every language.
+cat note-directrice.txt
+tshark -r captures/invites-0730.pcap
+answer names
+tshark -r captures/invites-0730.pcap -Y http -V
+answer server fidelite.escale.test
+sed -i 's|server_url: http://|server_url: https://|' caisse/fidelite.conf
+sed -i 's/network: guest/network: staff/' caisse/fidelite.conf
+verify
+answer keep

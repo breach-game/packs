@@ -1,0 +1,28 @@
+Return-Path: <bounce@relay.brumevaux-mairie.example>
+Received: from relay.brumevaux-mairie.example (203.0.113.140)
+        by mx.brumevaux.test; Wed, 10 Oct 2029 07:41:52 +0200
+Authentication-Results: mx.brumevaux.test;
+        spf=pass smtp.mailfrom=brumevaux-mairie.example;
+        dkim=pass header.d=brumevaux-mairie.example; dmarc=pass header.from=brumevaux-mairie.example
+From: "Service informatique" <support@brumevaux-mairie.example>
+To: compta@brumevaux.test
+Subject: Votre acces messagerie expire aujourd'hui
+Date: Wed, 10 Oct 2029 07:41:50 +0200
+Content-Type: multipart/mixed; boundary="=_bv"
+
+--=_bv
+Content-Type: text/plain; charset=utf-8
+
+Bonjour,
+
+Votre acces a la messagerie de la mairie expire aujourd'hui a 12:00.
+Pour le renouveler, scannez le code joint avec votre telephone.
+
+Service informatique
+
+--=_bv
+Content-Type: image/png; name="acces-messagerie.png"
+Content-Disposition: attachment; filename="acces-messagerie.png"
+
+(attachment saved as courrier/acces-messagerie.png)
+--=_bv--

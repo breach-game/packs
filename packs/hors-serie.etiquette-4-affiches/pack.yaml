@@ -1,0 +1,16 @@
+id: hors-serie.etiquette-4-affiches
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.etiquette-world]
+title:
+  fr: "L'Étiquette · 4. Nos propres QR codes"
+  en: "The Sticker · 4. Our own QR codes"
+summary:
+  fr: "Une habitante scanne l'affiche de la médiathèque et tombe sur un « jeu concours ». Personne n'a collé d'étiquette : c'est le QR code imprimé par la mairie elle-même, qui passe par un raccourcisseur de liens fermé depuis, dont le nom a été racheté. Tu fais l'inventaire, tu écris la charte et tu décides quoi faire des affiches."
+  en: "A resident scans the library poster and lands on a \"prize draw\". Nobody pasted a sticker: it is the QR code the town printed itself, going through a link shortener that has since closed and whose name was bought again. You take stock, write the charter and decide what to do with the posters."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, defense, mobile]
+minutes: 15

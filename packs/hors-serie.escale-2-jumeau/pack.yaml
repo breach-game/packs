@@ -1,0 +1,16 @@
+id: hors-serie.escale-2-jumeau
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.escale-world]
+title:
+  fr: "L'Escale · 2. Le jumeau"
+  en: "L'Escale · 2. The twin"
+summary:
+  fr: "« Wi-Fi plus rapide : scannez ici. » Un autocollant sur les tables mène à Escale-Invites-5G, un réseau que le café n'a jamais créé, dont la page d'accueil demande le mot de passe de la messagerie. Côté défense : tu lis le QR code, tu trouves le faux point d'accès dans le journal de la borne, tu le fais retirer et tu écris la règle qui le verra la prochaine fois."
+  en: "\"Faster Wi-Fi: scan here.\" A sticker on the tables leads to Escale-Invites-5G, a network the café never created, whose welcome page asks for your mailbox password. On the defence side: you read the QR code, find the fake access point in the controller's log, have it removed and write the rule that spots it next time."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [social, defense, logs]
+minutes: 15

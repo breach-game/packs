@@ -1,0 +1,163 @@
+# L'Escale, mission 2: the twin. Defence only: someone hides a small access point in the café that
+# broadcasts "Escale-Invites-5G" and serves a welcome page asking for a mailbox password, and pastes
+# Wi-Fi QR codes on the tables to send guests there. The player reads the codes (`qr decode`),
+# finds the unmanaged access point in the wireless controller's log, has the staff remove the box
+# (it goes to the police, unopened), and writes a rule on the `wlan` log that sees an unmanaged
+# network borrowing the café's name, and not the bakery next door. The fake page is never built or
+# shown, nothing is imitated, nobody is disconnected. Facts card: the Australian Federal Police
+# case of June 2024.
+side: defense
+order: 2
+stage: defense
+startTime: "2029-11-05T08:10:00+01:00"
+briefing: w2.briefing
+reveal: [gw, wlc, portail]
+
+files:
+  signalements.txt: { $file: files/signalements.txt }
+  photos/table-4.png: { $qr: { text: "WIFI:S:Escale-Invites-5G;T:nopass;;", style: fancy } }
+  photos/comptoir.png: { $qr: { text: "WIFI:S:Escale-Invites;T:nopass;;" } }
+  regles/faux-reseau.yml: "# Detection rule, to try with: rule test regles/faux-reseau.yml\n# One condition per line. Wireless log fields: event, ssid, bssid, channel, security, rssi, managed.\n# Modifiers: |contains, |startswith, |endswith.\ntitle: Access point borrowing L'Escale's name\nsource: wlan\nevent: beacon\n"
+
+wifi:
+  - { ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", channel: 11, signal: 91, security: open, if: { config: es.rogue_removed, eq: false } }
+
+adversary:
+  id: twin
+  name: Escale-Invites-5G
+  from: outside
+  pace: 1
+  delay: 0
+  steps:
+    - id: b1
+      host: wlc
+      source: wlan
+      fields: { event: beacon, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", channel: "11", security: open, rssi: "-36", managed: "no" }
+    - id: a1
+      host: wlc
+      source: wlan
+      fields: { event: assoc, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", sta: "0a:91:2c:44:e0:17", src: "-" }
+    - id: b2
+      host: wlc
+      source: wlan
+      fields: { event: beacon, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", channel: "11", security: open, rssi: "-35", managed: "no" }
+      blockedIf: { config: es.rogue_removed, eq: true }
+    - id: a2
+      host: wlc
+      source: wlan
+      fields: { event: assoc, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", sta: "0a:5e:73:19:b2:c8", src: "-" }
+      blockedIf: { config: es.rogue_removed, eq: true }
+    - id: b3
+      host: wlc
+      source: wlan
+      fields: { event: beacon, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", channel: "11", security: open, rssi: "-37", managed: "no" }
+      blockedIf: { config: es.rogue_removed, eq: true }
+    - id: a3
+      host: wlc
+      source: wlan
+      fields: { event: assoc, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", sta: "0a:c2:08:6d:31:f4", src: "-" }
+      blockedIf: { config: es.rogue_removed, eq: true }
+    - id: b4
+      host: wlc
+      source: wlan
+      fields: { event: beacon, ssid: Escale-Invites-5G, bssid: "02:7A:31:C4:58:0E", channel: "11", security: open, rssi: "-36", managed: "no" }
+      blockedIf: { config: es.rogue_removed, eq: true }
+
+containment:
+  - id: box
+    action: remove
+    target: escale-invites-5g
+    text: w2.contain.box
+    sets: { es.rogue_removed: true }
+    impact: 0
+
+objectives:
+  - { id: read, text: w2.obj.read }
+  - { id: bssid, text: w2.obj.bssid }
+  - { id: portal, text: w2.obj.portal }
+  - { id: remove, text: w2.obj.remove }
+  - { id: detect, text: w2.obj.detect }
+
+investigation:
+  - { id: bssid, text: w2.q.bssid, value: "02:7a:31:c4:58:0e", points: 150, objective: bssid }
+
+hunts:
+  - id: twin
+    file: regles/faux-reseau.yml
+    catch: { source: wlan, where: { event: beacon, bssid: "02:7A:31:C4:58:0E" } }
+    objective: detect
+
+questions:
+  - id: portal
+    text: w2.q.portal
+    objective: portal
+    correct: password
+    options:
+      - { id: password, text: w2.q.portal.password }
+      - { id: padlock, text: w2.q.portal.padlock, why: w2.q.portal.padlock.why }
+      - { id: signal, text: w2.q.portal.signal, why: w2.q.portal.signal.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: w2.ada.brief
+  - on: { event: QrDecoded, text: { contains: Escale-Invites-5G } }
+    do:
+      - objective.complete: read
+  - on: { event: ObjectiveCompleted, objective: read }
+    do:
+      - ada.say: w2.ada.read
+  - on: { event: WifiScanned }
+    do:
+      - ada.say: w2.ada.scan
+  - on: { event: ObjectiveCompleted, objective: bssid }
+    do:
+      - ada.say: w2.ada.bssid
+      - ada.ask: portal
+  - on: { event: ObjectiveCompleted, objective: portal }
+    do:
+      - ada.say: w2.ada.portal
+  - on: { event: Contained, containment: box }
+    do:
+      - objective.complete: remove
+      - ada.say: w2.ada.remove
+  - on: { event: AdversaryStep, step: a3, blocked: false }
+    do:
+      - ada.warn: w2.ada.more
+  - on: { event: RuleTested, hunt: twin, passed: false, caught: { gte: 1 }, falsePositives: { gte: 1 } }
+    do:
+      - ada.guide: { key: w2.ada.g.false, for: detect, step: 1 }
+  - on: { event: RuleTested, hunt: twin, passed: true }
+    do:
+      - ada.say: w2.ada.detect
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: w2.ada.done
+
+guide:
+  read: w2.ada.g.read
+  bssid: w2.ada.g.bssid
+  portal: w2.ada.answer
+  remove: w2.ada.g.remove
+  detect: w2.ada.g.detect
+
+hints:
+  read: [w2.hint.read.1]
+  bssid: [w2.hint.bssid.1, w2.hint.bssid.2]
+  portal: [w2.hint.portal.1]
+  remove: [w2.hint.remove.1]
+  detect: [w2.hint.detect.1, w2.hint.detect.2]
+
+debrief:
+  title: w2.debrief.title
+  lesson: w2.debrief.lesson
+  points: [w2.debrief.p1, w2.debrief.p2, w2.debrief.p3]
+  reference: "MITRE ATT&CK · T1557 Adversary-in-the-Middle · evil twin"
+  facts:
+    title: w2.facts.title
+    points: [w2.facts.p1, w2.facts.p2, w2.facts.p3]
+    sources:
+      - { label: "Australian Federal Police, man charged over evil twin free wifi networks (June 2024)", url: "https://afp.gov.au/news-centre/media-release/man-charged-over-creation-evil-twin-free-wifi-networks-access-personal" }
+  home:
+    kind: travel
+    points: [w2.home.p1, w2.home.p2, w2.home.p3]

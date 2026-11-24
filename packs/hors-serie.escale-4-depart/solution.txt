@@ -1,0 +1,9 @@
+# L'Escale, mission 4: the shortest path, replayed by CI in every language.
+nmcli connection show
+answer name
+nmcli connection delete Gare-WiFi-Gratuit
+nmcli connection delete Hotel-Les-Tilleuls
+nmcli connection modify Escale-Invites connection.autoconnect no
+verify
+answer air
+answer owe

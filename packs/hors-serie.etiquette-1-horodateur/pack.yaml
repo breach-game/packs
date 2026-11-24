@@ -1,0 +1,16 @@
+id: hors-serie.etiquette-1-horodateur
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: mission
+requires: [hors-serie.etiquette-world]
+title:
+  fr: "L'Étiquette · 1. L'horodateur"
+  en: "The Sticker · 1. The parking meter"
+summary:
+  fr: "Des automobilistes ont payé leur stationnement par QR code et reçu une amende quand même. Tu lis les photos des horodateurs sans jamais ouvrir les codes, tu trouves le faux domaine et les horodateurs touchés, puis tu décides ce que la ville dit aux habitants."
+  en: "Drivers paid for parking with a QR code and got a fine anyway. You read the photos of the meters without ever opening the codes, find the fake domain and the meters it covers, then decide what the town tells its residents."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, mobile]
+minutes: 10

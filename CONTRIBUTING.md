@@ -341,6 +341,33 @@ debrief:
 
 Write each `home` point as one thing a person can do tonight, on their own equipment, with no tool to install. Missions on these subjects stay on the defence side: settings and weakness classes, never a technique against a real device, no real model or firmware name, fictional brands only. When the story involves a person at risk (scams on a relative, being tracked by someone close), show only the defence, keep every decision with that person, and never touch anyone else's devices or accounts.
 
+A `home` card can also be a travel card: add `kind: travel` and it is titled "To do on the road" (engine 0.18).
+
+### Captures, QR codes and saved networks
+
+Three more tools, for public Wi-Fi and QR code stories. They need engine 0.18 (`engine: ">=0.18 <1"`). See `packs/hors-serie.escale*` and `packs/hors-serie.etiquette*`.
+
+```yaml
+# In mission.yaml `files` (or a host's `fs`): a capture already taken, that `tshark -r` reads.
+files:
+  captures/guests.pcap:
+    $capture:
+      iface: wlan0
+      packets:
+        - { proto: dns, t: 0.9, src: 10.115.0.51, dst: 10.115.0.1, query: bank.example, answer: 203.0.113.61 }
+        - { proto: tls, t: 1.0, src: 10.115.0.51, dst: 203.0.113.61, sni: bank.example, bytes: 18400, records: 5 }
+        - { proto: tls, t: 5.1, src: 10.115.0.51, dst: 203.0.113.80, sni: cdn.example, ech: true, bytes: 9100, records: 3 }
+        - { proto: http, t: 6.1, src: 10.115.0.20, dst: 10.115.0.30, method: POST, host: app.example.test, path: /api/points, body: "member=42&points=120" }
+  # The picture of a QR code: `qr decode` and `zbarimg` read it, `qr show` draws it.
+  photos/table.png: { $qr: { text: "WIFI:S:Cafe-Invites-5G;T:nopass;;", style: fancy } }
+```
+
+Packet kinds: `dns`, `tls`, `quic`, `http`, `arp`, `dhcp`, `smb`, `tcp`, `udp`. Encrypted traffic only exists through its size: what the player can read is DNS, the SNI (unless `ech: true`) and plain HTTP. There is no live capture (`tshark -i` is refused). Rules react to `CaptureRead { file, filter, frames }` and `QrDecoded { file, text }`. A QR code holds a reserved address or a `WIFI:` network, never a real site; the player reads it, never follows it.
+
+`nmcli connection show|delete|modify <name> connection.autoconnect yes|no` works on the keyfiles of the player's host, `/etc/NetworkManager/system-connections/<name>.nmconnection` in the world's `fs`. A `checks` entry judges them like any file, for instance `{ not: { file: "/etc/NetworkManager/system-connections/Old.nmconnection" } }` for a forgotten network.
+
+Log source `wlan` is a wireless controller: `event` (`beacon` or `assoc`), `ssid`, `bssid`, `channel`, `security`, `rssi`, `managed` (`yes` for its own access points); an `assoc` line has `sta` and `src`. The `mail` source also takes `attach` (an attachment name, or `-`). Stay on the defence side: no fake access point built by the player, no disconnection, no key cracking.
+
 ### Series: several missions in a row
 
 One long mission is tiring; a story in two or three short ones (the way in, the next step, the fix) works better. A **series** is a third kind of pack that lists missions of one world, as in `packs/example.atelier-pixel/`:
@@ -546,7 +573,7 @@ telemetry:
     - { host: www, source: access, every: 4, offset: 1, fields: { src: 203.0.113.17, path: /, ua: "Mozilla/5.0" } }
 ```
 
-`every` and `offset` are in minutes. Sources: `access`, `auth`, `chat`, `agent`, `dns`, `ids`, `audit`, `git`, `db`, `flow`, `mail` (a mail gateway: `from`, `to`, `subject`, `link`, `verdict`) and `mqtt` (a message broker: `client`, `src`, `action`, `topic`). The same seed gives every player the same lines.
+`every` and `offset` are in minutes. Sources: `access`, `auth`, `chat`, `agent`, `dns`, `ids`, `audit`, `git`, `db`, `flow`, `mail` (a mail gateway: `from`, `to`, `subject`, `link`, `attach`, `verdict`), `mqtt` (a message broker: `client`, `src`, `action`, `topic`) and `wlan` (a wireless controller, see above). The same seed gives every player the same lines.
 
 ### Weaknesses as data
 
@@ -745,7 +772,7 @@ A guardrail file has one condition per line, with the same modifiers and no `sou
 
 ### Commands the player has
 
-`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `nmcli device wifi list`, `sms`, `call`, `file`, `strings`, `unzip`, `tar`, `openssl x509`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
+`help`, `mission`, `hint`, `submit`, `verify`, `answer` (`answer <letter>` or `answer <option id>` for a multiple choice question), `notes`, `explain`, `man`, `ls`, `cd`, `pwd`, `cat`, `head`, `tail`, `grep`, `find`, `wc`, `sort`, `uniq`, `cut`, `tr`, `diff`, `sed`, `base64`, `sha256sum`, `edit` (the editor window), `review`, `jq`, `jwt decode` (it reads a token, it never signs one), `echo`, `clear`, `history`, `whoami`, `id`, `hostname`, `uname`, `date`, `sudo`, `exit`, `dig`, `whois`, `ping`, `nmap`, `curl` (`-I`, `-d`, `-F`, `-b` for a cookie, `-H` for a header), `ssh`, `mqtt` (`sub`, `pub`), `crontab -l`, `nmcli device wifi list`, `nmcli connection`, `tshark -r`, `qr decode`, `qr show`, `zbarimg`, `sms`, `call`, `file`, `strings`, `unzip`, `tar`, `openssl x509`, `open` (the in-game browser), `git` (`clone`, `log`, `show`, `status`, `remote`), `report` (the pentest report), and in defence missions `soc` (`sources`, `logs [host] [source]`, `search <text>`, `alerts`), `contain <action> <target>`, `rule test <file>`, `eval run <file>` and `answer <question> <value>`. A mission that needs a new command needs a change in the game first: open an issue in [breach-game/breach](https://github.com/breach-game/breach/issues) to discuss it.
 
 ### Limits
 

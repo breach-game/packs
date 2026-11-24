@@ -1,0 +1,14 @@
+Brumevaux - municipal police desk - reports, weekend of 6 and 7 October 2029
+
+#1  Sat 10:42  Rue des Tanneurs, meter H03. "Paid 2.40 by scanning the code on the meter,
+               got a fine at 11:30. The page asked for my card number and said OK."
+#2  Sat 15:10  Place du Marche, meter H12. "Scanned the QR code to pay, the app never
+               arrived, my bank shows a 2.80 payment to a company I don't know."
+#3  Sun 09:05  Rue des Tanneurs, meter H03. Same as #1.
+#4  Sun 11:48  Avenue de la Gare, meter H15. "There is a sticker 'Pay here, faster' over
+               the meter's screen. Is it yours?"
+#5  Sun 17:20  Place du Marche, meter H09. "The small blue code only shows a web page,
+               how do I pay?" (no sticker seen)
+
+Agents photographed the four meters on Monday morning: photos/H03.png, H09.png,
+H12.png, H15.png. Nobody has scanned them with a phone.

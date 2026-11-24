@@ -1,0 +1,8 @@
+# The Sticker, mission 1: the shortest path, replayed by CI in every language.
+cat signalements.txt
+qr decode photos/H03.png
+answer domain brumevaux-stationnement.example
+answer name
+zbarimg photos/H03.png photos/H09.png photos/H12.png photos/H15.png
+answer count 3
+answer plate

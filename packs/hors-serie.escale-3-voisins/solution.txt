@@ -1,0 +1,9 @@
+# L'Escale, mission 3: the shortest path, replayed by CI in every language.
+cat note-it.txt
+nmap -sn 10.115.0.0/24
+answer guests 3
+nmap -p 139,445 pc-test.gare-sud.escale.test
+sed -i 's/client_isolation: off/client_isolation: on/' borne/reglages.conf
+sed -i 's/guest_to_staff: allow/guest_to_staff: deny/' borne/reglages.conf
+verify
+answer device

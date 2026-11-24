@@ -1,0 +1,12 @@
+id: hors-serie.etiquette-world
+version: 1.0.0
+engine: ">=0.18 <1"
+kind: world
+title:
+  fr: "Ville de Brumevaux"
+  en: "Town of Brumevaux"
+summary:
+  fr: "Brumevaux, petite ville fictive de dix-huit mille habitants. Des horodateurs dans la rue, une mairie qui reçoit des colis et des mails, et des affiches partout avec des QR codes que personne ne relit plus."
+  en: "Brumevaux, a fictional town of eighteen thousand people. Parking meters in the street, a town hall that receives parcels and mail, and posters everywhere with QR codes nobody checks any more."
+authors: [BREACH team]
+locales: [fr, en]
