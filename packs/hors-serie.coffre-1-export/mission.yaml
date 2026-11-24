@@ -1,0 +1,61 @@
+# The member table copy: old accounts hashed with unsalted SHA-1, newer ones with bcrypt. No cracking: only the insurer's own published temporary password is compared.
+side: defense
+order: 1
+stage: defense
+briefing: c1.briefing
+reveal: [vault]
+
+files:
+  copie/adherents.csv: { $file: files/adherents.csv }
+  docs/courrier-bienvenue-2016.txt: { $file: files/courrier-bienvenue-2016.txt }
+  docs/temps-de-cassage.txt: { $file: files/temps-de-cassage.txt }
+
+objectives:
+  - { id: old, text: c1.obj.old }
+  - { id: same, text: c1.obj.same }
+  - { id: first, text: c1.obj.first }
+
+investigation:
+  - { id: old, text: c1.q.old, value: "sha-1", points: 75, objective: old }
+  - { id: same, text: c1.q.same, value: "6", points: 75, objective: same }
+
+questions:
+  - id: first
+    text: c1.q.first
+    objective: first
+    correct: fast
+    options:
+      - { id: fast, text: c1.q.first.fast }
+      - { id: recent, text: c1.q.first.recent, why: c1.q.first.recent.why }
+      - { id: nobody, text: c1.q.first.nobody, why: c1.q.first.nobody.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: old }
+    do:
+      - ada.say: c1.ada.old
+  - on: { event: ObjectiveCompleted, objective: same }
+    do:
+      - ada.say: c1.ada.same
+      - ada.ask: first
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c1.ada.done
+
+guide:
+  old: c1.ada.g.old
+  same: c1.ada.g.same
+  first: c1.ada.answer
+
+hints:
+  old: [c1.hint.old.1, c1.hint.old.2]
+  same: [c1.hint.same.1, c1.hint.same.2]
+  first: [c1.hint.first.1]
+
+debrief:
+  title: c1.debrief.title
+  lesson: c1.debrief.lesson
+  points: [c1.debrief.p1, c1.debrief.p2, c1.debrief.p3]
+  reference: "OWASP Top 10 · A02 Cryptographic Failures"

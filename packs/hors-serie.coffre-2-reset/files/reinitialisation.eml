@@ -1,0 +1,16 @@
+From: Le Coffre <no-reply@tilleul.test>
+To: test-0001@courriel.example
+Date: Mon, 15 Nov 2027 09:12:41 +0100
+Subject: =?UTF-8?Q?R=C3=A9initialisation_de_votre_mot_de_passe?=
+Message-ID: <reset-0001-20271115@tilleul.test>
+Content-Type: text/plain; charset=utf-8
+
+Bonjour,
+
+Vous avez demandé à changer votre mot de passe. Suivez ce lien :
+
+https://coffre.tilleul.test/reinitialiser?jeton=Y29tcHRlPXRlc3QtMDAwMTtlbWlzPTIwMjctMTEtMTVUMDk6MTI=
+
+Ce lien reste valable 7 jours.
+
+Mutuelle Tilleul

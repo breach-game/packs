@@ -1,0 +1,16 @@
+id: hors-serie.coffre-2-reset
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: mission
+requires: [hors-serie.coffre-world]
+title:
+  fr: "Le Coffre · 2. Le lien qui se devine"
+  en: "The Vault · 2. The guessable link"
+summary:
+  fr: "Le compte de test a reçu un lien pour changer son mot de passe. Tu décodes son jeton avec `base64 -d`, tu comprends ce qu'il faut pour en fabriquer un autre, puis tu règles la réinitialisation pour qu'un lien ne se devine plus et ne serve qu'une fois."
+  en: "The test account received a link to change its password. You decode its token with `base64 -d`, understand what it takes to make another one, then set up password reset so that a link can no longer be guessed and works only once."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [web, crypto, defense]
+minutes: 10

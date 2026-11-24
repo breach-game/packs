@@ -1,0 +1,10 @@
+# Side series "Le Coffre", mission 1: the shortest path, replayed by CI in every language.
+cat copie/adherents.csv
+grep 10048 copie/adherents.csv | cut -d ";" -f 3 | hashid
+answer old sha-1
+cat docs/courrier-bienvenue-2016.txt
+echo -n "Tilleul2016" | openssl dgst -sha1
+grep -c 73faef95aa1cfa102ca32da5b3dc662b3ef6aecb copie/adherents.csv
+answer same 6
+cat docs/temps-de-cassage.txt
+answer fast

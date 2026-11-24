@@ -1,0 +1,82 @@
+# A reset token that is only the account and the time, in Base64: anyone can make one. The fix is a random, short-lived, single-use token.
+side: defense
+order: 2
+stage: defense
+briefing: c2.briefing
+
+files:
+  courrier/reinitialisation.eml: { $file: files/reinitialisation.eml }
+  coffre/reinitialisation.yml: { $file: files/reinitialisation.yml }
+
+objectives:
+  - { id: inside, text: c2.obj.inside }
+  - { id: forge, text: c2.obj.forge }
+  - { id: token, text: c2.obj.token }
+  - { id: life, text: c2.obj.life }
+
+investigation:
+  - { id: inside, text: c2.q.inside, value: "test-0001", points: 75, objective: inside }
+
+questions:
+  - id: forge
+    text: c2.q.forge
+    objective: forge
+    correct: idtime
+    options:
+      - { id: idtime, text: c2.q.forge.idtime }
+      - { id: password, text: c2.q.forge.password, why: c2.q.forge.password.why }
+      - { id: mailbox, text: c2.q.forge.mailbox, why: c2.q.forge.mailbox.why }
+
+checks:
+  - id: token
+    text: c2.check.token
+    if: { all: [{ file: "~/coffre/reinitialisation.yml", contains: "token: random" }, { file: "~/coffre/reinitialisation.yml", contains: "token_bytes: 32" }] }
+    objective: token
+  - id: life
+    text: c2.check.life
+    if: { all: [{ file: "~/coffre/reinitialisation.yml", contains: "expires: 15m" }, { file: "~/coffre/reinitialisation.yml", contains: "single_use: on" }, { file: "~/coffre/reinitialisation.yml", contains: "store: hash" }] }
+    objective: life
+  - id: works
+    text: c2.check.works
+    if: { all: [{ file: "~/coffre/reinitialisation.yml", contains: "route: /reinitialiser" }, { file: "~/coffre/reinitialisation.yml", contains: "send_to: account-email" }] }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: c2.ada.brief
+  - on: { event: ObjectiveCompleted, objective: inside }
+    do:
+      - ada.say: c2.ada.inside
+      - ada.ask: forge
+  - on: { event: ObjectiveCompleted, objective: forge }
+    do:
+      - ada.say: c2.ada.forge
+  - on: { event: ObjectiveCompleted, objective: token }
+    do:
+      - ada.say: c2.ada.token
+  - on: { event: Verified }
+    if: { not: { all: [{ objective: token }, { objective: life }] } }
+    once: false
+    do:
+      - ada.say: c2.ada.almost
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: c2.ada.done
+
+guide:
+  inside: c2.ada.g.inside
+  forge: c2.ada.answer
+  token: c2.ada.g.token
+  life: c2.ada.g.life
+
+hints:
+  inside: [c2.hint.inside.1, c2.hint.inside.2]
+  forge: [c2.hint.forge.1]
+  token: [c2.hint.token.1, c2.hint.token.2]
+  life: [c2.hint.life.1]
+
+debrief:
+  title: c2.debrief.title
+  lesson: c2.debrief.lesson
+  points: [c2.debrief.p1, c2.debrief.p2, c2.debrief.p3]
+  reference: "OWASP Top 10 · A07 Identification and Authentication Failures"

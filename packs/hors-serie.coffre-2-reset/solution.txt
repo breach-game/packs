@@ -1,0 +1,13 @@
+# Side series "Le Coffre", mission 2: the shortest path, replayed by CI in every language.
+cat courrier/reinitialisation.eml
+echo Y29tcHRlPXRlc3QtMDAwMTtlbWlzPTIwMjctMTEtMTVUMDk6MTI= | base64 -d
+answer inside test-0001
+answer idtime
+cat coffre/reinitialisation.yml
+sed -i "s/token: account-and-time/token: random/" coffre/reinitialisation.yml
+sed -i "s/token_bytes: 0/token_bytes: 32/" coffre/reinitialisation.yml
+verify
+sed -i "s/expires: 7d/expires: 15m/" coffre/reinitialisation.yml
+sed -i "s/single_use: off/single_use: on/" coffre/reinitialisation.yml
+sed -i "s/store: plain/store: hash/" coffre/reinitialisation.yml
+verify

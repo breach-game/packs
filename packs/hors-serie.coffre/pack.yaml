@@ -1,0 +1,15 @@
+id: hors-serie.coffre
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: series
+requires: [hors-serie.coffre-world]
+title:
+  fr: "Hors-série : le Coffre"
+  en: "Side series: the Vault"
+summary:
+  fr: "Une petite mutuelle, une copie de sa table d'adhérents oubliée sur un partage. Tu reconnais des empreintes trop rapides avec `hashid`, tu décodes un lien de réinitialisation qui se devine, puis tu migres vers un stockage lent et salé, sans jamais chercher le mot de passe d'un adhérent."
+  en: "A small health insurer, a copy of its member table forgotten on a share. You recognise hashes that are too fast with `hashid`, decode a reset link that can be guessed, then migrate to slow, salted storage, never trying to find a member's password."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [crypto, privacy, defense, crisis]

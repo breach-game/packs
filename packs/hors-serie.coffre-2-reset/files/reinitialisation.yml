@@ -1,0 +1,8 @@
+# Le Coffre - password reset (version 2016)
+route: /reinitialiser
+send_to: account-email
+token: account-and-time
+token_bytes: 0
+expires: 7d
+single_use: off
+store: plain

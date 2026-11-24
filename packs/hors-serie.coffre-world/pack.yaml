@@ -1,0 +1,12 @@
+id: hors-serie.coffre-world
+version: 1.0.0
+engine: ">=0.13 <1"
+kind: world
+title:
+  fr: "Mutuelle Tilleul"
+  en: "Mutuelle Tilleul"
+summary:
+  fr: "Mutuelle Tilleul, petite mutuelle santé fictive. Ses adhérents consultent leurs remboursements dans « le Coffre », un espace en ligne ouvert en 2016 et jamais vraiment revu depuis."
+  en: "Mutuelle Tilleul, a small fictional health insurer. Its members check their refunds in \"the Vault\", an online space opened in 2016 and never really reviewed since."
+authors: [BREACH team]
+locales: [fr, en]
