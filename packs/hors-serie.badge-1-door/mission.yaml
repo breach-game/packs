@@ -1,0 +1,82 @@
+# The Badge, mission 1: the held door. The door log shows one entrance held open 41 seconds
+# after a single badge (someone walked in behind an employee), then a badge reported lost three
+# weeks earlier opening a technical room and being refused three times at the server room. The
+# player names the badge that held the door, says what happened, names the lost badge and
+# disables it. No copying technique: the lost badge simply was never switched off.
+side: defense
+order: 1
+stage: defense
+briefing: b1.briefing
+reveal: [acces, accueil, fichiers]
+
+files:
+  acces/journal.csv: { $file: files/journal.csv }
+  acces/badges.csv: { $file: files/badges.csv }
+
+containment:
+  - id: badge
+    action: revoke
+    target: B-0099
+    text: b1.contain.badge
+    sets: { ga.badge_off: true }
+    impact: 0
+
+objectives:
+  - { id: held, text: b1.obj.held }
+  - { id: what, text: b1.obj.what }
+  - { id: lost, text: b1.obj.lost }
+  - { id: cut, text: b1.obj.cut }
+
+investigation:
+  - { id: held, text: b1.q.held, value: "B-0417", points: 100, objective: held }
+  - { id: lost, text: b1.q.lost, value: "B-0099", points: 100, objective: lost }
+
+questions:
+  - id: what
+    text: b1.q.what
+    objective: what
+    correct: behind
+    options:
+      - { id: behind, text: b1.q.what.behind }
+      - { id: cloned, text: b1.q.what.cloned, why: b1.q.what.cloned.why }
+      - { id: broken, text: b1.q.what.broken, why: b1.q.what.broken.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: b1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: held }
+    do:
+      - ada.say: b1.ada.held
+      - ada.ask: what
+  - on: { event: ObjectiveCompleted, objective: what }
+    do:
+      - ada.say: b1.ada.what
+  - on: { event: ObjectiveCompleted, objective: lost }
+    do:
+      - ada.say: b1.ada.lost
+  - on: { event: Contained, containment: badge }
+    do:
+      - objective.complete: cut
+      - ada.say: b1.ada.cut
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: b1.ada.done
+
+guide:
+  held: b1.ada.g.held
+  what: b1.ada.g.what
+  lost: b1.ada.g.lost
+  cut: b1.ada.g.cut
+
+hints:
+  held: [b1.hint.held.1, b1.hint.held.2]
+  what: [b1.hint.what.1]
+  lost: [b1.hint.lost.1, b1.hint.lost.2]
+  cut: [b1.hint.cut.1]
+
+debrief:
+  title: b1.debrief.title
+  lesson: b1.debrief.lesson
+  points: [b1.debrief.p1, b1.debrief.p2, b1.debrief.p3]
+  reference: "ISO/IEC 27002 · 7.2 Physical entry"

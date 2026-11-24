@@ -1,0 +1,9 @@
+# The Badge, mission 2: the shortest path, replayed by CI in every language.
+cat banc/cle-liste.txt
+strings banc/Salaires_2029.pdf.lnk
+answer server maj-garance.example
+cat banc/postes-usb.csv
+answer poste cao-07
+contain isolate cao-07
+answer handin
+answer thank

@@ -1,0 +1,16 @@
+id: hors-serie.badge-3-rules
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: mission
+requires: [hors-serie.badge-world]
+title:
+  fr: "Le Badge · 3. Le règlement"
+  en: "The Badge · 3. The house rules"
+summary:
+  fr: "Le lendemain. Tu comptes les badges perdus ou rendus qui ouvrent encore, tu écris les règles de la porte, des badges et des clés USB, tu dis quoi faire devant un inconnu sans badge, puis tu remets la matinée dans l'ordre."
+  en: "The next day. You count the lost or returned badges that still open doors, write the rules for the door, the badges and USB sticks, say what to do when a stranger has no badge, then put the morning in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, logs]
+minutes: 10

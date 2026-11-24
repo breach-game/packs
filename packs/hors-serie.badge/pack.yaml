@@ -1,0 +1,15 @@
+id: hors-serie.badge
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: series
+requires: [hors-serie.badge-world]
+title:
+  fr: "Hors-série : Le Badge"
+  en: "Side series: The Badge"
+summary:
+  fr: "Un bureau d'études, une porte qu'on tient par politesse, un badge perdu que personne n'a désactivé, et trois clés USB posées sur le parking. Côté défense, sans aucune technique de copie : tu lis le journal du contrôle d'accès, tu regardes une clé trouvée sans jamais la brancher, puis tu écris les règles qui tiennent sans rendre les gens méfiants."
+  en: "An engineering office, a door held out of politeness, a lost badge nobody switched off, and three USB sticks left in the car park. On the defence side, with no copying technique at all: you read the access control log, look at a found stick without ever plugging it in, then write rules that hold without making people suspicious of each other."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [social, defense, logs]

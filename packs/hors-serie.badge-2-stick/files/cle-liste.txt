@@ -1,0 +1,11 @@
+GARANCE - isolated bench (no network, rebuilt after each use)
+Stick handed in at reception at 08:10, found in the car park near the north entrance.
+Label on the stick: SALAIRES 2029
+
+Listing:
+  Salaires_2029.pdf.lnk        2 KB    shown in the file explorer as "Salaires_2029.pdf", with a PDF icon
+  .cache/                      hidden folder
+  .cache/updater.exe           184 KB  hidden
+
+The shortcut was copied to your folder for reading: banc/Salaires_2029.pdf.lnk
+Nothing on this stick was opened.

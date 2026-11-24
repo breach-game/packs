@@ -1,0 +1,15 @@
+# The Badge, mission 3: the shortest path, replayed by CI in every language.
+cat acces/revue-badges.csv
+grep -v "in use" acces/revue-badges.csv
+answer stale 4
+cat acces/reglement.yml
+sed -i "s/lost_or_returned_badge: when-someone-remembers/lost_or_returned_badge: revoked-same-day/" acces/reglement.yml
+sed -i "s/badge_review: never/badge_review: every-quarter/" acces/reglement.yml
+sed -i "s/door_held_alarm: none/door_held_alarm: after-15-seconds/" acces/reglement.yml
+sed -i "s/visitors: free-to-walk/visitors: escorted-from-reception/" acces/reglement.yml
+sed -i "s/usb_storage: allowed-everywhere/usb_storage: blocked-unless-needed/" acces/reglement.yml
+sed -i "s/found_devices: up-to-each-person/found_devices: handed-to-it-unplugged/" acces/reglement.yml
+verify
+answer walk
+timeline lundi
+timeline lundi reported door room handed opened revoked isolated

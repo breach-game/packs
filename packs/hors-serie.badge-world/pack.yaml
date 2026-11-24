@@ -1,0 +1,12 @@
+id: hors-serie.badge-world
+version: 1.0.0
+engine: ">=0.17 <1"
+kind: world
+title:
+  fr: "Garance Ingénierie"
+  en: "Garance Engineering"
+summary:
+  fr: "Garance Ingénierie, bureau d'études fictif de soixante personnes. Des plans de clients sur les postes, des badges à l'entrée, et une équipe aimable qui tient la porte à tout le monde."
+  en: "Garance Engineering, a fictional sixty-person design office. Customer drawings on the workstations, badges at the door, and a friendly team that holds the door for everyone."
+authors: [BREACH team]
+locales: [fr, en]
