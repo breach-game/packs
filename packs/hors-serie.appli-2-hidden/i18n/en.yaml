@@ -27,3 +27,5 @@ a2.debrief.lesson: "The app hid a staff menu and announced the user's role with 
 a2.debrief.p1: "Every rights check happens on the server, from the session: the app only displays what the server allows."
 a2.debrief.p2: "Assume an app's code will be read: routes, headers and hidden menus are not protections."
 a2.debrief.p3: "Turn off backup of sensitive data and debug mode in published builds, and keep tokens in the phone's vault (Keystore)."
+a2.ada.mandate: "No. The mandate says read-only: no refund validated. The marker is proof enough."
+a2.noise.refund: "Attempt to validate a refund (outside the mandate)"

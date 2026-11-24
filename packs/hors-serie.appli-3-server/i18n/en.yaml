@@ -35,3 +35,5 @@ a3.debrief.lesson: "Fixing the app was not enough: version 4.2.0 will stay insta
 a3.debrief.p1: "Fix the server first: you cannot update users' phones, but you can update your API the same day."
 a3.debrief.p2: "Any key that was shipped gets changed; removing it from the next build does not make it secret."
 a3.debrief.p3: "Add to the pre-release check: no key in the package, backup and debug turned off."
+a3.ada.role: "From outside, the header is no longer enough: the API asks for a real session."
+a3.ada.key: "The old key is refused. The one sleeping in every 4.2.0 is worthless now."

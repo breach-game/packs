@@ -27,7 +27,8 @@ rules:
   - on: { event: MissionStarted }
     do:
       - ada.say: a1.ada.brief
-  - on: { event: HttpRequest, host: magasin, path: /cabas-4.2.0.apk }
+  # The package counts once it is saved on the workstation (`>`, `-o` or `-O`), whatever its name.
+  - on: { event: FileWritten, content: { contains: "AndroidManifest.xml" } }
     do:
       - objective.complete: apk
       - ada.say: a1.ada.apk
