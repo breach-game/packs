@@ -1,0 +1,234 @@
+# Premiers pas: a world for short difficulty-1 missions. Everything here is fictional: reserved .test
+# domains and private addresses only. Nuage is a fictional cloud; Ligne Rouge uses its own test
+# account there, as the mandate says, and never touches anyone else's.
+startTime: "2027-03-15T08:00:00+01:00"
+mandate: BF-2027-011
+scope:
+  domains: ["*.fournil.test", "*.nuage.test"]
+  networks: ["10.31.0.0/24"]
+player:
+  host: kestrel
+  user: kestrel
+resolver: 10.31.0.2
+
+hosts:
+  - id: kestrel
+    hostname: lignerouge.test
+    ip: 10.31.0.66
+    kind: player
+    os: LR-OS 4.2
+    map: { x: -300, z: 40, h: 70 }
+    links: [www]
+    users:
+      - { name: kestrel, home: /home/kestrel }
+    fs:
+      home:
+        kestrel:
+          README.txt: { $t: file.readme }
+          mandate:
+            BF-2027-011.txt: { $t: file.mandate }
+      etc:
+        hostname: "lignerouge\n"
+
+  - id: www
+    hostname: www.fournil.test
+    ip: 10.31.0.10
+    os: Linux 6.1 (Debian 12)
+    map: { x: 40, z: -120, h: 100 }
+    links: [four, seaux]
+    services:
+      - { port: 80, name: http, product: nginx 1.22 }
+      - { port: 443, name: https, product: nginx 1.22 }
+    web:
+      "/":
+        page:
+          title: web.home.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/pro", label: web.nav.pro }
+            - h1: web.home.h1
+            - p: web.home.p1
+            - list: [web.home.shop1, web.home.shop2, web.home.shop3]
+            - comment: web.home.comment
+            - footer: web.footer
+      "/pro":
+        page:
+          title: web.pro.title
+          blocks:
+            - nav:
+                - { href: "/", label: web.nav.home }
+                - { href: "/pro", label: web.nav.pro }
+            - h1: web.pro.h1
+            - p: web.pro.p1
+            - table:
+                head: [web.pro.th.what, web.pro.th.where]
+                rows:
+                  - [web.pro.r.orders, "commandes.fournil.test"]
+                  - [web.pro.r.oven, "four.fournil.test"]
+            - footer: web.footer
+      "/robots.txt":
+        headers: { content-type: text/plain }
+        body: "User-agent: *\nDisallow: /pro\n"
+
+  # The connected oven of the central bakery. Its control page is reachable from the whole network.
+  - id: four
+    hostname: four.fournil.test
+    ip: 10.31.0.40
+    os: Fourneo OS 3.2 (embedded)
+    map: { x: 260, z: -60, h: 70 }
+    services:
+      - { port: 80, name: http, product: Fourneo web 3.2 }
+    web:
+      "/":
+        page:
+          title: web.oven.title
+          blocks:
+            - h1: web.oven.h1
+            - p: web.oven.p1
+            - form: { to: four, label: web.oven.label, button: web.oven.button, name: code, placeholder: "••••" }
+            - link: { href: "/aide", label: web.oven.help }
+            - footer: web.oven.footer
+        chat: four
+      "/aide":
+        headers: { content-type: text/plain }
+        body: { $file: files/fourneo-quickstart.txt }
+
+  # Nuage's storage front: every bucket name under seaux.nuage.test lands here.
+  - id: seaux
+    hostname: seaux.nuage.test
+    ip: 10.31.0.80
+    kind: unknown
+    os: Nuage Storage
+    map: { x: 200, z: 220, h: 60 }
+    services:
+      - { port: 443, name: https, product: Nuage Storage }
+    web:
+      "/":
+        status: 404
+        headers: { content-type: application/xml }
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message><BucketName>fournil-promo-2025</BucketName></Error>\n"
+        variants:
+          - id: claimed
+            if: { var: claimed, eq: true }
+            status: 200
+            headers: { content-type: text/plain }
+            body: { $file: files/proof.txt }
+      "/index.txt":
+        status: 404
+        headers: { content-type: application/xml }
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message></Error>\n"
+        variants:
+          - id: claimed
+            if: { var: claimed, eq: true }
+            status: 200
+            headers: { content-type: text/plain }
+            body: { $file: files/proof.txt }
+
+  # Nuage's console, where Ligne Rouge has its own test account (lignerouge-audit).
+  - id: console
+    hostname: console.nuage.test
+    ip: 10.31.0.90
+    os: Nuage Console
+    map: { x: 380, z: 160, h: 50 }
+    services:
+      - { port: 443, name: https, product: Nuage Console }
+    web:
+      "/":
+        page:
+          title: web.console.title
+          blocks:
+            - h1: web.console.h1
+            - p: web.console.p1
+            - form: { to: console, label: web.console.label, button: web.console.button, name: bucket, placeholder: "nom-du-seau" }
+            - footer: web.console.footer
+        chat: console
+
+dns:
+  fournil.test:
+    A: ["10.31.0.10"]
+    MX: ["mx.mail.example.net"]
+    TXT: ["v=spf1 include:mail.example.net -all"]
+  www.fournil.test: { A: ["10.31.0.10"] }
+  four.fournil.test: { A: ["10.31.0.40"] }
+  # The 2025 summer campaign ran on Nuage. The bucket was deleted in September; the record stayed.
+  promo.fournil.test: { CNAME: ["fournil-promo-2025.seaux.nuage.test."] }
+  fournil-promo-2025.seaux.nuage.test: { A: ["10.31.0.80"] }
+  seaux.nuage.test: { A: ["10.31.0.80"] }
+  console.nuage.test: { A: ["10.31.0.90"] }
+
+whois:
+  fournil.test: |
+    Domain Name: FOURNIL.TEST
+    Creation Date: 2019-02-11T08:00:00Z
+    Registrant Organization: Au Bon Fournil SAS
+    Registrant City: Tours
+    Registrant Country: FR
+
+noise:
+  nmap:
+    base: 18
+    flags: { "-sn": -10, "-sV": 10, "-A": 30, "-T4": 18, "-T5": 36, "-p-": 16 }
+  dig: 0
+  whois: 0
+  curl: 2
+  browse: 2
+  chat: 1
+
+rules:
+  - id: out-of-scope
+    on: { event: OutOfScope }
+    once: false
+    do:
+      - ada.warn: ada.outOfScope
+  - id: noise-70
+    on: { event: NoiseChanged }
+    if: { noise: { gte: 70 } }
+    do:
+      - ada.warn: ada.noise70
+  - id: detected
+    on: { event: Restored }
+    once: false
+    do:
+      - ada.warn: ada.detected
+
+npcs:
+  # The oven's login: a PIN form. The factory PIN is printed in the quick start guide.
+  - id: four
+    name: fourneo-login
+    role: npc.four.role
+    intents:
+      - id: changed
+        literal: true
+        words: ["0000"]
+        if: { config: four.pin_changed, eq: true }
+        reply: [npc.four.wrong]
+      - id: factory
+        literal: true
+        words: ["0000"]
+        reply: [npc.four.factory]
+    fallback: [npc.four.wrong]
+
+  # Nuage's "create a bucket" form, in Ligne Rouge's own test account.
+  - id: console
+    name: nuage-console
+    role: npc.console.role
+    intents:
+      - id: claim
+        literal: true
+        words: [fournil-promo-2025]
+        reply: [npc.console.created, npc.console.again]
+        set: { claimed: true }
+      - id: other
+        words: [fournil, promo, seau, bucket]
+        reply: [npc.console.other]
+    fallback: [npc.console.help]
+
+config:
+  four.pin_changed: false
+
+telemetry:
+  background:
+    - { host: www, source: access, every: 3, offset: 0, fields: { src: 203.0.113.30, method: GET, path: /, status: 200, ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) Safari/604.1" } }
+    - { host: www, source: access, every: 7, offset: 2, fields: { src: 198.51.100.12, method: GET, path: /pro, status: 200, ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/134.0" } }
+    - { host: four, source: access, every: 15, offset: 5, fields: { src: 10.31.0.21, method: GET, path: /, status: 200, ua: "Fourneo-Tablet/3.2" } }

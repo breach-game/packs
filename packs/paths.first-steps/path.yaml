@@ -1,0 +1,10 @@
+steps:
+  - { ref: breach.official.m00, note: why.terminal }
+  - { ref: breach.training.t01, note: why.log }
+  - { ref: breach.training.t02, note: why.base64 }
+  - { ref: breach.training.t05, note: why.json }
+  - { ref: breach.training.t12, note: why.dns }
+  - { ref: premiers-pas.orphan-subdomain, note: why.orphan }
+  - { ref: premiers-pas.factory-pin, note: why.pin }
+  - { ref: example.forgotten-backup, note: why.backup }
+  - { ref: breach.official.m01, note: why.next }

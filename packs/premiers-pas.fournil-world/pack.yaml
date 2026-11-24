@@ -1,0 +1,12 @@
+id: premiers-pas.fournil-world
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: world
+title:
+  fr: Au Bon Fournil
+  en: Au Bon Fournil
+summary:
+  fr: Le petit réseau d'Au Bon Fournil, trois boulangeries de Tours, de leur four connecté et du cloud Nuage où leur site a vécu un temps.
+  en: The small network of Au Bon Fournil, three bakeries in Tours, their connected oven, and the Nuage cloud where their site once lived.
+authors: [BREACH team]
+locales: [fr, en]

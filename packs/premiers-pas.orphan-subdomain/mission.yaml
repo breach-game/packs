@@ -1,0 +1,73 @@
+order: 1
+stage: recon
+briefing: os.briefing
+reveal: [www]
+
+files:
+  fournil/zone.txt: "$ORIGIN fournil.test.\n@       IN  A      10.31.0.10\n@       IN  MX 10  mx.mail.example.net.\nwww     IN  A      10.31.0.10\nfour    IN  A      10.31.0.40\npromo   IN  CNAME  fournil-promo-2025.seaux.nuage.test.\n"
+
+objectives:
+  - { id: dangling, text: os.obj.dangling }
+  - { id: claim, text: os.obj.claim }
+  - { id: clean, text: os.obj.clean }
+
+flags:
+  - { id: proof, value: "FLAG{fournil-orphan-claimed-9b3e}", points: 100, objective: claim }
+
+checks:
+  - id: gone
+    text: os.check.gone
+    if: { file: "~/fournil/zone.txt", lacks: "fournil-promo-2025" }
+    objective: clean
+  - id: rest
+    text: os.check.rest
+    if:
+      all:
+        - { file: "~/fournil/zone.txt", contains: "www     IN  A      10.31.0.10" }
+        - { file: "~/fournil/zone.txt", contains: "four    IN  A      10.31.0.40" }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: os.ada.brief
+  - on: { event: FileRead, path: { glob: "*zone.txt" } }
+    do:
+      - ada.guide: { key: os.ada.cname, for: dangling, step: 1 }
+  - on: { event: DnsQuery, name: promo.fournil.test }
+    do:
+      - ada.guide: { key: os.ada.follow, for: dangling, step: 2 }
+  - on: { event: HttpRequest, host: seaux, status: 404 }
+    do:
+      - objective.complete: dangling
+  - on: { event: ObjectiveCompleted, objective: dangling }
+    do:
+      - ada.say: os.ada.nosuch
+  - on: { event: ChatReply, npc: console, intent: claim }
+    do:
+      - ada.guide: { key: os.ada.created, for: claim, step: 1 }
+  - on: { event: ObjectiveCompleted, objective: claim }
+    do:
+      - ada.say: os.ada.claimed
+  - on: { event: Verified }
+    if: { not: { objective: clean } }
+    do:
+      - ada.guide: { key: os.ada.exact, for: clean, step: 1 }
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: os.ada.done
+
+guide:
+  dangling: os.ada.zone
+  claim: os.ada.console
+  clean: os.ada.clean
+
+hints:
+  dangling: [os.hint.dangling.1, os.hint.dangling.2]
+  claim: [os.hint.claim.1, os.hint.claim.2]
+  clean: [os.hint.clean.1, os.hint.clean.2]
+
+debrief:
+  title: os.debrief.title
+  lesson: os.debrief.lesson
+  points: [os.debrief.p1, os.debrief.p2, os.debrief.p3]
+  reference: "OWASP Top 10 · A05 Security Misconfiguration"

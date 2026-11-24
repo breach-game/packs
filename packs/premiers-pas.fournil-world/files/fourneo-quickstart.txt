@@ -1,0 +1,10 @@
+FOURNEO 3.2 - QUICK START GUIDE
+================================
+
+1. Connect the oven to your network (Ethernet port at the back).
+2. Open http://<oven address>/ from any computer of the network.
+3. Log in with the factory PIN: 0000
+4. Settings > Security > change the PIN at first start-up.
+
+Remote control: temperatures, programmes, start and stop.
+Support: see the warranty card.

@@ -1,0 +1,16 @@
+id: premiers-pas.factory-pin
+version: 1.0.0
+engine: ">=0.12 <1"
+kind: mission
+requires: [premiers-pas.fournil-world]
+title:
+  fr: Le code d'usine
+  en: The factory code
+summary:
+  fr: "Premiers pas. Le four connecté de la boulangerie se pilote depuis une page web. Son code d'accès est imprimé dans le guide de démarrage, et personne ne l'a changé."
+  en: "First steps. The bakery's connected oven is controlled from a web page. Its access code is printed in the quick start guide, and nobody changed it."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 1
+skills: [iot, web, defense]
+minutes: 10

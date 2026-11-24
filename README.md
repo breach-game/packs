@@ -18,6 +18,7 @@ packs/
   example.order-tracking/     author kit: a form, a role cookie, jq
   example.printer-farm/       author kit: a message broker, a decision with no wrong answer
   example.night-shift/        author kit: a detection rule, an agent guardrail, a code review
+  premiers-pas.*/             first steps: a small bakery world and two one-technique missions
   dossiers.<name>*/           a case file: a world, three or four missions and their series
   paths.<name>/               a path: an order through official and community missions
 ```
@@ -31,6 +32,16 @@ A path is a pack that only lists steps through missions that already exist, offi
 | `paths.owasp-web` | Web flaws | 9: from a chatty form to the OWASP Top 10 of season 3 and two real cases |
 | `paths.owasp-llm` | Attacking and defending an AI | 12: the OWASP Top 10 for LLM applications, campaign, season 5 and case files |
 | `paths.soc` | SOC analyst | 11: from reading a log to the finale, all on the defence side |
+| `paths.first-steps` | First steps | 9: for someone who has never opened a terminal, one technique per step, up to the campaign |
+
+## First steps
+
+Short standalone missions at difficulty 1, in a small fictional bakery (`premiers-pas.fournil-world`), each teaching a single technique.
+
+| Folder | Mission | What you learn |
+| --- | --- | --- |
+| `premiers-pas.orphan-subdomain` | The orphan subdomain | A DNS name that still points to a deleted cloud bucket, proving it can be taken over, removing the record |
+| `premiers-pas.factory-pin` | The factory code | A connected oven still on the code from its manual, one proof and no click, a code per device and a page kept on the local network |
 
 ## The case files
 

@@ -1,0 +1,75 @@
+file.readme: |
+  Ligne Rouge workstation, linked by VPN to Au Bon Fournil's network.
+  Whatever you type here only reaches that network, and Ligne Rouge's
+  test account at Nuage.
+
+    help              the list of commands
+    mission           the briefing and current objectives
+    hint              a hint from Ada, if you get stuck
+
+  Read the mandate first:  cat mandate/BF-2027-011.txt
+
+  Ada
+file.mandate: |
+  ==============================================================
+   LIGNE ROUGE  ·  penetration testing firm
+   PENETRATION TEST MANDATE  No. BF-2027-011
+  ==============================================================
+
+  CLIENT          Au Bon Fournil SAS, Tours
+  SIGNED BY       the management
+  TESTERS         Ada (lead), {user} (junior)
+
+  SCOPE           *.fournil.test, 10.31.0.0/24
+                  At Nuage: only the test account
+                  lignerouge-audit, to prove that a name is free.
+                  Anything else is FORBIDDEN.
+
+  RULES           Read only on the client's machines: no change,
+                  no deletion, no shutdown. One proof, then stop
+                  and write it down.
+
+  Without this written authorisation, accessing an information
+  system is a criminal offence (article 323-1 of the French Penal
+  Code). The mandate is what separates a tester from an intruder.
+web.nav.home: "Home"
+web.nav.pro: "Professionals"
+web.home.title: "Au Bon Fournil · bakeries in Tours"
+web.home.h1: "Sourdough bread, since 1987"
+web.home.p1: "Three bakeries in Tours, one central bakehouse, and bread baked every night."
+web.home.shop1: "Place Plumereau, Tuesday to Sunday"
+web.home.shop2: "Rue Nationale, every day"
+web.home.shop3: "Les Halles, Saturday morning"
+web.home.comment: "TODO: remove the link to the summer promo, the campaign is over"
+web.footer: "© Au Bon Fournil SAS · Tours"
+web.pro.title: "Professionals · Au Bon Fournil"
+web.pro.h1: "Restaurants and canteens"
+web.pro.p1: "Our tools for professionals and the team."
+web.pro.th.what: "Tool"
+web.pro.th.where: "Address"
+web.pro.r.orders: "Wholesale orders"
+web.pro.r.oven: "Control of the central bakehouse oven"
+web.oven.title: "Fourneo 3.2 · Central bakehouse"
+web.oven.h1: "Fourneo 3.2"
+web.oven.p1: "Oven control: temperatures, programmes, start and stop."
+web.oven.label: "Access code"
+web.oven.button: "Log in"
+web.oven.help: "Quick start guide"
+web.oven.footer: "Fourneo · professional connected oven"
+web.console.title: "Nuage · console"
+web.console.h1: "Account lignerouge-audit"
+web.console.p1: "Create a storage bucket. Names are unique across all of Nuage: a released name can be taken by any account."
+web.console.label: "Name of the new bucket"
+web.console.button: "Create the bucket"
+web.console.footer: "Nuage · object storage"
+npc.four.role: "Oven login page"
+npc.four.wrong: "Wrong code."
+npc.four.factory: "Logged in (factory code).\n\nFOURNEO 3.2 · oven 1 · central bakehouse\n  floor: 248 °C   vault: 236 °C   programme: sourdough 750 g\n  next start: 02:30 (automatic)\n  [ Stop ]  [ Edit programme ]  [ Settings ]\n\n  audit marker: FLAG{fournil-pin-usine-4d7c}"
+npc.console.role: "Nuage console"
+npc.console.created: "Bucket fournil-promo-2025 created in account lignerouge-audit (region fr-west).\nProof file index.txt uploaded.\nPublic read access: on."
+npc.console.again: "This bucket already exists in your account."
+npc.console.other: "No such name in your account. To create one, type its exact name."
+npc.console.help: "Type the exact name of the bucket to create."
+ada.outOfScope: "Stop. That target is outside the mandate, and the workstation blocked it. Without written authorisation, that is article 323-1 of the French Penal Code. Our scope: *.fournil.test, and our own test account at Nuage."
+ada.noise70: "You are making a lot of noise. Their host will notice: slow down."
+ada.detected: "Spotted. We are back at the last checkpoint. Quieter this time."
