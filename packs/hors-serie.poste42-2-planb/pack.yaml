@@ -1,0 +1,16 @@
+id: hors-serie.poste42-2-planb
+version: 1.0.0
+engine: ">=0.14 <1"
+kind: mission
+requires: [hors-serie.poste42-world]
+title:
+  fr: "Le Poste 42 · 2. Le plan B"
+  en: "Bench 42 · 2. Plan B"
+summary:
+  fr: "Le service est arrêté, l'adresse bloquée, et pourtant le poste continue de parler. Tu lis les flux du pare-feu avec `flows`, tu trouves les questions DNS trop longues, tu écris la règle qui les voit sans sonner pour la météo, puis tu retires la tâche planifiée."
+  en: "The service is stopped, the address blocked, and yet the workstation keeps talking. You read the firewall flows with `flows`, find the DNS questions that are far too long, write the rule that sees them without ringing for the weather, then remove the scheduled job."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [logs, linux, defense]
+minutes: 15

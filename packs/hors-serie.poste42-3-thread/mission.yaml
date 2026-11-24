@@ -1,0 +1,93 @@
+# Bench 42, the report: put the week back in order (timeline judged by ids), trace the readings'
+# path on the map, then say what the lab must check and decide whom to warn.
+side: defense
+order: 3
+stage: report
+briefing: p3.briefing
+reveal: [poste42, lims, resolveur, mx]
+
+files:
+  enquete/mx.log: { $file: files/mx.log }
+  enquete/historique-navigateur.txt: { $file: files/historique.txt }
+  enquete/ticket-assistance.txt: { $file: files/ticket.txt }
+  alertes/pare-feu.txt: { $file: files/alerte.txt }
+
+objectives:
+  - { id: order, text: p3.obj.order }
+  - { id: trace, text: p3.obj.trace }
+  - { id: integrity, text: p3.obj.integrity }
+  - { id: tell, text: p3.obj.tell }
+
+timelines:
+  - id: semaine
+    text: p3.tl.text
+    objective: order
+    events:
+      - { id: courriel, text: p3.tl.courriel }
+      - { id: telechargement, text: p3.tl.telechargement }
+      - { id: service, text: p3.tl.service }
+      - { id: kill, text: p3.tl.kill }
+      - { id: cron, text: p3.tl.cron }
+      - { id: alerte, text: p3.tl.alerte }
+
+paths:
+  - id: releves
+    text: p3.path.text
+    hosts: [lims, poste42, resolveur]
+    objective: trace
+
+questions:
+  - id: integrity
+    text: p3.q.integrity
+    objective: integrity
+    correct: compare
+    options:
+      - { id: compare, text: p3.q.integrity.compare }
+      - { id: rerun, text: p3.q.integrity.rerun, why: p3.q.integrity.rerun.why }
+      - { id: reinstall, text: p3.q.integrity.reinstall, why: p3.q.integrity.reinstall.why }
+  - id: tell
+    text: p3.q.tell
+    objective: tell
+    options:
+      - { id: towns, text: p3.q.tell.towns, why: p3.q.tell.towns.why, impact: 2 }
+      - { id: towns-authority, text: p3.q.tell.authority, why: p3.q.tell.authority.why, impact: 3 }
+      - { id: internal, text: p3.q.tell.internal, why: p3.q.tell.internal.why, impact: 8 }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p3.ada.brief
+  - on: { event: ObjectiveCompleted, objective: order }
+    do:
+      - ada.say: p3.ada.order
+  - on: { event: ObjectiveCompleted, objective: trace }
+    do:
+      - ada.say: p3.ada.trace
+  - on: { event: ObjectiveCompleted }
+    if: { all: [{ objective: order }, { objective: trace }] }
+    do:
+      - ada.ask: integrity
+  - on: { event: ObjectiveCompleted, objective: integrity }
+    do:
+      - ada.say: p3.ada.integrity
+      - ada.ask: tell
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p3.ada.done
+
+guide:
+  order: p3.ada.g.order
+  trace: p3.ada.g.trace
+  integrity: p3.ada.g.integrity
+  tell: p3.ada.g.tell
+
+hints:
+  order: [p3.hint.order.1, p3.hint.order.2]
+  trace: [p3.hint.trace.1, p3.hint.trace.2]
+  integrity: [p3.hint.integrity.1]
+
+debrief:
+  title: p3.debrief.title
+  lesson: p3.debrief.lesson
+  points: [p3.debrief.p1, p3.debrief.p2, p3.debrief.p3]
+  reference: "NIST SP 800-61 · Incident Handling Guide"

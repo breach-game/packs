@@ -1,0 +1,6 @@
+Historique du navigateur, poste 42 (export du lundi 22 novembre 2027)
+
+2027-11-15 13:55:12  ouvert   https://telechargement.pilotes-universels.example/pilote-imprimante-2027.zip
+2027-11-15 13:55:19  fichier  ~/Telechargements/pilote-imprimante-2027.zip (termine, 2,1 Mo)
+2027-11-15 14:20:40  ouvert   https://lims.ombelle.test/releves/saisie
+2027-11-19 11:20:03  ouvert   https://intranet.ombelle.test/assistance/ticket/2027-1182

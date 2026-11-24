@@ -1,0 +1,84 @@
+# Bench 42 runs a fake printer driver that beacons out. Find it with the host's own tools, then
+# stop the systemd unit: killing the process alone was tried on Friday, and the unit restarted it.
+side: defense
+order: 1
+stage: triage
+briefing: p1.briefing
+reveal: [poste42]
+
+files:
+  alertes/pare-feu.txt: { $file: files/alerte.txt }
+
+containment:
+  - id: disable
+    action: disable
+    target: imprimante-maj
+    text: p1.contain.disable
+    sets: { p42.disabled: true }
+    impact: 0
+
+objectives:
+  - { id: remote, text: p1.obj.remote }
+  - { id: restart, text: p1.obj.restart }
+  - { id: stop, text: p1.obj.stop }
+  - { id: check, text: p1.obj.check }
+
+investigation:
+  - { id: remote, text: p1.q.remote, value: "203.0.113.50", points: 75, objective: remote }
+
+questions:
+  - id: restart
+    text: p1.q.restart
+    objective: restart
+    correct: unit
+    options:
+      - { id: unit, text: p1.q.restart.unit }
+      - { id: hidden, text: p1.q.restart.hidden, why: p1.q.restart.hidden.why }
+      - { id: cron, text: p1.q.restart.cron, why: p1.q.restart.cron.why }
+
+rules:
+  - on: { event: MissionStarted }
+    do:
+      - ada.say: p1.ada.brief
+  - on: { event: ObjectiveCompleted, objective: remote }
+    do:
+      - ada.say: p1.ada.remote
+      - ada.ask: restart
+  - on: { event: ObjectiveCompleted, objective: restart }
+    do:
+      - ada.say: p1.ada.restart
+  - on: { event: Contained, containment: disable }
+    do:
+      - objective.complete: stop
+  - on: { event: ObjectiveCompleted, objective: stop }
+    do:
+      - ada.say: p1.ada.stopped
+  - on: { event: SystemRead, host: poste42, what: ps }
+    if: { config: p42.disabled, eq: true }
+    do:
+      - objective.complete: check
+  - on: { event: SystemRead, host: poste42, what: ss }
+    if: { config: p42.disabled, eq: true }
+    do:
+      - objective.complete: check
+  - on: { event: MissionCompleted }
+    do:
+      - ada.say: p1.ada.done
+
+guide:
+  remote: p1.ada.g.remote
+  restart: p1.ada.g.restart
+  stop: p1.ada.g.stop
+  check: p1.ada.g.check
+
+hints:
+  remote: [p1.hint.remote.1, p1.hint.remote.2]
+  restart: [p1.hint.restart.1, p1.hint.restart.2]
+  stop: [p1.hint.stop.1]
+  check: [p1.hint.check.1]
+
+debrief:
+  title: p1.debrief.title
+  lesson: p1.debrief.lesson
+  points: [p1.debrief.p1, p1.debrief.p2, p1.debrief.p3]
+  reference: "MITRE ATT&CK · T1543.002 Systemd Service"

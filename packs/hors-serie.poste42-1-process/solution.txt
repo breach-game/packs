@@ -1,0 +1,14 @@
+# Side series "Le Poste 42", mission 1: the shortest path, replayed by CI in every language.
+cat alertes/pare-feu.txt
+ssh ir@poste42.ombelle.test
+ps aux
+ss -tnp
+answer remote 203.0.113.50
+systemctl status imprimante-maj
+journalctl -u imprimante-maj
+last
+answer unit
+exit
+contain disable imprimante-maj
+ssh ir@poste42.ombelle.test
+ps aux

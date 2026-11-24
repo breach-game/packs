@@ -1,0 +1,7 @@
+file.readme: "Ligne Rouge workstation. Side series: Bench 42. Type `mission` to see your objectives, `hint` if you get stuck."
+file.ir.readme: "Incident response access opened by the lab for the length of the mandate. Read only: measures go through `contain` from the Ligne Rouge workstation."
+file.mandate: "MANDATE OM-2027-051\nClient: Laboratoire Ombelle, drinking water testing. Scope: *.ombelle.test, 10.88.0.0/24.\nPurpose: the firewall reports regular connections from a bench workstation to an unknown address. Ligne Rouge leads the incident response: understand, stop, reconstruct.\nAgreed setup: read-only access to bench 42 (account ir), measures approved by the lab and ordered through `contain`. No connection to the unknown address: it is out of the mandate.\nSigned: the IT manager of Laboratoire Ombelle."
+page.lims.h1: "Analysis server"
+page.lims.p: "Entry and approval of drinking water readings. Lab workstations only."
+page.lims.footer: "Laboratoire Ombelle · LIMS 7"
+ada.outOfScope: "Stop. This target is outside mandate OM-2027-051. Outside the mandate it is no longer defence, it is an offence (article 323-1 of the French Penal Code). We watch from here, we don't touch."
