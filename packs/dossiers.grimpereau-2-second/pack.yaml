@@ -1,0 +1,16 @@
+id: dossiers.grimpereau-2-second
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.grimpereau-world]
+title:
+  fr: "Dossier 29 · 2. Le second étage"
+  en: "Case file 29 · 2. The second stage"
+summary:
+  fr: "La plupart des clients de Vigie n'ont reçu que des réponses « reste tranquille ». Pas Altaïr. Tu trouves la réponse qui a ouvert la suite, le compte que l'intrus a utilisé sur l'annuaire, tu changes son mot de passe, puis tu remets l'histoire dans l'ordre."
+  en: "Most of Vigie's customers only got \"stay quiet\" answers. Not Altaïr. You find the answer that opened the next stage, the account the intruder used on the directory, change its password, then put the story in order."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+minutes: 12

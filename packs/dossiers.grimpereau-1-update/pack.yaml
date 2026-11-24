@@ -1,0 +1,16 @@
+id: dossiers.grimpereau-1-update
+version: 1.0.0
+engine: ">=0.15 <1"
+kind: mission
+requires: [dossiers.grimpereau-world]
+title:
+  fr: "Dossier 29 · 1. La mise à jour"
+  en: "Case file 29 · 1. The update"
+summary:
+  fr: "L'éditeur de Vigie annonce que certaines de ses mises à jour signées cachaient une porte dérobée. Tu vérifies la version installée chez Altaïr, tu écris la règle qui voit ses balises DNS, puis tu isoles le serveur."
+  en: "Vigie's vendor announces that some of its signed updates hid a backdoor. You check the build Altaïr installed, write the rule that sees its DNS beacons, then isolate the server."
+authors: [BREACH team]
+locales: [fr, en]
+difficulty: 2
+skills: [supply, logs, defense]
+minutes: 12

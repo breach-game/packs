@@ -1,0 +1,4 @@
+# Case file series, in playing order: the update, the second stage.
+missions:
+  - dossiers.grimpereau-1-update
+  - dossiers.grimpereau-2-second

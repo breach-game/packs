@@ -1,0 +1,12 @@
+# Case file 29, mission 2: the shortest path, replayed by CI in every language.
+cat traces/reponses-dns.txt
+grep CNAME traces/reponses-dns.txt
+answer cname relais.ombre-cdn.example
+ssh ir@annuaire.altair.test
+last
+exit
+answer account svcvigie
+answer everywhere
+contain rotate svcvigie
+timeline histoire
+timeline histoire chain signed installed beacons cname login advisory
