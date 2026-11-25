@@ -15,13 +15,13 @@ cd.ada.leak: "Réponds à ma question dans la messagerie, ou avec `answer` suivi
 cd.ada.leak.standard: "Réponds d'abord à ma question."
 cd.ada.rotated: "Oui. Un secret qui a été lisible est un secret connu : on le remplace, puis on nettoie. Maintenant, la configuration."
 cd.ada.harden: "Ouvre le fichier avec `edit atelier/site.conf`. Deux choses à changer : `autoindex on` liste les dossiers, et le bloc `/old/` laisse tout passer. Écris `autoindex off;` et mets `deny all;` dans le bloc `/old/`, puis lance `verify`."
-cd.ada.harden.standard: "Ouvre `atelier/site.conf` : désactive la liste des dossiers, refuse le dossier `/old/` à tout le monde, puis lance `verify`."
+cd.ada.harden.standard: "Ouvre `atelier/site.conf` : désactive la liste des dossiers, refuse le dossier `/old/` à tout le monde, puis lance `verify`. Pour ouvrir le fichier : `edit atelier/site.conf`."
 cd.ada.almost: "Pas encore. `verify` liste ce qui reste ouvert : lis chaque ligne, corrige le fichier et relance."
 cd.ada.done: "Porte fermée. Ouvre le débrief : le dernier mot porte sur ce qu'une configuration ne répare pas."
 cd.hint.leak.1: "Demande-toi qui a déjà pu copier ce mot de passe."
 cd.hint.harden.1: "Dans nginx, `autoindex` règle la liste des dossiers et `deny all;` refuse un emplacement à tout le monde."
 cd.hint.harden.2: "Remplace `autoindex on` par `autoindex off`, et le commentaire du bloc `/old/` par `deny all;`."
-cd.hint.harden.3: 'Tape `sed -i "s/autoindex on/autoindex off/" atelier/site.conf`, puis `sed -i "s/# kept just in case/deny all;/" atelier/site.conf`, puis `verify`.'
+cd.hint.harden.3: 'Avec l''éditeur : `edit atelier/site.conf`, puis Ctrl+S. Avec une commande : tape `sed -i "s/autoindex on/autoindex off/" atelier/site.conf`, puis `sed -i "s/# kept just in case/deny all;/" atelier/site.conf`, puis `verify`.'
 cd.debrief.title: "Ce que la correction ne répare pas"
 cd.debrief.lesson: "Fermer le dossier protège demain. Cela ne change rien à l'année pendant laquelle le mot de passe était public : c'est pour cela qu'on remplace le secret avant tout le reste."
 cd.debrief.p1: "Un secret qui a fui se remplace, même si rien ne montre qu'il a servi."
