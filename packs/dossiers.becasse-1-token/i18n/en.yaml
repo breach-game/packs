@@ -8,7 +8,7 @@ b1.q.meaning: "The token targets an agency mailbox, but it is signed by the key 
 b1.q.meaning.key: "Cirrus accepted a key that should not work for the agency"
 b1.q.meaning.password: "A staff member gave their password to a fake site"
 b1.q.meaning.password.why: "No password was used: the token does not come from an agency sign-in, it carries another service's key."
-b1.q.meaning.stolen: "The token was stolen from a management laptop"
+b1.q.meaning.stolen: "The token was stolen from a management laptop, then replayed"
 b1.q.meaning.stolen.why: "A token stolen from a laptop would be signed by the agency's key. This one was made with another key, at 2:40 am, without any sign-in."
 b1.contain.block: "Ask Cirrus to block, for every agency mailbox, the application the agency never registered"
 b1.ada.brief: "Compare the registered applications with what the mail service sees: `cat traces/applications.txt`, then `soc logs messagerie access`. Then write the rule in `regles/appli-inconnue.yml` and try it with `rule test regles/appli-inconnue.yml`."

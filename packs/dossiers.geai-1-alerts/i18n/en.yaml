@@ -9,7 +9,7 @@ c1.q.ignored: "The sensor had seen the program on 30 November. Why did nothing h
 c1.q.ignored.noowner: "The alert was drowned among a thousand others, and belonged to nobody"
 c1.q.ignored.silent: "The sensor had seen nothing before the police called"
 c1.q.ignored.silent.why: "It had: alerts A-8841 and A-8902 name the till server, on 30 November and 2 December. Look at their status."
-c1.q.ignored.hidden: "The intruder had deleted the alerts from the queue before leaving"
+c1.q.ignored.hidden: "The intruder had deleted the alerts from the queue before leaving the network"
 c1.q.ignored.hidden.why: "The alerts are still in the queue, with the reason they were closed written by the team: \"noise\", \"duplicate\"."
 c1.contain.out: "Block outbound the address the copy goes to"
 c1.contain.relay: "Isolate the relais file server (shops cannot fetch their price lists from it today)"

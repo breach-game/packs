@@ -7,7 +7,7 @@ c3.q.notice: "The director's idea: write under the window \"Charly can be wrong,
 c3.q.notice.fix: "No: a traveller need not re-check each answer elsewhere on the same site"
 c3.q.notice.warned: "Yes: once warned, the traveller is responsible for whatever they believe"
 c3.q.notice.warned.why: "The traveller in the complaint had no way of knowing which answer was wrong. A general warning does not make a wrong answer right."
-c3.q.notice.bold: "Yes, as long as it is written in bold, in red, and in every answer"
+c3.q.notice.bold: "Yes, as long as it is written in bold, in red, and under every single answer"
 c3.q.notice.bold.why: "More visible, a warning is still a warning. It removes nothing Charly makes up, it just points it out to everyone."
 c3.check.ground: "Charly answers from the published pages, and gives its source"
 c3.check.unsure: "Charly hands over when it does not know, and quotes amounts word for word"

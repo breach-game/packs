@@ -3,7 +3,7 @@ c.obj.marker: "Rapporter le marqueur de la page du compte témoin, lu sans cooki
 c.obj.fix: "Dire comment l'empêcher"
 c.q.fix: "Que doit changer Vitrine ?"
 c.q.fix.strict: "Répondre 404 sous /compte/, et marquer la page « private »"
-c.q.fix.https: "Servir tout le site en HTTPS strict avec HSTS"
+c.q.fix.https: "Servir tout le site en HTTPS strict, avec HSTS et un certificat neuf"
 c.q.fix.https.why: "Le site est déjà en HTTPS. Le cache est derrière le chiffrement : il garde la page déchiffrée et la rend à qui la demande."
 c.q.fix.short: "Réduire la durée du cache à une minute"
 c.q.fix.short.why: "Une minute suffit pour relire la page juste après le clic de la victime. Le cache ne doit jamais la garder du tout."

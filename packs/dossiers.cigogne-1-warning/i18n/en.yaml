@@ -10,7 +10,7 @@ c1.q.why: "Nothing changed at Nacre. Why does part of the Internet follow this a
 c1.q.why.specific: "The most specific route wins, with no check on who announces it"
 c1.q.why.hacked: "Nacre's name server was broken into and its records changed"
 c1.q.why.hacked.why: "The name server has not changed: from the office and several probes, it still answers correctly. The other probes no longer talk to it at all: their questions go elsewhere. Read `routes/annonces.csv` again."
-c1.q.why.registrar: "Nacre's account at its domain registrar was leaked and used"
+c1.q.why.registrar: "Nacre's account at its domain registrar was leaked and used by the attacker"
 c1.q.why.registrar.why: "In that case every probe would get the same wrong answer. Here, everything depends on the path the question takes: look at the `seen_by_collectors` column."
 c1.q.cert: "What does the certificate served by the site these customers saw say?"
 c1.q.cert.self: "It is signed by itself: no authority ever checked it"

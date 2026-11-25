@@ -10,7 +10,7 @@ g2.q.reach: "Pourquoi le compte de Vigie rendait-il la porte dérobée si danger
 g2.q.reach.everywhere: "Pour tout surveiller, il pouvait entrer partout"
 g2.q.reach.human: "Il appartenait à un administrateur humain"
 g2.q.reach.human.why: "C'est un compte de service, utilisé par le logiciel lui-même. C'est justement pour ça que personne ne regardait quand il se connectait."
-g2.q.reach.exposed: "Son mot de passe était publié sur Internet"
+g2.q.reach.exposed: "Son mot de passe avait été publié sur Internet par erreur"
 g2.q.reach.exposed.why: "Rien ne dit que son mot de passe ait fuité. L'intrus n'en avait pas besoin : il était déjà dans le logiciel qui s'en sert."
 g2.contain.rotate: "Changer le mot de passe du compte de service de Vigie et le limiter aux seules machines surveillées"
 g2.tl.text: "L'histoire de la mise à jour piégée"

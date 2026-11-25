@@ -8,7 +8,7 @@ b1.q.meaning: "Le jeton vise une boîte de l'agence, mais il est signé par la c
 b1.q.meaning.key: "Cirrus a accepté une clé qui ne valait pas pour l’agence"
 b1.q.meaning.password: "Un agent a donné son mot de passe à un faux site"
 b1.q.meaning.password.why: "Aucun mot de passe n'a servi : le jeton ne vient pas d'une connexion de l'agence, il porte la clé d'un autre service."
-b1.q.meaning.stolen: "Le jeton a été volé sur un poste de la direction"
+b1.q.meaning.stolen: "Le jeton a été volé sur un poste de la direction, puis rejoué"
 b1.q.meaning.stolen.why: "Un jeton volé sur un poste serait signé par la clé de l'agence. Celui-ci a été fabriqué avec une autre clé, à 2 h 40, sans aucune connexion."
 b1.contain.block: "Demander à Cirrus de bloquer, pour toutes les boîtes de l'agence, l'application que l'agence n'a pas enregistrée"
 b1.ada.brief: "Compare les applications enregistrées à ce que voit la messagerie : `cat traces/applications.txt`, puis `soc logs messagerie access`. Puis écris la règle dans `regles/appli-inconnue.yml` et essaie-la avec `rule test regles/appli-inconnue.yml`."
