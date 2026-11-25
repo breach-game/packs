@@ -9,7 +9,7 @@ q1.q.mfa: "Sofia's account has a second factor, and it is marked \"satisfied\". 
 q1.q.mfa.herself: "Sofia approved it herself, for the attacker's device"
 q1.q.mfa.stolen: "The attacker stole her phone to receive the code"
 q1.q.mfa.stolen.why: "Sofia still has her phone. The code was not a second factor code: it was the attacker's device code, which she typed."
-q1.q.mfa.fake: "The sign-in page was a copy of the real one, on another site"
+q1.q.mfa.fake: "The sign-in page was a copy of the real one"
 q1.q.mfa.fake.why: "The link opens connexion.passerelle.test, the real page. That is the whole trap: nothing looks fake."
 q1.sms.bank: "Banque Ruisseau: your January statement is available in your space."
 q1.sms.invite: "Hello Sofia, I am a journalist at Radio Méridien, we wrote to each other last week. Shall we do our interview on Visio now? To join, open https://connexion.passerelle.test/device and enter the code KX7-PQ2M. See you in a minute!"

@@ -8,7 +8,7 @@ p2.q.what.malware: "Lison's computer: malware was installed on it during the cal
 p2.q.what.malware.why: "Nothing was installed anywhere. Her computer is as clean as yesterday, which is exactly what makes this kind of attack hard to see."
 p2.q.what.guess: "Her password: it was too simple, and a few attempts were enough to guess it"
 p2.q.what.guess.why: "Nobody guessed anything. She typed it herself, on a page that looked like the real one, then approved the sign-in on her phone."
-p2.q.what.trust: "Trust: she believed the call, typed her login on a fake page, approved the sign-in"
+p2.q.what.trust: "Trust: she believed the call, typed her credentials on a fake page and approved the sign-in"
 p2.soc.password: "Suspicious call reported by an agent: she was asked for her password"
 p2.soc.scam: "Suspicious call reported by an agent: scam attempt"
 p2.soc.login: "VPN sign-in from an unusual address, approved by phone"

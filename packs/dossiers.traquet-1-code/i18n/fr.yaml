@@ -9,7 +9,7 @@ q1.q.mfa: "Le compte de Sofia a un second facteur, et il est noté « satisfied 
 q1.q.mfa.herself: "Sofia l'a validé elle-même, pour l'appareil de l'attaquant"
 q1.q.mfa.stolen: "L'attaquant a volé son téléphone pour recevoir les codes"
 q1.q.mfa.stolen.why: "Sofia a toujours son téléphone. Le code n'était pas un code de second facteur : c'était celui de l'appareil de l'attaquant, qu'elle a tapé."
-q1.q.mfa.fake: "La page de connexion était une copie de la vraie, sur un autre site"
+q1.q.mfa.fake: "La page de connexion était une copie de la vraie page"
 q1.q.mfa.fake.why: "Le lien ouvre connexion.passerelle.test, la vraie page. C'est tout le piège : rien ne paraît faux."
 q1.sms.bank: "Banque Ruisseau : votre relevé de janvier est disponible dans votre espace."
 q1.sms.invite: "Bonjour Sofia, je suis journaliste à Radio Méridien, on s'était écrit la semaine dernière. Je vous propose notre entretien sur Visio maintenant. Pour rejoindre, ouvrez https://connexion.passerelle.test/device et saisissez le code KX7-PQ2M. À tout de suite !"

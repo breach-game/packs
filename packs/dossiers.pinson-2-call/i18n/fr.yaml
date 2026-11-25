@@ -8,7 +8,7 @@ p2.q.what.malware: "Le poste de Lison : un logiciel malveillant y a été instal
 p2.q.what.malware.why: "Rien n'a été installé nulle part. Son poste est aussi propre qu'hier, et c'est bien ce qui rend ce genre d'attaque difficile à voir."
 p2.q.what.guess: "Son mot de passe : il était trop simple, et il a suffi de quelques essais pour le deviner"
 p2.q.what.guess.why: "Personne n'a rien deviné. Elle l'a tapé elle-même, sur une page qui ressemblait à la vraie, puis elle a validé la connexion sur son téléphone."
-p2.q.what.trust: "La confiance : elle a cru l'appel, tapé ses identifiants sur une fausse page, validé la connexion"
+p2.q.what.trust: "La confiance : elle a cru l'appel, tapé ses identifiants sur une fausse page et validé la connexion"
 p2.soc.password: "Appel suspect signalé par une agente : on lui a demandé son mot de passe"
 p2.soc.scam: "Appel suspect signalé par une agente : tentative d'arnaque"
 p2.soc.login: "Connexion au VPN depuis une adresse inhabituelle, validée par téléphone"

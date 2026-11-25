@@ -8,7 +8,7 @@ g3.q.idea: "The security officer asks which fix matters most. What do you answer
 g3.q.idea.crypt: "Encrypt all storage with a stronger algorithm than today's"
 g3.q.idea.crypt.why: "Storage was already encrypted, and the role read in clear because it was allowed to. A stronger lock changes nothing for someone holding the key."
 g3.q.idea.role: "Take away from the gateway's role the rights it never needed"
-g3.q.idea.hide: "Rename the relay and change its address so that nobody finds it again"
+g3.q.idea.hide: "Rename the relay and change its address so nobody finds it"
 g3.q.idea.hide.why: "A hidden door is found sooner or later, by a scanner if not by a person. What matters is what is behind it."
 g3.check.role: "The gateway's role has no rights over storage"
 g3.check.relay: "The relay only reaches the health page"

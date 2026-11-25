@@ -10,7 +10,7 @@ c1.q.why: "L'ancienne adresse a rendu des milliers de fiches. Qu'est-ce qui l'a 
 c1.q.why.both: "Elle ne vérifie pas qui appelle, et les numéros se suivent"
 c1.q.why.password: "Son mot de passe était trop simple à deviner"
 c1.q.why.password.why: "Il n'y a aucun mot de passe à deviner : ta requête n'en portait pas, et la fiche est revenue quand même."
-c1.q.why.speed: "Elle répond trop vite, sans aucune limite du nombre de requêtes par client"
+c1.q.why.speed: "Elle répond trop vite, sans limite du nombre de requêtes"
 c1.q.why.speed.why: "La vitesse aide, mais une API lente qui répond à n'importe qui finit vidée aussi. Regarde ce qui manque à ta requête, et la suite des numéros."
 c1.contain.off: "Éteindre le service api-old.boreal.test (plus aucun partenaire ne l'utilise depuis 2025)"
 c1.ada.brief: "Lis le message de l'équipe réseau : `cat alerte.txt`. Puis regarde ce qui arrive sur la vieille machine : `soc logs ancien access`."

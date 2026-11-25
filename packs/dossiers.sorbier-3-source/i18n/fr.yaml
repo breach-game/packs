@@ -6,7 +6,7 @@ s3.q.first: "On ne sait pas encore exactement ce que fait le fichier caché. Que
 s3.q.first.wait: "Attendre la fin de l'analyse du fichier caché, pour ne pas agir à l'aveugle"
 s3.q.first.wait.why: "L'analyse prendra des jours, et pendant ce temps des machines installent la 5.6.1. On en sait assez pour revenir en arrière : une ligne cachée qui lance un fichier caché n'a rien à faire là."
 s3.q.first.back: "Revenir tout de suite à la dernière version sûre, et prévenir les autres distributions"
-s3.q.first.quiet: "Corriger discrètement dans la prochaine version, sans alerter personne pour ne pas inquiéter"
+s3.q.first.quiet: "Corriger discrètement dans la prochaine version, sans alerter pour ne pas inquiéter"
 s3.q.first.quiet.why: "D'autres distributions construisent la même archive. Se taire les laisse exposées. Dans une affaire comme celle-ci, prévenir vite fait partie de la réponse."
 s3.check.back: "Le paquet revient à la version 5.4.6"
 s3.check.source: "Le paquet est construit depuis le dépôt public"

@@ -8,7 +8,7 @@ h2.q.cache: "The vendor replaced the faulty file at 7:27. Why don't the counters
 h2.q.cache.cache: "They load the file from their cache and crash before they can receive another one"
 h2.q.cache.slow: "The new file takes several hours to reach every customer"
 h2.q.cache.slow.why: "The journal shows something else: \"found in cache, loading\", then the crash. The machine falls before it even asks for a new file."
-h2.q.cache.offline: "The counters have been offline since 6:09 and can no longer see the vendor's update server"
+h2.q.cache.offline: "The counters have been offline since 6:09 and no longer see the vendor's server"
 h2.q.cache.offline.why: "They have network at every start. But the agent loads its cache first, and the cache holds the faulty file."
 h2.contain.vault: "Restore the key vault and the directory from the 3:00 snapshot, agents stopped (forty minutes)"
 h2.contain.counters: "Send the technicians: rescue mode, disk key, delete channel 0447, restart, in every pharmacy (one day)"

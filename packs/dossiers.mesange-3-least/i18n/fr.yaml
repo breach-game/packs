@@ -8,7 +8,7 @@ g3.q.idea: "Le responsable de la sécurité te demande quelle correction compte 
 g3.q.idea.crypt: "Chiffrer tout le stockage avec un algorithme plus fort que l'actuel"
 g3.q.idea.crypt.why: "Le stockage était déjà chiffré, et le rôle lisait en clair parce qu'il en avait le droit. Une serrure plus solide ne change rien pour celui qui tient la clé."
 g3.q.idea.role: "Retirer au rôle de la passerelle les droits dont il n'a jamais eu besoin"
-g3.q.idea.hide: "Renommer le relais et changer son adresse pour que plus personne ne le trouve"
+g3.q.idea.hide: "Renommer le relais et changer son adresse pour que personne ne le trouve"
 g3.q.idea.hide.why: "Une porte cachée finit par être trouvée, par un scanner sinon par une personne. Ce qui compte, c'est ce qu'il y a derrière."
 g3.check.role: "Le rôle de la passerelle n'a aucun droit sur le stockage"
 g3.check.relay: "Le relais n'atteint que la page de santé"
