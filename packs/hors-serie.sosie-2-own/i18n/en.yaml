@@ -31,7 +31,7 @@ s2.q.before: "Before having everything that fails rejected, what must you check?
 s2.q.before.reports: "Who sends legitimately for the firm, in the DMARC reports"
 s2.q.before.clients: "That every client has accepted the change"
 s2.q.before.clients.why: "Clients have nothing to accept: this setting only concerns the servers that send in the firm's name."
-s2.q.before.age: "That the firm's domain is more than a year old"
+s2.q.before.age: "That the firm's domain is more than a year old, or it gets rejected"
 s2.q.before.age.why: "The domain's age changes nothing. The risk is rejecting a forgotten legitimate service, such as the newsletter."
 s2.ada.answer: "Answer in the messenger, or with `answer` in the terminal."
 s2.ada.answer.standard: "My question is waiting in the messenger."

@@ -14,7 +14,7 @@ m3.q.change: "What would have stopped the night at 6:01, without waking anyone u
 m3.q.change.canary: "Ship to one depot first, carry on only if the health page answers"
 m3.q.change.daytime: "Forbid releases at night, and only ship in the afternoon"
 m3.q.change.daytime.why: "The crash would have happened in the afternoon, with the trucks on the road. The problem is not the time, it is shipping everywhere at once without looking at the service's health."
-m3.q.change.approval: "Have a manager approve every release before it ships"
+m3.q.change.approval: "Have a manager approve every release, after reviewing the tests, before it ships"
 m3.q.change.approval.why: "4.2.0 would have been approved: it passed its tests. A human signing does not see a crash at start, a health page does."
 m3.q.tell: "About a hundred shops were delivered 40 minutes to two hours late. What do you tell them?"
 m3.q.tell.everyone: "A message to every customer: what happened, the delay, what changes"

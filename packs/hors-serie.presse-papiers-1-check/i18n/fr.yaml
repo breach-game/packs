@@ -7,7 +7,7 @@ p1.q.server: "De quel serveur la ligne copiée fait-elle télécharger une « mi
 p1.q.widget: "Quel domaine tiers, chargé par la page, a ajouté la fausse vérification ?"
 p1.q.trick: "La page ne peut rien lancer sur le poste. Qu'est-ce qui fait marcher ce piège ?"
 p1.q.trick.hands: "La personne lance elle-même la ligne, qu'elle croit sans danger"
-p1.q.trick.browser: "Une faille du navigateur exécute tout seul ce qui est copié"
+p1.q.trick.browser: "Une faille du navigateur exécute tout seul ce qui est copié dans le presse-papiers"
 p1.q.trick.browser.why: "Le navigateur ne fait que copier un texte, ce qu'un bouton a le droit de faire. Rien ne s'exécute tant que personne ne colle et n'appuie sur Entrée."
 p1.q.trick.captcha: "Cocher la case suffit à installer le programme sur le poste"
 p1.q.trick.captcha.why: "Cocher la case ne fait que remplir le presse-papiers. Le programme arrive seulement quand la ligne est collée dans un terminal et lancée."

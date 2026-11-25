@@ -23,7 +23,7 @@ w4.q.why: "Why is it risky to let your laptop join a saved open network on its o
 w4.q.why.name: "Anyone can broadcast the same name, and the laptop joins it without asking you."
 w4.q.why.battery: "The laptop keeps searching for those networks, which drains its battery fast."
 w4.q.why.battery.why: "The real issue is not battery: a known open name can be copied by anyone, and the laptop trusts it."
-w4.q.why.tracked: "The operators of those networks can track you from one city to the next."
+w4.q.why.tracked: "The operators of those networks can track you from one city to the next by the laptop's address."
 w4.q.why.tracked.why: "Modern devices change their hardware address per network. The risk is joining a copy, not being followed."
 w4.q.owe: "The chain switches its guest Wi-Fi to Enhanced Open (OWE). What does it bring?"
 w4.q.owe.air: "Each guest's traffic is encrypted over the air, but nothing proves who runs the network."

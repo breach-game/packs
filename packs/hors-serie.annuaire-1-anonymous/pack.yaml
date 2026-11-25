@@ -1,5 +1,5 @@
 id: hors-serie.annuaire-1-anonymous
-version: 1.0.1
+version: 1.0.2
 engine: ">=0.16 <1"
 kind: mission
 requires: [hors-serie.annuaire-world]

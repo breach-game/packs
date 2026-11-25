@@ -8,7 +8,7 @@ p2.q.why: "The firewall refuses 203.0.113.50 and gives the workstations no DNS w
 p2.q.why.resolver: "The workstation asks the internal resolver, which forwards any question outside"
 p2.q.why.encrypted: "DNS questions are encrypted, so the firewall cannot read or stop them"
 p2.q.why.encrypted.why: "They travel in clear: you read them in the resolver's log. The firewall does not need to see them, the workstation only talks to the internal resolver."
-p2.q.why.port: "The firewall never blocks port 53, whatever rule the lab writes"
+p2.q.why.port: "The firewall never blocks port 53, whatever rule the lab writes, because DNS must always work"
 p2.q.why.port.why: "The workstation has no direct way out on port 53. It asks resolver 10.88.0.2, like any workstation, and the resolver forwards."
 p2.contain.cron: "Remove cbaron's scheduled job on bench 42 and delete the program it starts"
 p2.ada.brief: "Start with the firewall: `flows --src 10.88.0.42`. The refusals to 203.0.113.50 keep coming, every five minutes. Something keeps trying."

@@ -14,7 +14,7 @@ m3.q.change: "Qu'est-ce qui aurait arrêté la nuit à 6 h 01, sans que personne
 m3.q.change.canary: "Livrer d'abord à un seul dépôt, et ne continuer que si la page de santé répond"
 m3.q.change.daytime: "Interdire les livraisons la nuit, n'en faire que l'après-midi"
 m3.q.change.daytime.why: "Le plantage aurait eu lieu l'après-midi, avec les camions en route. Le problème n'est pas l'heure, c'est de livrer partout d'un coup sans regarder la santé du service."
-m3.q.change.approval: "Faire valider chaque livraison par un responsable avant l'envoi"
+m3.q.change.approval: "Faire valider chaque livraison par un responsable, après relecture des tests, avant l'envoi"
 m3.q.change.approval.why: "La 4.2.0 aurait été validée : elle passait ses tests. Un humain qui signe ne voit pas un plantage au démarrage, une page de santé si."
 m3.q.tell: "Une centaine de magasins ont été livrés avec 40 minutes à deux heures de retard. Que leur dire ?"
 m3.q.tell.everyone: "Un message à tous les clients : ce qui s'est passé, le retard, ce qui change"
