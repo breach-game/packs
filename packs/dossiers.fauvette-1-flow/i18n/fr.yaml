@@ -7,7 +7,7 @@ f1.q.who: "Un courriel venu de l'extérieur est dans la boîte de Maud. Pour que
 f1.q.who.maud: "Maud : elle doit ouvrir le courriel ou cliquer sur un lien"
 f1.q.who.maud.why: "Relis l'étape 1 : Sillage fouille la boîte tout seul dès qu'une question s'en rapproche. Maud n'ouvre rien."
 f1.q.who.nobody: "Personne : il suffit que Maud pose un jour une question ordinaire à Sillage"
-f1.q.who.admin: "Un administrateur : il faut d'abord donner à l'expéditeur des droits sur la boîte"
+f1.q.who.admin: "Un administrateur : il faut d'abord accorder des droits à l'expéditeur"
 f1.q.who.admin.why: "L'expéditeur n'a besoin d'aucun droit. Sillage lit avec les droits de Maud, et Maud a le droit de lire sa propre boîte."
 f1.ada.brief: "Bienvenue chez Fauvette. Aujourd'hui, on n'envoie rien. On lit : ce que Sillage peut voir, puis comment il fabrique une réponse."
 f1.ada.g.tool: "Commence par la page publique de l'outil : `curl https://www.fauvette.test/sillage`."

@@ -10,7 +10,7 @@ c1.q.why: "Rien n'a changé chez Nacre. Pourquoi une partie d'Internet suit-elle
 c1.q.why.specific: "La route la plus précise l'emporte, sans vérifier qui l'annonce"
 c1.q.why.hacked: "Le serveur de noms de Nacre a été piraté et modifié"
 c1.q.why.hacked.why: "Le serveur de noms n'a pas changé : vu du bureau et de plusieurs sondes, il répond toujours juste. Les autres sondes ne lui parlent plus du tout : leurs questions partent ailleurs. Relis `routes/annonces.csv`."
-c1.q.why.registrar: "Le compte de Nacre chez son bureau d'enregistrement a fuité, puis servi"
+c1.q.why.registrar: "Le compte de Nacre chez son bureau d'enregistrement a fuité"
 c1.q.why.registrar.why: "Dans ce cas toutes les sondes recevraient la même mauvaise réponse. Ici, tout dépend du chemin que prend la question : regarde la colonne `seen_by_collectors`."
 c1.q.cert: "Que dit le certificat présenté par le site que ces clients ont vu ?"
 c1.q.cert.self: "Il est signé par lui-même : aucune autorité ne l'a vérifié"

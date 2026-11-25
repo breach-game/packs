@@ -7,7 +7,7 @@ f1.q.who: "An email from outside is in Maud's inbox. For Sillage to read it and 
 f1.q.who.maud: "Maud: she has to open the email or click a link"
 f1.q.who.maud.why: "Read step 1 again: Sillage searches the inbox by itself as soon as a question looks related. Maud opens nothing."
 f1.q.who.nobody: "Nobody: Maud only has to ask Sillage an ordinary question, some day"
-f1.q.who.admin: "An administrator: someone has to give the sender rights on the inbox first"
+f1.q.who.admin: "An administrator: someone must first give the sender some rights"
 f1.q.who.admin.why: "The sender needs no rights. Sillage reads with Maud's rights, and Maud can read her own inbox."
 f1.ada.brief: "Welcome to Fauvette. Today we send nothing. We read: what Sillage can see, then how it builds an answer."
 f1.ada.g.tool: "Start with the public page about the tool: `curl https://www.fauvette.test/sillage`."
