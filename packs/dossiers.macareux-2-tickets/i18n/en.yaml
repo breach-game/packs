@@ -7,7 +7,7 @@ m2.q.keys: "How many different access keys (starting with AKIA) does the export 
 m2.q.ticket: "What is the Id of the ticket holding the data warehouse password?"
 m2.q.habit: "What would have kept these secrets from leaving with the tickets?"
 m2.q.habit.scan: "Mask any secret as soon as a ticket is created"
-m2.q.habit.delete: "Delete every ticket older than six months"
+m2.q.habit.delete: "Delete all tickets more than six months old"
 m2.q.habit.delete.why: "The password ticket is two weeks old. Purging helps, but a secret pasted yesterday leaves just as well."
 m2.q.habit.encrypt: "Encrypt the CRM database on its disks"
 m2.q.habit.encrypt.why: "Disk encryption does not stop a valid token: the API returns tickets in clear to whoever may read them."
