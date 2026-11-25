@@ -27,7 +27,7 @@ w4.q.why.tracked: "The operators of those networks can track you from one city t
 w4.q.why.tracked.why: "Modern devices change their hardware address per network. The risk is joining a copy, not being followed."
 w4.q.owe: "The chain switches its guest Wi-Fi to Enhanced Open (OWE). What does it bring?"
 w4.q.owe.air: "Each guest's traffic is encrypted over the air, but nothing proves who runs the network."
-w4.q.owe.twin: "Proof that the network really is the café's own: a fake twin can no longer pass itself off as it."
+w4.q.owe.twin: "Proof that the network really is the café's own, so fake twins no longer work at all."
 w4.q.owe.twin.why: "OWE encrypts without authenticating: a twin can do Enhanced Open too. It changes nothing about Saturday's box."
 w4.q.owe.label: "Nothing at all: it is only a new marketing name for the same old open Wi-Fi."
 w4.q.owe.label.why: "It does change something: each connection gets its own key, so another guest can no longer read plain traffic over the air."

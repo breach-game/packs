@@ -8,7 +8,7 @@ t2.q.where: "Nadia veut changer ses mots de passe et écrire à une association.
 t2.q.where.other: "Depuis un appareil que son ex n'a jamais eu entre les mains"
 t2.q.where.private: "Depuis ce téléphone, mais en navigation privée"
 t2.q.where.private.why: "La navigation privée n'efface que l'historique. Une application qui a le droit de lire l'écran lit aussi les fenêtres privées, et ce qu'on y tape."
-t2.q.where.after: "Depuis ce téléphone, après avoir supprimé l'application suspecte"
+t2.q.where.after: "Depuis ce téléphone, après avoir supprimé l'application"
 t2.q.where.after.why: "La suppression se voit de l'autre côté, et rien ne dit que cette application soit la seule chose installée. On décide de la retirer dans le plan, pas avant."
 t2.ada.brief: "On cherche deux choses : ce qui est sur le téléphone sans y avoir été invité, et qui d'autre est dans son compte. `cat telephone/applis.csv` : regarde la colonne `source` et les droits demandés."
 t2.ada.g.spy: "`grep \"unknown-source\" telephone/applis.csv` montre l'application installée hors de la boutique. Réponds avec `answer spy <nom>`."

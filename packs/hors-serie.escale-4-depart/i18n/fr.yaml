@@ -27,7 +27,7 @@ w4.q.why.tracked: "Les exploitants de ces réseaux peuvent te suivre d'une ville
 w4.q.why.tracked.why: "Les appareils récents changent d'adresse matérielle à chaque réseau. Le risque, c'est de rejoindre une copie, pas d'être suivi."
 w4.q.owe: "La chaîne passe son Wi-Fi invités en Enhanced Open (OWE). Qu'est-ce que ça apporte ?"
 w4.q.owe.air: "Le trafic de chaque invité est chiffré dans les ondes, mais rien ne prouve qui tient le réseau."
-w4.q.owe.twin: "La preuve que le réseau est bien celui du café : un faux jumeau ne peut plus se faire passer pour lui."
+w4.q.owe.twin: "La preuve que le réseau est bien celui du café, donc les faux jumeaux ne marchent plus du tout."
 w4.q.owe.twin.why: "OWE chiffre sans authentifier : un jumeau peut faire de l'Enhanced Open lui aussi. Ça ne change rien au boîtier de samedi."
 w4.q.owe.label: "Rien du tout : c'est juste un nouveau nom commercial pour le même vieux Wi-Fi ouvert."
 w4.q.owe.label.why: "Ça change quelque chose : chaque connexion a sa propre clé, donc un autre invité ne lit plus le trafic en clair dans les ondes."
