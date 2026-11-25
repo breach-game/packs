@@ -8,7 +8,7 @@ r1.q.over: "The IT manager asks whether everyone can go home. What do you answer
 r1.q.over.memory: "Not yet: server memory may have been read, keys included"
 r1.q.over.closed: "Yes: the flaw is closed everywhere"
 r1.q.over.closed.why: "Shutting the door does not give back what was already read. And reading it left no trace in the logs."
-r1.q.over.imap: "Not yet: the IMAP mail service must be updated too"
+r1.q.over.imap: "Not yet: the IMAP mail service must be updated too, it is exposed as well"
 r1.q.over.imap.why: "The IMAP service runs the 0.9.8 branch, which never had the heartbeat. It is not affected."
 r1.ada.brief: "Read the advisory: `cat bulletin/VTLS-2027-0407.txt`. Then note each service's version: `nmap -sV 10.96.0.0/24`."
 r1.ada.g.count: "In the output of `nmap -sV`, the VerreTLS version is in brackets. Only versions 1.0.1 to 1.0.1f are affected. Then `answer count <number>`."

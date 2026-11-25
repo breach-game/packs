@@ -7,7 +7,7 @@ t1.q.program: "Which program, started from the home folder, runs on the workstat
 t1.q.alert: "At what time does the agent raise the first \"high\" alert? (HH:MM)"
 t1.q.call: "The workstation is isolated. How do you contact the new employee?"
 t1.q.call.hr: "Call the HR file's number, mention only a laptop issue"
-t1.q.call.chat: "On the chat app, asking him what sysmond does"
+t1.q.call.chat: "On the company chat app, asking him what the sysmond program does"
 t1.q.call.chat.why: "If it is no accident, you just told the attacker what you saw. And you learn nothing he does not want to tell you."
 t1.q.call.wipe: "No contact: wipe the laptop remotely right now"
 t1.q.call.wipe.why: "Wiping destroys the evidence the investigation will need, and the laptop is already isolated: it can send nothing more."

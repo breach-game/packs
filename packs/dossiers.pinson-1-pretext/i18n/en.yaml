@@ -7,7 +7,7 @@ p1.q.pretext: "You are calling a support agent who works from home. Which story 
 p1.q.pretext.prize: "\"You have won a phone, I need your credentials\""
 p1.q.pretext.prize.why: "Nobody is expecting that gift, and everybody has learnt to distrust it. A good pretext answers a problem the person really has."
 p1.q.pretext.vpn: "\"This is IT support, we are taking care of your VPN problem\""
-p1.q.pretext.boss: "\"I am the director, give me access right now\""
+p1.q.pretext.boss: "\"I am the director, this is urgent: give me access right now\""
 p1.q.pretext.boss.why: "Pressure sometimes works, but it raises suspicion and one call is enough to check it. Help that was expected is not questioned."
 p1.ada.brief: "Today you touch nothing, you read. The site is `https://www.pinson.test`: open it in the browser or with `curl`. Look for what is wearing the teams out right now."
 p1.ada.g.status: "Start with the status page: `curl https://www.pinson.test/status`."

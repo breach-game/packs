@@ -9,7 +9,7 @@ l2.q.what: "Une clé oubliée a fait tout cela. Qu'est-ce qui manquait pour limi
 l2.q.what.limits: "Des limites sur la clé elle-même : quels modèles, combien par jour, et une alerte"
 l2.q.what.secret: "Une clé plus longue et plus complexe, que personne n'aurait pu deviner"
 l2.q.what.secret.why: "Personne ne l'a devinée : elle était servie à qui demandait un fichier. Une clé de n'importe quelle longueur fuit de la même façon."
-l2.q.what.model: "Un modèle moins cher derrière Plume, pour que chaque demande coûte bien moins"
+l2.q.what.model: "Un modèle bien moins cher derrière Plume, pour que chaque demande coûte beaucoup moins"
 l2.q.what.model.why: "Plume utilise déjà le moins cher. C'est l'inconnu qui a choisi le modèle, pas Linotte : c'est ce choix qu'il faut retirer."
 l2.ada.brief: "Le site d'essai d'abord. S'il répond encore, regarde tout ce qu'il sert, y compris ce qu'un navigateur n'affiche pas."
 l2.ada.g.testsite: "Lis le site d'essai, source comprise : `curl https://essai.linotte.test/`."

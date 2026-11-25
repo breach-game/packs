@@ -7,7 +7,7 @@ m1.q.src: "Which address uses the `converso-sync/4.1` agent without being Conver
 m1.q.object: "Which CRM object did the heaviest query export? (the name after FROM)"
 m1.q.why: "Nobody broke into the CRM. Why did it answer every request?"
 m1.q.why.token: "The connector's token was valid, and nothing tied it to an address"
-m1.q.why.password: "An Ardoise employee had a password that was too weak"
+m1.q.why.password: "An Ardoise employee had a password that was too weak, and the attacker guessed it"
 m1.q.why.password.why: "No employee sign-in in these lines: they all go through the connector's token, with its agent."
 m1.q.why.flaw: "The CRM had a known flaw that the attacker exploited"
 m1.q.why.flaw.why: "Each request is a normal API request, accepted because the token was good. Nothing was broken."

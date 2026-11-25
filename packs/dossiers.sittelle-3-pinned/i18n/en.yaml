@@ -7,7 +7,7 @@ s3.q.why: "The director asks: if the copy is ours, what is the fingerprint still
 s3.q.why.ours: "If our own server is altered one day, the browser refuses the changed file"
 s3.q.why.habit: "Nothing more: it is just a good habit, so we keep it anyway"
 s3.q.why.habit.why: "It really is useful: a file can also be changed at home, on the server or on the way."
-s3.q.why.speed: "To load it faster, since the browser keeps the file in its cache longer"
+s3.q.why.speed: "To load it faster, since with it the browser keeps the file in its cache for longer"
 s3.q.why.speed.why: "The fingerprint makes nothing faster: it lets the browser refuse a file that is no longer the one you checked."
 s3.check.copy: "The library is served by the site, with its fingerprint"
 s3.check.csp: "Only the site's scripts run, and refusals are reported"

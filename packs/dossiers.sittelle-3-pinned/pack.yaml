@@ -1,5 +1,5 @@
 id: dossiers.sittelle-3-pinned
-version: 1.0.1
+version: 1.0.2
 engine: ">=0.12 <1"
 kind: mission
 requires: [dossiers.sittelle-world]

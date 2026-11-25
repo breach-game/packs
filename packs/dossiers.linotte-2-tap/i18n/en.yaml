@@ -9,7 +9,7 @@ l2.q.what: "A forgotten key did all that. What was missing that would have limit
 l2.q.what.limits: "Limits on the key itself: which models, how much per day, and an alert"
 l2.q.what.secret: "A longer and more complex key, one that nobody could have guessed"
 l2.q.what.secret.why: "Nobody guessed it: it was served to anyone who asked for a file. A key of any length leaks the same way."
-l2.q.what.model: "A cheaper model behind Plume, so that each request costs far less"
+l2.q.what.model: "A cheaper model behind Plume, so that each single request would cost far less"
 l2.q.what.model.why: "Plume already uses the cheapest one. The stranger chose the model, not Linotte: that choice is what has to be taken away."
 l2.ada.brief: "The test site first. If it still answers, look at everything it serves, including what a browser does not show."
 l2.ada.g.testsite: "Read the test site, source included: `curl https://essai.linotte.test/`."

@@ -10,7 +10,7 @@ c1.q.why: "The old address gave away thousands of records. What made it possible
 c1.q.why.both: "It does not check who is calling, and the numbers follow each other"
 c1.q.why.password: "Its password was too easy to guess"
 c1.q.why.password.why: "There is no password to guess: your request carried none, and the record came back anyway."
-c1.q.why.speed: "It answers too quickly, with no limit on the number of requests"
+c1.q.why.speed: "It answers too quickly, with no limit at all on the number of requests per client"
 c1.q.why.speed.why: "Speed helps, but a slow API that answers anyone ends up emptied too. Look at what your request lacks, and at the sequence of numbers."
 c1.contain.off: "Switch off the api-old.boreal.test service (no partner has used it since 2025)"
 c1.ada.brief: "Read the network team's message: `cat alerte.txt`. Then look at what reaches the old machine: `soc logs ancien access`."

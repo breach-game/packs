@@ -9,7 +9,7 @@ c1.q.also: "En plus des images et du son, qu'est-ce que les droits du support pe
 c1.q.also.wifi: "La clé du Wi-Fi que les caméras utilisent"
 c1.q.also.records: "Les dossiers médicaux des patients"
 c1.q.also.records.why: "L'avis ne parle pas des dossiers : Vigie ne les a jamais eus. Relis la liste de ce que les droits du support donnaient."
-c1.q.also.nothing: "Rien d'autre que les images et le son"
+c1.q.also.nothing: "Rien d'autre que les images et le son des caméras"
 c1.q.also.nothing.why: "L'avis cite aussi l'adresse du site, le nom des caméras et leur configuration. Lis ce que cette configuration contient."
 c1.q.tell: "Personne ne peut dire si les caméras de la clinique ont été regardées. Que dire aux patients ?"
 c1.q.tell.patients: "Écrire à chaque patient passé par une salle filmée"
