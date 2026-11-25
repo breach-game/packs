@@ -7,7 +7,7 @@ l1.q.odd: "Regarde les lignes de cette clé. Qu'y a-t-il dedans qui ne devrait j
 l1.q.odd.model: "Le modèle `grand`, que le produit de Linotte n'appelle jamais"
 l1.q.odd.count: "Plus de demandes chaque jour que la clé du site web"
 l1.q.odd.count.why: "Pas le premier jour : 1 840 demandes contre 4 055 pour le site, et trente fois le coût. Ce n'est pas le nombre qui fait la facture."
-l1.q.odd.daily: "Un usage chaque jour de la semaine, sans aucune pause"
+l1.q.odd.daily: "Un usage chaque jour de la semaine, sans aucune pause, même le week-end"
 l1.q.odd.daily.why: "C'est l'inverse : cette clé est muette jusqu'au 6. Ce sont les deux autres qui travaillent tous les jours."
 l1.q.unseen: "Quatre jours, six mille euros. Pourquoi personne chez Linotte ne l'a vu ?"
 l1.q.unseen.nobody: "Rien ne surveillait : ni plafond, ni alerte, une facture par mois"

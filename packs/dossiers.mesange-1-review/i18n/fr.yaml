@@ -8,7 +8,7 @@ g1.q.why.backup: "Parce qu'il lit tous les dossiers du stockage, exactement comm
 g1.q.why.backup.why: "Le rôle de sauvegarde lit tout parce que tout sauvegarder est son travail. La faute n'est pas d'avoir des droits larges : c'est d'avoir des droits sans besoin."
 g1.q.why.crypt: "Parce que le stockage n'est pas chiffré pour lui, alors qu'il l'est pour tous les autres rôles du compte"
 g1.q.why.crypt.why: "Le stockage est chiffré. Mais relis la note : un rôle qui a le droit de lire lit en clair. Le chiffrement protège d'un disque volé, pas d'un rôle autorisé à lire."
-g1.q.why.wide: "Parce qu'il peut tout lire alors que son travail ne demande rien, et qu'il est sur la machine la plus exposée à internet"
+g1.q.why.wide: "Parce qu'il peut tout lire sans en avoir besoin, sur la machine la plus exposée à internet"
 g1.ada.brief: "Bienvenue à la Banque Mésange. Avant la revue, regarde ce qui est en jeu : que demande la banque à quelqu'un qui veut une carte ?"
 g1.ada.g.stake: "Lis la page de demande de carte : `curl https://www.mesange.test/carte`."
 g1.ada.g.stake.standard: "Va voir sur le site public ce que contient une demande de carte."

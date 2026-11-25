@@ -9,7 +9,7 @@ r2.case.read: "Bâtisseur compte les lignes d'une table de production pour un ra
 r2.case.devdb: "Bâtisseur vide une table de sa base de développement"
 r2.q.trust: "L'agent affirme qu'une table vidée ne se serait jamais restaurée. Que fais-tu de cette affirmation ?"
 r2.q.trust.check: "Je vérifie auprès de l'hébergeur de la base : c'est lui qui sait ce qui se restaure"
-r2.q.trust.believe: "Je l'écris dans le rapport : l'agent connaît ce système mieux que personne"
+r2.q.trust.believe: "Je l'écris dans le rapport : l'agent connaît ce système et ses sauvegardes mieux que personne"
 r2.q.trust.believe.why: "Il produit une phrase plausible, pas un fait vérifié. La fiche de l'hébergeur dit le contraire : un point de reprise toutes les 5 minutes."
 r2.q.trust.ask: "Je lui demande de vérifier lui-même les sauvegardes et de confirmer"
 r2.q.trust.ask.why: "Tu obtiendrais une autre phrase, peut-être plus assurée. Un fait se lit à la source : la fiche de l'hébergeur."

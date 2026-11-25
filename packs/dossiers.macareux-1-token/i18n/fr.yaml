@@ -7,7 +7,7 @@ m1.q.src: "Quelle adresse utilise l'agent `converso-sync/4.1` sans être celle d
 m1.q.object: "Quel objet du CRM la requête la plus lourde a-t-elle exporté ? (le nom après FROM)"
 m1.q.why: "Personne n'a forcé le CRM. Pourquoi a-t-il répondu à chaque requête ?"
 m1.q.why.token: "Le jeton du connecteur était valide, et rien ne le liait à une adresse"
-m1.q.why.password: "Un employé d'Ardoise avait un mot de passe trop faible"
+m1.q.why.password: "Un employé d'Ardoise avait un mot de passe trop faible, deviné par l'attaquant"
 m1.q.why.password.why: "Aucune connexion d'employé dans ces lignes : toutes passent par le jeton du connecteur, avec son agent."
 m1.q.why.flaw: "Le CRM avait une faille connue que l'attaquant a exploitée"
 m1.q.why.flaw.why: "Chaque requête est une requête normale de l'API, acceptée parce que le jeton était bon. Rien n'a été cassé."

@@ -8,7 +8,7 @@ h1.q.listed: "Which server does the inventory flag as vulnerable? (its short nam
 h1.q.hidden: "Which server ships carnet-core without its inventory saying so? (its short name)"
 h1.q.why: "The CIO asks why everyone is talking about this flaw tonight. What do you answer?"
 h1.q.why.logged: "Any text the server writes to its log can set it off"
-h1.q.why.admin: "It gives an admin account to someone who already has one"
+h1.q.why.admin: "It gives an admin account to anyone who already has an account on the site, even a basic one"
 h1.q.why.admin.why: "No: no account is needed. A search box or a request header is enough, as long as the server writes it to its log."
 h1.q.why.system: "It only affects old systems that were never updated"
 h1.q.why.system.why: "No: the catalogue runs on an up-to-date Debian. The flaw is in a library shipped by the application, not in the system."

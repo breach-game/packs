@@ -9,7 +9,7 @@ c1.q.also: "Besides pictures and sound, what did the support rights make it poss
 c1.q.also.wifi: "The key of the Wi-Fi the cameras use"
 c1.q.also.records: "The patients' medical records"
 c1.q.also.records.why: "The notice does not mention records: Vigie never had them. Read again the list of what support rights gave."
-c1.q.also.nothing: "Nothing but pictures and sound"
+c1.q.also.nothing: "Nothing but the cameras' pictures and sound"
 c1.q.also.nothing.why: "The notice also lists the site address, the cameras' names and their configuration. Read what that configuration contains."
 c1.q.tell: "Nobody can say whether the clinic's cameras were watched. What do you tell the patients?"
 c1.q.tell.patients: "Write to every patient who went through a filmed room"

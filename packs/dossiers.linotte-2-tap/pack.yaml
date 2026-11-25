@@ -1,5 +1,5 @@
 id: dossiers.linotte-2-tap
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.5 <1"
 kind: mission
 requires: [dossiers.linotte-world]

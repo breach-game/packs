@@ -8,7 +8,7 @@ r1.q.over: "La responsable informatique demande si on peut rentrer chez soi. Que
 r1.q.over.memory: "Pas encore : la mémoire des serveurs a pu être lue, clés comprises"
 r1.q.over.closed: "Oui : la faille est fermée partout"
 r1.q.over.closed.why: "Fermer la porte ne rend pas ce qui a déjà été lu. Et la lecture ne laissait aucune trace dans les journaux."
-r1.q.over.imap: "Pas encore : il faut aussi mettre à jour la messagerie IMAP"
+r1.q.over.imap: "Pas encore : il reste à mettre à jour la messagerie IMAP, elle aussi exposée"
 r1.q.over.imap.why: "La messagerie IMAP tourne avec la branche 0.9.8, qui n'a jamais eu le battement. Elle n'est pas touchée."
 r1.ada.brief: "Lis le bulletin : `cat bulletin/VTLS-2027-0407.txt`. Puis relève les versions de chaque service : `nmap -sV 10.96.0.0/24`."
 r1.ada.g.count: "Dans la sortie de `nmap -sV`, la version de VerreTLS est entre parenthèses. Seules les versions de 1.0.1 à 1.0.1f sont touchées. Puis `answer count <nombre>`."

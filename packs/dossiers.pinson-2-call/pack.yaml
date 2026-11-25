@@ -1,5 +1,5 @@
 id: dossiers.pinson-2-call
-version: 1.0.3
+version: 1.0.4
 engine: ">=0.5 <1"
 kind: mission
 requires: [dossiers.pinson-world]

@@ -7,7 +7,7 @@ p1.q.pretext: "Tu appelles une agente de support en télétravail. Quelle histoi
 p1.q.pretext.prize: "« Vous avez gagné un téléphone, il me faut vos identifiants »"
 p1.q.pretext.prize.why: "Personne n'attend ce cadeau, et tout le monde a appris à s'en méfier. Un bon prétexte répond à un problème que la personne a vraiment."
 p1.q.pretext.vpn: "« Ici le support informatique, on s'occupe de votre problème de VPN »"
-p1.q.pretext.boss: "« Je suis le directeur, donnez-moi un accès tout de suite »"
+p1.q.pretext.boss: "« Je suis le directeur, donnez-moi un accès tout de suite, c'est urgent »"
 p1.q.pretext.boss.why: "La pression marche parfois, mais elle éveille la méfiance et se vérifie d'un coup de fil. L'aide que l'on attendait, elle, ne se discute pas."
 p1.ada.brief: "Aujourd'hui tu ne touches à rien, tu lis. Le site est `https://www.pinson.test` : ouvre-le dans le navigateur ou avec `curl`. Cherche ce qui fatigue les équipes en ce moment."
 p1.ada.g.status: "Commence par la page d'état : `curl https://www.pinson.test/status`."

@@ -9,7 +9,7 @@ h3.q.logs: "Le portail a journalisé chacune de tes requêtes. Ce journal aurait
 h3.q.logs.blind: "Non : chaque ligne est un lien valide, et aucune ne dit à qui est le document"
 h3.q.logs.address: "Oui : notre adresse y figure, et ce n'est pas celle d'un locataire"
 h3.q.logs.address.why: "Les locataires lisent de chez eux, du travail, d'un téléphone dans un train : des adresses nouvelles toute la journée. La nôtre ressemble aux autres."
-h3.q.logs.volume: "Oui : nous avons demandé plus de documents qu'un locataire ne le fait"
+h3.q.logs.volume: "Oui : nous avons demandé plus de documents, et plus vite, qu'un locataire ne le fait jamais"
 h3.q.logs.volume.why: "Nous en avons demandé une poignée. Un locataire qui emménage en ouvre davantage en une soirée."
 h3.q.idea: "Hirondelle veut un correctif d'abord. Lequel ?"
 h3.q.idea.owner: "Faire se connecter le locataire, et vérifier sur le serveur que le document est à lui"
