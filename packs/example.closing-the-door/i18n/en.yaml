@@ -15,13 +15,13 @@ cd.ada.leak: "Answer my question in the messenger, or with `answer` followed by 
 cd.ada.leak.standard: "Answer my question first."
 cd.ada.rotated: "Yes. A secret that was readable is a secret that is known: you replace it, then you clean up. Now the configuration."
 cd.ada.harden: "Open the file with `edit atelier/site.conf`. Two things to change: `autoindex on` lists the folders, and the `/old/` block lets everything through. Write `autoindex off;` and put `deny all;` in the `/old/` block, then run `verify`."
-cd.ada.harden.standard: "Open `atelier/site.conf`: turn the directory listing off, refuse the `/old/` folder to everyone, then run `verify`."
+cd.ada.harden.standard: "Open `atelier/site.conf`: turn the directory listing off, refuse the `/old/` folder to everyone, then run `verify`. To open the file: `edit atelier/site.conf`."
 cd.ada.almost: "Not yet. `verify` lists what is still open: read each line, fix the file, and run it again."
 cd.ada.done: "Door closed. Open the debrief: the last word is about what a configuration cannot fix."
 cd.hint.leak.1: "Ask yourself who may already have a copy of that password."
 cd.hint.harden.1: "In nginx, `autoindex` controls directory listings and `deny all;` refuses a location to everyone."
 cd.hint.harden.2: "Replace `autoindex on` with `autoindex off`, and the comment in the `/old/` block with `deny all;`."
-cd.hint.harden.3: 'Type `sed -i "s/autoindex on/autoindex off/" atelier/site.conf`, then `sed -i "s/# kept just in case/deny all;/" atelier/site.conf`, then `verify`.'
+cd.hint.harden.3: 'With the editor: `edit atelier/site.conf`, then Ctrl+S. With a command: type `sed -i "s/autoindex on/autoindex off/" atelier/site.conf`, then `sed -i "s/# kept just in case/deny all;/" atelier/site.conf`, then `verify`.'
 cd.debrief.title: "What the fix does not fix"
 cd.debrief.lesson: "Closing the folder protects tomorrow. It does nothing for the year during which the password was public: that is why the secret is replaced before anything else."
 cd.debrief.p1: "A secret that leaked is replaced, even when nothing shows it was used."
