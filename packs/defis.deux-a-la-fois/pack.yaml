@@ -1,5 +1,5 @@
 id: defis.deux-a-la-fois
-version: 1.0.0
+version: 1.0.1
 engine: ">=0.19 <1"
 kind: mission
 requires: [defis.vitrine-world]

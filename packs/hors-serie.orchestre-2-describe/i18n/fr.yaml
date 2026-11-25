@@ -7,7 +7,7 @@ o2.q.why: "Ce pod a été créé pour un test réseau il y a deux mois. Pourquoi
 o2.q.why.node: "Qui le contrôle contrôle aussi sa machine, et tous les pods qui y tournent"
 o2.q.why.pod: "Il consomme de la mémoire pour rien depuis deux mois"
 o2.q.why.pod.why: "Le gaspillage est réel mais secondaire. « Privileged: true » et la racine du nœud montée en écriture effacent la frontière entre ce conteneur et sa machine."
-o2.q.why.network: "Il utilise le réseau de la machine, donc il ralentit les autres pods"
+o2.q.why.network: "Il utilise le réseau de la machine, donc il ralentit tous les autres pods qui tournent sur le nœud"
 o2.q.why.network.why: "Le réseau partagé est un problème, mais le plus grave est ailleurs : privilégié et racine montée, ce conteneur a la main sur la machine entière."
 o2.ada.brief: "Le fichier du tableau de bord est-il toujours là ? Récupère-le si besoin (`curl -s https://tableau.ondine.test/kubeconfig > .kube/config`), puis `kubectl get pods`."
 o2.ada.g.env: "Décris un pod du lecteur : `kubectl describe pod lecteur-7f9c4`. Regarde la section « Environment » : quelles valeurs viennent d'un secret, lesquelles sont écrites en clair ?"

@@ -9,7 +9,7 @@ f2.case.contract: "A blank contract template is translated by an outside service
 f2.case.inside: "A CV is summarised by the approved in-house assistant"
 f2.q.policy: "The DPO asks: which rule should we suggest to management?"
 f2.q.policy.offer: "An approved CV tool, plus this guardrail"
-f2.q.policy.ban: "Block everything, and sanction breaches"
+f2.q.policy.ban: "Block everything at the gateway, and sanction breaches"
 f2.q.policy.ban.why: "The need would remain: CVs would leave from personal phones, outside any gateway. We would see nothing any more."
 f2.q.policy.letgo: "Let it be, since it works"
 f2.q.policy.letgo.why: "Candidates' data at a provider with no contract or impact assessment: the agency is responsible for that transfer under GDPR."

@@ -16,7 +16,7 @@ c1.q.cert: "What does the certificate served by the site these customers saw say
 c1.q.cert.self: "It is signed by itself: no authority ever checked it"
 c1.q.cert.expired: "It expired a week ago and was never renewed"
 c1.q.cert.expired.why: "Its dates are fine: it was made this morning. Compare the `subject` and `issuer` lines of the two certificates."
-c1.q.cert.other: "It comes from a known authority, but for another name"
+c1.q.cert.other: "It is from a known authority, but for another name"
 c1.q.cert.other.why: "It does carry the site's name. Look at who issued it instead: compare `issuer` in the two files."
 c1.q.notice: "The route is still wrong, and fixing it is not in Nacre's hands. What do you do now?"
 c1.q.notice.warn: "Warn everywhere right now: never click past the warning"

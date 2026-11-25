@@ -11,7 +11,7 @@ p2.q.habit: "Lanterne will plug other tools into its assistant. Which rule avoid
 p2.q.habit.vendor: "Take the tool from the service's vendor, version pinned"
 p2.q.habit.popular: "Always pick the package with the most downloads"
 p2.q.habit.popular.why: "The fake package had fifteen honest versions and hundreds of downloads before the sixteenth. Popularity does not tell who publishes."
-p2.q.habit.model: "Ask the model to review the code of every tool"
+p2.q.habit.model: "Ask the model to review the code of every tool before using it"
 p2.q.habit.model.why: "The model only sees the tools' descriptions, never their code. What a tool does behind its name escapes it."
 p2.ada.brief: "Start with the inventory: `sbom assistant --vuln`."
 p2.ada.g.advisory: "`sbom assistant --vuln`, then `answer advisory <id>`."

@@ -6,7 +6,7 @@ f1.q.service: "Quel service d'IA non approuvé reçoit le plus d'envois (méthod
 f1.q.accounts: "Combien de comptes différents ont envoyé des données (POST) à ce service ?"
 f1.q.why: "La DPO demande : pourquoi l'équipe recrutement a-t-elle fait ça ?"
 f1.q.why.need: "L'outil approuvé ne répond pas à son besoin"
-f1.q.why.careless: "Elle se moque des règles de l'agence"
+f1.q.why.careless: "Elle se moque des règles de l'agence sur les outils"
 f1.q.why.careless.why: "Le ticket TIL-2291 montre l'inverse : l'équipe a demandé l'outil par le bon canal, il y a quatre mois, et relancé. Chercher un coupable ne réglera rien."
 f1.q.why.hidden: "Un attaquant a installé ce service"
 f1.q.why.hidden.why: "Rien de tel dans le journal : ce sont les comptes de l'équipe, depuis leurs postes, pendant les heures de travail, vers un site public."

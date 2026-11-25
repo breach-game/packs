@@ -7,7 +7,7 @@ p1.q.server: "From which server does the copied line make `cm-verif` download an
 p1.q.widget: "Which third-party domain, loaded by the page, added the fake check?"
 p1.q.trick: "The page cannot run anything on the computer. What makes this trap work?"
 p1.q.trick.hands: "The person runs the line themselves, believing it is harmless"
-p1.q.trick.browser: "A browser flaw runs whatever is copied, on its own"
+p1.q.trick.browser: "A browser flaw runs whatever is copied to the clipboard, on its own"
 p1.q.trick.browser.why: "The browser only copies a text, which a button is allowed to do. Nothing runs until someone pastes and presses Enter."
 p1.q.trick.captcha: "Ticking the box is enough to install the program itself"
 p1.q.trick.captcha.why: "Ticking the box only fills the clipboard. The program only arrives when the line is pasted into a terminal and run."

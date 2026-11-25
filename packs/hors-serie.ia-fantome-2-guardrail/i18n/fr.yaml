@@ -9,7 +9,7 @@ f2.case.contract: "Un modèle de contrat vierge est traduit par un service exté
 f2.case.inside: "Un CV est résumé par l'assistant interne approuvé"
 f2.q.policy: "La DPO demande : quelle règle proposer à la direction ?"
 f2.q.policy.offer: "Un outil approuvé qui lit les CV, et ce garde-fou"
-f2.q.policy.ban: "Tout bloquer, et sanctionner les écarts"
+f2.q.policy.ban: "Tout bloquer à la passerelle, et sanctionner les écarts"
 f2.q.policy.ban.why: "Le besoin resterait entier : les CV partiraient depuis les téléphones personnels, hors de toute passerelle. On ne verrait plus rien."
 f2.q.policy.letgo: "Laisser faire, puisque ça marche"
 f2.q.policy.letgo.why: "Des données de candidats chez un prestataire sans contrat ni analyse d'impact : l'agence est responsable de ce transfert au sens du RGPD."

@@ -9,7 +9,7 @@ c1.q.ignored: "La sonde avait vu le programme le 30 novembre. Pourquoi rien ne s
 c1.q.ignored.noowner: "L'alerte était noyée parmi mille autres, et n'était à personne"
 c1.q.ignored.silent: "La sonde n'avait rien vu avant l'appel de la police"
 c1.q.ignored.silent.why: "Elle avait vu : les alertes A-8841 et A-8902 nomment le serveur des caisses, le 30 novembre et le 2 décembre. Regarde leur statut."
-c1.q.ignored.hidden: "L'intrus avait effacé les alertes de la file"
+c1.q.ignored.hidden: "L'intrus avait effacé les alertes de la file avant de quitter le réseau"
 c1.q.ignored.hidden.why: "Les alertes sont toujours dans la file, avec la raison de leur classement écrite par l'équipe : « bruit », « doublon »."
 c1.contain.out: "Bloquer en sortie l'adresse vers laquelle part la copie"
 c1.contain.relay: "Isoler le serveur de fichiers relais (les magasins n'y prennent plus leurs listes de prix aujourd'hui)"

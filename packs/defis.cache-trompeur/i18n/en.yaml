@@ -3,7 +3,7 @@ c.obj.marker: "Report the marker of the witness account's page, read without a c
 c.obj.fix: "Say how to prevent it"
 c.q.fix: "What must Vitrine change?"
 c.q.fix.strict: "Answer 404 below /compte/, and mark the page \"private\""
-c.q.fix.https: "Serve the whole site over strict HTTPS with HSTS"
+c.q.fix.https: "Serve the whole site over strict HTTPS, with HSTS and a new certificate"
 c.q.fix.https.why: "The site already uses HTTPS. The cache sits behind the encryption: it keeps the decrypted page and returns it to whoever asks."
 c.q.fix.short: "Cut the cache lifetime down to one minute"
 c.q.fix.short.why: "One minute is enough to read the page right after the victim's click. The cache must never keep it at all."

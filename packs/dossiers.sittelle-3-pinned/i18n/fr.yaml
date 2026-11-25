@@ -7,7 +7,7 @@ s3.q.why: "Le directeur demande : si la copie est chez nous, à quoi sert encore
 s3.q.why.ours: "Si notre propre serveur est un jour modifié, le navigateur refusera le fichier changé"
 s3.q.why.habit: "À rien de plus : c'est une bonne habitude, on la garde quand même"
 s3.q.why.habit.why: "Elle sert vraiment : un fichier peut aussi être modifié chez soi, sur le serveur ou en chemin."
-s3.q.why.speed: "À accélérer le chargement, le navigateur garde mieux le fichier en cache"
+s3.q.why.speed: "À accélérer le chargement : avec elle, le navigateur garde le fichier plus longtemps en cache"
 s3.q.why.speed.why: "L'empreinte ne rend rien plus rapide : elle permet au navigateur de refuser un fichier qui n'est plus celui qu'on a vérifié."
 s3.check.copy: "La bibliothèque est servie par le site, avec son empreinte"
 s3.check.csp: "Seuls les scripts du site s'exécutent, et les refus sont signalés"

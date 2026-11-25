@@ -31,7 +31,7 @@ s2.q.before: "Avant de faire rejeter tout ce qui échoue, que faut-il vérifier 
 s2.q.before.reports: "Qui envoie légitimement pour le cabinet, dans les rapports DMARC"
 s2.q.before.clients: "Que chaque client a bien accepté le changement"
 s2.q.before.clients.why: "Les clients n'ont rien à accepter : ce réglage ne concerne que les serveurs qui envoient au nom du cabinet."
-s2.q.before.age: "Que le domaine du cabinet existe depuis plus d'un an"
+s2.q.before.age: "Que le domaine du cabinet existe depuis plus d'un an, sinon il est rejeté"
 s2.q.before.age.why: "L'âge du domaine ne change rien. Le risque, c'est de rejeter un service légitime oublié, comme la lettre d'information."
 s2.ada.answer: "Réponds dans la messagerie, ou avec `answer` dans le terminal."
 s2.ada.answer.standard: "Ma question t'attend dans la messagerie."

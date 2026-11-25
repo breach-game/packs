@@ -8,7 +8,7 @@ g1.q.why.backup: "Because it reads every folder in storage, exactly like the bac
 g1.q.why.backup.why: "The backup role reads everything because backing up everything is its job. Wide rights are not the fault: rights without a need are."
 g1.q.why.crypt: "Because storage is not encrypted for it, while it is for every other role of the account"
 g1.q.why.crypt.why: "Storage is encrypted. But read the note: a role with read rights reads in clear. Encryption protects against a stolen disk, not against a role that is allowed to read."
-g1.q.why.wide: "Because it can read everything while its job needs nothing, and it sits on the machine most exposed to the internet"
+g1.q.why.wide: "Because it can read everything with no need to, on the machine most exposed to the internet"
 g1.ada.brief: "Welcome to Banque Mésange. Before the review, look at what is at stake: what does the bank ask from someone who wants a card?"
 g1.ada.g.stake: "Read the card application page: `curl https://www.mesange.test/carte`."
 g1.ada.g.stake.standard: "Go and see on the public site what a card application contains."

@@ -10,7 +10,7 @@ s1.q.path.indirect: "Indirectly: a Sorbier patch adds libsystemd, and libsystemd
 s1.q.path.none: "It does not: the slowness and the update fall on the same day by coincidence"
 s1.q.path.none.why: "The listing shows it loaded in the process. And the stable image, which has the old version, did not slow down."
 s1.q.alarm: "Half a second, on a development version. What do you do?"
-s1.q.alarm.ignore: "Nothing: it is a development version, slowdowns are normal there"
+s1.q.alarm.ignore: "Nothing: it is a development version, small slowdowns are normal and short-lived there"
 s1.q.alarm.ignore.why: "That is what almost everybody would have done. But a compression library has no reason to slow down an SSH login: when an effect has no cause, you look for one."
 s1.q.alarm.dig: "You dig: a compression library has no reason to slow down a login"
 s1.q.alarm.reboot: "You reboot the build farm and see whether it goes away"

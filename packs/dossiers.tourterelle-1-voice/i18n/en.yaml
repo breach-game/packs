@@ -10,7 +10,7 @@ c1.q.source: "One try per account, and five doors open. Where did those password
 c1.q.source.reuse: "From leaks of other sites, where these customers used the same password"
 c1.q.source.camera: "From a flaw in the cameras themselves"
 c1.q.source.camera.why: "Support found no fault on the devices, and the export shows an ordinary sign-in to the account, through the front door."
-c1.q.source.guess: "From thousands of tries on each account, until the right one"
+c1.q.source.guess: "From thousands of automated tries on each account, until one finally worked"
 c1.q.source.guess.why: "Look at the `attempts` column: one try per account. The tool guesses nothing, it already knows one password per customer."
 c1.contain.sessions: "Close every session of the five opened accounts"
 c1.contain.passwords: "Force a new password on the five accounts (the customers are told by email)"

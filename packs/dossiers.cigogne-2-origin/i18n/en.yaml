@@ -8,7 +8,7 @@ c2.q.minutes: "For how many minutes was the false announcement visible, from its
 c2.q.filtered: "How many neighbouring networks refused the false announcement?"
 c2.q.last: "The route lies and the name lies. What still protects a customer?"
 c2.q.last.stop: "Stopping dead at the certificate warning"
-c2.q.last.padlock: "Checking a padlock shows in the bar"
+c2.q.last.padlock: "Checking a padlock shows in the address bar"
 c2.q.last.padlock.why: "After clicking \"continue anyway\", the connection is encrypted, but with the fake site. The useful signal comes earlier: it is the warning itself."
 c2.q.last.bookmark: "Opening the site from a saved bookmark"
 c2.q.last.bookmark.why: "The bookmark holds the right name, and the right name is exactly what led to the wrong place yesterday. Only the certificate told the truth."

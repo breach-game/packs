@@ -7,7 +7,7 @@ r2.obj.message: "Mettre dans l'ordre ce qu'on fait et ce qu'on dit aux adhérent
 r2.q.certs: "Combien de certificats faut-il refaire ? (un nombre)"
 r2.q.past: "La règle ne voit rien avant ce matin. Qu'en conclus-tu ?"
 r2.q.past.nothing: "Rien sur le passé : la signature n'existait pas avant"
-r2.q.past.clean: "Que personne n'a utilisé la faille avant ce matin"
+r2.q.past.clean: "Que personne n'a utilisé la faille avant ce matin, sur aucun serveur"
 r2.q.past.clean.why: "La signature a été publiée cette nuit : avant, la sonde ne savait pas la reconnaître. Et le serveur, lui, ne notait rien."
 r2.q.past.logs: "Qu'il suffit de relire les journaux des serveurs web"
 r2.q.past.logs.why: "La lecture passe dans le chiffrement, avant toute requête web : les journaux des serveurs n'en gardent aucune trace."

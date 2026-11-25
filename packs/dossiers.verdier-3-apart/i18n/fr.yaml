@@ -8,7 +8,7 @@ d3.check.format: "Adresses chiffrées, 600 000 itérations comme un coffre réce
 d3.check.works: "La sauvegarde de nuit continue"
 d3.q.advice: "Une partie des coffres est dehors, chiffrée. Que conseille Verdier à ses clients ?"
 d3.q.advice.inside: "Changer les mots de passe rangés dans le coffre, à commencer par les plus importants"
-d3.q.advice.master: "Changer seulement le mot de passe maître, et le coffre est de nouveau sûr"
+d3.q.advice.master: "Changer seulement le mot de passe maître : le coffre est rechiffré, la copie volée devient inutile"
 d3.q.advice.master.why: "La copie volée reste chiffrée avec l'ancien mot de passe maître. Le changer protège l'avenir, pas la copie : ce qu'elle contient doit changer aussi."
 d3.q.advice.wait: "Rien pour l'instant : le chiffrement tient, inutile d'inquiéter les gens"
 d3.q.advice.wait.why: "Il tient tant que le mot de passe maître résiste aux essais, et les vieux coffres à 5 000 itérations résistent mal. Le voleur a tout son temps."

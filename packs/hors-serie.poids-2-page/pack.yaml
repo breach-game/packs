@@ -1,5 +1,5 @@
 id: hors-serie.poids-2-page
-version: 1.0.1
+version: 1.0.2
 engine: ">=0.17 <1"
 kind: mission
 requires: [hors-serie.poids-world]

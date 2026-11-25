@@ -7,7 +7,7 @@ t1.q.program: "Quel programme, lancé depuis le dossier personnel, tourne sur le
 t1.q.alert: "À quelle heure l'agent lève-t-il la première alerte « high » ? (HH:MM)"
 t1.q.call: "Le poste est isolé. Comment contactes-tu le nouvel employé ?"
 t1.q.call.hr: "Au numéro du dossier RH, en lui disant seulement que le poste a un souci"
-t1.q.call.chat: "Sur la messagerie, en lui demandant ce que fait sysmond"
+t1.q.call.chat: "Sur la messagerie de l'entreprise, en lui demandant ce que fait le programme sysmond"
 t1.q.call.chat.why: "Si ce n'est pas un accident, tu viens de prévenir l'attaquant de ce que tu as vu. Et tu n'apprends rien qu'il ne veuille te dire."
 t1.q.call.wipe: "Pas de contact : effacer le poste à distance tout de suite"
 t1.q.call.wipe.why: "Effacer détruit les preuves dont l'enquête aura besoin, et le poste est déjà isolé : il ne peut plus rien envoyer."

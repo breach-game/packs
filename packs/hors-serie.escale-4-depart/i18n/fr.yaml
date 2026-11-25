@@ -23,7 +23,7 @@ w4.q.why: "Pourquoi est-il risqué de laisser ton portable rejoindre seul un ré
 w4.q.why.name: "N'importe qui peut émettre le même nom, et le portable le rejoint sans te demander."
 w4.q.why.battery: "Le portable cherche sans cesse ces réseaux, ce qui vide vite sa batterie."
 w4.q.why.battery.why: "Le vrai sujet n'est pas la batterie : un nom ouvert connu se copie par n'importe qui, et le portable lui fait confiance."
-w4.q.why.tracked: "Les exploitants de ces réseaux peuvent te suivre d'une ville à l'autre."
+w4.q.why.tracked: "Les exploitants de ces réseaux peuvent te suivre d'une ville à l'autre grâce à l'adresse du portable."
 w4.q.why.tracked.why: "Les appareils récents changent d'adresse matérielle à chaque réseau. Le risque, c'est de rejoindre une copie, pas d'être suivi."
 w4.q.owe: "La chaîne passe son Wi-Fi invités en Enhanced Open (OWE). Qu'est-ce que ça apporte ?"
 w4.q.owe.air: "Le trafic de chaque invité est chiffré dans les ondes, mais rien ne prouve qui tient le réseau."

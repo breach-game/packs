@@ -10,7 +10,7 @@ c1.q.source: "Un seul essai par compte, et cinq portes s'ouvrent. D'où venaient
 c1.q.source.reuse: "De fuites d'autres sites, où ils avaient le même mot de passe"
 c1.q.source.camera: "D'une faille dans les caméras elles-mêmes"
 c1.q.source.camera.why: "Le support n'a trouvé aucun défaut sur les appareils, et l'export montre une connexion ordinaire au compte, par la grande porte."
-c1.q.source.guess: "De milliers d'essais sur chaque compte, jusqu'au bon"
+c1.q.source.guess: "De milliers d'essais automatiques sur chaque compte, jusqu'à tomber sur le bon"
 c1.q.source.guess.why: "Regarde la colonne `attempts` : un seul essai par compte. L'outil ne devine rien, il connaît déjà un mot de passe par client."
 c1.contain.sessions: "Fermer toutes les sessions des cinq comptes ouverts"
 c1.contain.passwords: "Forcer un nouveau mot de passe sur les cinq comptes (les clients sont prévenus par courriel)"

@@ -8,7 +8,7 @@ b1.q.trio.mistakes: "C'est une IA, et les IA se trompent : tôt ou tard il écri
 b1.q.trio.mistakes.why: "Trop vague pour corriger quoi que ce soit. Un stagiaire humain se trompe aussi. Regarde ce que Mousse lit, ce qu'il peut atteindre, et où il peut écrire."
 b1.q.trio.published: "Ses réglages sont publiés dans le dépôt : n'importe qui peut lire ce qu'il a le droit de faire"
 b1.q.trio.published.why: "Cacher le fichier ne changerait rien à ce que Mousse peut faire, et un attaquant n'a qu'à essayer. Le problème, ce sont les réglages, pas le fait qu'on puisse les lire."
-b1.q.trio.flow: "Il lit du texte que n'importe qui peut écrire, il peut atteindre des données privées, et il peut publier"
+b1.q.trio.flow: "Il lit du texte que tout le monde peut écrire, atteint des données privées, et peut publier"
 b1.ada.brief: "Un dossier tranquille : aucun serveur où entrer. La cible est un assistant qui veut rendre service. Le mandat est dans `mandate/`, lis le passage sur le fichier témoin."
 b1.ada.repo: "Commence par le dépôt : `curl https://git.brindille.test/brindille/pixel-garden`."
 b1.ada.repo.standard: "Commence par la page de leur dépôt public."

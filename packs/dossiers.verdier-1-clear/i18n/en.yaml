@@ -8,7 +8,7 @@ d1.q.worth: "A thief has the backup but no master password. What do the addresse
 d1.q.worth.target: "The list of customers with a bank, a crypto wallet or VPN access: who to aim at first"
 d1.q.worth.nothing: "Nothing: without the master password, a site address is of no use to them at all"
 d1.q.worth.nothing.why: "An address says where to look. It lets them choose which vaults to crack first, and write believable phishing emails."
-d1.q.worth.login: "They are enough to log in to the sites, since the site already knows the customer"
+d1.q.worth.login: "They are enough to log in to the sites, since each site already recognises the customer's browser"
 d1.q.worth.login.why: "No: the username and password stay encrypted. But knowing a customer has such an account is already intelligence."
 d1.ada.brief: "Start with one entry: `jq \".vaults[0].items[0]\" dossier/echantillon.json`. Values that start with `ENC:` are encrypted."
 d1.ada.g.clear: "Look at the first entry: `jq \".vaults[0].items[0]\" dossier/echantillon.json`. Which field does not start with `ENC:`? Answer with `answer clear <field>`."

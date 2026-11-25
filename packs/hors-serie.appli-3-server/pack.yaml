@@ -1,5 +1,5 @@
 id: hors-serie.appli-3-server
-version: 1.0.1
+version: 1.0.2
 engine: ">=0.15 <1"
 kind: mission
 requires: [hors-serie.appli-world]

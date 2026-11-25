@@ -8,7 +8,7 @@ h1.q.listed: "Quel serveur l'inventaire désigne-t-il comme vulnérable ? (son n
 h1.q.hidden: "Quel serveur embarque carnet-core sans que son inventaire le dise ? (son nom court)"
 h1.q.why: "Le directeur demande pourquoi tout le monde parle de cette faille ce soir. Que lui réponds-tu ?"
 h1.q.why.logged: "N'importe quel texte que le serveur journalise peut la déclencher"
-h1.q.why.admin: "Elle donne un compte administrateur à qui en a déjà un"
+h1.q.why.admin: "Elle donne un compte administrateur à qui a déjà un compte sur le site, même modeste"
 h1.q.why.admin.why: "Non : aucun compte n'est nécessaire. Un champ de recherche ou un en-tête de requête suffit, tant que le serveur l'écrit dans son journal."
 h1.q.why.system: "Elle ne touche que les vieux systèmes jamais mis à jour"
 h1.q.why.system.why: "Non : le catalogue tourne sur un Debian à jour. La faille est dans une bibliothèque embarquée par l'application, pas dans le système."

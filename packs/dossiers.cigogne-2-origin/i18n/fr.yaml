@@ -8,7 +8,7 @@ c2.q.minutes: "Combien de minutes la fausse annonce est-elle restée visible, de
 c2.q.filtered: "Combien de réseaux voisins ont refusé la fausse annonce ?"
 c2.q.last: "La route ment et le nom ment. Qu'est-ce qui protège encore un client ?"
 c2.q.last.stop: "S'arrêter net devant l'avertissement de certificat"
-c2.q.last.padlock: "Vérifier qu'un cadenas s'affiche dans la barre"
+c2.q.last.padlock: "Vérifier qu'un cadenas s'affiche bien dans la barre d'adresse"
 c2.q.last.padlock.why: "Après avoir cliqué sur « continuer quand même », la connexion est chiffrée, mais avec le faux site. Le signal utile vient avant : c'est l'avertissement lui-même."
 c2.q.last.bookmark: "Ouvrir le site depuis un favori enregistré"
 c2.q.last.bookmark.why: "Le favori contient le bon nom, et c'est justement le bon nom qui menait au mauvais endroit hier. Seul le certificat disait la vérité."

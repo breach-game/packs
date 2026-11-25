@@ -1,5 +1,5 @@
 id: dossiers.chardonneret-2-claim
-version: 1.0.1
+version: 1.0.2
 engine: ">=0.12 <1"
 kind: mission
 requires: [dossiers.chardonneret-world]
