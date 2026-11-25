@@ -8,7 +8,7 @@ p2.q.why: "Le pare-feu refuse 203.0.113.50 et n'ouvre aucune sortie DNS aux post
 p2.q.why.resolver: "Le poste interroge le résolveur interne, qui relaie toute question vers l'extérieur"
 p2.q.why.encrypted: "Les questions DNS sont chiffrées, le pare-feu ne peut pas les lire"
 p2.q.why.encrypted.why: "Elles passent en clair : tu les lis dans le journal du résolveur. Le pare-feu n'a pas à les voir, le poste ne parle qu'au résolveur interne."
-p2.q.why.port: "Le pare-feu ne bloque jamais le port 53, quelle que soit la règle"
+p2.q.why.port: "Le pare-feu ne bloque jamais le port 53, quelle que soit la règle, car le DNS doit toujours marcher"
 p2.q.why.port.why: "Le poste n'a aucune sortie directe sur le port 53. Il pose ses questions au résolveur 10.88.0.2, comme tout poste, et c'est le résolveur qui relaie."
 p2.contain.cron: "Retirer la tâche planifiée de cbaron sur le poste 42 et supprimer le programme qu'elle lance"
 p2.ada.brief: "Commence par le pare-feu : `flows --src 10.88.0.42`. Les refus vers 203.0.113.50 continuent, toutes les cinq minutes. Quelque chose réessaie."

@@ -1,5 +1,5 @@
 id: hors-serie.poste42-2-planb
-version: "1.0.1"
+version: "1.0.2"
 engine: ">=0.14 <1"
 kind: mission
 requires: [hors-serie.poste42-world]

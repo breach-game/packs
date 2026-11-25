@@ -18,7 +18,7 @@ p3.q.sentence: "Quelle phrase met-on sur l'affiche, au-dessus de chaque guichet 
 p3.q.sentence.never: "Aucune vérification ne demande de coller quoi que ce soit dans un terminal"
 p3.q.sentence.robot: "Ne cochez jamais une case « Je ne suis pas un robot » sur internet"
 p3.q.sentence.robot.why: "Les vraies vérifications existent partout, et la consigne serait impossible à suivre. Le signal, c'est la suite : ouvrir un terminal et coller."
-p3.q.sentence.manager: "Ne lancez `cm-verif` qu'avec l'accord écrit du responsable de salle"
+p3.q.sentence.manager: "Ne lancez `cm-verif` qu'avec l'accord écrit du responsable de salle ou de son adjoint"
 p3.q.sentence.manager.why: "L'outil sert toute la journée, et le prochain piège utilisera un autre nom. La règle doit viser le geste : coller dans un terminal ce qu'une page a donné."
 p3.ada.brief: "Lis les deux fichiers : `cat site/widgets.conf` et `cat site/csp.conf`. Puis modifie-les : `edit site/widgets.conf`, ou `sed`. `verify` dit où tu en es."
 p3.ada.g.widget: "Ouvre la liste avec `edit site/widgets.conf` et supprime la ligne `stats`, ou `sed -i '/stats-billet/d' site/widgets.conf`. Puis `verify`."

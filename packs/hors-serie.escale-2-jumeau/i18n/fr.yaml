@@ -29,7 +29,7 @@ w2.ada.done: "Boîtier retiré, autocollants partis, une règle en place, et une
 w2.q.bssid: "Quelle est l'adresse matérielle (bssid) du faux point d'accès ?"
 w2.q.portal: "Qu'est-ce qui devrait dire à un client qu'Escale-Invites-5G n'est pas le réseau du café ?"
 w2.q.portal.password: "Sa page demande le mot de passe de la messagerie, et un portail de café n'en a jamais besoin."
-w2.q.portal.padlock: "Sa page n'a pas de cadenas dans la barre d'adresse, donc elle ne peut pas être légitime."
+w2.q.portal.padlock: "Sa page n'a pas de cadenas dans la barre d'adresse, donc elle ne peut pas être celle du vrai café."
 w2.q.portal.padlock.why: "Un faux portail peut avoir son cadenas comme n'importe quel site. Le cadenas dit que l'échange est chiffré, pas à qui tu parles."
 w2.q.portal.signal: "Son signal est trop fort pour être un vrai point d'accès du café."
 w2.q.portal.signal.why: "Un client n'a aucun moyen de juger la force d'un signal. La demande de mot de passe, elle, se voit."

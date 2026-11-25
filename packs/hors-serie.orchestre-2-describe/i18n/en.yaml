@@ -7,7 +7,7 @@ o2.q.why: "This pod was created for a network test two months ago. Why is it the
 o2.q.why.node: "Whoever controls it also controls its machine, and every pod running there"
 o2.q.why.pod: "It has been wasting memory for two months"
 o2.q.why.pod.why: "The waste is real but secondary. \"Privileged: true\" and the node's root mounted read-write erase the border between this container and its machine."
-o2.q.why.network: "It uses the machine's network, so it slows the other pods down"
+o2.q.why.network: "It uses the machine's network, so it slows down every other pod running on the node"
 o2.q.why.network.why: "Sharing the network is a problem, but the most serious part is elsewhere: privileged with root mounted, this container holds the whole machine."
 o2.ada.brief: "Is the dashboard's file still there? Fetch it if needed (`curl -s https://tableau.ondine.test/kubeconfig > .kube/config`), then `kubectl get pods`."
 o2.ada.g.env: "Describe a player pod: `kubectl describe pod lecteur-7f9c4`. Look at the \"Environment\" section: which values come from a secret, which are written in clear?"

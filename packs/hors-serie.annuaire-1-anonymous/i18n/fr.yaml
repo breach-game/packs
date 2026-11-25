@@ -7,7 +7,7 @@ d1.q.password: "Quel compte a un mot de passe écrit dans sa description ? Donne
 d1.q.former: "Quel membre du groupe des administrateurs de l'annuaire n'a plus de contrat ? Donne son `uid`."
 d1.q.why: "Le responsable informatique demande : « C'est juste de la lecture, c'était si grave ? »"
 d1.q.why.map: "Oui : la carte des comptes et des droits, livrée à tous"
-d1.q.why.write: "Oui : sans compte, on peut changer les mots de passe"
+d1.q.why.write: "Oui : sans compte, on peut changer les mots de passe des administrateurs"
 d1.q.why.write.why: "La recherche anonyme ne fait que lire. Mais lire suffisait : un mot de passe en clair et la liste des administrateurs, c'est tout ce qu'il faut pour préparer la suite."
 d1.q.why.internet: "Non, sauf si l'annuaire est sur Internet"
 d1.q.why.internet.why: "Un poste piégé, un visiteur sur le wifi, un prestataire : l'intérieur du réseau n'est pas un lieu sûr. Tout ce qui y répond sans compte répond aussi à eux."

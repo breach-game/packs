@@ -7,7 +7,7 @@ b1.q.held: "Une porte est restée ouverte 41 secondes après un seul badge. Lequ
 b1.q.lost: "Quel badge a été refusé trois fois à la salle des serveurs ?"
 b1.q.what: "Un seul badge, une porte ouverte 41 secondes au lieu de 7. Que s'est-il passé ?"
 b1.q.what.behind: "Quelqu'un est entré derrière un employé qui tenait la porte"
-b1.q.what.cloned: "Le badge de cet employé a été copié pendant le week-end"
+b1.q.what.cloned: "Le badge de cet employé a été copié pendant le week-end, puis réutilisé"
 b1.q.what.cloned.why: "Rien dans le journal ne le montre : le badge n'est passé qu'une fois, et son porteur est ensuite allé à son bureau comme tous les matins. Ce qui est anormal, c'est la durée d'ouverture."
 b1.q.what.broken: "Le lecteur de cette porte est tombé en panne ce matin-là"
 b1.q.what.broken.why: "Il enregistre normalement une minute plus tard : 6 secondes pour le badge suivant. La porte marchait. Quelqu'un l'a gardée ouverte."

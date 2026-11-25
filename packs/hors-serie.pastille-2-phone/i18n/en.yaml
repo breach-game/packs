@@ -8,7 +8,7 @@ t2.q.where: "Nadia wants to change her passwords and write to a charity. From wh
 t2.q.where.other: "From a device her ex has never had in their hands"
 t2.q.where.private: "From this phone, but in a private browsing window"
 t2.q.where.private.why: "Private browsing only clears the history. An app allowed to read the screen reads private windows too, and what is typed in them."
-t2.q.where.after: "From this phone, once the app has been deleted"
+t2.q.where.after: "From this phone, once the suspicious app has been deleted"
 t2.q.where.after.why: "Deleting shows on the other side, and nothing says this app is the only thing installed. Removing it is decided in the plan, not before."
 t2.ada.brief: "We are looking for two things: what is on the phone without having been invited, and who else is in her account. `cat telephone/applis.csv`: look at the `source` column and the permissions asked for."
 t2.ada.g.spy: "`grep \"unknown-source\" telephone/applis.csv` shows the app installed from outside the store. Answer with `answer spy <name>`."

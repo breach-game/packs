@@ -6,7 +6,7 @@ f1.q.service: "Which unapproved AI service receives the most uploads (POST metho
 f1.q.accounts: "How many different accounts sent data (POST) to that service?"
 f1.q.why: "The DPO asks: why did the recruiting team do this?"
 f1.q.why.need: "The approved tool does not meet their need"
-f1.q.why.careless: "They do not care about the agency's rules"
+f1.q.why.careless: "They do not care about the agency's rules on tools"
 f1.q.why.careless.why: "Ticket TIL-2291 shows the opposite: the team asked for the tool through the right channel, four months ago, and chased it. Finding a culprit will fix nothing."
 f1.q.why.hidden: "An attacker installed this service"
 f1.q.why.hidden.why: "Nothing like that in the log: these are the team's accounts, from their workstations, during working hours, to a public site."

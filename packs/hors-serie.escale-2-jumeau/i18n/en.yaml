@@ -29,7 +29,7 @@ w2.ada.done: "Box removed, stickers gone, a rule in place, and a sentence for th
 w2.q.bssid: "What is the hardware address (bssid) of the fake access point?"
 w2.q.portal: "What should tell a customer that Escale-Invites-5G is not the café's network?"
 w2.q.portal.password: "Its page asks for the mailbox password, and a café's portal never needs one."
-w2.q.portal.padlock: "Its page has no padlock in the address bar, so it cannot be legitimate."
+w2.q.portal.padlock: "Its page has no padlock in the address bar, so it cannot be the real café's legitimate portal."
 w2.q.portal.padlock.why: "A fake portal can have its padlock like any site. The padlock says the exchange is encrypted, not who you are talking to."
 w2.q.portal.signal: "Its signal is too strong to be a real access point of the café."
 w2.q.portal.signal.why: "A customer has no way to judge a signal's strength. The request for a password is the sign anyone can see."

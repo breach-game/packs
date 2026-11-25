@@ -7,7 +7,7 @@ d1.q.password: "Which account has a password written in its description? Give it
 d1.q.former: "Which member of the directory admins group no longer has a contract? Give its `uid`."
 d1.q.why: "The IT manager asks: \"It's only reading, was it that serious?\""
 d1.q.why.map: "Yes: the map of accounts and rights, handed to all"
-d1.q.why.write: "Yes: with no account, passwords can be changed"
+d1.q.why.write: "Yes: with no account, anyone can change the administrators' passwords"
 d1.q.why.write.why: "Anonymous search only reads. But reading was enough: a password in clear and the list of admins are all it takes to prepare the next step."
 d1.q.why.internet: "No, unless the directory is on the Internet"
 d1.q.why.internet.why: "A trapped workstation, a visitor on the wifi, a contractor: inside the network is not a safe place. Whatever answers there without an account answers them too."

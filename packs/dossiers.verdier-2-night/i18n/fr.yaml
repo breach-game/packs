@@ -8,7 +8,7 @@ d2.contain.isolate: "Couper le stockage du réseau (la sauvegarde de cette nuit 
 d2.q.src: "De quelle adresse part la copie des sauvegardes ?"
 d2.q.how: "La clé vd-devops-04 est rangée dans le coffre personnel de l'ingénieur. Comment est-elle sortie ?"
 d2.q.how.home: "Un logiciel espion sur son ordinateur personnel a capté son mot de passe maître"
-d2.q.how.guess: "L'intrus a deviné le mot de passe maître de l'ingénieur en essayant une liste"
+d2.q.how.guess: "L'intrus a deviné le mot de passe maître de l'ingénieur en essayant une liste de mots courants"
 d2.q.how.guess.why: "Rien ne l'indique, et la note de l'équipe de sécurité dit autre chose : un programme qui enregistre les touches, sur l'ordinateur personnel."
 d2.q.how.inside: "L'ingénieur l'a donnée lui-même, c'est forcément quelqu'un de l'intérieur"
 d2.q.how.inside.why: "L'ingénieur était chez lui, endormi. Son ordinateur, lui, était compromis par un vieux serveur multimédia jamais mis à jour."
