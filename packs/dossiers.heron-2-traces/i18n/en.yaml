@@ -10,7 +10,7 @@ h2.q.next: "The program is stopped and the server isolated. What do you do with 
 h2.q.next.rebuild: "Reinstall it from a clean image, isolated until the fix"
 h2.q.next.kill: "Delete the program and put it back in service"
 h2.q.next.kill.why: "For an hour and a half, someone could run whatever they wanted on this server. The miner is what we found, not necessarily all there is."
-h2.q.next.wait: "Keep it isolated until the vendor's fix on Monday"
+h2.q.next.wait: "Keep it isolated until the vendor ships its fix on Monday"
 h2.q.next.wait.why: "Monday's fix will close the door, it will not clean up. The server will stay compromised, just up to date."
 h2.contain.isolate: "Isolate the booking server from the network (the booking service stops)"
 h2.ada.brief: "The scans are still coming. Write the rule that spots them in `regles/recherche-distante.yml`, one condition per line, then try it with `rule test regles/recherche-distante.yml`. Look at the requests first: `soc logs catalogue access`."

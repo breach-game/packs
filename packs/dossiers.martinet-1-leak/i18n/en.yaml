@@ -7,7 +7,7 @@ m1.q.blind: "This account's password has been for sale for two months. Why did M
 m1.q.blind.weak: "The password was too simple, someone guessed it"
 m1.q.blind.weak.why: "Nobody guessed anything. Malware copied it as it was typed: even a very good password goes that way."
 m1.q.blind.outside: "The theft happened on a personal computer, which Martinet does not watch"
-m1.q.blind.hacked: "Martinet's servers were hacked, and the password database leaked"
+m1.q.blind.hacked: "Martinet's servers were hacked, and the whole password database leaked out"
 m1.q.blind.hacked.why: "No Martinet server was touched. Look at the device column: the malware was at the contractor's, not at Martinet."
 m1.ada.brief: "The report is in `dossier/leak-report.txt`. No password in it, on purpose: we do not need one to understand."
 m1.ada.g.report: "Start by reading it: `cat dossier/leak-report.txt`."

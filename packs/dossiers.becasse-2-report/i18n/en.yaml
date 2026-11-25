@@ -9,7 +9,7 @@ b2.q.seen: "The ministry asks why the agency saw what the provider did not. What
 b2.q.seen.detailed: "It had paid for the detailed log of message access"
 b2.q.seen.provider: "Cirrus warned it from the very first read"
 b2.q.seen.provider.why: "The other way round: the agency warned Cirrus on 16 June, four weeks after the first read."
-b2.q.seen.antivirus: "The antivirus on its laptops raised the alarm"
+b2.q.seen.antivirus: "The antivirus on its staff laptops raised the alarm"
 b2.q.seen.antivirus.why: "Nothing touched the agency's computers: it all happened at the provider, between a forged token and the mail service."
 b2.tl.text: "The story of key grand-public-2016"
 b2.tl.created: "Cirrus creates the key of its consumer service"
